@@ -1,12 +1,12 @@
 CREATE TABLE user (
-    login VARCHAR (30) NOT NULL,
+    login VARCHAR (30),
     password CHAR (40), -- stores hash code
     priviledge INT NOT NULL,
     PRIMARY KEY (login)
 );
 
 CREATE TABLE student (
-    login VARCHAR (30) UNIQUE NOT NULL, 
+    login VARCHAR (30), 
     title CHAR (2),
     forename VARCHAR (50),
     surname VARCHAR (50),
@@ -17,13 +17,13 @@ CREATE TABLE student (
 );
 
 CREATE TABLE department (
-    code CHAR (3) UNIQUE NOT NULL,
+    code CHAR (3),
     name VARCHAR (100),
     PRIMARY KEY (code)
 );
 
 CREATE TABLE degree (
-    code CHAR (6) UNIQUE NOT NULL,
+    code CHAR (6),
     name VARCHAR (100),
     PRIMARY KEY (code)
 );
@@ -47,7 +47,7 @@ CREATE TABLE associated_departments (
 );
 
 CREATE TABLE module (
-    code CHAR (7) UNIQUE NOT NULL,
+    code CHAR (7),
     name VARCHAR (100),
     credits VARCHAR (3), -- Assuming that credits are same regardless of level (if not then we move this field to linker table)
     PRIMARY KEY (code)
