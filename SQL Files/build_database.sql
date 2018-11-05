@@ -1,19 +1,19 @@
-CREATE TABLE user (
-    login VARCHAR (30),
+CREATE TABLE users (
+    login_id VARCHAR (30),
     password CHAR (40), -- stores hash code
     priviledge INT NOT NULL,
-    PRIMARY KEY (login)
+    PRIMARY KEY (login_id)
 );
 
 CREATE TABLE student (
-    login VARCHAR (30), 
+    login_id VARCHAR (30), 
     title CHAR (2),
     forename VARCHAR (50),
     surname VARCHAR (50),
     personal_tutor VARCHAR (50), 
     email VARCHAR (50),
-    PRIMARY KEY (login),
-    FOREIGN KEY (login) REFERENCES user (login)
+    PRIMARY KEY (login_id),
+    FOREIGN KEY (login_id) REFERENCES users (login_id)
 );
 
 CREATE TABLE department (
@@ -49,7 +49,7 @@ CREATE TABLE associated_departments (
 CREATE TABLE module (
     code CHAR (7),
     name VARCHAR (100),
-    credits VARCHAR (3), -- Assuming that credits are same regardless of level (if not then we move this field to linker table)
+    credits VARCHAR (3), 
     PRIMARY KEY (code)
 );
 
@@ -70,7 +70,7 @@ CREATE TABLE grades (
     initial_percent DECIMAL(8, 5), -- marks achieved
     resit_percent DECIMAL(8, 5), 
     PRIMARY KEY (student_id, module_code),
-    FOREIGN KEY (student_id) REFERENCES student (login)
+    FOREIGN KEY (student_id) REFERENCES student (login_id)
 );
 
 
