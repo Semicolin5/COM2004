@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.*;
 
 /**
  *  DatabaseHandler.java
@@ -21,11 +22,12 @@ public class DatabaseHandler{
         Statement stmt = null;
 
         System.out.println("entered main");
+        DatabaseHandler test = new DatabaseHandler();
 
         try {
             System.out.println("Connecting to the database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
+            test.checkDriverExists();
         }
         catch (SQLException ex) {
             ex.printStackTrace();
@@ -42,4 +44,23 @@ public class DatabaseHandler{
         System.out.println("Goodbye!");
     }
 
+    /**
+     * findDrivers method from lecture 9
+     * All JDBC drivers are automatically loaded at startup if on classpath.buildpath
+     * This function checks that the driver is loaded.
+     * */
+    public void checkDriverExists(){
+        System.out.println("\n Drivers loaded as properties: ");
+        System.out.println(System.getProperty("jdbc.drivers"));
+        System.out.println("\n Drivers loaded by DriverManager: ");
+        Enumeration<Driver> list = DriverManager.getDrivers();
+        while (list.hasMoreElements())
+            System.out.println(list.nextElement());
+    }
+
 }
+
+
+
+
+
