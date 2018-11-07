@@ -1,4 +1,5 @@
 #Intellij stuff
 .idea
 *.iml
+*.class
 out/
