@@ -1,0 +1,4 @@
+#Intellij stuff
+.idea
+*.iml
+out/
