@@ -1,7 +1,7 @@
 CREATE TABLE users (
     login_id VARCHAR (30),
     password CHAR (40), -- stores hash code
-    priviledge INT NOT NULL,
+    privilege INT NOT NULL,
     PRIMARY KEY (login_id)
 );
 
@@ -72,24 +72,3 @@ CREATE TABLE grades (
     PRIMARY KEY (student_id, module_code),
     FOREIGN KEY (student_id) REFERENCES student (login_id)
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

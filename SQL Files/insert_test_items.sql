@@ -1,5 +1,4 @@
-
---- INSERTING EXAMPLE USERS ---
+-- INSERTING EXAMPLE USERS --
 
 INSERT INTO users VALUES 
     ("JSmith24", "0123456789qwertyuiop0123456789", 1);
@@ -12,9 +11,7 @@ INSERT INTO users VALUES
     ("HWhite", "123456789012345678901234567890", 3),
     ("MBlack", "123456789012345678901234567890", 2);
 
-
-
---- INSERTING EXAMPLE DEGREES AND DEPARTMENTS ---
+-- INSERTING EXAMPLE DEGREES AND DEPARTMENTS --
 
 INSERT INTO degree VALUES 
     ("COMU03", "MEng Software Engineering");
@@ -42,9 +39,7 @@ INSERT INTO associated_departments VALUES
     ("COMU49", "PHI", 0),
     ("COMU03", "COM", 1);
 
- 
- 
---- INSERT INTO MODULE AND GRADES TABLE ---
+-- INSERT INTO MODULE AND GRADES TABLE --
 
 INSERT INTO module VALUES 
     ("COM1005", "Machines and Intelligence", 20),
@@ -58,6 +53,3 @@ INSERT INTO core VALUES
 INSERT INTO grades VALUES 
     ("JSmith24", "COM1005", "74.55655", null),
     ("JSmith24", "COM1001", "20.001", "50.5555");
-
-
-
