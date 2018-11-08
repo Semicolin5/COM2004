@@ -2,6 +2,8 @@ package src;
 
 import src.db_handler.AdministrationQueries;
 import src.db_handler.DatabaseHandler;
+import src.objects.*;
+import java.util.*;
 
 /**
  * Main.java
@@ -34,7 +36,10 @@ public class Main {
         runAdminQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
 
         System.out.println("Testing the selectDepartment method");
-
+        List<Department> retrievedDepartments = runAdminQ.retrieveDepartmentTable();
+        for (Department dep : (retrievedDepartments)) {
+            System.out.println("CODE: " + dep.getCode() + ", Name: " + dep.getName());
+        }
 
     }
 

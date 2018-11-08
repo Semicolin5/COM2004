@@ -20,10 +20,10 @@ public class Department {
     }
 
     /**
-     * Accessor and mutator methods
+     * Accessor methods
      * */
-    public void setCode(String c) {this.code = c;}
-    public void setName(String n) {this.name = n;}
     public String getCode() {return code;}
     public String getName() {return name;}
+
+
 }
