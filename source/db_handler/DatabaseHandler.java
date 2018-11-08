@@ -8,10 +8,10 @@ import java.util.*;
  *
  *  Class stores methods to retrieve or change information stored in the database.
  * */
-public class DatabaseHandler{
+public  class DatabaseHandler{
 
     // JDBC driver name and database URL
-    static final String DB_URL = "jdbc:mysql://localhost:3306/test_db";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/db";
 
     //  Database credentials
     static final String USER = "root";
@@ -43,7 +43,7 @@ public class DatabaseHandler{
         test.checkDriverExists();
 
         // testing to see if I can obtain the priviledge of a user:
-        int priv = test.obtainPriviledge("MBlack");
+        int priv = test.obtainPrivilege("MBlack");
         System.out.println("priviledge level is: " + priv);
 
         // testing the closeConnectionn() method;
@@ -53,32 +53,28 @@ public class DatabaseHandler{
 
     /**
      * obtainPriviledge, given a login name, returns that users priviledge level.
-     * @param login is the name of the users login
+     * @param login is the String of the users login
      * @return Integer ranging from 1 to 4, where 4 is highest priviledge level.
      * */
-    private Integer obtainPriviledge(String login) {
+    private Integer obtainPrivilege(String login) {
         Statement stmt = null;
         ResultSet res = null;
         int privLevel = 0;
 
         try {
             stmt = conn.createStatement();
-            //Statement pstmt = conn.prepareStatement(
-            //        "SELECT privilege FROM users WHERE login_id=\"JSmith24\""
-            //);
-            //pstmt.setString(0, login);
-            //res = pstmt.executeQuery();
-            //while (res.next()) {
-             //   privLevel = res.getInt(1); // obtain the priviledge
-            //}
-            res = stmt.executeQuery("SELECT login_id FROM users WHERE login_id=\'JSmith24\'");
+            res = stmt.executeQuery("SELECT privilege FROM users WHERE login_id=\'JSmith24\'");
+            ResultSetMetaData rsmd = res.getMetaData();
+            System.out.println(rsmd.getColumnName(1));
             while (res.next()) {
-                System.out.println(res.getString("login_id"));
+                System.out.println("Result is: " + res.getString("privilege"));
+                privLevel = res.getInt("privilege");
             }
         }
         catch (SQLException ex) {
             ex.printStackTrace();
         }
+        closeStatement(stmt);
         closeResultSet(res);
         return privLevel;
     }
