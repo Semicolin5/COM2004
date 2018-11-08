@@ -1,7 +1,6 @@
 package src;
 
-import src.db_handler.AdministrationQueries;
-import src.db_handler.DatabaseHandler;
+import src.db_handler.*;
 import src.objects.*;
 import java.util.*;
 
@@ -13,7 +12,7 @@ import java.util.*;
  * */
 public class Main {    
 
-    //
+    //TODO implement password && username checking when evaluating priv
     private static String DEMOUSERNAME = "PGreen";
     private static int priv = 0;
 
@@ -24,16 +23,17 @@ public class Main {
 	    System.out.println("Creating the database handler object to connect with db");
 	    db = new DatabaseHandler();
 
-        System.out.println("Testing the obtainPrivilege method...");
+        System.out.println("Testing the obtain Privilege method...");
 	    priv = db.obtainPrivilege(DEMOUSERNAME); // obtaining privilege also sets the privLevel attribute inside db
         System.out.println("priv level " + priv);
 
-        System.out.println("\n Testing the addDepartment method");
-        AdministrationQueries runAdminQ = new AdministrationQueries(db);
-        runAdminQ.addDepartments("FRE", "French");
+        System.out.println("\n Testing the add Department method");
+        RetrieveQueries runAdminQ = new RetrieveQueries(db);
+        AdditionQueries additionQ = new AdditionQueries(db);
+        additionQ.addDepartments("FRE", "French");
 
         System.out.println("Testing the addModule method");
-        runAdminQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
+        additionQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
 
         System.out.println("Testing the selectDepartment method");
         List<Department> retrievedDepartments = runAdminQ.retrieveDepartmentTable();
