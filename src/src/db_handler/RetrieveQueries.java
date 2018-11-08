@@ -20,18 +20,25 @@ public class RetrieveQueries extends Queries {
      * @return list of Department objects.
      * */
     public List<Department> retrieveDepartmentTable() {
+        List<Department> table;
+        table = null; // table is null pointer if SQL should/cannot be executed
         if (!super.isTableEmpty("department") && super.getPriv() == 4) {
-            List<Department> table = new ArrayList<Department>();
+            table = new ArrayList<Department>();
             try {
                 PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM department");
                 ResultSet res = pstmt.executeQuery();
                 while (res.next()) {
                     table.add(new Department(res.getString(1), res.getString(2)));
                 }
+                super.closeResources(pstmt, res); // close JDBC resources
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return table;
-        } else { return null; } // returns null if table is either empty, or the user is the wrong privilege
+
+
+        }
+        return table;
     }
+
+
 }

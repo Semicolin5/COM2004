@@ -22,7 +22,7 @@ public class AdditionQueries extends Queries{
             pstmt.setString(1,code);
             pstmt.setString(2,desc);
             pstmt.executeUpdate();
-            System.out.print("should have added a department");
+            pstmt.close(); // releasing resources
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -42,7 +42,7 @@ public class AdditionQueries extends Queries{
             pstmt.setString(2, name);
             pstmt.setInt(3, credits);
             pstmt.executeUpdate();
-            System.out.println("should have added a module");
+            pstmt.close(); // releasing resources;
         }
         catch (SQLException e) {
             e.printStackTrace();

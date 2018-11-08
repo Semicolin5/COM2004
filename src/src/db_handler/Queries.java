@@ -39,35 +39,17 @@ abstract class Queries {
 
     /**
      * Utility method that releases JDBC resources
+     * Closes resources in order of pstmt first, followed by result set.
+     * @param pstmt is a PreparedStatement object that is to be closed
      * @param rs is a ResultSet object that is closed
      * */
-    public void closeResultSet(java.sql.ResultSet rs) {
-        // try to close the ResultSet object
-        if (rs != null) {
-            try {
-                rs.close();
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
+    public void closeResources(PreparedStatement pstmt, ResultSet rs) {
+        try {
+            if (pstmt != null) { pstmt.close(); } // closing PreparedStatement object
+            if (rs != null) { rs.close(); } // closing ResultSet object
         }
-    }
-
-    /**
-     * Utility method that releases JDBC resources by closing a Statement object.
-     * @param stmt is a Statement object (regular Statement, or the
-     * PreparedStatement object), which is closed.
-     * TODO check that you can pass PreparedStatment objects into this method
-     * */
-    public void closeStatement(java.sql.Statement stmt) {
-        // try to close the Statement object
-        if (stmt !=null) {
-            try {
-                stmt.close();
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
