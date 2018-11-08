@@ -121,6 +121,10 @@ public class DatabaseHandler{
 	    }
 	}
     }
+    
+    private static void testCommit() {
+    	System.out.println("Hello World");
+    }
 
 }
 
