@@ -1,5 +1,7 @@
 package src.db_handler;
 import java.sql.*;
+import src.objects.Department;
+import java.util.*;
 
 
 /**
@@ -54,8 +56,22 @@ public class AdministrationQueries {
     }
 
     /**
-     *
+     * retrieveDepartmentTable
+     * @return list of Department objects.
      * */
-
-
+    public List<Department> retrieveDepartmentTable() {
+        //TODO test that this table isn't empty using method from DatabaseHandler (to be created...)
+        List<Department> table = new ArrayList<Department>();
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM department");
+            ResultSet res = pstmt.executeQuery();
+            while (res.next()) {
+                table.add(new Department(res.getString(1), res.getString(2)));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return table;
+    }
 }
