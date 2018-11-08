@@ -1,4 +1,4 @@
-package source.db_handler;
+package src.db_handler;
 import java.sql.*;
 
 
@@ -11,7 +11,7 @@ public class AdministrationQueries {
 
     private Connection conn;
 
-    public AdministrationQueries (DatabaseHandler db) {
+    public AdministrationQueries (src.db_handler.DatabaseHandler db) {
         conn = db.getConn();
     }
 
