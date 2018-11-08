@@ -64,11 +64,14 @@ CREATE TABLE core (
     FOREIGN KEY (degree_code) REFERENCES degree (code)    
 );
 
+-- linker table to represent the modules a student is taking, and to store
+-- their grades for the module. 
 CREATE TABLE grades (
     student_id VARCHAR (30),
     module_code CHAR (7),
     initial_percent DECIMAL(8, 5), -- marks achieved
     resit_percent DECIMAL(8, 5), 
     PRIMARY KEY (student_id, module_code),
-    FOREIGN KEY (student_id) REFERENCES student (login_id)
+    FOREIGN KEY (student_id) REFERENCES student (login_id),
+    FOREIGN KEY (module_code) REFERENCES module (code)
 );
