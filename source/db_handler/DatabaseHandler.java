@@ -18,6 +18,8 @@ public class DatabaseHandler{
     //  Database credentials
     static final String USER = "root";
     static final String PASS = ""; // default password for mysql is empty
+    private int privLevel = 0;
+
 
     Connection conn; // TODO make this private
 
@@ -41,7 +43,6 @@ public class DatabaseHandler{
     public Integer obtainPrivilege(String login) {
         Statement stmt = null;
         ResultSet res = null;
-        int privLevel = 0;
 
         try {
             stmt = conn.createStatement();
@@ -57,6 +58,13 @@ public class DatabaseHandler{
         closeStatement(stmt);
         closeResultSet(res);
         return privLevel;
+    }
+
+    /**
+     * get connection. Getter method for
+     * */
+    public Connection getConn() {
+        return conn;
     }
 
     /**
@@ -112,15 +120,16 @@ public class DatabaseHandler{
      * object.
      * */
     private static void closeConnection(java.sql.Connection conn) {
-	if (conn != null) {
-	    try {
-		conn.close(); 
-	    }
-	    catch (Exception ex) {
-		ex.printStackTrace();
-	    }
-	}
+        if (conn != null) {
+            try {
+            conn.close();
+            }
+            catch (Exception ex) {
+            ex.printStackTrace();
+            }
+        }
     }
+
     
     private static void testCommit() {
     	System.out.println("Hello World");
