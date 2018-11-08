@@ -23,14 +23,19 @@ public class Main {
 	    db = new DatabaseHandler();
 
         System.out.println("Testing the obtainPrivilege method...");
-	    priv = db.obtainPrivilege(DEMOUSERNAME); // obtaining priviledge also sets the privLevel attribute inside db
+	    priv = db.obtainPrivilege(DEMOUSERNAME); // obtaining privilege also sets the privLevel attribute inside db
         System.out.println("priv level " + priv);
 
-        System.out.println("Testing the addDepartment method");
+        System.out.println("\n Testing the addDepartment method");
         AdministrationQueries runAdminQ = new AdministrationQueries(db);
-        runAdminQ.addModule("FRE", "French");
+        runAdminQ.addDepartments("FRE", "French");
+
+        System.out.println("Testing the addModule method");
+        runAdminQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
 
     }
+
+
 }
 
 
