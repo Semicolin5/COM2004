@@ -1,5 +1,6 @@
 package source;
 
+import source.db_handler.AdministrationQueries;
 import source.db_handler.DatabaseHandler;
 
 /**
@@ -11,7 +12,7 @@ import source.db_handler.DatabaseHandler;
 public class Main {    
 
     //
-    private static String DEMOUSERNAME = "JSmith24";
+    private static String DEMOUSERNAME = "PGreen";
     private static int priv = 0;
 
     // stores the privilege for the user.
@@ -22,8 +23,13 @@ public class Main {
 	    db = new DatabaseHandler();
 
         System.out.println("Testing the obtainPrivilege method...");
-	    priv = db.obtainPrivilege(DEMOUSERNAME);
+	    priv = db.obtainPrivilege(DEMOUSERNAME); // obtaining priviledge also sets the privLevel attribute inside db
         System.out.println("priv level " + priv);
+
+        System.out.println("Testing the addDepartment method");
+        AdministrationQueries runAdminQ = new AdministrationQueries(db);
+        runAdminQ.addModule("FRE", "French");
+
     }
 }
 
