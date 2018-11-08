@@ -9,6 +9,7 @@ import java.util.*;
  *  Class stores methods to retrieve or change information stored in the database.
  * */
 public class DatabaseHandler{
+
     // JDBC driver name and database URL
     static final String DB_URL = "jdbc:mysql://localhost:3306/test_db";
 
@@ -20,6 +21,7 @@ public class DatabaseHandler{
      * Tests database methods.
      * */
     public static void main(String[] args) {
+
         Connection conn = null;
         Statement stmt = null;
 
@@ -36,11 +38,7 @@ public class DatabaseHandler{
         }
         finally {
             System.out.println("test end");
-            try {
-                if (conn != null) conn.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+	    closeConnection(conn); 
         }
 
         System.out.println("Goodbye!");
@@ -58,6 +56,55 @@ public class DatabaseHandler{
         Enumeration<Driver> list = DriverManager.getDrivers();
         while (list.hasMoreElements())
             System.out.println(list.nextElement());
+    }
+    
+    /**
+     * Utility method that releases JDBC resources
+     * @param rs is a ResultSet object that is closed
+     * */
+    private static void closeResultSet(java.sql.ResultSet rs) {
+      // try to close the ResultSet object
+      if (rs != null) {
+	  try {
+	      rs.close();
+	  }
+	  catch (Exception ex) {
+	      ex.printStackTrace();
+	  }
+      }
+    }
+
+    /**
+     * Utility method that releases JDBC resources by closing a Statement object.
+     * @param stmt is a Statement object (regular Statement, or the
+     * PreparedStatement object), which is closed.
+     * TODO check that you can pass PreparedStatment objects into this method
+     * */
+    private static void closeStatement(java.sql.Statement stmt) {
+	// try to close the Statement object
+	if (stmt !=null) {
+	    try {
+		stmt.close(); 
+	    }
+	    catch (Exception ex) {
+		ex.printStackTrace();
+	    }
+	}
+    }
+
+    /**
+     * Utility method that releases JDBC resource by closing a Connection
+     * object.
+     * */
+    private static void closeConnection(java.sql.Connection conn) {
+	if (conn != null) {
+	    try {
+		conn.close(); 
+	    }
+	    catch (Exception ex) {
+		ex.printStackTrace();
+	    }
+	}
     }
 
 }
