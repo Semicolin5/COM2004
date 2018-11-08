@@ -1,4 +1,4 @@
-package source.db_handler;
+package src.db_handler;
 
 import java.sql.*;
 import java.util.*; //TODO is this actually needed?
@@ -13,11 +13,11 @@ import java.util.*; //TODO is this actually needed?
 public class DatabaseHandler{
 
     // JDBC driver name and database URL
-    static final String DB_URL = "jdbc:mysql://localhost:3306/db";
+    final String DB_URL = "jdbc:mysql://localhost:3306/db";
 
     //  Database credentials
-    static final String USER = "root";
-    static final String PASS = ""; // default password for mysql is empty
+    final String USER = "root";
+    final String PASS = ""; // default password for mysql is empty
     private int privLevel = 0;
 
 

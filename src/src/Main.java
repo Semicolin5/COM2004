@@ -1,7 +1,7 @@
-package source;
+package src;
 
-import source.db_handler.AdministrationQueries;
-import source.db_handler.DatabaseHandler;
+import src.db_handler.AdministrationQueries;
+import src.db_handler.DatabaseHandler;
 
 /**
  * Main.java
@@ -32,6 +32,9 @@ public class Main {
 
         System.out.println("Testing the addModule method");
         runAdminQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
+
+        System.out.println("Testing the selectDepartment method");
+
 
     }
 
