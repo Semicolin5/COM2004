@@ -36,7 +36,7 @@ public class Main {
         // TEST METHODS WHEN USER LEVEL 4
 
         System.out.println("\nTesting the add Department method...");
-        additionQ.addDepartments("FRE", "French");
+        additionQ.addDepartment("FRE", "French");
 
         System.out.println("\nTesting the addModule method...");
         additionQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
@@ -47,8 +47,12 @@ public class Main {
             for (Department dep : (retrievedDepartments)) {
                 System.out.println("CODE: " + dep.getCode() + ", Name: " + dep.getName());
             }
+
         System.out.println("\nTesting the deleteDepartment method...");
-        removeQ.removeDepartments("RSS");
+        removeQ.removeDepartment("RSS");
+
+        System.out.println("\nTesting the removeModule method");
+        removeQ.removeModule("RSS2109");
 
 
         // TEST METHODS WHEN USER LEVEL 3
