@@ -13,7 +13,7 @@ import java.util.*;
 public class Main {    
 
     //TODO implement password && username checking when evaluating priv
-    private static String DEMOUSERNAME = "PGreen";
+    private static String DEMOUSERNAME = "HWhite";
     private static int priv = 0;
 
     // stores the privilege for the user.
@@ -35,11 +35,17 @@ public class Main {
 
         // TEST METHODS WHEN USER LEVEL 4
 
-        System.out.println("\nTesting the add Department method...");
-        additionQ.addDepartment("FRE", "French");
+        /*System.out.println("\nTesting the add Department method...");
+        additionQ.addDepartment("FRE", "French Studies");
 
         System.out.println("\nTesting the addModule method...");
         additionQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
+
+        System.out.println("\nTesting the addDegree method...");
+        additionQ.addDegree("FREU01", "BSc French Language and Culture");
+
+        System.out.println();
+
 
         System.out.println("\nTesting the selectDepartment method...");
         List<Department> retrievedDepartments = retrieveQ.retrieveDepartmentTable();
@@ -52,18 +58,18 @@ public class Main {
         removeQ.removeDepartment("RSS");
 
         System.out.println("\nTesting the removeModule method");
-        removeQ.removeModule("RSS2109");
+        removeQ.removeModule("RSS2109");*/
 
 
         // TEST METHODS WHEN USER LEVEL 3
-        /*System.out.println("Testing the addStudent method... ");
+        System.out.println("Testing the addStudent method... ");
         additionQ.addStudent("EHoggins29", "123456789012345678901234567890", 1,
                 "Mr", "Edvard", "Hoggins", "Steve Maddock",
-                "hoggins@hotmail.com");
+                "hoggins@hotmail.com", "COMU03");
 
         System.out.println("Testing the addStudentModuleAssociation class");
         additionQ.addStudentModuleAssociation("EHoggins29", "COM1001");
-        */
+
 
         // TEST METHODS WHEN USER LEVEL 2
 

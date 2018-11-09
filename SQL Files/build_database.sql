@@ -5,6 +5,12 @@ CREATE TABLE users (
     PRIMARY KEY (login_id)
 );
 
+CREATE TABLE degree (
+    code CHAR (6),
+    name VARCHAR (100),
+    PRIMARY KEY (code)
+);
+
 CREATE TABLE student (
     login_id VARCHAR (30), 
     title CHAR (2),
@@ -12,18 +18,14 @@ CREATE TABLE student (
     surname VARCHAR (50),
     personal_tutor VARCHAR (50), 
     email VARCHAR (50),
+    degree_code CHAR (6), -- the degree taken
     PRIMARY KEY (login_id),
-    FOREIGN KEY (login_id) REFERENCES users (login_id)
+    FOREIGN KEY (login_id) REFERENCES users (login_id),
+    FOREIGN KEY (degree_code) REFERENCES degree (code)
 );
 
 CREATE TABLE department (
     code CHAR (3),
-    name VARCHAR (100),
-    PRIMARY KEY (code)
-);
-
-CREATE TABLE degree (
-    code CHAR (6),
     name VARCHAR (100),
     PRIMARY KEY (code)
 );
@@ -37,7 +39,7 @@ CREATE TABLE degree_level (
 
 -- linker table to store how the departments associated with each degrees, 
 -- and whether a department is the lead department
-CREATE TABLE associated_departments (
+CREATE TABLE associated_department (
     degree_code CHAR (6),
     department_code CHAR (3),
     lead BOOLEAN,
@@ -75,3 +77,4 @@ CREATE TABLE grades (
     FOREIGN KEY (student_id) REFERENCES student (login_id),
     FOREIGN KEY (module_code) REFERENCES module (code)
 );
+
