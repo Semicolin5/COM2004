@@ -44,7 +44,8 @@ INSERT INTO associated_departments VALUES
 
 INSERT INTO module VALUES 
     ("COM1005", "Machines and Intelligence", 20),
-    ("COM1001", "Software Engineering", 15); 
+    ("COM1001", "Software Engineering", 15), 
+    ("RSS2109", "The Russian Language and Russian Society through Dance", 20);
 
 INSERT INTO core VALUES
     ("COM1005", "COMU49", 0),

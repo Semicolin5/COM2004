@@ -18,7 +18,7 @@ public class AdditionQueries extends Queries{
      * @param code is String of 3 characters representing the degree
      * @param desc is String describing the degree (maxlength 100).
      * */
-    public void addDepartments(String code, String desc) {
+    public void addDepartment(String code, String desc) {
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
@@ -60,6 +60,18 @@ public class AdditionQueries extends Queries{
             }
         }
     }
+
+    /**
+     * TODO addDegree
+     * */
+
+    /**
+     * TODO addDepartmentAssociation
+     * */
+
+    /**
+     * TODO add approval
+     * */
 
     /**
      * Add Students Query - only accessible for Registrars (privilege level 3)
