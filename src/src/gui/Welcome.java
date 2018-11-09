@@ -9,13 +9,13 @@ import com.jgoodies.forms.layout.FormLayout;
 import javax.swing.*;
 import java.awt.*;
 
-public class Welcome {
+public class Welcome extends Form {
     private JPanel panel1;
     private JButton dynamicallyAddTheseLaterButton;
 
-    public JPanel getJPanel() {
-
-        return panel1;
+    public Welcome(GUIFrame frame) {
+        super(frame);
+        setJPanel(panel1);
     }
 
     {
