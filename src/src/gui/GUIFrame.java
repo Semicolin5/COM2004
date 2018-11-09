@@ -1,12 +1,16 @@
 package src.gui;
 
+import src.objects.User;
+
 import javax.swing.*;
 
 public class GUIFrame extends JFrame {
 
     private JPanel currentPanel;
+    private User user;
 
-    public GUIFrame() {
+    public GUIFrame(User user) {
+        this.user = user;
         currentPanel = new Login(this).getJPanel();
         setContentPane(currentPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,6 +27,10 @@ public class GUIFrame extends JFrame {
     }
 
     public static void main(String args[]) {
-        new GUIFrame();
+        new GUIFrame(new User("Login", "Pass", 1));
+    }
+
+    public User getUser() {
+        return user;
     }
 }
