@@ -6,9 +6,8 @@ import java.util.*; //TODO is this actually needed?
 /**
  *  DatabaseHandler.java
  *
- *  Class is used to create the Connection object, and
- *  methods to retrieve this object when a query is to be made.
- *
+ *  Class is used to create the Connection object, and is a associated
+ *  with a user, and their respective privilege level.
  * */
 public class DatabaseHandler{
 
@@ -21,7 +20,7 @@ public class DatabaseHandler{
     private int privLevel = 0;
 
 
-    Connection conn; // TODO make this private
+    private Connection conn;
 
     /**
      * constructor creates a connection to the database.
@@ -29,6 +28,7 @@ public class DatabaseHandler{
     public DatabaseHandler() {
         try {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn.setAutoCommit(false); // enables ACID
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -41,30 +41,48 @@ public class DatabaseHandler{
      * @return Integer ranging from 1 to 4, where 4 is highest priviledge level.
      * */
     public Integer obtainPrivilege(String login) {
-        Statement stmt = null;
-        ResultSet res = null;
-
         try {
-            stmt = conn.createStatement();
-            res = stmt.executeQuery("SELECT privilege FROM users WHERE login_id=\'JSmith24\'");
+            PreparedStatement pstmt = conn.prepareStatement("SELECT privilege FROM users WHERE login_id=?");
+            pstmt.setString(1,login);
+            ResultSet res = pstmt.executeQuery();
             ResultSetMetaData rsmd = res.getMetaData();
             while (res.next()) {
                 privLevel = res.getInt("privilege");
             }
+            // close resources
+            pstmt.close();
+            res.close();
         }
         catch (SQLException ex) {
             ex.printStackTrace();
         }
-        closeStatement(stmt);
-        closeResultSet(res);
         return privLevel;
     }
 
     /**
-     * get connection. Getter method for
+     * Accessor method for Connection object
      * */
     public Connection getConn() {
         return conn;
+    }
+
+    /**
+     * Accessor method for priviledge level
+     * */
+    public int getPrivLevel() { return privLevel;}
+
+    /**
+     * Method is called when a transaction may have failed. First checks connection, then rolls back
+     * if database must revert.
+     * */
+    public void rollBack() {
+        try {
+            if (conn != null)
+                conn.rollback();
+        }
+        catch  (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -80,40 +98,6 @@ public class DatabaseHandler{
         while (list.hasMoreElements())
             System.out.println(list.nextElement());
     }
-    
-    /**
-     * Utility method that releases JDBC resources
-     * @param rs is a ResultSet object that is closed
-     * */
-    public static void closeResultSet(java.sql.ResultSet rs) {
-      // try to close the ResultSet object
-      if (rs != null) {
-          try {
-              rs.close();
-          }
-          catch (Exception ex) {
-              ex.printStackTrace();
-          }
-      }
-    }
-
-    /**
-     * Utility method that releases JDBC resources by closing a Statement object.
-     * @param stmt is a Statement object (regular Statement, or the
-     * PreparedStatement object), which is closed.
-     * TODO check that you can pass PreparedStatment objects into this method
-     * */
-    public static void closeStatement(java.sql.Statement stmt) {
-	// try to close the Statement object
-	    if (stmt !=null) {
-	         try {
-		        stmt.close();
-	         }
-	        catch (Exception ex) {
-		        ex.printStackTrace();
-	        }
-	    }
-    }
 
     /**
      * Utility method that releases JDBC resource by closing a Connection
@@ -128,11 +112,6 @@ public class DatabaseHandler{
             ex.printStackTrace();
             }
         }
-    }
-
-    
-    private static void testCommit() {
-    	System.out.println("Hello World");
     }
 
 }
