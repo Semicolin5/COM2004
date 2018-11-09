@@ -33,6 +33,7 @@ public class RetrieveQueries extends Queries {
                 super.closeResources(pstmt, res); // close JDBC resources
             } catch (SQLException e) {
                 e.printStackTrace();
+                //TODO see if we can work out how to make this ACID (if not already)
             }
 
 

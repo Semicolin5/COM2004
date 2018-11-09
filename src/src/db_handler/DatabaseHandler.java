@@ -20,7 +20,7 @@ public class DatabaseHandler{
     private int privLevel = 0;
 
 
-    Connection conn; // TODO make this private
+    private Connection conn;
 
     /**
      * constructor creates a connection to the database.
@@ -28,6 +28,7 @@ public class DatabaseHandler{
     public DatabaseHandler() {
         try {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn.setAutoCommit(false); // enables ACID
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -69,6 +70,20 @@ public class DatabaseHandler{
      * Accessor method for priviledge level
      * */
     public int getPrivLevel() { return privLevel;}
+
+    /**
+     * Method is called when a transaction may have failed. First checks connection, then rolls back
+     * if database must revert.
+     * */
+    public void rollBack() {
+        try {
+            if (conn != null)
+                conn.rollback();
+        }
+        catch  (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     /**
      * findDrivers method from lecture 9
