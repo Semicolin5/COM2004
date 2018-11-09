@@ -1,7 +1,7 @@
 package src.objects;
 
 /**
- * object represents a row in the database department table.
+ * Department represents a row in the database department table.
  * contains methods to get and set the values of this row.
  * */
 public class Department {

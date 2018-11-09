@@ -13,7 +13,7 @@ import java.util.*;
 public class Main {    
 
     //TODO implement password && username checking when evaluating priv
-    private static String DEMOUSERNAME = "PGreen";
+    private static String DEMOUSERNAME = "HWhite";
     private static int priv = 0;
 
     // stores the privilege for the user.
@@ -23,23 +23,28 @@ public class Main {
 	    System.out.println("Creating the database handler object to connect with db");
 	    db = new DatabaseHandler();
 
-        System.out.println("Testing the obtain Privilege method...");
+        System.out.println("\nTesting the obtain Privilege method...");
 	    priv = db.obtainPrivilege(DEMOUSERNAME); // obtaining privilege also sets the privLevel attribute inside db
         System.out.println("priv level " + priv);
 
-        System.out.println("\n Testing the add Department method");
-        RetrieveQueries runAdminQ = new RetrieveQueries(db);
+        System.out.println("\nTesting the add Department method...");
+        RetrieveQueries retrieveQ = new RetrieveQueries(db);
         AdditionQueries additionQ = new AdditionQueries(db);
         additionQ.addDepartments("FRE", "French");
 
-        System.out.println("Testing the addModule method");
+        System.out.println("\nTesting the addModule method...");
         additionQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
 
-        System.out.println("Testing the selectDepartment method");
-        List<Department> retrievedDepartments = runAdminQ.retrieveDepartmentTable();
-        for (Department dep : (retrievedDepartments)) {
-            System.out.println("CODE: " + dep.getCode() + ", Name: " + dep.getName());
-        }
+        //System.out.println("\nTesting the selectDepartment method...");
+        //List<Department> retrievedDepartments = retrieveQ.retrieveDepartmentTable();
+        //for (Department dep : (retrievedDepartments)) {
+        //    System.out.println("CODE: " + dep.getCode() + ", Name: " + dep.getName());
+        //}
+
+        System.out.println("Testing the addStudent method... ");
+        additionQ.addStudent("EHoggins29", "123456789012345678901234567890", 1,
+                "Mr", "Edvard", "Hoggins", "Steve Maddock",
+                "hoggins@hotmail.com");
 
     }
 
