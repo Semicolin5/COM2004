@@ -1,7 +1,7 @@
 package src.db_handler;
 
 import java.sql.*;
-import java.util.*; //TODO is this actually needed?
+import java.util.*;
 
 /**
  *  DatabaseHandler.java

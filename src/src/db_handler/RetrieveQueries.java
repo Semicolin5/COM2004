@@ -20,20 +20,22 @@ public class RetrieveQueries extends Queries {
      * @return list of Department objects.
      * */
     public List<Department> retrieveDepartmentTable() {
-        List<Department> table;
-        table = null; // table is null pointer if SQL should/cannot be executed
+        List<Department> table = null;
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
         if (!super.isTableEmpty("department") && super.getPriv() == 4) {
             table = new ArrayList<Department>();
             try {
-                PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM department");
-                ResultSet res = pstmt.executeQuery();
+                pstmt = conn.prepareStatement("SELECT * FROM department");
+                res = pstmt.executeQuery();
                 while (res.next()) {
                     table.add(new Department(res.getString(1), res.getString(2)));
                 }
-                super.closeResources(pstmt, res); // close JDBC resources
             } catch (SQLException e) {
                 e.printStackTrace();
                 //TODO see if we can work out how to make this ACID (if not already)
+            } finally {
+                closeResources(pstmt, res);
             }
 
 

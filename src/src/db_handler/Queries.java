@@ -44,11 +44,25 @@ abstract class Queries {
      * @param rs is a ResultSet object that is closed
      * */
     public void closeResources(PreparedStatement pstmt, ResultSet rs) {
+        closePreparedStatement(pstmt); //closing PreparedStatement object
         try {
-            if (pstmt != null) { pstmt.close(); } // closing PreparedStatement object
             if (rs != null) { rs.close(); } // closing ResultSet object
         }
         catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Closes given PreparedStatement objects.
+     * @param pstmt is a PreparedStatement object that is to be closed
+     * */
+    public void closePreparedStatement(PreparedStatement pstmt) {
+        try {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

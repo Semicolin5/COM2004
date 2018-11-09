@@ -18,16 +18,18 @@ public class AdditionQueries extends Queries{
      * */
     public void addDepartments(String code, String desc) {
         if (super.getPriv() == 4) {
+            PreparedStatement pstmt = null;
             try {
-                PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO department VALUES (?,?)");
+                pstmt = super.conn.prepareStatement("INSERT INTO department VALUES (?,?)");
                 pstmt.setString(1, code);
                 pstmt.setString(2, desc);
                 pstmt.executeUpdate();
                 super.conn.commit();
-                pstmt.close(); // releasing resources
             } catch (SQLException e) {
                 e.printStackTrace();
                 super.db.rollBack(); // ensure ACID
+            } finally {
+                closePreparedStatement(pstmt);
             }
         }
     }
@@ -40,18 +42,19 @@ public class AdditionQueries extends Queries{
      * */
     public void addModule(String code, String name, int credits) {
         if (super.getPriv() == 4) {
+            PreparedStatement pstmt = null;
             try {
-                PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO module VALUES (?,?,?)");
+                pstmt = super.conn.prepareStatement("INSERT INTO module VALUES (?,?,?)");
                 pstmt.setString(1, code);
                 pstmt.setString(2, name);
                 pstmt.setInt(3, credits);
                 pstmt.executeUpdate();
                 super.conn.commit();
-                pstmt.close();
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
                 super.db.rollBack();
+            } finally {
+                closePreparedStatement(pstmt);
             }
         }
     }
@@ -64,17 +67,18 @@ public class AdditionQueries extends Queries{
     public void addStudent(String loginId, String password, int priv, String title, String forename, String surname,
                            String personalTutor, String email) {
         if (super.getPriv() == 3) {
-            System.out.println("in here");
+            PreparedStatement pstmt = null;
+            PreparedStatement pstmt2 = null;
             try {
                 // first create entry in the user table
-                PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?)");
+                pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?)");
                 pstmt.setString(1, loginId);
                 pstmt.setString(2, password);
                 pstmt.setInt(3, priv);
                 pstmt.executeUpdate();
 
                 // then create entry in the student table
-                PreparedStatement pstmt2 = super.conn.prepareStatement("INSERT INTO student VALUES (?, ?, ?, ?, ?, ?)");
+                pstmt2 = super.conn.prepareStatement("INSERT INTO student VALUES (?, ?, ?, ?, ?, ?)");
                 pstmt2.setString(1, loginId);
                 pstmt2.setString(2, title);
                 pstmt2.setString(3, forename);
@@ -85,14 +89,38 @@ public class AdditionQueries extends Queries{
 
                 // commit connection, then close resources
                 super.conn.commit();
-                pstmt.close();
-                pstmt.close(); //TODO would this work as just one Prepared Statement object? i.e. reuse pstmt?
+            } catch (SQLException e) {
+                e.printStackTrace();
+                super.db.rollBack();
+            } finally {
+                closePreparedStatement(pstmt);
+                closePreparedStatement(pstmt2); //TODO would this work as just one pstmt?
+            }
+        }
+    }
 
+    /**
+     * Add Module Association Query - only accessible for Registrars (privilege level 3)
+     * The presence of a grade row in the grades table represents the fact that the student is taking
+     * that module (or resitting). This SQL query takes a student and module names and creates a row in the
+     * grades table, with null values in marks columns.
+     * @param studentId String of the students identification code.
+     * @param moduleCode String representing the module the student takes.
+     * */
+    public void addModuleAssociation(String studentId, String moduleCode) {
+        if (super.getPriv() == 3) {
+            try {
+                PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,NULL, NULL)");
+                pstmt.setString(1, studentId);
+                pstmt.setString(2, moduleCode);
+                pstmt.executeUpdate();
+                super.conn.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
                 super.db.rollBack();
             }
         }
     }
+
 
 }
