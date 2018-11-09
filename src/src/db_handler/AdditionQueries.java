@@ -1,8 +1,10 @@
 package src.db_handler;
 
 import java.sql.*;
-import java.util.*;
 
+/**
+ * AdditionQueries class stores methods that make addition queries with the SQL server.
+ * */
 public class AdditionQueries extends Queries{
 
     // Requires conn to execute SQL queries with the database
@@ -26,8 +28,8 @@ public class AdditionQueries extends Queries{
                 pstmt.executeUpdate();
                 super.conn.commit();
             } catch (SQLException e) {
-                e.printStackTrace();
                 super.db.rollBack(); // ensure ACID
+                e.printStackTrace();
             } finally {
                 closePreparedStatement(pstmt);
             }
@@ -107,7 +109,7 @@ public class AdditionQueries extends Queries{
      * @param studentId String of the students identification code.
      * @param moduleCode String representing the module the student takes.
      * */
-    public void addModuleAssociation(String studentId, String moduleCode) {
+    public void addStudentModuleAssociation(String studentId, String moduleCode) {
         if (super.getPriv() == 3) {
             try {
                 PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,NULL, NULL)");
@@ -121,6 +123,9 @@ public class AdditionQueries extends Queries{
             }
         }
     }
+
+    //TODO add grades is actually performed through an INSERT statement which is why it isn't here
+
 
 
 }

@@ -31,26 +31,35 @@ public class Main {
         // instantiating Query methods
         RetrieveQueries retrieveQ = new RetrieveQueries(db);
         AdditionQueries additionQ = new AdditionQueries(db);
+        RemovalQueries removeQ = new RemovalQueries(db);
 
         // TEST METHODS WHEN USER LEVEL 4
 
         System.out.println("\nTesting the add Department method...");
         additionQ.addDepartments("FRE", "French");
+
         System.out.println("\nTesting the addModule method...");
         additionQ.addModule("FRE3008", "Sex, Subversion and Censorship: Libertine Literature in Seventeenth-Century France", 10);
+
         System.out.println("\nTesting the selectDepartment method...");
         List<Department> retrievedDepartments = retrieveQ.retrieveDepartmentTable();
-        for (Department dep : (retrievedDepartments)) {
-            System.out.println("CODE: " + dep.getCode() + ", Name: " + dep.getName());
-        }
+        if (retrievedDepartments != null)
+            for (Department dep : (retrievedDepartments)) {
+                System.out.println("CODE: " + dep.getCode() + ", Name: " + dep.getName());
+            }
+        System.out.println("\nTesting the deleteDepartment method...");
+        removeQ.removeDepartments("RSS");
 
 
         // TEST METHODS WHEN USER LEVEL 3
-        System.out.println("Testing the addStudent method... ");
-        //additionQ.addStudent("EHoggins29", "123456789012345678901234567890", 1,
-                //"Mr", "Edvard", "Hoggins", "Steve Maddock",
-                //"hoggins@hotmail.com");
+        /*System.out.println("Testing the addStudent method... ");
+        additionQ.addStudent("EHoggins29", "123456789012345678901234567890", 1,
+                "Mr", "Edvard", "Hoggins", "Steve Maddock",
+                "hoggins@hotmail.com");
 
+        System.out.println("Testing the addStudentModuleAssociation class");
+        additionQ.addStudentModuleAssociation("EHoggins29", "COM1001");
+        */
 
         // TEST METHODS WHEN USER LEVEL 2
 

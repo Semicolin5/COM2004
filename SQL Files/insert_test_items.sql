@@ -32,7 +32,8 @@ INSERT INTO degree_level VALUES
 
 INSERT INTO department VALUES 
     ("COM", "Computer Science"),
-    ("PHI", "Philosophy");
+    ("PHI", "Philosophy"),
+    ("RSS", "Russian and Slavonic Studies");
 
 INSERT INTO associated_departments VALUES
     ("COMU49", "COM", 1),

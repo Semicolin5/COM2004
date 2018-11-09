@@ -4,7 +4,7 @@ import java.sql.*;
 /**
  * Queries.java
  * Superclass for AdditionQueries.java, UpdateQueries.java,
- * DeleteQueries.java and RetrieveQueries.java.
+ * RemovalQueries.java and RetrieveQueries.java.
  * Contains methods used across these classes.
  * */
 abstract class Queries {
