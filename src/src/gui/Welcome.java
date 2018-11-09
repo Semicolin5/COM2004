@@ -18,19 +18,23 @@ public class Welcome extends Form {
 
         int privilege = getFrame().getUser().getPriv();
 
-        if(privilege == 1) {
+        //Admin buttons
+        if(privilege == 4) {
             panel.add(new JButton("User Management"));
             panel.add(new JButton("Department Management"));
             panel.add(new JButton("Course Management"));
             panel.add(new JButton("Module Management"));
         }
-        else if(privilege == 2) {
+        //Registrar
+        else if(privilege == 3) {
             panel.add(new JButton("Student Management"));
             panel.add(new JButton("Add/Drop Student Modules"));
         }
-        else if(privilege == 3) {
+        //Teacher
+        else if(privilege == 2) {
             panel.add(new JButton("Update Grades"));
         }
+        //Student
         else {
             panel.add(new JButton("View Record"));
         }
