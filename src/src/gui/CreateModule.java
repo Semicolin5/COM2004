@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class createModule {
+public class CreateModule {
     private JButton createModuleButton;
     private JPanel myPanel;
     private JTextField moduleCode;
     private JTextField moduleName;
     private JTextField moduleCredits;
 
-    public createModule() {
+    public CreateModule() {
         createModuleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -21,8 +21,8 @@ public class createModule {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("createModule");
-        frame.setContentPane(new createModule().myPanel);
+        JFrame frame = new JFrame("CreateModule");
+        frame.setContentPane(new CreateModule().myPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(550, 200);
