@@ -10,11 +10,16 @@ public class createDepartment {
     private JTextField departmentName;
     private JButton createDepartment;
 
-    public createDepartment() {
+    private createDepartment() {
         createDepartment.addActionListener(new ActionListener() {
+            private src.db_handler.DatabaseHandler db;
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Department Created" );
+                db = new src.db_handler.DatabaseHandler();
+                src.db_handler.AdditionQueries additionQ = new src.db_handler.AdditionQueries(db);
+                additionQ.addDepartment(departmentCode.getText(), departmentName.getText());
+                JOptionPane.showMessageDialog(null, "Department " +  departmentCode.getText() + " Created");
             }
         });
     }
@@ -28,4 +33,5 @@ public class createDepartment {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
 }
