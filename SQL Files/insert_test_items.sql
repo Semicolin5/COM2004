@@ -3,8 +3,11 @@
 INSERT INTO users VALUES 
     ("JSmith24", "0123456789qwertyuiop0123456789", 1);
 
+INSERT INTO degree VALUES 
+    ("COMU49", "BSc Philosophy and Computer Science");
+
 INSERT INTO student VALUES 
-    ("JSmith24", "Mr", "John", "Smith", "Professor Oak", "jsmith24@shef.ac.uk");
+    ("JSmith24", "Mr", "John", "Smith", "Professor Oak", "jsmith24@shef.ac.uk", "COMU49");
 
 INSERT INTO users VALUES
     ("PGreen", "qwertyuiopasdfghjkl;1234567890", 4),
@@ -22,9 +25,6 @@ INSERT INTO degree_level VALUES
     ("COMU03", 3),
     ("COMU03", 4);
 
-INSERT INTO degree VALUES 
-    ("COMU49", "BSc Philosophy and Computer Science");
-
 INSERT INTO degree_level VALUES
     ("COMU49", 1),
     ("COMU49", 2),
@@ -32,9 +32,10 @@ INSERT INTO degree_level VALUES
 
 INSERT INTO department VALUES 
     ("COM", "Computer Science"),
-    ("PHI", "Philosophy");
+    ("PHI", "Philosophy"),
+    ("RSS", "Russian and Slavonic Studies");
 
-INSERT INTO associated_departments VALUES
+INSERT INTO associated_department VALUES
     ("COMU49", "COM", 1),
     ("COMU49", "PHI", 0),
     ("COMU03", "COM", 1);
@@ -43,7 +44,8 @@ INSERT INTO associated_departments VALUES
 
 INSERT INTO module VALUES 
     ("COM1005", "Machines and Intelligence", 20),
-    ("COM1001", "Software Engineering", 15); 
+    ("COM1001", "Software Engineering", 15), 
+    ("RSS2109", "The Russian Language and Russian Society through Dance", 20);
 
 INSERT INTO core VALUES
     ("COM1005", "COMU49", 0),
