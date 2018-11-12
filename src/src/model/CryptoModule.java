@@ -1,3 +1,5 @@
+package src.model;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -58,6 +60,16 @@ public class CryptoModule {
 		}
 		
 		return salt;
+	}
+	
+	
+	
+	/**
+	 * startSession, generates a session ID
+	 * @return
+	 */
+	public static String startSession() {
+		return "Hello World";
 	}
 	
 
