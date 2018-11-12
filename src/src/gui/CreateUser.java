@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class createUser {
+public class CreateUser {
     private JPanel panel1;
     private JTextField textField1;
     private JComboBox comboBox1;
@@ -12,7 +12,7 @@ public class createUser {
     private JTextField textField3;
     private JButton createAccountButton;
 
-    public createUser() {
+    public CreateUser() {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -23,7 +23,7 @@ public class createUser {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Users");
-        frame.setContentPane(new createUser().panel1);
+        frame.setContentPane(new CreateUser().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(400, 200);
