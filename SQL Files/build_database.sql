@@ -1,7 +1,8 @@
 CREATE TABLE users (
     login_id VARCHAR (30),
-    password CHAR (40), -- stores hash code
+    password CHAR (64), -- stores hash code
     privilege INT NOT NULL,
+    salt CHAR (32), --stores the user's unique salt
     PRIMARY KEY (login_id)
 );
 
