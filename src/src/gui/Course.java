@@ -15,20 +15,22 @@ public class Course extends Form {
     }
 
     private JPanel initPanel() {
-        JButton createDegree = new JButton("Create Degree");
+        JButton createDegree = new JButton("CreateDegree");
+
+        createDegree.setText("Create Degree");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
         panel.add(createDegree);
-        createDegree.addActionListener(new CourseHandler());
         panel.add(new JButton("Delete Degree"));
+        createDegree.addActionListener(new CourseHandler());
         return panel;
     }
 
     public class CourseHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateDegree(getFrame()).getJPanel());
+            System.out.println("CourseHandler");
         }
     }
-
 
 }

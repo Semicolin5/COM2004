@@ -3,8 +3,6 @@ package src.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import src.db_handler.AdditionQueries;
-import src.db_handler.DatabaseHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,7 +49,7 @@ public class CreateDegree extends Form {
         final Spacer spacer3 = new Spacer();
         panel1.add(spacer3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         createDegree = new JButton();
-        createDegree.setText("createDegree");
+        createDegree.setText("Create Degree");
         panel1.add(createDegree, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
@@ -63,14 +61,14 @@ public class CreateDegree extends Form {
     }
 
     public class CreateDegreeHandler implements ActionListener {
-        private DatabaseHandler db;
+        private src.db_handler.DatabaseHandler db;
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            db = new DatabaseHandler();
-            AdditionQueries additionQ = new AdditionQueries(db); //^TODO CHECK OUT THIS ERROR
-            additionQ.addDegree(degreeCode.getText(), degreeName.getText());
-            JOptionPane.showMessageDialog(null, "Degree " + degreeCode.getText() + " Created");
+            src.controller.GUIHandler x = new src.controller.GUIHandler();
+            System.out.println(degreeCode.getText());
+            System.out.println(degreeName.getText());
+            x.saveDegree(degreeCode.getText(),degreeName.getText());
         }
     }
 

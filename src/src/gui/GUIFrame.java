@@ -14,10 +14,14 @@ public class GUIFrame extends JFrame {
         currentPanel = new Login(this).getJPanel();
         setContentPane(currentPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(900,300);
+        setLocationRelativeTo(null);
         setVisible(true);
+
     }
 
     public void changeJPanel(JPanel panel) {
+        System.out.println("changeJPanel");
         currentPanel.removeAll();
         getContentPane().setVisible(false);
         getContentPane().remove(currentPanel);
@@ -27,7 +31,7 @@ public class GUIFrame extends JFrame {
     }
 
     public static void main(String args[]) {
-        new GUIFrame(new User("Login", "Pass", 1));
+        new GUIFrame(new User("Login", "Pass", 4));
     }
 
     public User getUser() {
