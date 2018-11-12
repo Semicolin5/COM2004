@@ -18,14 +18,15 @@ public class Course extends Form {
         JButton createDegree = new JButton("Create Degree");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        panel.add(new JButton("Create Degree"));
+        panel.add(createDegree);
+        createDegree.addActionListener(new CourseHandler());
         panel.add(new JButton("Delete Degree"));
         return panel;
     }
 
     public class CourseHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            //TODO: ADD FUNCNTIONALITY HERE
+            changeJPanel(new CreateDegree(getFrame()).getJPanel());
         }
     }
 
