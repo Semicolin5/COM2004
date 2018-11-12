@@ -121,17 +121,18 @@ public class AdditionQueries extends Queries{
      * Adds first to the users database table, then to the student table
      * using ACID to ensure that there is no possibility of inconsistency.
      * */
-    public void addStudent(String loginId, String password, int priv, String title, String forename, String surname,
+    public void addStudent(String loginId, String password, String salt, int priv, String title, String forename, String surname,
                            String personalTutor, String email, String degreeCode) {
         if (super.getPriv() == 3) {
             PreparedStatement pstmt = null;
             PreparedStatement pstmt2 = null;
             try {
                 // first create entry in the user table
-                pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?)");
+                pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
                 pstmt.setString(1, loginId);
                 pstmt.setString(2, password);
                 pstmt.setInt(3, priv);
+                pstmt.setString(4, salt);
                 pstmt.executeUpdate();
 
                 // then create entry in the student table
