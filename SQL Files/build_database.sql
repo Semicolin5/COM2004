@@ -2,7 +2,7 @@ CREATE TABLE users (
     login_id VARCHAR (30),
     password CHAR (64), -- stores hash code
     privilege INT NOT NULL,
-    salt CHAR (32), --stores the users unique salt
+    salt CHAR (32),
     PRIMARY KEY (login_id)
 );
 
@@ -43,7 +43,7 @@ CREATE TABLE degree_level (
 CREATE TABLE associated_department (
     degree_code CHAR (6),
     department_code CHAR (3),
-    lead BOOLEAN,
+    lead_department BOOLEAN,
     PRIMARY KEY (degree_code, department_code),
     FOREIGN KEY (degree_code) REFERENCES degree (code),
     FOREIGN KEY (department_code) REFERENCES department (code)

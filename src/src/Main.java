@@ -63,12 +63,12 @@ public class Main {
 
         // TEST METHODS WHEN USER LEVEL 3
         System.out.println("Testing the addStudent method... ");
-        additionQ.addStudent("EHoggins29", "123456789012345678901234567890", 1,
+        additionQ.addStudent("EHoggins29", "123456789012345678901234567890", "AHK68436286UFDFIHIAH", 1,
                 "Mr", "Edvard", "Hoggins", "Steve Maddock",
                 "hoggins@hotmail.com", "COMU03");
 
-        System.out.println("Testing the addStudentModuleAssociation class");
-        additionQ.addStudentModuleAssociation("EHoggins29", "COM1001");
+        //System.out.println("Testing the addStudentModuleAssociation class");
+        //additionQ.addStudentModuleAssociation("EHoggins29", "COM1001");
 
 
         // TEST METHODS WHEN USER LEVEL 2

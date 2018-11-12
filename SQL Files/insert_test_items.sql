@@ -1,18 +1,18 @@
 -- INSERTING EXAMPLE USERS --
 
-INSERT INTO users VALUES 
-    ("JSmith24", "0123456789qwertyuiop0123456789", 1);
+INSERT INTO users VALUES
+    ("JSmith24", "0123456789qwertyuiop0123456789", 1, "JIHFDSKJFMSHSK134");
 
-INSERT INTO degree VALUES 
+INSERT INTO degree VALUES
     ("COMU49", "BSc Philosophy and Computer Science");
 
-INSERT INTO student VALUES 
+INSERT INTO student VALUES
     ("JSmith24", "Mr", "John", "Smith", "Professor Oak", "jsmith24@shef.ac.uk", "COMU49");
 
 INSERT INTO users VALUES
-    ("PGreen", "qwertyuiopasdfghjkl;1234567890", 4),
-    ("HWhite", "123456789012345678901234567890", 3),
-    ("MBlack", "123456789012345678901234567890", 2);
+    ("PGreen", "qwertyuiopasdfghjkl;1234567890", 4, "JIHFDSKJFMSHSK145"),
+    ("HWhite", "123456789012345678901234567890", 3, "JIHFDSKJ54RESK145"),
+    ("MBlack", "123456789012345678901234567890", 2, "JIHFDSKJFMSHSK145");
 
 -- INSERTING EXAMPLE DEGREES AND DEPARTMENTS --
 
