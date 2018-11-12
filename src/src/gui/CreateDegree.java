@@ -66,9 +66,7 @@ public class CreateDegree extends Form {
         @Override
         public void actionPerformed(ActionEvent e) {
             src.controller.GUIHandler x = new src.controller.GUIHandler();
-            System.out.println(degreeCode.getText());
-            System.out.println(degreeName.getText());
-            x.saveDegree(degreeCode.getText(),degreeName.getText());
+            x.saveDegree(degreeCode.getText(), degreeName.getText());
         }
     }
 
@@ -78,4 +76,11 @@ public class CreateDegree extends Form {
         createDegree.addActionListener(new CreateDegreeHandler());
     }
 
+    public void setCode(String str){
+        degreeCode.setText(str);
+    }
+
+    public void setName(String str){
+        degreeCode.setText(str);
+    }
 }

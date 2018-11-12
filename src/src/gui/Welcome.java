@@ -12,11 +12,11 @@ public class Welcome extends Form {
         super(frame);
         panel = initPanel();
         setJPanel(panel);
-
     }
 
     private JPanel initPanel() {
         JButton courseButton = new JButton("Course Management");
+        JButton departmentButton = new JButton("Department Management");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         int privilege = getFrame().getUser().getPriv();
@@ -24,10 +24,11 @@ public class Welcome extends Form {
         //Admin buttons
         if(privilege == 4) {
             panel.add(new JButton("User Management"));
-            panel.add(new JButton("Department Management"));
+            panel.add(departmentButton);
             panel.add(courseButton);
             panel.add(new JButton("Module Management"));
-            courseButton.addActionListener(new WelcomeHandler());
+            departmentButton.addActionListener(new departmentButtonHandler());
+            courseButton.addActionListener(new degreeButtonHandler());
         }
         //Registrar
         else if(privilege == 3) {
@@ -45,11 +46,15 @@ public class Welcome extends Form {
         return panel;
     }
 
-    public class WelcomeHandler implements ActionListener {
+    public class degreeButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new Course(getFrame()).getJPanel());
+            changeJPanel(new src.gui.Course(getFrame()).getJPanel());
         }
     }
 
-
+    private class departmentButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.gui.DepartmentMain(getFrame()).getJPanel());
+        }
+    }
 }

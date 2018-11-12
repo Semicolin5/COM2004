@@ -29,7 +29,6 @@ public class Course extends Form {
     public class CourseHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateDegree(getFrame()).getJPanel());
-            System.out.println("CourseHandler");
         }
     }
 
