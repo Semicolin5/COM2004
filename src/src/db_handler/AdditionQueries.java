@@ -9,7 +9,7 @@ public class AdditionQueries extends Queries{
 
     // Requires conn to execute SQL queries with the database
     // constructor is passed a DatabaseHandler object from which it obtains the Connection object
-    public AdditionQueries (DatabaseHandler db) {
+    public AdditionQueries (src.db_handler.DatabaseHandler db) {
         super(db);
     }
 
