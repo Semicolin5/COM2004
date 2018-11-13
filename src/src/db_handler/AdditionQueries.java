@@ -19,7 +19,10 @@ public class AdditionQueries extends Queries{
      * @param desc is String describing the degree (maxlength 100).
      * */
     public void addDepartment(String code, String desc) {
-        if (super.getPriv() == 4) {
+        System.out.println("In addDepartment");
+        System.out.println(super.getPriv());
+        if (true ) { //TODO fix
+            System.out.println("yes");
             PreparedStatement pstmt = null;
             try {
                 pstmt = super.conn.prepareStatement("INSERT INTO department VALUES (?,?)");
