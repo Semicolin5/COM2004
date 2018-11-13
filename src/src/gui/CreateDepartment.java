@@ -18,8 +18,8 @@ public class CreateDepartment extends Form{
     public class CreateDepartmentHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            src.controller.GUIHandler x = new src.controller.GUIHandler();
-            x.saveDepartment(departmentCode.getText(), departmentName.getText());
+            //src.controller.GUIHandler x = new src.controller.GUIHandler();
+            //x.saveDepartment(departmentCode.getText(), departmentName.getText());
         }
     }
 
