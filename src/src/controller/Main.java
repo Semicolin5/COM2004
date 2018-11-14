@@ -25,15 +25,12 @@ public class Main {
         db = new DatabaseHandler();
     }
 
-    public void saveDegree(String degreeCode, String degreeName){
-
-        src.db_handler.AdditionQueries additionQ = new src.db_handler.AdditionQueries(db); //^TODO CHECK OUT THIS ERROR
-        additionQ.addDegree(degreeCode, degreeName);
+    public static void saveDegree(String degreeCode, String degreeName){
+        src.controller.Controller.saveDegree(degreeCode, degreeName, db);
     }
 
     public static void saveDepartment(String departmentCode, String departmentName){
-        //src.controller.Controller con = new src.controller.Controller();
-        //con.saveDepartment(departmentCode, departmentName, db);
+        src.controller.Controller.saveDepartment(departmentCode, departmentName, db);
     }
 
 

@@ -91,17 +91,17 @@ public class AdditionQueries extends Queries{
     /**
      * Add Department Association Query - only accessible for Administrators (privilege level 4)
      * Creates associations
-     * @param code String that is 6 char code representing the degree
-     * @param name String describing the degree, i.e. "Computer Science"
+     * @param degreeCode String that is 6 char code representing the degree
+     * @param departmentCode String that is 3 char code representing the department, i.e. "Computer Science"
      * @param lead boolean expressing whether the associated department is the lead department
      * */
-    public void addDepartmentAssociation (String code, String name, boolean lead) {
+    public void addDepartmentAssociation (String degreeCode, String departmentCode, boolean lead) {
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
                 pstmt = super.conn.prepareStatement("INSERT INTO associated_department VALUES (?,?,?)");
-                pstmt.setString(1, code);
-                pstmt.setString(2, name);
+                pstmt.setString(1, degreeCode);
+                pstmt.setString(2, departmentCode);
                 pstmt.setBoolean(3, lead);
                 pstmt.executeUpdate();
                 super.conn.commit();
