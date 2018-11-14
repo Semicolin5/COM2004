@@ -21,7 +21,7 @@ public class Main {
      * Main method creates the connection to the database, and instantiates GUIFrame
      * */
     public static void main(String[] args) {
-        new GUIFrame(new User("Login", "Pass", 4));
+        new GUIFrame();
         db = new DatabaseHandler();
     }
 
@@ -48,6 +48,14 @@ public class Main {
      * */
     public static DatabaseHandler getDB() {
         return db;
+    }
+
+    /**
+     * Accessor method to obtain the logged in users privilege
+     * @return the users privilege level
+     * */
+    public static int getPriv() {
+        return user.getPriv();
     }
 
 

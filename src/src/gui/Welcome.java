@@ -1,5 +1,7 @@
 package src.gui;
 
+import src.controller.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +21,7 @@ public class Welcome extends Form {
         JButton departmentButton = new JButton("Department Management");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
-        int privilege = getFrame().getUser().getPriv();
+        int privilege = Main.getPriv();
 
         //Admin buttons
         if(privilege == 4) {

@@ -29,7 +29,7 @@ public class User {
     public String getPassword() { return password; }
     public int getPriv() { return priv; }
 
-    //TODO remove this later
+    //TODO remove this later, currently just for testing
     public String toString() {return (login_id + ", " + priv + ", pw: " + password);}
 
 }

@@ -97,7 +97,7 @@ public class Login extends Form {
          * // TODO will need to change this so it actually checks pw
          * */
         public void actionPerformed(ActionEvent actionEvent) {
-            User unvalidatedUser = new User(textField1.getText(), passwordField1.getText(), 0);
+            User unvalidatedUser = new User(textField1.getText(), passwordField1.getText(), 4);
             System.out.println("TEST IN Login.java: " + unvalidatedUser.toString());
             // pass unvalidated user into Controller.java, validate pw
             if(Main.validate(unvalidatedUser)) {
