@@ -125,7 +125,7 @@ public class AdditionQueries extends Queries{
      * using ACID to ensure that there is no possibility of inconsistency.
      * */
     public void addStudent(String loginId, String password, String salt, int priv, String title, String forename, String surname,
-                           String personalTutor, String email, String degreeCode) {
+                           String personalTutor, String email, String degreeCode, String level) {
         if (super.getPriv() == 3) {
             PreparedStatement pstmt = null;
             PreparedStatement pstmt2 = null;
@@ -139,7 +139,7 @@ public class AdditionQueries extends Queries{
                 pstmt.executeUpdate();
 
                 // then create entry in the student table
-                pstmt2 = super.conn.prepareStatement("INSERT INTO student VALUES (?, ?, ?, ?, ?, ?, ?)");
+                pstmt2 = super.conn.prepareStatement("INSERT INTO student VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 pstmt2.setString(1, loginId);
                 pstmt2.setString(2, title);
                 pstmt2.setString(3, forename);
@@ -147,6 +147,7 @@ public class AdditionQueries extends Queries{
                 pstmt2.setString(5,personalTutor);
                 pstmt2.setString(6,email);
                 pstmt2.setString(7, degreeCode);
+                pstmt2.setString(8, level);
                 pstmt2.executeUpdate();
 
                 // commit connection, then close resources

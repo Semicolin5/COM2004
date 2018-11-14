@@ -11,7 +11,6 @@ import src.db_handler.*;
  * */
 public class Controller {
 
-
     public static void saveDegree(String degreeCode, String degreeName) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartment(degreeCode, degreeName);
