@@ -1,5 +1,8 @@
 package src.gui;
 
+import src.controller.Controller;
+import src.objects.Department;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,10 +12,21 @@ public class ManageDepartments extends Form {
     private JPanel panel1;
     private JButton createDepartmentButton;
     private JButton removeDepartmentButton;
+    private JList list1;
+
+    private DefaultListModel<String> departmentsModel;
 
     public ManageDepartments(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
+        departmentsModel = new DefaultListModel<>();
+
+        for (Department department : Controller.getDepartments()) {
+            departmentsModel.addElement(department.getCode());
+        }
+
+        list1.setModel(departmentsModel);
+        list1.setVisibleRowCount(-1);
         createDepartmentButton.addActionListener(new DepartmentHandler());
     }
 
@@ -38,28 +52,41 @@ public class ManageDepartments extends Form {
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(createDepartmentButton, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(spacer1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 3;
         gbc.fill = GridBagConstraints.VERTICAL;
         panel1.add(spacer2, gbc);
         removeDepartmentButton = new JButton();
         removeDepartmentButton.setText("Remove Department");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 0;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(removeDepartmentButton, gbc);
+        final JPanel spacer3 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.ipady = 25;
+        panel1.add(spacer3, gbc);
+        list1 = new JList();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel1.add(list1, gbc);
     }
 
     /**

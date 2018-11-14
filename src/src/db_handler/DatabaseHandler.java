@@ -71,6 +71,7 @@ public class DatabaseHandler{
      * */
     public int getPrivLevel() { return privLevel;}
 
+    public void setPrivLevel(int priv) { privLevel = priv; }
     /**
      * Method is called when a transaction may have failed. First checks connection, then rolls back
      * if database must revert.
