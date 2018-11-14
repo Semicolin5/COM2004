@@ -7,10 +7,8 @@ import javax.swing.*;
 public class GUIFrame extends JFrame {
 
     private JPanel currentPanel;
-    private User user;
 
-    public GUIFrame(User user) {
-        this.user = user;
+    public GUIFrame() {
         currentPanel = new Login(this).getJPanel();
         setContentPane(currentPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +28,4 @@ public class GUIFrame extends JFrame {
         getContentPane().setVisible(true);
     }
 
-    public User getUser() {
-        return user;
-    }
 }
