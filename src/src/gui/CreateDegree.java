@@ -15,7 +15,7 @@ import src.controller.Main;
  * Only accessible for Administrators (privilege level 4)
  * Extension of form, creates a functional GUI form which allows
  * user to create a new degree as an entry in the degree table.
- * */
+ */
 
 public class CreateDegree extends Form {
     private JPanel panel1;
@@ -23,7 +23,8 @@ public class CreateDegree extends Form {
     private JTextField degreeName;
     private JButton createDegree;
 
-    /**Set default JFrame sizes & add Event Listener
+    /**
+     * Set default JFrame sizes & add Event Listener
      *
      * @param frame - JFrame with properties set in the GUIFrame class.
      */
@@ -31,17 +32,6 @@ public class CreateDegree extends Form {
         super(frame);
         setJPanel(panel1);
         createDegree.addActionListener(new CreateDegreeHandler());
-    }
-
-    /**
-     * Event listener which passes parameters to a controller class,
-     * which ultimately creates a new row in the Degree table with those parameters.
-     * */
-    public class CreateDegreeHandler implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Main.saveDegree(degreeCode.getText(), degreeName.getText());
-        }
     }
 
     {
@@ -78,7 +68,7 @@ public class CreateDegree extends Form {
         final Spacer spacer3 = new Spacer();
         panel1.add(spacer3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         createDegree = new JButton();
-        createDegree.setText("Create Degree");
+        createDegree.setText("createDegree");
         panel1.add(createDegree, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
@@ -87,6 +77,17 @@ public class CreateDegree extends Form {
      */
     public JComponent $$$getRootComponent$$$() {
         return panel1;
+    }
+
+    /**
+     * Event listener which passes parameters to a controller class,
+     * which ultimately creates a new row in the Degree table with those parameters.
+     */
+    public class CreateDegreeHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Main.saveDegree(degreeCode.getText(), degreeName.getText());
+        }
     }
 
 }
