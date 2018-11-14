@@ -1,6 +1,7 @@
 package src.gui;
 
 import src.controller.Controller;
+import src.objects.Department;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,14 +14,18 @@ public class ManageDepartments extends Form {
     private JButton removeDepartmentButton;
     private JList list1;
 
-    private DefaultListModel<String> departments;
+    private DefaultListModel<String> departmentsModel;
 
     public ManageDepartments(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
-        departments = new DefaultListModel<>();
-        System.out.println(Controller.getDepartments());
-        list1.setModel(departments);
+        departmentsModel = new DefaultListModel<>();
+
+        for (Department department : Controller.getDepartments()) {
+            departmentsModel.addElement(department.getCode());
+        }
+
+        list1.setModel(departmentsModel);
         list1.setVisibleRowCount(-1);
         createDepartmentButton.addActionListener(new DepartmentHandler());
     }
