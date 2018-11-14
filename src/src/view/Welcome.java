@@ -1,4 +1,4 @@
-package src.gui;
+package src.view;
 
 import src.controller.Main;
 
@@ -50,13 +50,13 @@ public class Welcome extends Form {
 
     public class degreeButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.gui.Course(getFrame()).getJPanel());
+            changeJPanel(new src.view.Course(getFrame()).getJPanel());
         }
     }
 
     private class departmentButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.gui.ManageDepartments(getFrame()).getJPanel());
+            changeJPanel(new src.view.ManageDepartments(getFrame()).getJPanel());
         }
     }
 }

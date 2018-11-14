@@ -1,9 +1,8 @@
 package src.controller;
 
-import src.db_handler.*;
+import src.model.db_handler.*;
 import src.objects.Department;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -1,4 +1,4 @@
-package src.db_handler;
+package src.model.db_handler;
 
 import java.sql.*;
 
@@ -9,7 +9,7 @@ public class AdditionQueries extends Queries{
 
     // Requires conn to execute SQL queries with the database
     // constructor is passed a DatabaseHandler object from which it obtains the Connection object
-    public AdditionQueries (src.db_handler.DatabaseHandler db) {
+    public AdditionQueries (src.model.db_handler.DatabaseHandler db) {
         super(db);
     }
 
@@ -19,9 +19,7 @@ public class AdditionQueries extends Queries{
      * @param desc is String describing the degree (maxlength 100).
      * */
     public void addDepartment(String code, String desc) {
-        System.out.println("In addDepartment");
-        System.out.println(super.getPriv());
-        if (true ) { //TODO fix
+        if (super.getPriv() == 4) {
             System.out.println("yes");
             PreparedStatement pstmt = null;
             try {

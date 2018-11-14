@@ -1,4 +1,4 @@
-package src.gui;
+package src.view;
 
 /*import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;

@@ -1,4 +1,4 @@
-package src.gui;
+package src.view;
 
 import src.controller.Controller;
 import src.objects.Department;

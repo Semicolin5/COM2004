@@ -1,6 +1,4 @@
-package src.gui;
-
-import src.objects.User;
+package src.view;
 
 import javax.swing.*;
 

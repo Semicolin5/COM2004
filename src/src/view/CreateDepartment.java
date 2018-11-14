@@ -1,4 +1,4 @@
-package src.gui;
+package src.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,6 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
-import src.controller.Main;
 
 public class CreateDepartment extends Form {
     private JPanel panel1;
