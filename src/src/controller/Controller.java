@@ -29,4 +29,9 @@ public class Controller {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
         return retrieveQ.retrieveDepartmentTable();
     }
+
+    public static void removeDepartment(String code) {
+        RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+        removalQ.removeDepartment(code);
+    }
 }
