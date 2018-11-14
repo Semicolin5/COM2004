@@ -20,6 +20,7 @@ CREATE TABLE student (
     personal_tutor VARCHAR (50), 
     email VARCHAR (50),
     degree_code CHAR (6), -- the degree taken
+    level_of_study CHAR (1), -- the level of study
     PRIMARY KEY (login_id),
     FOREIGN KEY (login_id) REFERENCES users (login_id),
     FOREIGN KEY (degree_code) REFERENCES degree (code)
@@ -29,13 +30,6 @@ CREATE TABLE department (
     code CHAR (3),
     name VARCHAR (100),
     PRIMARY KEY (code)
-);
-
-CREATE TABLE degree_level (
-    code CHAR (6),
-    level INT (1),
-    PRIMARY KEY (code, level),
-    FOREIGN KEY (code) REFERENCES degree (code)
 );
 
 -- linker table to store how the departments associated with each degrees, 
@@ -61,6 +55,7 @@ CREATE TABLE module (
 CREATE TABLE core (
     module_code CHAR (7),
     degree_code CHAR (6),
+    degree_level CHAR(1),
     core BOOLEAN,
     PRIMARY KEY (module_code, degree_code),
     FOREIGN KEY (module_code) REFERENCES module (code),
