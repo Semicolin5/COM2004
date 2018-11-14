@@ -39,6 +39,7 @@ public class Main {
         } else {
             validated = false;
         }
+        db.setPrivLevel(user.getPriv());
         return validated;
     }
 

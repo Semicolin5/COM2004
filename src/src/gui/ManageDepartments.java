@@ -1,5 +1,7 @@
 package src.gui;
 
+import src.controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,8 +19,7 @@ public class ManageDepartments extends Form {
         super(frame);
         setJPanel(panel1);
         departments = new DefaultListModel<>();
-        departments.addElement("COM");
-        departments.addElement("HIS");
+        System.out.println(Controller.getDepartments());
         list1.setModel(departments);
         list1.setVisibleRowCount(-1);
         createDepartmentButton.addActionListener(new DepartmentHandler());

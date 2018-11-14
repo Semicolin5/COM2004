@@ -1,6 +1,10 @@
 package src.controller;
 
 import src.db_handler.*;
+import src.objects.Department;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller.java
@@ -21,5 +25,10 @@ public class Controller {
         // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartment(departmentCode, departmentName);
+    }
+
+    public static List<Department> getDepartments() {
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        return retrieveQ.retrieveDepartmentTable();
     }
 }
