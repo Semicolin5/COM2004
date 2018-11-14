@@ -29,4 +29,7 @@ public class User {
     public String getPassword() { return password; }
     public int getPriv() { return priv; }
 
+    //TODO remove this later
+    public String toString() {return (login_id + ", " + priv + ", pw: " + password);}
+
 }

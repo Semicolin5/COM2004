@@ -6,6 +6,9 @@ import com.intellij.uiDesigner.core.Spacer;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 */
+import src.controller.Main;
+import src.objects.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -88,8 +91,20 @@ public class Login extends Form {
     }
 
     public class LoginHandler implements ActionListener {
+
+        /**
+         * actionPerformed //TODO write nice desc
+         * // TODO will need to change this so it actually checks pw
+         * */
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new Welcome(getFrame()).getJPanel());
+            User unvalidatedUser = new User(textField1.getText(), passwordField1.getText(), 0);
+            System.out.println("TEST IN Login.java: " + unvalidatedUser.toString());
+            // pass unvalidated user into Controller.java, validate pw
+            if(Main.validate(unvalidatedUser)) {
+                changeJPanel(new Welcome(getFrame()).getJPanel());
+            } else {
+                //TODO something happens if entered wrong pw, i.e. prompt pw error
+            }
         }
     }
 

@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import src.controller.Controller;
 import src.controller.Main;
 
 /**
@@ -86,7 +88,7 @@ public class CreateDegree extends Form {
     public class CreateDegreeHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Main.saveDegree(degreeCode.getText(), degreeName.getText());
+            Controller.saveDegree(degreeCode.getText(), degreeName.getText());
         }
     }
 

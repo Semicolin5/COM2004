@@ -12,24 +12,34 @@ import src.objects.*;
  * */
 public class Main {    
 
-    //TODO implement password && username checking when evaluating priv
-    private static String DEMOUSERNAME = "HWhite";
-    private static int priv = 4;
-
-    // stores the privilege for the user.
+    // user stores the privilege level and username for the logged in user
+    private static User user;
+    // DatabaseHandler maintains the connection with the Database.
     private static DatabaseHandler db;
 
+    /**
+     * Main method creates the connection to the database, and instantiates GUIFrame
+     * */
     public static void main(String[] args) {
         new GUIFrame(new User("Login", "Pass", 4));
         db = new DatabaseHandler();
     }
 
-    public static void saveDegree(String degreeCode, String degreeName){
-        src.controller.Controller.saveDegree(degreeCode, degreeName);
-    }
-
-    public static void saveDepartment(String departmentCode, String departmentName){
-        src.controller.Controller.saveDepartment(departmentCode, departmentName);
+    /**
+     * validate determines if the user logs in correctly
+     * @param potentialUser User object contains unvalidated user info
+     * @return bool true if properly validated
+     * */
+    public static boolean validate(User potentialUser) {
+        Boolean validated = false;
+        if (true) { //todo call db.obtainPrivilege() and find out details
+            user = potentialUser;
+            validated = true; // TODO shouldn't be hardcoded
+            System.out.println("TEST IN Main.java " + user.toString());
+        } else {
+            validated = false;
+        }
+        return validated;
     }
 
     /**

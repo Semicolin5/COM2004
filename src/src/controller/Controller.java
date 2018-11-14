@@ -1,17 +1,25 @@
 package src.controller;
 
+import src.db_handler.*;
+
 /**
  * Controller.java
+ * Contains methods called from GUI classes that handle dataflow to and from the database.
+ * Methods call the appropriate methods from db_handler classes, and also is responsible
+ * for system logic, like checking for SQL injection, or ensuring that appropriate parameters
+ * are being passed.
  * */
 public class Controller {
 
+
     public static void saveDegree(String degreeCode, String degreeName) {
-        src.db_handler.AdditionQueries additionQ = new src.db_handler.AdditionQueries(Main.getDB());
+        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartment(degreeCode, degreeName);
     }
 
     public static void saveDepartment(String departmentCode, String departmentName) {
-        src.db_handler.AdditionQueries additionQ = new src.db_handler.AdditionQueries(Main.getDB());
+        // TODO maybe have logic to check that the parameters are the right length?
+        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartment(departmentCode, departmentName);
     }
 }
