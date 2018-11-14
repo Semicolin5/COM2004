@@ -1,5 +1,6 @@
 package src.controller;
 
+import src.db_handler.AdditionQueries;
 import src.db_handler.DatabaseHandler;
 
 /**
@@ -13,17 +14,21 @@ public class TestMethods {
 
     public static void main(String[] args) {
 
-
-
+        testdb = new DatabaseHandler();
         // enter the tests you want to carry out in here
-        System.out.println("testing additionQueries. Result: " + testingAdditionQueries());
+        System.out.println("testing additionQueries. All tests passed?: " + testingAdditionQueries());//testingAdditionQueries());
 
     }
 
+    // testing the AdditionQuery class methods
     private static boolean testingAdditionQueries() {
+
         boolean noFails = true;
 
-        // testing add Department
+        // testing admin sql queries
+        testdb.setPrivLevel(4);
+        AdditionQueries tester = new AdditionQueries(testdb);
+        tester.addDepartment("LIT", "English Literature");
 
 
         return noFails;
