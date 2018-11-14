@@ -16,7 +16,7 @@ public class DatabaseHandler{
 
     //  Database credentials
     final String USER = "root";
-    final String PASS = "frank"; // default password for mysql is empty
+    final String PASS = ""; // default password for mysql is empty
     private int privLevel = 0;
 
 

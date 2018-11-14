@@ -54,7 +54,7 @@ public class Welcome extends Form {
 
     private class departmentButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.gui.DepartmentMain(getFrame()).getJPanel());
+            changeJPanel(new src.gui.ManageDepartments(getFrame()).getJPanel());
         }
     }
 }
