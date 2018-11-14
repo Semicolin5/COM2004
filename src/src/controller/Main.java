@@ -32,8 +32,8 @@ public class Main {
     }
 
     public static void saveDepartment(String departmentCode, String departmentName){
-        src.controller.Controller con = new src.controller.Controller();
-        con.saveDepartment(departmentCode, departmentName, db);
+        //src.controller.Controller con = new src.controller.Controller();
+        //con.saveDepartment(departmentCode, departmentName, db);
     }
 
 
