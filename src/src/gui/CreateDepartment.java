@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import src.controller.Controller;
 import src.controller.Main;
 
 public class CreateDepartment extends Form {
@@ -62,7 +63,7 @@ public class CreateDepartment extends Form {
     public class CreateDepartmentHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Main.saveDepartment(departmentCode.getText(), departmentName.getText());
+            Controller.saveDepartment(departmentCode.getText(), departmentName.getText());
         }
     }
 

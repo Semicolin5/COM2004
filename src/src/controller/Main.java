@@ -3,7 +3,6 @@ package src.controller;
 import src.db_handler.*;
 import src.gui.*;
 import src.objects.*;
-import java.util.*;
 
 /**
  * Main.java
@@ -26,11 +25,19 @@ public class Main {
     }
 
     public static void saveDegree(String degreeCode, String degreeName){
-        src.controller.Controller.saveDegree(degreeCode, degreeName, db);
+        src.controller.Controller.saveDegree(degreeCode, degreeName);
     }
 
     public static void saveDepartment(String departmentCode, String departmentName){
-        src.controller.Controller.saveDepartment(departmentCode, departmentName, db);
+        src.controller.Controller.saveDepartment(departmentCode, departmentName);
+    }
+
+    /**
+     * Accessor method for the DatabaseHandler object db
+     * @return DatabaseHandler object
+     * */
+    public static DatabaseHandler getDB() {
+        return db;
     }
 
 

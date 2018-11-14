@@ -30,10 +30,6 @@ public class GUIFrame extends JFrame {
         getContentPane().setVisible(true);
     }
 
-    public static void main(String args[]) {
-        new GUIFrame(new User("Login", "Pass", 4));
-    }
-
     public User getUser() {
         return user;
     }

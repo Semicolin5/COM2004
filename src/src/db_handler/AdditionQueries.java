@@ -13,7 +13,7 @@ public class AdditionQueries extends Queries{
         super(db);
     }
 
-    /**
+    /* *
      * Add Department Query - only accessible for Administrators (privilege level 4)
      * @param code is String of 3 characters representing the degree
      * @param desc is String describing the degree (maxlength 100).
