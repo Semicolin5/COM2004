@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import src.controller.Main;
 
 public class CreateDegree extends Form {
     private JPanel panel1;
@@ -53,6 +54,14 @@ public class CreateDegree extends Form {
         panel1.add(createDegree, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
+    public class CreateDegreeHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Main.saveDegree(degreeCode.getText(), degreeName.getText());
+        }
+    }
+
+
     /**
      * @noinspection ALL
      */
@@ -60,27 +69,9 @@ public class CreateDegree extends Form {
         return panel1;
     }
 
-    public class CreateDegreeHandler implements ActionListener {
-        private src.db_handler.DatabaseHandler db;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //src.controller.GUIHandler x = new src.controller.GUIHandler();
-            //x.saveDegree(degreeCode.getText(), degreeName.getText());
-        }
-    }
-
     public CreateDegree(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
         createDegree.addActionListener(new CreateDegreeHandler());
-    }
-
-    public void setCode(String str){
-        degreeCode.setText(str);
-    }
-
-    public void setName(String str){
-        degreeCode.setText(str);
     }
 }
