@@ -19,7 +19,6 @@ public class DatabaseHandler{
     final String PASS = ""; // default password for mysql is empty
     private int privLevel = 0;
 
-
     private Connection conn;
 
     /**
@@ -118,13 +117,13 @@ public class DatabaseHandler{
      * Utility method that releases JDBC resource by closing a Connection
      * object.
      * */
-    private static void closeConnection(java.sql.Connection conn) {
+    public void closeConnection() {
         if (conn != null) {
             try {
-            conn.close();
+                conn.close();
             }
             catch (Exception ex) {
-            ex.printStackTrace();
+                ex.printStackTrace();
             }
         }
     }

@@ -1,11 +1,14 @@
 package src.view;
 
 import src.controller.Main;
+import src.model.db_handler.DatabaseHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static java.lang.System.exit;
 
 public class Welcome extends Form {
     private JPanel panel;
@@ -45,6 +48,12 @@ public class Welcome extends Form {
         else {
             panel.add(new JButton("View Record"));
         }
+
+        //Add logout button at the end
+        JButton logoutButton = new JButton("Logout");
+        panel.add(logoutButton);
+        logoutButton.addActionListener(new logoutButtonHandler());
+
         return panel;
     }
 
@@ -57,6 +66,13 @@ public class Welcome extends Form {
     private class departmentButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new src.view.ManageDepartments(getFrame()).getJPanel());
+        }
+    }
+
+    private class logoutButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            Main.getDB().closeConnection();
+            exit(0);
         }
     }
 }
