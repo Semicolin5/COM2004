@@ -81,7 +81,7 @@ public class Welcome extends Form {
 
     public class userButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.CreateUser(getFrame()).getJPanel());
+            changeJPanel(new src.view.ManageUsers(getFrame()).getJPanel());
 
         }
     }

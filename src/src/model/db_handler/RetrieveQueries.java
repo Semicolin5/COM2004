@@ -3,6 +3,7 @@ import java.sql.*;
 
 import src.objects.Degree;
 import src.objects.Department;
+import src.objects.User;
 import java.util.*;
 
 
@@ -67,5 +68,28 @@ public class RetrieveQueries extends Queries {
         return degreeTable;
     }
 
+    /**
+     * retrieve the degree table, linked with the departments that teach that course
+     * */
+   public List<User> retrieveUsersTable() {
+       List<User> userTable = new ArrayList<>();
+       PreparedStatement pstmt = null;
+       ResultSet res = null;
+       if (super.getPriv() == 4) {
+           try {
+               pstmt = conn.prepareStatement("SELECT * FROM users");
+               res = pstmt.executeQuery();
+               while (res.next()) {
+                   userTable.add(new User(res.getString(1), res.getString(2),
+                           res.getInt(3), res.getString(4)));
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           } finally {
+               closeResources(pstmt, res);
+           }
+       }
+       return userTable;
+   }
 
 }

@@ -2,6 +2,7 @@ package src.controller;
 
 import src.model.db_handler.*;
 import src.objects.Department;
+import src.objects.User;
 
 import java.util.List;
 
@@ -30,9 +31,21 @@ public class Controller {
         return retrieveQ.retrieveDepartmentTable();
     }
 
+    public static List<User> getUsers() {
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        return retrieveQ.retrieveUsersTable();
+    }
+
     public static void removeDepartment(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeDepartment(code);
+    }
+
+    public static void removeUser(String login) {
+        System.out.println("Delete " + login);
+        //TODO: Delete code needed
+        //RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+        //removalQ.removeUser(login);
     }
 
     public static void saveUser(String login, String pass, int priv, String salt) {

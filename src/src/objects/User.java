@@ -10,16 +10,18 @@ public class User {
     private String login_id;
     private String password;
     private int priv;
+    private String salt;
 
     /**
      * Forms the User object given parameters
      * @param login_id String, the Users name code
      * @param password String that describes department.
      * */
-    public User (String login_id, String password, int priv) {
+    public User (String login_id, String password, int priv, String salt) {
         this.login_id = login_id;
         this.password = password;
         this.priv = priv;
+        this.salt = salt;
     }
 
     /**
