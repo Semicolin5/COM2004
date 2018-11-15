@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RemoveDepartment extends Form{
+public class RemoveDepartment extends src.view.Form {
     private JPanel panel1;
     private JList moduleList;
     private JButton removeDepartmentButton;
@@ -23,11 +23,9 @@ public class RemoveDepartment extends Form{
         $$$setupUI$$$();
     }
 
-    public RemoveDepartment(GUIFrame frame){
+    public RemoveDepartment(src.view.GUIFrame frame){
         super(frame);
         setJPanel(panel1);
-        String x = src.controller.Controller.viewDepartment().toString();
-        homeButton.addActionListener(new homeHandler());
 //Assuming there is data in your list
     }
 
@@ -54,8 +52,7 @@ public class RemoveDepartment extends Form{
         panel1.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        String [] x = src.controller.Controller.viewDepartment().toString().split(",");
-        moduleList = new JList<String>(x);
+        moduleList = new JList();
         scrollPane1.setViewportView(moduleList);
         removeDepartmentButton = new JButton();
         removeDepartmentButton.setText("Delete Selected Departments");
