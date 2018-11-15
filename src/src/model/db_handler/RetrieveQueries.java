@@ -33,7 +33,7 @@ public class RetrieveQueries extends Queries {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                //TODO see if we can work out how to make this ACID (if not already)
+                super.db.rollBack();
             } finally {
                 closeResources(pstmt, res);
             }
@@ -42,6 +42,4 @@ public class RetrieveQueries extends Queries {
         }
         return table;
     }
-
-
 }

@@ -27,11 +27,25 @@ public class DatabaseHandler{
     public DatabaseHandler() {
         try {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            conn.setAutoCommit(false); // enables ACID
+            disableACID();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * turns autocommit off
+     * */
+    public void enableACID() throws SQLException {
+        conn.setAutoCommit(false);
+    }
+
+    /**
+     * turns autocommit on
+     * */
+    public void disableACID() throws SQLException {
+        conn.setAutoCommit(true);
     }
 
     /**
