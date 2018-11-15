@@ -1,6 +1,7 @@
 package src.controller;
 
 import src.model.db_handler.*;
+import src.objects.Degree;
 import src.objects.Department;
 
 import java.util.*;
@@ -19,10 +20,11 @@ public class TestMethods {
 
         // enter the tests you want to carry out in here
         // System.out.println("testing additionQueries.";
-        testingAdditionQueries();
+        //testingAdditionQueries();
 
         //System.out.println("testing RetrieveQueries");
-        //testingRetrieveQueries();
+        testingRetrieveQueries();
+        //testingDegreeObject();
     }
 
     // testing the RetrieveQuery class methods
@@ -32,11 +34,17 @@ public class TestMethods {
         testdb.setPrivLevel(4);
 
         // testing the retrieval method for a list of departments
-        System.out.println("Retrieving list of departments");
+        System.out.println("\n1) Retrieving list of departments");
         List<Department> lsDep = tester.retrieveDepartmentTable();
         for (Department d : lsDep) {
             System.out.println(d.toString());
         }
+
+        // testing the retrieval method for a list of degrees
+        System.out.println("\n2)Retrieving list of degrees");
+        List<Degree> lsDeg = tester.retrieveDegrees();
+        System.out.println(lsDeg.get(0).toString());
+        System.out.println(lsDeg.get(1).toString());
     }
 
     // testing the AdditionQuery class methods
@@ -63,4 +71,10 @@ public class TestMethods {
 
     }
 
+    // object tests
+    private static void testingDegreeObject() {
+        // instantiate a Degree
+        Degree test = new Degree("COMU01", "Computer Science");
+        System.out.println(test.toString());
+    }
 }
