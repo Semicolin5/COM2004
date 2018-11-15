@@ -3,13 +3,14 @@ package src.view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import src.controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateUser extends Form{
+public class CreateUser extends Form {
     private JPanel panel1;
     private JTextField loginID;
     private JComboBox userType;
@@ -22,27 +23,6 @@ public class CreateUser extends Form{
         super(frame);
         setJPanel(panel1);
         createAccountButton.addActionListener(new CreateAccountHandler());
-    }
-
-    public class CreateAccountHandler implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //TODO: Check String length BEFORE doing toString.
-            String str = userType.getSelectedItem().toString();
-            switch (str) {
-                case "Administrator":
-                    priv = 4;
-                    break;
-                case "Registrar":
-                    priv = 3;
-                    break;
-                default:
-                    priv = 2;
-                    break;
-            }
-
-            src.controller.Controller.saveUser(loginID.getText(), confirmPass.getText(), priv, "HHHHH@JFJOZSFDJJZOSD");
-        }
     }
 
     {
@@ -104,6 +84,27 @@ public class CreateUser extends Form{
      */
     public JComponent $$$getRootComponent$$$() {
         return panel1;
+    }
+
+    public class CreateAccountHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //TODO: Check String length BEFORE doing toString.
+            String str = userType.getSelectedItem().toString();
+            switch (str) {
+                case "Administrator":
+                    priv = 4;
+                    break;
+                case "Registrar":
+                    priv = 3;
+                    break;
+                default:
+                    priv = 2;
+                    break;
+            }
+
+            Controller.saveUser(loginID.getText(), confirmPass.getText(), priv, "HHHHH@JFJOZSFDJJZOSD");
+        }
     }
 
     private void createUIComponents() {
