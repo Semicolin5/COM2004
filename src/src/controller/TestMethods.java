@@ -18,12 +18,9 @@ public class TestMethods {
 
         testdb = new DatabaseHandler();
 
-        // enter the tests you want to carry out in here
-        // System.out.println("testing additionQueries.";
+        testingRemovalQueries();
         //testingAdditionQueries();
-
-        //System.out.println("testing RetrieveQueries");
-        testingRetrieveQueries();
+        //testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -68,6 +65,17 @@ public class TestMethods {
         tester.addDegree("LITU04", "Nineteenth Century French Poetry");
 
         System.out.println("testing addStudent");
+
+    }
+
+    // testing the RemovalQueries class methods
+    public static void testingRemovalQueries() {
+
+        RemovalQueries tester = new RemovalQueries(testdb);
+        testdb.setPrivLevel(4);
+        // testing the removeModule method, removing the COM1005 module
+        System.out.println("\n1) Testing removeModule");
+        tester.removeModule("COM1005");
 
     }
 
