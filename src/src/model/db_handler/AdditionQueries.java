@@ -23,11 +23,13 @@ public class AdditionQueries extends Queries{
             System.out.println("yes");
             PreparedStatement pstmt = null;
             try {
+                db.enableACID();
                 pstmt = super.conn.prepareStatement("INSERT INTO department VALUES (?,?)");
                 pstmt.setString(1, code);
                 pstmt.setString(2, desc);
                 pstmt.executeUpdate();
                 super.conn.commit();
+                db.disableACID();
             } catch (SQLException e) {
                 super.db.rollBack(); // ensure ACID
                 e.printStackTrace();
@@ -47,12 +49,14 @@ public class AdditionQueries extends Queries{
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
+                db.enableACID();
                 pstmt = super.conn.prepareStatement("INSERT INTO module VALUES (?,?,?)");
                 pstmt.setString(1, code);
                 pstmt.setString(2, name);
                 pstmt.setInt(3, credits);
                 pstmt.executeUpdate();
                 super.conn.commit();
+                db.disableACID();
             } catch (SQLException e) {
                 super.db.rollBack();
                 e.printStackTrace();
@@ -72,11 +76,13 @@ public class AdditionQueries extends Queries{
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
+                db.enableACID();
                 pstmt = super.conn.prepareStatement("INSERT INTO degree VALUES (?,?)");
                 pstmt.setString(1, code);
                 pstmt.setString(2, name);
                 pstmt.executeUpdate();
                 super.conn.commit();
+                db.disableACID();
             } catch (SQLException e) {
                 super.db.rollBack();
                 e.printStackTrace();
@@ -97,12 +103,14 @@ public class AdditionQueries extends Queries{
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
+                db.enableACID();
                 pstmt = super.conn.prepareStatement("INSERT INTO associated_department VALUES (?,?,?)");
                 pstmt.setString(1, degreeCode);
                 pstmt.setString(2, departmentCode);
                 pstmt.setBoolean(3, lead);
                 pstmt.executeUpdate();
                 super.conn.commit();
+                db.disableACID();
             } catch (SQLException e) {
                 super.db.rollBack();
                 e.printStackTrace();
@@ -128,6 +136,7 @@ public class AdditionQueries extends Queries{
             PreparedStatement pstmt = null;
             PreparedStatement pstmt2 = null;
             try {
+                db.enableACID();
                 // first create entry in the user table
                 pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
                 pstmt.setString(1, loginId);
@@ -150,6 +159,7 @@ public class AdditionQueries extends Queries{
 
                 // commit connection, then close resources
                 super.conn.commit();
+                db.disableACID();
             } catch (SQLException e) {
                 e.printStackTrace();
                 super.db.rollBack();
@@ -171,11 +181,13 @@ public class AdditionQueries extends Queries{
     public void addStudentModuleAssociation(String studentId, String moduleCode) {
         if (super.getPriv() == 3) {
             try {
+                db.enableACID();
                 PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,NULL, NULL)");
                 pstmt.setString(1, studentId);
                 pstmt.setString(2, moduleCode);
                 pstmt.executeUpdate();
                 super.conn.commit();
+                db.disableACID();
             } catch (SQLException e) {
                 e.printStackTrace();
                 super.db.rollBack();
