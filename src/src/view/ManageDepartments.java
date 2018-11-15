@@ -28,6 +28,7 @@ public class ManageDepartments extends Form {
         list1.setModel(departmentsModel);
         list1.setVisibleRowCount(-1);
         createDepartmentButton.addActionListener(new DepartmentHandler());
+        removeDepartmentButton.addActionListener(new RemoveDepartmentHandler());
     }
 
     {
@@ -99,6 +100,16 @@ public class ManageDepartments extends Form {
     public class DepartmentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateDepartment(getFrame()).getJPanel());
+        }
+    }
+
+    private class RemoveDepartmentHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            for (Object code : list1.getSelectedValuesList()) {
+                Controller.removeDepartment((String) code);
+            }
+
+            changeJPanel(new ManageDepartments(getFrame()).getJPanel());
         }
     }
 
