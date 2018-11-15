@@ -38,6 +38,22 @@ public class CheckInput {
 		return Pattern.matches(regDepartment,departmentCode);
 	}
 	
+	//Other testing methods
+	public static String inputModule(String input) {
+		//TODO actually write this method!
+		int  a = 1;
+		//Check the main department exists
+		if (a != 1) {
+			//Reject and return a string suggesting why
+		}
+		//Check the additional departments exist
+		else if (a != 1) {
+			//Reject and return a string suggesting otherwise
+		}
+		
+		return input;
+	}
+	
 	
 
 }
