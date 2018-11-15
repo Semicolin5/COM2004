@@ -1,7 +1,7 @@
 package src.controller;
 
-import src.db_handler.*;
-import src.gui.*;
+import src.model.db_handler.*;
+import src.view.*;
 import src.objects.*;
 
 /**
@@ -39,6 +39,7 @@ public class Main {
         } else {
             validated = false;
         }
+        db.setPrivLevel(user.getPriv());
         return validated;
     }
 

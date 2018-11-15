@@ -7,7 +7,7 @@ INSERT INTO degree VALUES
     ("COMU49", "BSc Philosophy and Computer Science");
 
 INSERT INTO student VALUES
-    ("JSmith24", "Mr", "John", "Smith", "Professor Oak", "jsmith24@shef.ac.uk", "COMU49");
+    ("JSmith24", "Mr", "John", "Smith", "Professor Oak", "COMU49", "1");
 
 INSERT INTO users VALUES
     ("PGreen", "qwertyuiopasdfghjkl;1234567890", 4, "JIHFDSKJFMSHSK145"),
@@ -18,17 +18,6 @@ INSERT INTO users VALUES
 
 INSERT INTO degree VALUES 
     ("COMU03", "MEng Software Engineering");
-
-INSERT INTO degree_level VALUES 
-    ("COMU03", 1),
-    ("COMU03", 2),
-    ("COMU03", 3),
-    ("COMU03", 4);
-
-INSERT INTO degree_level VALUES
-    ("COMU49", 1),
-    ("COMU49", 2),
-    ("COMU49", 3);
 
 INSERT INTO department VALUES 
     ("COM", "Computer Science"),
@@ -48,9 +37,10 @@ INSERT INTO module VALUES
     ("RSS2109", "The Russian Language and Russian Society through Dance", 20);
 
 INSERT INTO core VALUES
-    ("COM1005", "COMU49", 0),
-    ("COM1005", "COMU03", 1),
-    ("COM1001", "COMU49", 0);
+    ("COM1005", "COMU49", 1, 0),
+    ("COM1005", "COMU03", 1, 1),
+    ("COM1001", "COMU49", 1, 0),
+    ("RSS2109", "COMU49", 2, 0);
 
 INSERT INTO grades VALUES 
     ("JSmith24", "COM1005", "74.55655", null),

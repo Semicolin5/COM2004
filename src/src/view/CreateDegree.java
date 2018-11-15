@@ -1,4 +1,4 @@
-package src.gui;
+package src.view;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import src.controller.Controller;
-import src.controller.Main;
 
 /**
  * CreateDegree.java

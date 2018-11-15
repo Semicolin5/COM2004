@@ -25,10 +25,10 @@ public class Department {
     public String getCode() {return code;}
     public String getName() {return name;}
 
-    @Override
+    // TODO remove this after testing is done
     public String toString() {
-        return (this.code + " " + this.getName());
+        String s = "dept code: " + code + ", dept name: " + name;
+        return s;
     }
-
 
 }

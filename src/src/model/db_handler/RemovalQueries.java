@@ -1,4 +1,4 @@
-package src.db_handler;
+package src.model.db_handler;
 import java.sql.*;
 
 public class RemovalQueries extends Queries {

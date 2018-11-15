@@ -1,4 +1,4 @@
-package src.db_handler;
+package src.model.db_handler;
 
 import java.sql.*;
 import java.util.*;
@@ -19,7 +19,6 @@ public class DatabaseHandler{
     final String PASS = ""; // default password for mysql is empty
     private int privLevel = 0;
 
-
     private Connection conn;
 
     /**
@@ -28,11 +27,25 @@ public class DatabaseHandler{
     public DatabaseHandler() {
         try {
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            conn.setAutoCommit(false); // enables ACID
+            disableACID();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * turns autocommit off
+     * */
+    public void enableACID() throws SQLException {
+        conn.setAutoCommit(false);
+    }
+
+    /**
+     * turns autocommit on
+     * */
+    public void disableACID() throws SQLException {
+        conn.setAutoCommit(true);
     }
 
     /**
@@ -71,6 +84,7 @@ public class DatabaseHandler{
      * */
     public int getPrivLevel() { return privLevel;}
 
+    public void setPrivLevel(int priv) { privLevel = priv; }
     /**
      * Method is called when a transaction may have failed. First checks connection, then rolls back
      * if database must revert.
@@ -103,13 +117,13 @@ public class DatabaseHandler{
      * Utility method that releases JDBC resource by closing a Connection
      * object.
      * */
-    private static void closeConnection(java.sql.Connection conn) {
+    public void closeConnection() {
         if (conn != null) {
             try {
-            conn.close();
+                conn.close();
             }
             catch (Exception ex) {
-            ex.printStackTrace();
+                ex.printStackTrace();
             }
         }
     }

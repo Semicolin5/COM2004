@@ -1,6 +1,4 @@
-package src.gui;
-
-import src.objects.User;
+package src.view;
 
 import javax.swing.*;
 
@@ -19,7 +17,6 @@ public class GUIFrame extends JFrame {
     }
 
     public void changeJPanel(JPanel panel) {
-        System.out.println("changeJPanel");
         currentPanel.removeAll();
         getContentPane().setVisible(false);
         getContentPane().remove(currentPanel);

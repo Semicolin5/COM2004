@@ -1,6 +1,7 @@
 package src.controller;
 
-import src.db_handler.*;
+import src.model.db_handler.*;
+import src.objects.Department;
 
 import java.util.List;
 
@@ -24,10 +25,13 @@ public class Controller {
         additionQ.addDepartment(departmentCode, departmentName);
     }
 
-    public static List<src.objects.Department> viewDepartment(){
+    public static List<Department> getDepartments() {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-        return(retrieveQ.retrieveDepartmentTable());
-        //return(retrieveQ.retrieveDepartmentTable());
+        return retrieveQ.retrieveDepartmentTable();
     }
 
+    public static void removeDepartment(String code) {
+        RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+        removalQ.removeDepartment(code);
+    }
 }
