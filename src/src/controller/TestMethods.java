@@ -18,12 +18,9 @@ public class TestMethods {
 
         testdb = new DatabaseHandler();
 
-        // enter the tests you want to carry out in here
-        // System.out.println("testing additionQueries.";
+        testingRemovalQueries();
         //testingAdditionQueries();
-
-        //System.out.println("testing RetrieveQueries");
-        testingRetrieveQueries();
+        //testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -69,6 +66,16 @@ public class TestMethods {
 
         System.out.println("testing addStudent");
 
+    }
+
+    // testing the RemovalQueries class methods
+    public static void testingRemovalQueries() {
+
+        RemovalQueries tester = new RemovalQueries(testdb);
+
+        // testing the removeRowWhere method
+        System.out.println("\n1) Testing removeRowWhere");
+        tester.removeRowWhere("grades", "module_code", "COM1001");
     }
 
     // object tests
