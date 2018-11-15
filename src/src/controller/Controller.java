@@ -34,4 +34,9 @@ public class Controller {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeDepartment(code);
     }
+
+    public static void saveUser(String login, String pass, int priv, String salt) {
+        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+        additionQ.addUser(login, pass, priv, salt);
+    }
 }
