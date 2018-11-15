@@ -25,5 +25,10 @@ public class Department {
     public String getCode() {return code;}
     public String getName() {return name;}
 
+    @Override
+    public String toString() {
+        return (this.code + " " + this.getName());
+    }
+
 
 }

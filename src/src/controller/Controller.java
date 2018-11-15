@@ -2,6 +2,8 @@ package src.controller;
 
 import src.db_handler.*;
 
+import java.util.List;
+
 /**
  * Controller.java
  * Contains methods called from GUI classes that handle dataflow to and from the database.
@@ -10,7 +12,6 @@ import src.db_handler.*;
  * are being passed.
  * */
 public class Controller {
-
 
     public static void saveDegree(String degreeCode, String degreeName) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
@@ -22,4 +23,11 @@ public class Controller {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartment(departmentCode, departmentName);
     }
+
+    public static List<src.objects.Department> viewDepartment(){
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        return(retrieveQ.retrieveDepartmentTable());
+        //return(retrieveQ.retrieveDepartmentTable());
+    }
+
 }

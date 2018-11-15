@@ -13,7 +13,8 @@ public class ManageDepartments extends Form {
     public ManageDepartments(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
-        createDepartmentButton.addActionListener(new DepartmentHandler());
+        createDepartmentButton.addActionListener(new saveDepartmentHandler());
+        removeDepartmentButton.addActionListener(new deleteDepartmentHandler());
     }
 
     {
@@ -69,10 +70,18 @@ public class ManageDepartments extends Form {
         return panel1;
     }
 
-    public class DepartmentHandler implements ActionListener {
+    public class saveDepartmentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateDepartment(getFrame()).getJPanel());
         }
     }
+
+    public class deleteDepartmentHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new RemoveDepartment(getFrame()).getJPanel());
+        }
+    }
+
+
 
 }
