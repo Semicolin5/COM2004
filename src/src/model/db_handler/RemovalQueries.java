@@ -45,19 +45,19 @@ public class RemovalQueries extends Queries {
      * */
     public void removeModule(String code) {
         if (super.getPriv() == 4) {
-            PreparedStatement pstmt = null;
             try {
                 db.enableACID();
-                pstmt = super.conn.prepareStatement("DELETE FROM module WHERE code=?");
-                pstmt.setString(1, code);
-                pstmt.executeUpdate();
+                // first delete all rows from grades table that refers to the module
+                removeRowWhere("grades", "module_code", code);
+                // secondly, delete all rows from the core table that refers to the module
+                removeRowWhere("core", "module_code", code);
+                // then delete the row from the module table
+                removeRowWhere("module", "code", code);
                 super.conn.commit();
                 db.disableACID();
             } catch (SQLException e) {
                 super.db.rollBack();
                 e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt);
             }
         }
     }
@@ -76,7 +76,6 @@ public class RemovalQueries extends Queries {
         String addedColumn = addedTable.replace("$columnName", column);
         try {
             pstmt = conn.prepareStatement(addedColumn); //WHERE module_code=\"COM1005\"");
-            System.out.println("BINDING");
             pstmt.setString(1, whereEquals);
             pstmt.executeUpdate();
         } catch (SQLException e) {

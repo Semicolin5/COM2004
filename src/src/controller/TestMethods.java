@@ -72,10 +72,11 @@ public class TestMethods {
     public static void testingRemovalQueries() {
 
         RemovalQueries tester = new RemovalQueries(testdb);
+        testdb.setPrivLevel(4);
+        // testing the removeModule method, removing the COM1005 module
+        System.out.println("\n1) Testing removeModule");
+        tester.removeModule("COM1005");
 
-        // testing the removeRowWhere method
-        System.out.println("\n1) Testing removeRowWhere");
-        tester.removeRowWhere("grades", "module_code", "COM1001");
     }
 
     // object tests
