@@ -18,7 +18,6 @@ CREATE TABLE student (
     forename VARCHAR (50),
     surname VARCHAR (50),
     personal_tutor VARCHAR (50), 
-    email VARCHAR (50),
     degree_code CHAR (6), -- the degree taken
     level_of_study CHAR (1), -- the level of study
     PRIMARY KEY (login_id),
