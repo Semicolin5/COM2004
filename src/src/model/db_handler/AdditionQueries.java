@@ -195,6 +195,39 @@ public class AdditionQueries extends Queries{
         }
     }
 
+    /**
+     * Add UserAssociation Query - only accessible for Administrators (privilege level 4)
+     * This SQL query adds a row to the user table.
+     * @param loginId String of the user's identification code.
+     * @param password Hashed/salted password for user.
+     * @param priv  Privilege level of staff member.
+     * @param salt Salt used for user's password (prevents Rainbow table attacks).
+     * */
+    public void addUser(String loginId, String password, int priv, String salt) {
+        if (super.getPriv() == 4) {
+            PreparedStatement pstmt = null;
+            try {
+                db.enableACID();
+                // first create entry in the user table
+                pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
+                pstmt.setString(1, loginId);
+                pstmt.setString(2, password);
+                pstmt.setInt(3, priv);
+                pstmt.setString(4, salt);
+                pstmt.executeUpdate();
+
+                // commit connection, then close resources
+                super.conn.commit();
+                db.disableACID();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                super.db.rollBack();
+            } finally {
+                closePreparedStatement(pstmt);
+            }
+        }
+    }
+
     //TODO add grades is actually performed through an INSERT statement which is why it isn't here
 
 
