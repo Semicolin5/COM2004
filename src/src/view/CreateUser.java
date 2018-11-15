@@ -9,31 +9,40 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateUser {
+public class CreateUser extends Form{
     private JPanel panel1;
-    private JTextField textField1;
-    private JComboBox comboBox1;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField loginID;
+    private JComboBox userType;
+    private JTextField initPass;
+    private JTextField confirmPass;
     private JButton createAccountButton;
+    private int priv;
 
-    public CreateUser() {
-        createAccountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "User account created");
-            }
-        });
+    public CreateUser(GUIFrame frame) {
+        super(frame);
+        setJPanel(panel1);
+        createAccountButton.addActionListener(new CreateAccountHandler());
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Users");
-        frame.setContentPane(new CreateUser().panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(400, 200);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    public class CreateAccountHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //TODO: Check String length BEFORE doing toString.
+            String str = userType.getSelectedItem().toString();
+            switch (str) {
+                case "Administrator":
+                    priv = 4;
+                    break;
+                case "Registrar":
+                    priv = 3;
+                    break;
+                default:
+                    priv = 2;
+                    break;
+            }
+
+            src.controller.Controller.saveUser(loginID.getText(), confirmPass.getText(), priv, "HHHHH@JFJOZSFDJJZOSD");
+        }
     }
 
     {
@@ -53,16 +62,16 @@ public class CreateUser {
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(7, 4, new Insets(0, 0, 0, 0), -1, -1));
-        textField1 = new JTextField();
-        panel1.add(textField1, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        comboBox1 = new JComboBox();
+        loginID = new JTextField();
+        panel1.add(loginID, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        userType = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         defaultComboBoxModel1.addElement("");
         defaultComboBoxModel1.addElement("Teacher");
         defaultComboBoxModel1.addElement("Registrar");
         defaultComboBoxModel1.addElement("Administrator");
-        comboBox1.setModel(defaultComboBoxModel1);
-        panel1.add(comboBox1, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        userType.setModel(defaultComboBoxModel1);
+        panel1.add(userType, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("User Type");
         panel1.add(label1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -81,10 +90,10 @@ public class CreateUser {
         final JLabel label4 = new JLabel();
         label4.setText("Confirm Password");
         panel1.add(label4, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textField2 = new JTextField();
-        panel1.add(textField2, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        textField3 = new JTextField();
-        panel1.add(textField3, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        initPass = new JTextField();
+        panel1.add(initPass, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        confirmPass = new JTextField();
+        panel1.add(confirmPass, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         createAccountButton = new JButton();
         createAccountButton.setText("Create Account");
         panel1.add(createAccountButton, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -95,5 +104,9 @@ public class CreateUser {
      */
     public JComponent $$$getRootComponent$$$() {
         return panel1;
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }
