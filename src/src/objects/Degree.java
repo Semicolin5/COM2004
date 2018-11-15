@@ -8,10 +8,10 @@ import java.util.*;
  **/
 public class Degree {
 
-    private static String degreeCode;
-    private static String degreeName;
-    private static Department lead;
-    private static List<Department> nonLead;
+    private String degreeCode;
+    private String degreeName;
+    private Department lead;
+    private List<Department> nonLead;
 
     /**
      * @param degreeCode String of 7 letter degree code
