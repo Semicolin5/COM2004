@@ -4,7 +4,7 @@ INSERT INTO users VALUES
     ("JSmith24", "0123456789qwertyuiop0123456789", 1, "JIHFDSKJFMSHSK134");
 
 INSERT INTO degree VALUES
-    ("COMU49", "BSc Philosophy and Computer Science");
+    ("COMU49", "BSc Philosophy and Computer Science", 0);
 
 INSERT INTO student VALUES
     ("JSmith24", "Mr", "John", "Smith", "Professor Oak", "COMU49", "1");
@@ -17,7 +17,7 @@ INSERT INTO users VALUES
 -- INSERTING EXAMPLE DEGREES AND DEPARTMENTS --
 
 INSERT INTO degree VALUES 
-    ("COMU03", "MEng Software Engineering");
+    ("COMU03", "MEng Software Engineering", 1);
 
 INSERT INTO department VALUES 
     ("COM", "Computer Science"),

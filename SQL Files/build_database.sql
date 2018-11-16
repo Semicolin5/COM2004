@@ -9,6 +9,7 @@ CREATE TABLE users (
 CREATE TABLE degree (
     code CHAR (6),
     name VARCHAR (100),
+    masters BOOLEAN,
     PRIMARY KEY (code)
 );
 

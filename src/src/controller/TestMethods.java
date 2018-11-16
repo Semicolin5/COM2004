@@ -62,7 +62,7 @@ public class TestMethods {
 
         System.out.println("testing addDegree");
         //positive test case
-        tester.addDegree("LITU04", "Nineteenth Century French Poetry");
+        tester.addDegree("LITU04", "Nineteenth Century French Poetry", false);
 
         System.out.println("testing addStudent");
 

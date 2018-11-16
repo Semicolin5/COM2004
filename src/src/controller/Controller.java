@@ -16,9 +16,9 @@ import java.util.List;
  * */
 public class Controller {
 
-    public static void saveDegree(String degreeCode, String degreeName) {
+    public static void saveDegree(String degreeCode, String degreeName, boolean masters) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-        additionQ.addDepartment(degreeCode, degreeName);
+        additionQ.addDegree(degreeCode, degreeName, masters);
     }
 
     public static void saveDepartment(String departmentCode, String departmentName) {
