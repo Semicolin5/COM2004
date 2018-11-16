@@ -4,7 +4,6 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +18,10 @@ public class CreateUser extends Form {
     private JButton createAccountButton;
     private int priv;
 
+    /**
+     * Constructor sets the frame and draws up the GUI.
+     * Also creates an actionListener on the button.
+     */
     public CreateUser(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
@@ -86,10 +89,15 @@ public class CreateUser extends Form {
         return panel1;
     }
 
+/**
+ * When button is clicked, create a user account based on the entered date.
+ */
     public class CreateAccountHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             //TODO: Check String length BEFORE doing toString.
+            //TODO: Generate Hash and salt, call the function whch hashes and salts and pass through.
+            //TODO: Should the passwords be in PasswordTextBoxes or does it not matter?
             String str = userType.getSelectedItem().toString();
             switch (str) {
                 case "Administrator":
