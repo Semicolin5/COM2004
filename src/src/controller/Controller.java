@@ -3,6 +3,7 @@ package src.controller;
 import src.model.db_handler.*;
 import src.objects.Department;
 import src.objects.User;
+import src.objects.Degree;
 
 import java.util.List;
 
@@ -24,6 +25,11 @@ public class Controller {
         // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartment(departmentCode, departmentName);
+    }
+
+    public static List<Degree> getDegrees() {
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        return retrieveQ.retrieveDegreesTable();
     }
 
     public static List<Department> getDepartments() {

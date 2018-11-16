@@ -39,7 +39,7 @@ public class TestMethods {
 
         // testing the retrieval method for a list of degrees
         System.out.println("\n2)Retrieving list of degrees");
-        List<Degree> lsDeg = tester.retrieveDegrees();
+        List<Degree> lsDeg = tester.retrieveDegreesTable();
         System.out.println(lsDeg.get(0).toString());
         System.out.println(lsDeg.get(1).toString());
     }

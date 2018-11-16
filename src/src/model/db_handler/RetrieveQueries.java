@@ -48,7 +48,7 @@ public class RetrieveQueries extends Queries {
     /**
      * retrieve the degree table, linked with the departments that teach that course
      * */
-    public List<Degree> retrieveDegrees() {
+    public List<Degree> retrieveDegreesTable() {
         List<Degree> degreeTable = new ArrayList<Degree>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
