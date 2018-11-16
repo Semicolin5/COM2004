@@ -18,6 +18,8 @@ public class RemoveDepartment extends Form {
     private JButton homeButton;
     private JButton testButton;
 
+    //TODO: Edward delete this form if you're happy you don't need it. Fairly sure you don't.
+
     public RemoveDepartment(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
