@@ -11,6 +11,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+This class generates a GUI from which an administrator can view all user logins which are currently in the database.
+ In addition, the administrator can delete any users from the database, should they so desire.
+ Also contains a button which allows the user to go to the CreateUser form.
+ */
 public class ManageUsers extends Form {
     private JPanel panel1;
     private JList userList;
@@ -18,16 +23,19 @@ public class ManageUsers extends Form {
     private JButton createUserButton;
     private DefaultListModel<String> userModel;
 
-
+    /**
+     * Constructor for the ManagerUsers class; draws up the GUI and loads user data into the JList.
+     * @param frame calls the frame method from the superclass Form.
+     */
     public ManageUsers(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
-        userModel = new DefaultListModel<>();;
+        userModel = new DefaultListModel<>();
 
+        //loops through users in database and adds all of their loginIDs to the JList.
         for (User user : Controller.getUsers()) {
             userModel.addElement(user.getLogin());
         }
-
         userList.setModel(userModel);
         userList.setVisibleRowCount(-1);
         createUserButton.addActionListener(new UserHandler());
@@ -80,18 +88,26 @@ public class ManageUsers extends Form {
         return panel1;
     }
 
+    /**
+     * Handler class which responds to button clicks on the CreateUser button.
+     * It simply closes the current GUI form and opens the CreateUser GUi form.
+     */
     public class UserHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateUser(getFrame()).getJPanel());
         }
     }
 
+    /**
+     * This class acts as the handler for the RemoveUser button.
+     * When clicked, the button will extract the selected values, and then loop through all
+     * users in the database, deleting them one by one when primary keys match..
+     */
     private class RemoveUserHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             for (Object code : userList.getSelectedValuesList()) {
                 Controller.removeUser((String) code);
             }
-
             changeJPanel(new ManageUsers(getFrame()).getJPanel());
         }
     }
