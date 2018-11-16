@@ -17,7 +17,10 @@
         <children>
           <component id="2f0b3" class="javax.swing.JList" binding="userList">
             <constraints/>
-            <properties/>
+            <properties>
+              <enabled value="true"/>
+              <layoutOrientation value="1"/>
+            </properties>
           </component>
         </children>
       </scrollpane>
