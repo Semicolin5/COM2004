@@ -42,10 +42,8 @@ public class Controller {
     }
 
     public static void removeUser(String login) {
-        System.out.println("Delete " + login);
-        //TODO: Delete code needed
-        //RemovalQueries removalQ = new RemovalQueries(Main.getDB());
-        //removalQ.removeUser(login);
+        RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+        removalQ.removeUser(login);
     }
 
     public static void saveUser(String login, String pass, int priv, String salt) {

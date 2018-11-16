@@ -83,7 +83,29 @@ public class RemovalQueries extends Queries {
         } finally {
             closePreparedStatement(pstmt);
         }
+    }
 
+    /**
+     * Remove Module User - only accessible for Administrators (privilege level 4)
+     * @param loginID String that represents the user's loginID, used to identify the row to delete
+     * */
+    public void removeUser(String loginID) {
+        if (super.getPriv() == 4) {
+            PreparedStatement pstmt = null;
+            try {
+                db.enableACID();
+                pstmt = super.conn.prepareStatement("DELETE FROM users WHERE login_id=?");
+                pstmt.setString(1, loginID);
+                pstmt.executeUpdate();
+                super.conn.commit();
+                db.disableACID();
+            } catch (SQLException e) {
+                super.db.rollBack(); // maintains ACID if failure in query
+                e.printStackTrace();
+            } finally {
+                closePreparedStatement(pstmt);
+            }
+        }
     }
 
 }

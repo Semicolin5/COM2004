@@ -14,6 +14,7 @@ public class GUIFrame extends JFrame {
         setVisible(true);
         setSize(800,500);
         setLocationRelativeTo(null);
+        setTitle("");
     }
 
     public void changeJPanel(JPanel panel) {
