@@ -10,6 +10,12 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
 
+/**
+ * CreateDepartment.java
+ * Only accessible for Administrators (privilege level 4)
+ * Extension of form, creates a functional GUI form which allows
+ * user to create a new department as an entry in the department table.
+ */
 public class CreateDepartment extends Form {
     private JPanel panel1;
     private JTextField departmentCode;
@@ -59,18 +65,29 @@ public class CreateDepartment extends Form {
         return panel1;
     }
 
+    /**
+     * Action listener which calls a controller function, ultimately adding a new row
+     * in the department table.
+     * Also loads the ManageDepartments form, so user can see in the JList
+     * that the data has actually been saved.
+     */
     public class CreateDepartmentHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            //TODO: Form check on the two textboxes, and check for duplicates on the primary key.
             Controller.saveDepartment(departmentCode.getText(), departmentName.getText());
             changeJPanel(new src.view.ManageDepartments(getFrame()).getJPanel());
         }
     }
 
+    /**
+     * Set default JFrame sizes & add Event Listener
+     * @param frame - JFrame with properties set in the GUIFrame class.
+     */
     public CreateDepartment(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
+        frame.setTitle("Create Department");
         createDepartment.addActionListener(new CreateDepartmentHandler());
     }
-
 }
