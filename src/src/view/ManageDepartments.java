@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 public class ManageDepartments extends Form {
     private JPanel panel1;
     private JButton createDepartmentButton;
-    private JButton removeDepartmentButton;
     private JList list1;
+    private JButton deleteDepartmentButton;
 
     private DefaultListModel<String> departmentsModel;
 
@@ -20,15 +20,16 @@ public class ManageDepartments extends Form {
         super(frame);
         setJPanel(panel1);
         departmentsModel = new DefaultListModel<>();
+        frame.setTitle("Manage Departments");
 
         for (Department department : Controller.getDepartments()) {
             departmentsModel.addElement(department.getCode());
         }
 
         list1.setModel(departmentsModel);
-        list1.setVisibleRowCount(-1);
+        list1.setVisibleRowCount(10);
         createDepartmentButton.addActionListener(new DepartmentHandler());
-        removeDepartmentButton.addActionListener(new RemoveDepartmentHandler());
+        deleteDepartmentButton.addActionListener(new RemoveDepartmentHandler());
     }
 
     {
@@ -48,46 +49,53 @@ public class ManageDepartments extends Form {
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
         panel1.setLayout(new GridBagLayout());
-        createDepartmentButton = new JButton();
-        createDepartmentButton.setText("Create Department");
+        final JScrollPane scrollPane1 = new JScrollPane();
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(createDepartmentButton, gbc);
+        gbc.fill = GridBagConstraints.BOTH;
+        panel1.add(scrollPane1, gbc);
+        list1 = new JList();
+        scrollPane1.setViewportView(list1);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(spacer1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        panel1.add(spacer2, gbc);
-        removeDepartmentButton = new JButton();
-        removeDepartmentButton.setText("Remove Department");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(removeDepartmentButton, gbc);
+        panel1.add(spacer2, gbc);
+        deleteDepartmentButton = new JButton();
+        deleteDepartmentButton.setText("Delete Selected Departments");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(deleteDepartmentButton, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.ipady = 25;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(spacer3, gbc);
-        list1 = new JList();
+        createDepartmentButton = new JButton();
+        createDepartmentButton.setText("Create Department");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(createDepartmentButton, gbc);
+        final JLabel label1 = new JLabel();
+        label1.setText("List of Departments");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(list1, gbc);
+        panel1.add(label1, gbc);
     }
 
     /**

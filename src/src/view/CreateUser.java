@@ -9,13 +9,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * CreateUser.java
+ * Only accessible for Administrators (privilege level 4)
+ * Extension of form, creates a functional GUI form which allows
+ * admins to create a new user as an entry in the user table, and also
+ * to add any degrees/levels which the module is approved for and its core status,
+ * which are added as rows in the core table.
+ */
 public class CreateUser extends Form {
     private JPanel panel1;
     private JTextField loginID;
     private JComboBox userType;
-    private JTextField initPass;
     private JTextField confirmPass;
     private JButton createAccountButton;
+    private JPasswordField initPass;
     private int priv;
 
     /**
@@ -73,13 +81,13 @@ public class CreateUser extends Form {
         final JLabel label4 = new JLabel();
         label4.setText("Confirm Password");
         panel1.add(label4, new com.intellij.uiDesigner.core.GridConstraints(4, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        initPass = new JTextField();
-        panel1.add(initPass, new com.intellij.uiDesigner.core.GridConstraints(3, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        confirmPass = new JTextField();
-        panel1.add(confirmPass, new com.intellij.uiDesigner.core.GridConstraints(4, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         createAccountButton = new JButton();
         createAccountButton.setText("Create Account");
         panel1.add(createAccountButton, new com.intellij.uiDesigner.core.GridConstraints(5, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        initPass = new JPasswordField();
+        panel1.add(initPass, new com.intellij.uiDesigner.core.GridConstraints(3, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        confirmPass = new JPasswordField();
+        panel1.add(confirmPass, new com.intellij.uiDesigner.core.GridConstraints(4, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**
@@ -89,9 +97,9 @@ public class CreateUser extends Form {
         return panel1;
     }
 
-/**
- * When button is clicked, create a user account based on the entered date.
- */
+    /**
+     * When button is clicked, create a user account based on the entered date.
+     */
     public class CreateAccountHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

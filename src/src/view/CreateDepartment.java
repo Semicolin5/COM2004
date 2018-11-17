@@ -63,6 +63,7 @@ public class CreateDepartment extends Form {
         @Override
         public void actionPerformed(ActionEvent e) {
             Controller.saveDepartment(departmentCode.getText(), departmentName.getText());
+            changeJPanel(new src.view.ManageDepartments(getFrame()).getJPanel());
         }
     }
 
