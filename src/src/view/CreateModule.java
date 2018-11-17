@@ -108,29 +108,17 @@ public class CreateModule extends Form {
             //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
             ListModel model = moduleList.getModel();
-            //System.out.println("Module Code is " + moduleCode.getText());
-            //System.out.println("Module Name is " + moduleName.getText());
-            //System.out.println("Credits is " + moduleCredits.getText());
             Controller.saveModule(moduleCode.getText(),moduleName.getText(),Integer.parseInt(moduleCredits.getText()));
-
             for(int i=0; i < model.getSize(); i++){
                 Object o =  model.getElementAt(i);
                 String arr [] = o.toString().split(" ");
                 String degreeCode = arr[0];
                 int level = Integer.parseInt(arr[1]);
                 if(arr[2].equals("Core")) {
-                    //System.out.println("Module Code is " + moduleCode.getText());
-                    //System.out.println("Degree Code is " + degreeCode);
-                    //System.out.println("Level is " + level);
-                    //System.out.println("boolean true");
                     Controller.saveModuleAssociation(moduleCode.getText(),degreeCode,level,true);
                 }
                 else {
                     Controller.saveModuleAssociation(moduleCode.getText(), degreeCode,level,false);
-                    //System.out.println("Module Code is " + moduleCode.getText());
-                    //System.out.println("Degree Code is " + degreeCode);
-                    //System.out.println("Level is " + level);
-                    //System.out.println("boolean false");
                 }
             }
         }
