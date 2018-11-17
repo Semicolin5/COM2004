@@ -13,6 +13,14 @@ import javax.swing.*;
 import src.objects.Degree;
 import src.controller.Controller;
 
+/**
+ * CreateModdule.java
+ * Only accessible for Administrators (privilege level 4)
+ * Extension of form, creates a functional GUI form which allows
+ * user to create a new Module as an entry in the module table, and also
+ * to add any degrees/levels which the module is approved for and its core status,
+ * which are added as rows in the core table.
+ */
 public class CreateModule extends Form {
     private JPanel myPanel;
     private JTextField moduleCode;
@@ -25,29 +33,37 @@ public class CreateModule extends Form {
     private JList moduleList;
     private JButton createModuleButton;
     private DefaultListModel<String> departmentsModel;
-    private boolean masters;
 
+    /**
+     * Set default JFrame sizes & add Event Listeners & Item Listener.
+     * Also adds values to the different JComboBoxes.
+     * @param frame - JFrame with properties set in the GUIFrame class.
+     */
     public CreateModule(GUIFrame frame) {
         super(frame);
         setJPanel(myPanel);
         frame.setTitle("Create Module Screen");
-        departmentsModel = new DefaultListModel<>();
+
         degreeCombo.addItem("");
         coreCombo.addItem("Core");
         coreCombo.addItem("Not Core");
-
+        departmentsModel = new DefaultListModel<>();
         moduleList.setModel(departmentsModel);
         moduleList.setVisibleRowCount(10);
-        //loops through degrees in database and adds all of their codes to the JList.
+        //loops through degrees in database and adds all of their codes to the JComboBox.
         for (Degree degree : src.controller.Controller.getDegrees()) {
             degreeCombo.addItem(degree.getDegreeCode());
         }
+
+        /**
+         * Item Listener which updates the levelsCombo depending on which value
+         * is selected in  the degreeCombo JComboBox.
+         */
         degreeCombo.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 levelCombo.removeAllItems();
                 for (Degree degree : src.controller.Controller.getDegrees()) {
                     if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
-                        System.out.println("IMPORTANT" + degree.getDegreeCode());
                         for (int i = 1; i < 5; i++)
                             levelCombo.addItem(i);
                     } else if (degree.getDegreeCode().equals(e.getItem())) {
@@ -57,29 +73,43 @@ public class CreateModule extends Form {
                 }
             }
         });
-        //TODO: Can we call the item listener in the constructor, so that the
-        // second combobox autmotaically loads based on the value of the first?
+        //TODO: Can we call the item listener in the constructor, so that the...
+        //TODO: Continued: ...second combobox autmotaically loads based on the value of the first?
         linkButton.addActionListener(new LinkHandler());
         createModuleButton.addActionListener(new CreateModuleHandler());
     }
 
+    /**
+     * LinkHandler checks whether the data currently in the three JComboBoxes is appropriate
+     * Before adding the info to the JList.
+     */
     public class LinkHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             //TODO: Run length/form/duplicate checks here.
+            //TODO: Check that the degree & module choice aren't forming a duplicate primary key.
+            //TODO: Colin, do we need length/form checks here? If we have correct checks on the degree data we are saving.
+            //TODO: 't all data in here already be correct? Other than the potential for the first JComboBox being blank.
+            //TODO: idea is that we know that data is correct before it is added to the JList.
             String details = degreeCombo.getSelectedItem().toString() + " " +
                     levelCombo.getSelectedItem().toString() + " " + coreCombo.getSelectedItem().toString();
             departmentsModel.addElement(details);
         }
     }
 
+    /**
+     * Action Handler which calls functions which add a row to the module table.
+     * Also adds a row to the core table for each degree level which this module is approved for.
+     */
     public class CreateModuleHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
+            //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
             ListModel model = moduleList.getModel();
-            System.out.println("Module Code is " + moduleCode.getText());
-            System.out.println("Module Name is " + moduleName.getText());
-            System.out.println("Credits is " + moduleCredits.getText());
+            //System.out.println("Module Code is " + moduleCode.getText());
+            //System.out.println("Module Name is " + moduleName.getText());
+            //System.out.println("Credits is " + moduleCredits.getText());
             Controller.saveModule(moduleCode.getText(),moduleName.getText(),Integer.parseInt(moduleCredits.getText()));
 
             for(int i=0; i < model.getSize(); i++){
@@ -88,18 +118,18 @@ public class CreateModule extends Form {
                 String degreeCode = arr[0];
                 int level = Integer.parseInt(arr[1]);
                 if(arr[2].equals("Core")) {
-                    System.out.println("Module Code is " + moduleCode.getText());
-                    System.out.println("Degree Code is " + degreeCode);
-                    System.out.println("Level is " + level);
-                    System.out.println("boolean true");
+                    //System.out.println("Module Code is " + moduleCode.getText());
+                    //System.out.println("Degree Code is " + degreeCode);
+                    //System.out.println("Level is " + level);
+                    //System.out.println("boolean true");
                     Controller.saveModuleAssociation(moduleCode.getText(),degreeCode,level,true);
                 }
                 else {
                     Controller.saveModuleAssociation(moduleCode.getText(), degreeCode,level,false);
-                    System.out.println("Module Code is " + moduleCode.getText());
-                    System.out.println("Degree Code is " + degreeCode);
-                    System.out.println("Level is " + level);
-                    System.out.println("boolean false");
+                    //System.out.println("Module Code is " + moduleCode.getText());
+                    //System.out.println("Degree Code is " + degreeCode);
+                    //System.out.println("Level is " + level);
+                    //System.out.println("boolean false");
                 }
             }
         }

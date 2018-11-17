@@ -17,7 +17,6 @@ import src.controller.Controller;
  * Extension of form, creates a functional GUI form which allows
  * user to create a new degree as an entry in the degree table.
  */
-
 public class CreateDegree extends Form {
     private JPanel panel1;
     private JTextField degreeCode;
@@ -27,7 +26,6 @@ public class CreateDegree extends Form {
 
     /**
      * Set default JFrame sizes & add Event Listener
-     *
      * @param frame - JFrame with properties set in the GUIFrame class.
      */
     public CreateDegree(GUIFrame frame) {
