@@ -87,6 +87,7 @@ public class CreateModule extends Form {
         @Override
         public void actionPerformed(ActionEvent e) {
             //TODO: Run length/form/duplicate checks here.
+            //TODO: Check that the module code is not already present in the JList.
             //TODO: Check that the degree & module choice aren't forming a duplicate primary key.
             //TODO: Colin, do we need length/form checks here? If we have correct checks on the degree data we are saving.
             //TODO: 't all data in here already be correct? Other than the potential for the first JComboBox being blank.
