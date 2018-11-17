@@ -1,25 +1,25 @@
 -- INSERTING EXAMPLE USERS --
 
 INSERT INTO users VALUES
-    ("JSmith24", "0123456789qwertyuiop0123456789", 1, "JIHFDSKJFMSHSK134");
+    ("1004", "0123456789qwertyuiop0123456789", 1, "JIHFDSKJFMSHSK134");
 
 INSERT INTO degree VALUES
     ("COMU49", "BSc Philosophy and Computer Science", 0);
 
 INSERT INTO student VALUES
-    ("JSmith24", "Mr", "John", "Smith", "Professor Oak", "COMU49", "1");
+    ("500807", "Mr", "John", "Smith", "Professor Oak", "COMU49");
 
 INSERT INTO users VALUES
-    ("PGreen", "qwertyuiopasdfghjkl;1234567890", 4, "JIHFDSKJFMSHSK145"),
-    ("HWhite", "123456789012345678901234567890", 3, "JIHFDSKJ54RESK145"),
-    ("MBlack", "123456789012345678901234567890", 2, "JIHFDSKJFMSHSK145");
+    ("800765", "qwertyuiopasdfghjkl;1234567890", 4, "JIHFDSKJFMSHSK145"),
+    ("689879", "123456789012345678901234567890", 3, "JIHFDSKJ54RESK145"),
+    ("972097", "123456789012345678901234567890", 2, "JIHFDSKJFMSHSK145");
 
 -- INSERTING EXAMPLE DEGREES AND DEPARTMENTS --
 
-INSERT INTO degree VALUES 
+INSERT INTO degree VALUES
     ("COMU03", "MEng Software Engineering", 1);
 
-INSERT INTO department VALUES 
+INSERT INTO department VALUES
     ("COM", "Computer Science"),
     ("PHI", "Philosophy"),
     ("RSS", "Russian and Slavonic Studies");
@@ -31,9 +31,9 @@ INSERT INTO associated_department VALUES
 
 -- INSERT INTO MODULE AND GRADES TABLE --
 
-INSERT INTO module VALUES 
+INSERT INTO module VALUES
     ("COM1005", "Machines and Intelligence", 20),
-    ("COM1001", "Software Engineering", 15), 
+    ("COM1001", "Software Engineering", 15),
     ("RSS2109", "The Russian Language and Russian Society through Dance", 20);
 
 INSERT INTO core VALUES
@@ -42,6 +42,6 @@ INSERT INTO core VALUES
     ("COM1001", "COMU49", 1, 0),
     ("RSS2109", "COMU49", 2, 0);
 
-INSERT INTO grades VALUES 
-    ("JSmith24", "COM1005", "74.55655", null),
-    ("JSmith24", "COM1001", "20.001", "50.5555");
+INSERT INTO grades VALUES
+    ("500807", "COM1005", "74.55655", null),
+    ("500807", "COM1001", "20.001", "50.5555");

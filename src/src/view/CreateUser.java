@@ -96,6 +96,7 @@ public class CreateUser extends Form {
         @Override
         public void actionPerformed(ActionEvent e) {
             //TODO: Check String length BEFORE doing toString.
+            //TODO: Check LoginID is an int - Auto-generate it into a label maybe?
             //TODO: Generate Hash and salt, call the function whch hashes and salts and pass through.
             //TODO: Should the passwords be in PasswordTextBoxes or does it not matter?
             String str = userType.getSelectedItem().toString();
@@ -111,7 +112,7 @@ public class CreateUser extends Form {
                     break;
             }
 
-            Controller.saveUser(loginID.getText(), confirmPass.getText(), priv, "HHHHH@JFJOZSFDJJZOSD");
+            Controller.saveUser(Integer.parseInt(loginID.getText()), confirmPass.getText(), priv, "HHHHH@JFJOZSFDJJZOSD");
             changeJPanel(new src.view.ManageUsers(getFrame()).getJPanel());
         }
     }

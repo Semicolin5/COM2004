@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    login_id VARCHAR (30),
+    login_id int,
     password CHAR (64), -- stores hash code
     privilege INT NOT NULL,
     salt CHAR (32),
@@ -14,16 +14,25 @@ CREATE TABLE degree (
 );
 
 CREATE TABLE student (
-    login_id VARCHAR (30), 
+    login_id int,
     title CHAR (2),
     forename VARCHAR (50),
     surname VARCHAR (50),
     personal_tutor VARCHAR (50), 
     degree_code CHAR (6), -- the degree taken
-    level_of_study CHAR (1), -- the level of study
     PRIMARY KEY (login_id),
     FOREIGN KEY (login_id) REFERENCES users (login_id),
     FOREIGN KEY (degree_code) REFERENCES degree (code)
+);
+
+CREATE TABLE period_of_study (
+    label CHAR (1),
+    login_id int,
+    level_of_study CHAR (1), -- the level of study
+    start_date DATE,
+    end_date DATE,
+    PRIMARY KEY (label, login_id),
+    FOREIGN KEY (login_id) REFERENCES student (login_id)
 );
 
 CREATE TABLE department (
@@ -65,7 +74,7 @@ CREATE TABLE core (
 -- linker table to represent the modules a student is taking, and to store
 -- their grades for the module. 
 CREATE TABLE grades (
-    student_id VARCHAR (30),
+    student_id int,
     module_code CHAR (7),
     initial_percent DECIMAL(8, 5), -- marks achieved
     resit_percent DECIMAL(8, 5), 

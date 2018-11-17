@@ -4,7 +4,6 @@ import src.model.db_handler.*;
 import src.objects.Department;
 import src.objects.User;
 import src.objects.Degree;
-
 import java.util.List;
 
 /**
@@ -64,7 +63,7 @@ public class Controller {
         removalQ.removeUser(login);
     }
 
-    public static void saveUser(String login, String pass, int priv, String salt) {
+    public static void saveUser(int login, String pass, int priv, String salt) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addUser(login, pass, priv, salt);
     }

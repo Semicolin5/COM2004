@@ -34,10 +34,11 @@ public class ManageUsers extends Form {
 
         //loops through users in database and adds all of their loginIDs to the JList.
         for (User user : Controller.getUsers()) {
-            userModel.addElement(user.getLogin());
+            userModel.addElement(String.valueOf(user.getLogin()));
         }
+        userList.setLayoutOrientation(JList.VERTICAL);
         userList.setModel(userModel);
-        userList.setVisibleRowCount(-1);
+        userList.setVisibleRowCount(10);
         createUserButton.addActionListener(new UserHandler());
         deleteSelectedUsersButton.addActionListener(new RemoveUserHandler());
     }

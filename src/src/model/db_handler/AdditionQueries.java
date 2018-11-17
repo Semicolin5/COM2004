@@ -204,14 +204,14 @@ public class AdditionQueries extends Queries{
      * @param priv  Privilege level of staff member.
      * @param salt Salt used for user's password (prevents Rainbow table attacks).
      * */
-    public void addUser(String loginId, String password, int priv, String salt) {
+    public void addUser(int loginId, String password, int priv, String salt) {
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
                 db.enableACID();
                 // first create entry in the user table
                 pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
-                pstmt.setString(1, loginId);
+                pstmt.setInt(1, loginId);
                 pstmt.setString(2, password);
                 pstmt.setInt(3, priv);
                 pstmt.setString(4, salt);

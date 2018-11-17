@@ -7,7 +7,7 @@ package src.objects;
  * */
 public class User {
 
-    private String login_id;
+    private int login_id;
     private String password;
     private int priv;
     private String salt;
@@ -17,7 +17,7 @@ public class User {
      * @param login_id String, the Users name code
      * @param password String that describes department.
      * */
-    public User (String login_id, String password, int priv, String salt) {
+    public User (int login_id, String password, int priv, String salt) {
         this.login_id = login_id;
         this.password = password;
         this.priv = priv;
@@ -27,7 +27,7 @@ public class User {
     /**
      * Accessor methods
      * */
-    public String getLogin() { return login_id; }
+    public int getLogin() { return login_id; }
     public String getPassword() { return password; }
     public int getPriv() { return priv; }
 

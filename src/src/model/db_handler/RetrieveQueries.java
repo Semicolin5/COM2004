@@ -80,7 +80,7 @@ public class RetrieveQueries extends Queries {
                pstmt = conn.prepareStatement("SELECT * FROM users");
                res = pstmt.executeQuery();
                while (res.next()) {
-                   userTable.add(new User(res.getString(1), res.getString(2),
+                   userTable.add(new User(res.getInt(1), res.getString(2),
                            res.getInt(3), res.getString(4)));
                }
            } catch (SQLException e) {
