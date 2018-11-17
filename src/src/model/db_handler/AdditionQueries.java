@@ -229,6 +229,30 @@ public class AdditionQueries extends Queries{
         }
     }
 
+    /**
+     * Add Module Degree Association Query - only accessible for Administrators (privilege level 4)
+     * TODO:
+     * */
+    public void addModuleDegreeAssociation(String moduleCode, String degreeCode,int level, boolean core) {
+        if (super.getPriv() == 4) {
+            try {
+                db.enableACID();
+                PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO core VALUES (?,?,?,?)");
+                System.out.println("saving, module code is " + "degree code is" + degreeCode);
+                pstmt.setString(1, moduleCode);
+                pstmt.setString(2, degreeCode);
+                pstmt.setInt(3, level);
+                pstmt.setBoolean(4,core);
+                pstmt.executeUpdate();
+                super.conn.commit();
+                db.disableACID();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                super.db.rollBack();
+            }
+        }
+    }
+
     //TODO add grades is actually performed through an INSERT statement which is why it isn't here
 
 

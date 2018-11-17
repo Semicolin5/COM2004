@@ -27,6 +27,18 @@ public class Controller {
         additionQ.addDepartment(departmentCode, departmentName);
     }
 
+    public static void saveModule(String moduleCode, String moduleName, int credits) {
+        // TODO maybe have logic to check that the parameters are the right length?
+        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+        additionQ.addModule(moduleCode, moduleName, credits);
+    }
+
+    public static void saveModuleAssociation(String moduleCode, String moduleName, int level, boolean core) {
+        // TODO maybe have logic to check that the parameters are the right length?
+        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+        additionQ.addModuleDegreeAssociation(moduleCode, moduleName, level, core);
+    }
+
     public static List<Degree> getDegrees() {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
         return retrieveQ.retrieveDegreesTable();
