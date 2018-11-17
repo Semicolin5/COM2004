@@ -38,17 +38,9 @@ public class Login extends Form {
         panel1 = new JPanel();
         panel1.setLayout(new GridBagLayout());
         panel1.setEnabled(true);
-        final JLabel label1 = new JLabel();
-        label1.setText("Username:");
-        GridBagConstraints gbc;
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        panel1.add(label1, gbc);
         textField1 = new JTextField();
         textField1.setText("");
+        GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -65,14 +57,6 @@ public class Login extends Form {
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
         panel1.add(loginButton, gbc);
-        final JLabel label2 = new JLabel();
-        label2.setText("Password:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        panel1.add(label2, gbc);
         passwordField1 = new JPasswordField();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -81,6 +65,34 @@ public class Login extends Form {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(passwordField1, gbc);
+        final JPanel spacer1 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        panel1.add(spacer1, gbc);
+        final JPanel spacer2 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(spacer2, gbc);
+        final JLabel label1 = new JLabel();
+        label1.setText("Username:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        panel1.add(label1, gbc);
+        final JLabel label2 = new JLabel();
+        label2.setText("Password:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        panel1.add(label2, gbc);
     }
 
     /**
