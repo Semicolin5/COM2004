@@ -10,6 +10,7 @@ public class Degree {
 
     private String degreeCode;
     private String degreeName;
+    private boolean degreeType;
     private Department lead;
     private List<Department> nonLead;
 
@@ -17,9 +18,10 @@ public class Degree {
      * @param degreeCode String of 7 letter degree code
      * @param degreeName String of the name of the degree
      * */
-    public Degree (String degreeCode, String degreeName){//, Department lead, List<Department> nonLead) {
+    public Degree (String degreeCode, String degreeName, boolean degreeType){//, Department lead, List<Department> nonLead) {
         this.degreeCode = degreeCode;
         this.degreeName = degreeName;
+        this.degreeType = degreeType;
         this.lead = null;
         this.nonLead = null;
     }
@@ -27,8 +29,11 @@ public class Degree {
    /**
     * Accessor methods
     * */
-   public String getDegreeCode() { return degreeCode; }
+   public  String getDegreeCode() {
+       return degreeCode; }
    public String getDegreeName() { return degreeName; }
+    public  boolean getDegreeType() {
+        return degreeType; }
    // TODO make ones for department too
 
     /**

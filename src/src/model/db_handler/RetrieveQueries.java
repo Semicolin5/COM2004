@@ -57,7 +57,7 @@ public class RetrieveQueries extends Queries {
                 pstmt = conn.prepareStatement("SELECT * FROM degree");
                 res = pstmt.executeQuery();
                 while (res.next()) {
-                    degreeTable.add(new Degree(res.getString(1), res.getString(2)));
+                    degreeTable.add(new Degree(res.getString(1), res.getString(2),res.getBoolean(3)));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

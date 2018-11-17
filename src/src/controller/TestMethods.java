@@ -82,7 +82,7 @@ public class TestMethods {
     // object tests
     private static void testingDegreeObject() {
         // instantiate a Degree
-        Degree test = new Degree("COMU01", "Computer Science");
+        Degree test = new Degree("COMU01", "Computer Science", false);
         System.out.println(test.toString());
     }
 }
