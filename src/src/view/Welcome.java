@@ -1,7 +1,6 @@
 package src.view;
 
 import src.controller.Main;
-import src.model.db_handler.DatabaseHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +83,7 @@ public class Welcome extends Form {
 
     private class moduleButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.CreateModule(getFrame()).getJPanel());
+            changeJPanel(new src.view.ManageModules(getFrame()).getJPanel());
         }
     }
 

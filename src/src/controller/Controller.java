@@ -1,9 +1,10 @@
 package src.controller;
 
 import src.model.db_handler.*;
-import src.objects.Department;
-import src.objects.User;
 import src.objects.Degree;
+import src.objects.Department;
+import src.objects.Module;
+import src.objects.User;
 import java.util.List;
 
 /**
@@ -48,6 +49,11 @@ public class Controller {
         return retrieveQ.retrieveDepartmentTable();
     }
 
+    public static List<Module> getModules() {
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        return retrieveQ.retrieveModuleTable();
+    }
+
     public static List<User> getUsers() {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
         return retrieveQ.retrieveUsersTable();
@@ -56,6 +62,11 @@ public class Controller {
     public static void removeDepartment(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeDepartment(code);
+    }
+
+    public static void removeModule(String code) {
+        RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+        removalQ.removeModule(code);
     }
 
     public static void removeUser(String login) {

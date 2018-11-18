@@ -2,7 +2,6 @@ package src.view;
 
 import src.controller.Controller;
 import src.objects.Department;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +12,6 @@ public class ManageDepartments extends Form {
     private JButton createDepartmentButton;
     private JList list1;
     private JButton deleteDepartmentButton;
-
     private DefaultListModel<String> departmentsModel;
 
     public ManageDepartments(GUIFrame frame) {
@@ -116,7 +114,6 @@ public class ManageDepartments extends Form {
             for (Object code : list1.getSelectedValuesList()) {
                 Controller.removeDepartment((String) code);
             }
-
             changeJPanel(new ManageDepartments(getFrame()).getJPanel());
         }
     }

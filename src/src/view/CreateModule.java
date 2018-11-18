@@ -121,6 +121,7 @@ public class CreateModule extends Form {
                     Controller.saveModuleAssociation(moduleCode.getText(), degreeCode,level,false);
                 }
             }
+            changeJPanel(new ManageModules(getFrame()).getJPanel());
         }
     }
 
