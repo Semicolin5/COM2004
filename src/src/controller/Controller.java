@@ -6,6 +6,7 @@ import src.objects.Department;
 import src.objects.Module;
 import src.objects.User;
 import java.util.List;
+import src.model.*;
 
 /**
  * Controller.java
@@ -78,4 +79,28 @@ public class Controller {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addUser(login, pass, priv, salt);
     }
+    
+    public static String checkInputUser(String loginID, String password, String confirmPassword) {
+		String returnMessage = "";
+		//Lets do our error checks
+		if (password != confirmPassword) {
+			returnMessage = "Passwords do not match.";
+		}
+		else if (!RegexTests.checkPassword(password)) {
+			returnMessage = "Incorrect password format."; //must contain 1 uppercase, 1 lowercase, 1 symbol
+		}
+		else if (!RegexTests.checkLoginID(loginID)) {
+			returnMessage = "Incorrect LoginID format.";
+		}
+		else if (returnMessage == "") {
+			returnMessage = "LoginID already in use.";
+		}
+		else if (password != confirmPassword) {
+			returnMessage = "Passwords do not match.";
+		}
+		else {
+			returnMessage = "Accepted";
+		}
+		return returnMessage;
+	}
 }

@@ -3,6 +3,7 @@ import java.sql.*;
 
 import src.objects.Degree;
 import src.objects.Department;
+import src.objects.Module;
 import src.objects.User;
 import java.util.*;
 
@@ -130,4 +131,9 @@ public class RetrieveQueries extends Queries {
     	   return false;
        }
    }
+
+public List<Module> retrieveModuleTable() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }
