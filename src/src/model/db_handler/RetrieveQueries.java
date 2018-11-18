@@ -153,8 +153,4 @@ public class RetrieveQueries extends Queries {
        }
    }
 
-public List<Module> retrieveModuleTable() {
-	// TODO Auto-generated method stub
-	return null;
-}
 }
