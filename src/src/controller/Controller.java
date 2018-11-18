@@ -16,7 +16,21 @@ import src.model.*;
  * are being passed.
  * */
 public class Controller {
-
+	
+	public static boolean passwordMatch(int loginID, String password) {
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+    	String[] passSalt = retrieveQ.getPassSalt(loginID);
+		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
+		if (passSalt[0].equals(hashedPass)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	
     public static void saveDegree(String degreeCode, String degreeName, boolean masters) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDegree(degreeCode, degreeName, masters);
