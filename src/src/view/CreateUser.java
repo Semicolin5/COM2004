@@ -120,7 +120,7 @@ public class CreateUser extends Form {
                     break;
             }
 
-            Controller.saveUser(Integer.parseInt(loginID.getText()), confirmPass.getText(), priv, "HHHHH@JFJOZSFDJJZOSD");
+            Controller.saveUser(Integer.parseInt(loginID.getText()), confirmPass.getText(), priv);
             changeJPanel(new src.view.ManageUsers(getFrame()).getJPanel());
         }
     }
