@@ -75,9 +75,11 @@ public class Controller {
         removalQ.removeUser(login);
     }
 
-    public static void saveUser(int login, String pass, int priv, String salt) {
+    public static void saveUser(int login, String pass, int priv) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-        additionQ.addUser(login, pass, priv, salt);
+        String salt = CryptoModule.generateSalt();
+        String hashedPassword = CryptoModule.hashPassword(pass, salt);
+        additionQ.addUser(login, hashedPassword, priv, salt);
     }
     
     public static String checkInputUser(int loginID, String password, String confirmPassword) {

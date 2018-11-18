@@ -10,12 +10,8 @@ import java.util.Random;
 public class CryptoModule {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		
-		System.out.println(generateSalt());
-		
+		//This is just used for testing the functions
 	}
-	
-	
 	
     /**
      * hashPassword, given a password and a salt, returns a hashed password.
@@ -41,7 +37,6 @@ public class CryptoModule {
 		
 		return output;
 	}
-	
 
     /**
      * generateSalt, generates a random salt.
@@ -61,16 +56,4 @@ public class CryptoModule {
 		
 		return salt;
 	}
-	
-	
-	
-	/**
-	 * startSession, generates a session ID
-	 * @return
-	 */
-	public static String startSession() {
-		return "Hello World";
-	}
-	
-
 }
