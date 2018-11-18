@@ -7,7 +7,7 @@ INSERT INTO degree VALUES
     ("COMU49", "BSc Philosophy and Computer Science", 0);
 
 INSERT INTO student VALUES
-    (1004, "Mr", "John", "Smith", "Professor Oak", "COMU49");
+    (1004, "Mr", "John", "Smith", "Professor Oak", "JSmith1@sheffieldringroad.ac.uk", "COMU49");
 
 INSERT INTO users VALUES
     (800765, "qwertyuiopasdfghjkl;1234567890", 4, "JIHFDSKJFMSHSK145"),

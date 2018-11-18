@@ -18,7 +18,8 @@ CREATE TABLE student (
     title CHAR (2),
     forename VARCHAR (50),
     surname VARCHAR (50),
-    personal_tutor VARCHAR (50), 
+    personal_tutor VARCHAR (50),
+    email VARCHAR (50),
     degree_code CHAR (6), -- the degree taken
     PRIMARY KEY (login_id),
     FOREIGN KEY (login_id) REFERENCES users (login_id),
