@@ -39,8 +39,6 @@ public class RetrieveQueries extends Queries {
             } finally {
                 closeResources(pstmt, res);
             }
-
-
         }
         return table;
     }
@@ -70,7 +68,30 @@ public class RetrieveQueries extends Queries {
     }
 
     /**
-     * retrieve the degree table, linked with the departments that teach that course
+     * retrieves the module table as a list of Module objects
+     * @return list of Module objects.
+     * */
+    public List<Module> retrieveModuleTable() {
+        List<Module> table = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        if (!super.isTableEmpty("module") && super.getPriv() == 4) {
+            try {
+                pstmt = conn.prepareStatement("SELECT * FROM module");
+                res = pstmt.executeQuery();
+                while (res.next()) {
+                    table.add(new Module(res.getString(1), res.getString(2), res.getInt(3)));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                closeResources(pstmt, res);
+            }
+        }
+        return table;
+    }
+    /**
+     * retrieve the users table
      * */
    public List<User> retrieveUsersTable() {
        List<User> userTable = new ArrayList<>();
