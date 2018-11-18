@@ -34,7 +34,6 @@ public class CryptoModule {
 		for(int i = 0; i < hashedPass.length; i++) {
 			output = output + String.format("%02X", hashedPass[i]);
 		}
-		
 		return output;
 	}
 

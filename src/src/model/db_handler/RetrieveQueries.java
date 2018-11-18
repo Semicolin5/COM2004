@@ -114,9 +114,38 @@ public class RetrieveQueries extends Queries {
        return userTable;
    }
    
+   /**
+    * getPassSalt, takes a loginID and returns the associated hashed password and salt
+    * @param int loginID, the users loginID
+    * @return String[], returns the hashed password and salt
+    */
+   public String[] getPassSalt(int loginID) {
+	   String[] passSalt = new String[2];
+	   
+	   PreparedStatement pstmt = null;
+	   ResultSet res = null;
+       try {
+    	   pstmt = conn.prepareStatement("SELECT password, salt FROM users WHERE login_id = ?");
+           pstmt.setInt(1, loginID);
+           res = pstmt.executeQuery();
+           passSalt[0] = res.getString(1);
+           passSalt[1] = res.getString(2);           
+       }
+       catch (SQLException e) {
+           e.printStackTrace();
+       } 
+       finally {
+    	   closeResources(pstmt, res);
+       }
+	   return passSalt;
+   }
+   
+   
+   
+   
    
    //****************************************
-   //Methods to check various duplicates.  Return True of False.
+   //Methods to check various duplicates.  Return True of False.  Might put this in a separate class
    //****************************************   
    
    
@@ -152,5 +181,7 @@ public class RetrieveQueries extends Queries {
     	   return false;
        }
    }
+   
+
 
 }
