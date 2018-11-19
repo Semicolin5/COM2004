@@ -65,7 +65,7 @@ CREATE TABLE module (
 CREATE TABLE core (
     module_code CHAR (7),
     degree_code CHAR (6),
-    degree_level CHAR(1),
+    degree_level CHAR(1), --TODO: Shouldnt this be an int?
     core BOOLEAN,
     PRIMARY KEY (module_code, degree_code),
     FOREIGN KEY (module_code) REFERENCES module (code),

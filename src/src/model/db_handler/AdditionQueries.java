@@ -196,6 +196,43 @@ public class AdditionQueries extends Queries{
     }
 
     /**
+     * Add period of study  Query - only accessible for Registrars (privilege level 3)
+     * This table tracks when the student studied each level of a degree.
+     * Will allow staff to see if a student redid a year, for example
+     * This SQL query takes a student and adds a row in the period of study with their ID as the foreign key.
+     * @param label: Part of a composite primary key, along with loginID.
+     * @param loginId: int representing the student.
+     * @param level: Char representing the level of the degree the student took in this period of study.
+     * @param startDate: Date tells us when the period of study began.
+     * @param endDate: Date tells us when the period of study ended.
+     */
+    public void addPeriodOfStudy(String label, int loginId, String level, Date startDate, Date endDate) {
+        if (super.getPriv() == 3) {
+            PreparedStatement pstmt = null;
+            try {
+                db.enableACID();
+                // first create entry in the user table
+                pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?)");
+                pstmt.setString(1, label);
+                pstmt.setInt(2, loginId);
+                pstmt.setString(3, level);
+                pstmt.setDate(4, startDate);
+                pstmt.setDate(5,endDate);
+                pstmt.executeUpdate();
+
+                // commit connection, then close resources
+                super.conn.commit();
+                db.disableACID();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                super.db.rollBack();
+            } finally {
+                closePreparedStatement(pstmt);
+            }
+        }
+    }
+
+    /**
      * Add UserAssociation Query - only accessible for Administrators (privilege level 4)
      * This SQL query adds a row to the user table.
      * @param loginId String of the user's identification code.
