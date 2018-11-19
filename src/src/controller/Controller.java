@@ -29,8 +29,6 @@ public class Controller {
 		}
 	}
 	
-	
-	
     public static void saveDegree(String degreeCode, String degreeName, boolean masters) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDegree(degreeCode, degreeName, masters);
@@ -95,7 +93,12 @@ public class Controller {
         String hashedPassword = CryptoModule.hashPassword(pass, salt);
         additionQ.addUser(login, hashedPassword, priv, salt);
     }
-    
+
+    public static void saveStudent(int login, String title, String forename, String surname, String tutor, String email, String degree) {
+        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+        additionQ.addStudent(login, title, forename, tutor, email, degree);
+    }
+
     public static String checkInputUser(int loginID, String password, String confirmPassword) {
     	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
     	String returnMessage = "";
