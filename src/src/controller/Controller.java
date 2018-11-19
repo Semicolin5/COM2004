@@ -5,6 +5,8 @@ import src.objects.Degree;
 import src.objects.Department;
 import src.objects.Module;
 import src.objects.User;
+
+import java.text.DateFormat;
 import java.util.List;
 import src.model.*;
 
@@ -87,6 +89,8 @@ public class Controller {
         removalQ.removeUser(login);
     }
 
+
+
     public static void saveUser(int login, String pass, int priv) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         String salt = CryptoModule.generateSalt();
@@ -94,10 +98,13 @@ public class Controller {
         additionQ.addUser(login, hashedPassword, priv, salt);
     }
 
-    public static void saveStudent(int login, String title, String forename, String surname, String tutor, String email, String degree) {
+    /**public static void saveStudent(int login, String title, String forename, String surname, String tutor,
+                                   String email, String degree, String label, String level, String startDate, String endDate) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-        additionQ.addStudent(login, title, forename, tutor, email, degree);
-    }
+        DateFormat df = DateFormat.getDateInstance();
+        start = df.parse(df);
+        additionQ.addStudent(login, title, forename, surname, tutor, email, degree);
+    }*//
 
     public static String checkInputUser(int loginID, String password, String confirmPassword) {
     	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
