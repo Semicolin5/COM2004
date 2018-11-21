@@ -116,6 +116,39 @@ public class RetrieveQueries extends Queries {
        return userTable;
    }
    
+   
+   /**
+    * retrieveUser, given a login ID retrieves the users object including their privilege
+    * @param int loginID, the login ID of the user we want to retrieve
+    * @return User user, the User object of the user we want to retrieve
+    */
+  public User retrieveUser(int loginID) {
+      User ourUser = null;
+      PreparedStatement pstmt = null;
+      ResultSet res = null;
+      try {
+    	  pstmt = conn.prepareStatement("SELECT * FROM users where login_id ?");
+          pstmt.setInt(1, loginID);
+          res = pstmt.executeQuery();
+          if (res.next()) {
+        	  ourUser = new User(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
+         }
+      } 
+      catch (SQLException e) {
+    	  e.printStackTrace();
+      } 
+      finally {
+    	  closeResources(pstmt, res);
+      }
+      return ourUser;
+  }
+   
+   
+   
+   
+   
+   
+   
    /**
     * getPassSalt, takes a loginID and returns the associated hashed password and salt
     * @param int loginID, the users loginID
@@ -143,4 +176,15 @@ public class RetrieveQueries extends Queries {
        }
 	   return passSalt;
    }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 }

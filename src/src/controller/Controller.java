@@ -20,22 +20,14 @@ public class Controller {
 	
 	
     /**
-     * validate determines if the user logs in correctly
-     * @param potentialUser User object contains unvalidated user info
-     * @return bool true if properly validated
-     * */
-    public static boolean validate(User potentialUser) {
-        /*Boolean validated = false;
-        if (true) { //todo call db.obtainPrivilege() and find out details
-            user = potentialUser;
-            validated = true; // TODO shouldn't be hardcoded
-            System.out.println("TEST IN Main.java " + user.toString());
-        } else {
-            validated = false;
-        }
-        db.setPrivLevel(user.getPriv());*/
-        return false;
-    }
+     * setCurrentUser, takes a login ID and sets the current user to the one linked to the login ID
+     * @param int loginID, the login ID of the user we want to set as current user
+     */
+	public static void setCurrentUser(int loginID) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());	
+		User user = retrieveQ.retrieveUser(loginID);
+		Main.setUser(user);
+	}
     
     public static String checkLogin(String loginID, String password) {
     	CheckQueries checkQ = new CheckQueries(Main.getDB());

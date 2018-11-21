@@ -117,7 +117,8 @@ public class Login extends Form {
             password = ""; //Clears up old the password so it can be garbage collected
             //TODO
             if (loginMessage.equals("Accepted")) {
-            	//Code to call the new panel
+            	//Set up our user and advance to the next panel
+            	Controller.setCurrentUser(Integer.parseInt(loginID)); //We can do this without checking because we have already checked
                 changeJPanel(new Welcome(getFrame()).getJPanel());
             } else {
                 //TODO - display error message (loginMessage)

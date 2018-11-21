@@ -13,7 +13,7 @@ import src.objects.*;
 public class Main {    
 
     // user stores the privilege level and username for the logged in user
-    private static User user;
+    private static User user = null;
     // DatabaseHandler maintains the connection with the Database.
     private static DatabaseHandler db;
 
@@ -45,6 +45,10 @@ public class Main {
     
     public static int getLoginID() {
     	return user.getLogin();
+    }
+    
+    public static void setUser(User ourUser) {
+    	user = ourUser;
     }
 
 
