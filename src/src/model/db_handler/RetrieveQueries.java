@@ -52,12 +52,12 @@ public class RetrieveQueries extends Queries {
         try {
             pstmt = conn.prepareStatement("SELECT * FROM degree");
             res = pstmt.executeQuery();
-            String degCode = res.getString(1);
             while (res.next()) {
+                String degCode = res.getString(1);
                 // for each degree, find the associated departments
                 degreeTable.add(new Degree(degCode, res.getString(2),
                         res.getBoolean(3), res.getBoolean(4),
-                        retrieveAffiliatedLeadDep(degCode), null));
+                        retrieveAffiliatedLeadDep(degCode), retrieveAffiliatedNonLeadDep(degCode)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,20 +68,28 @@ public class RetrieveQueries extends Queries {
     }
 
     /**
-     * Helper function used by retrieveDegreeTable to find affiliated departments for each degree
+     * Helper function used by retrieveDegreeTable to find affiliated non-lead departments for each degree
      * @param code; String of degree whose Departments are to be found
-     * @return
+     * @return nonLead; List of department objects representing the non-lead departments for the degree.
      * */
-    private List<Department> retrieveAffiliatedDep(String code) {
+    public List<Department> retrieveAffiliatedNonLeadDep(String code) {
 
         List<Department> nonLead = new ArrayList<Department>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
         try {
-           pstmt = conn.prepareStatement("SELECT () FROM degree_department dd INNER JOIN department d WHERE ");
+            pstmt = conn.prepareStatement("SELECT * FROM department d " +
+                    "INNER JOIN degree_department dd WHERE d.department_code = dd.department_code " +
+                    "AND dd.degree_code = ? AND dd.lead_department=0");
+            pstmt.setString(1, code);
+            res = pstmt.executeQuery();
+            while(res.next()){
+                nonLead.add(new Department(res.getString(1), res.getString(2)));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-
+        } finally {
+            closeResources(pstmt, res);
         }
         return nonLead;
     }
@@ -89,7 +97,7 @@ public class RetrieveQueries extends Queries {
     /**
      * Helper function used by retrieveDegreeTable to find affiliated lead department for each degree
      * @param code; String of degree whose lead Department is to be found
-     * @return
+     * @return lead; Department object representing the lead departmnet
      * */
     public Department retrieveAffiliatedLeadDep(String code) {
 
@@ -97,14 +105,12 @@ public class RetrieveQueries extends Queries {
         PreparedStatement pstmt = null;
         ResultSet res = null;
         // obtain the lead department.
-        System.out.println("in here yo");
         try {
             pstmt = conn.prepareStatement("SELECT * FROM department d " +
                     "INNER JOIN degree_department dd WHERE d.department_code = dd.department_code " +
                     "AND dd.degree_code = ? AND dd.lead_department=1");
             pstmt.setString(1, code);
             res = pstmt.executeQuery();
-            System.out.println("in here yo");
             while(res.next()){
                 lead = new Department(res.getString(1), res.getString(2));
             }
