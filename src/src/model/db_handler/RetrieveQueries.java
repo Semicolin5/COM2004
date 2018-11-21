@@ -124,6 +124,7 @@ public class RetrieveQueries extends Queries {
    public String[] getPassSalt(int loginID) {
 	   String[] passSalt = new String[2];
 	   PreparedStatement pstmt = null;
+	   System.out.println(loginID);
 	   ResultSet res = null;
        try {
     	   pstmt = conn.prepareStatement("SELECT hashpass, salt FROM users WHERE login_id = ?");
