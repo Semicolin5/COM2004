@@ -58,7 +58,7 @@ public class TestMethods {
 
         System.out.println("testing addModule");
         // positive test case
-        tester.addModule("COM2008", "super cool module", 120);
+        tester.addModule("COM2008", "super cool module", 120, 2);
 
         System.out.println("testing addDegree");
         //positive test case
