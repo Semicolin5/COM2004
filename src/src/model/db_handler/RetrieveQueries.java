@@ -126,7 +126,7 @@ public class RetrieveQueries extends Queries {
 	   PreparedStatement pstmt = null;
 	   ResultSet res = null;
        try {
-    	   pstmt = conn.prepareStatement("SELECT password, salt FROM users WHERE login_id = ?");
+    	   pstmt = conn.prepareStatement("SELECT hashpass, salt FROM users WHERE login_id = ?");
            pstmt.setInt(1, loginID);
            res = pstmt.executeQuery();
            passSalt[0] = res.getString(1);
