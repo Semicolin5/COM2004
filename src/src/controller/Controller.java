@@ -107,7 +107,7 @@ public class Controller {
     }*/
 
     public static String checkInputUser(int loginID, String password, String confirmPassword) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+    	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
     	String returnMessage = "";
 		if (password != confirmPassword) {
 			returnMessage = "Passwords do not match.";
