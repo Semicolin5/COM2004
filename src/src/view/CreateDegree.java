@@ -108,7 +108,7 @@ public class CreateDegree extends Form {
     public class CreateDegreeHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Check Length here
+            //TODO: Check Length here + other necessary checks
             System.out.println(mastersCombo.getSelectedIndex());
             System.out.println(yearIndustryCombo.getSelectedIndex());
             if (mastersCombo.getSelectedIndex() == 1) {
