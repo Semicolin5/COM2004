@@ -130,8 +130,10 @@ public class RetrieveQueries extends Queries {
     	   pstmt = conn.prepareStatement("SELECT hashpass, salt FROM users WHERE login_id = ?");
            pstmt.setInt(1, loginID);
            res = pstmt.executeQuery();
-           passSalt[0] = res.getString(1);
-           passSalt[1] = res.getString(2);           
+           if (res.next()) {
+        	   passSalt[0] = res.getString(1);
+        	   passSalt[1] = res.getString(2);
+           }
        }
        catch (SQLException e) {
            e.printStackTrace();

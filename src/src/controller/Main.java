@@ -39,7 +39,8 @@ public class Main {
      * @return the users privilege level
      * */
     public static int getPriv() {
-        return user.getPriv();
+        //return user.getPriv();
+    	return 4;
     }
     
     public static int getLoginID() {
