@@ -72,15 +72,16 @@ public class AdditionQueries extends Queries{
      * @param code String that is 6 char code representing the degree
      * @param name String describing the degree, i.e. "Computer Science"
      * */
-    public void addDegree(String code, String name, boolean masters) {
+    public void addDegree(String code, String name, boolean masters, boolean yearIndustry) {
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
                 db.enableACID();
-                pstmt = super.conn.prepareStatement("INSERT INTO degree VALUES (?,?,?)");
+                pstmt = super.conn.prepareStatement("INSERT INTO degree VALUES (?,?,?,?)");
                 pstmt.setString(1, code);
                 pstmt.setString(2, name);
                 pstmt.setBoolean(3, masters);
+                pstmt.setBoolean(4, yearIndustry);
                 pstmt.executeUpdate();
                 super.conn.commit();
                 db.disableACID();
@@ -240,7 +241,7 @@ public class AdditionQueries extends Queries{
      * @param priv  Privilege level of staff member.
      * @param salt Salt used for user's password (prevents Rainbow table attacks).
      * */
-    public void addUser(int loginId, String password, int priv, String salt) {
+    public void addUser(int loginId, String salt, String password, int priv) {
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
@@ -248,9 +249,9 @@ public class AdditionQueries extends Queries{
                 // first create entry in the user table
                 pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
                 pstmt.setInt(1, loginId);
-                pstmt.setString(2, password);
-                pstmt.setInt(3, priv);
-                pstmt.setString(4, salt);
+                pstmt.setString(2, salt);
+                pstmt.setString(3, password);
+                pstmt.setInt(4, priv);
                 pstmt.executeUpdate();
 
                 // commit connection, then close resources

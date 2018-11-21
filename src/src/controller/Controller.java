@@ -74,9 +74,9 @@ public class Controller {
 		}
 	}
 	
-    public static void saveDegree(String degreeCode, String degreeName, boolean masters) {
+    public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-        additionQ.addDegree(degreeCode, degreeName, masters);
+        additionQ.addDegree(degreeCode, degreeName, masters, yearIndustry);
     }
 
     public static void saveDepartment(String departmentCode, String departmentName) {
@@ -132,13 +132,11 @@ public class Controller {
         removalQ.removeUser(login);
     }
 
-
-
     public static void saveUser(int login, String pass, int priv) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         String salt = CryptoModule.generateSalt();
         String hashedPassword = CryptoModule.hashPassword(pass, salt);
-        additionQ.addUser(login, hashedPassword, priv, salt);
+        additionQ.addUser(login, salt, hashedPassword, priv);
     }
 
     /**public static void saveStudent(int login, String title, String forename, String surname, String tutor,
