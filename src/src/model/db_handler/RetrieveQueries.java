@@ -49,12 +49,15 @@ public class RetrieveQueries extends Queries {
         List<Degree> degreeTable = new ArrayList<Degree>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
-        //TODO: Add privilege check to controller function.
         try {
             pstmt = conn.prepareStatement("SELECT * FROM degree");
             res = pstmt.executeQuery();
+            String degCode = res.getString(1);
             while (res.next()) {
-                degreeTable.add(new Degree(res.getString(1), res.getString(2), res.getBoolean(3), res.getBoolean(4)));
+                // for each degree, find the associated departments
+                degreeTable.add(new Degree(degCode, res.getString(2),
+                        res.getBoolean(3), res.getBoolean(4),
+                        retrieveAffiliatedLeadDep(degCode), null));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,6 +65,55 @@ public class RetrieveQueries extends Queries {
             closeResources(pstmt, res);
         }
         return degreeTable;
+    }
+
+    /**
+     * Helper function used by retrieveDegreeTable to find affiliated departments for each degree
+     * @param code; String of degree whose Departments are to be found
+     * @return
+     * */
+    private List<Department> retrieveAffiliatedDep(String code) {
+
+        List<Department> nonLead = new ArrayList<Department>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+           pstmt = conn.prepareStatement("SELECT () FROM degree_department dd INNER JOIN department d WHERE ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return nonLead;
+    }
+
+    /**
+     * Helper function used by retrieveDegreeTable to find affiliated lead department for each degree
+     * @param code; String of degree whose lead Department is to be found
+     * @return
+     * */
+    public Department retrieveAffiliatedLeadDep(String code) {
+
+        Department lead = null;
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        // obtain the lead department.
+        System.out.println("in here yo");
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM department d " +
+                    "INNER JOIN degree_department dd WHERE d.department_code = dd.department_code " +
+                    "AND dd.degree_code = ? AND dd.lead_department=1");
+            pstmt.setString(1, code);
+            res = pstmt.executeQuery();
+            System.out.println("in here yo");
+            while(res.next()){
+                lead = new Department(res.getString(1), res.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
+        }
+        return lead;
     }
 
     /**
@@ -116,7 +168,7 @@ public class RetrieveQueries extends Queries {
    
    /**
     * retrieveUser, given a login ID retrieves the users object including their privilege
-    * @param int loginID, the login ID of the user we want to retrieve
+    * @param loginID, int, the login ID of the user we want to retrieve
     * @return User user, the User object of the user we want to retrieve
     */
   public User retrieveUser(int loginID) {
@@ -140,15 +192,11 @@ public class RetrieveQueries extends Queries {
       return ourUser;
   }
    
-   
-   
-   
-   
-   
+
    
    /**
     * getPassSalt, takes a loginID and returns the associated hashed password and salt
-    * @param int loginID, the users loginID
+    * @param loginID, int, the users loginID
     * @return String[], returns the hashed password and salt
     */
    public String[] getPassSalt(int loginID) {
@@ -173,15 +221,4 @@ public class RetrieveQueries extends Queries {
        }
 	   return passSalt;
    }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
 }

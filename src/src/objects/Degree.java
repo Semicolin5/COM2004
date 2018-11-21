@@ -19,13 +19,13 @@ public class Degree {
      * @param degreeCode String of 7 letter degree code
      * @param degreeName String of the name of the degree
      * */
-    public Degree (String degreeCode, String degreeName, boolean masters, boolean yearIndustry){//, Department lead, List<Department> nonLead) {
+    public Degree (String degreeCode, String degreeName, boolean masters, boolean yearIndustry, Department lead, List<Department> nonLead) {
         this.degreeCode = degreeCode;
         this.degreeName = degreeName;
         this.masters = masters;
         this.yearIndustry = yearIndustry;
-        this.lead = null;
-        this.nonLead = null;
+        this.lead = lead;
+        this.nonLead = nonLead;
     }
 
    /**

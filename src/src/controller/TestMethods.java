@@ -18,9 +18,9 @@ public class TestMethods {
 
         testdb = new DatabaseHandler();
 
-        testingRemovalQueries();
+        //testingRemovalQueries();
         //testingAdditionQueries();
-        //testingRetrieveQueries();
+        testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -39,9 +39,11 @@ public class TestMethods {
 
         // testing the retrieval method for a list of degrees
         System.out.println("\n2)Retrieving list of degrees");
-        List<Degree> lsDeg = tester.retrieveDegreesTable();
-        System.out.println(lsDeg.get(0).toString());
-        System.out.println(lsDeg.get(1).toString());
+        Department dep = tester.retrieveAffiliatedLeadDep("COMU49"); //
+        System.out.println(dep.toString());
+        //List<Degree> lsDeg = tester.retrieveDegreesTable();
+        //System.out.println(lsDeg.get(0).toString());
+        //System.out.println(lsDeg.get(1).toString());
     }
 
     // testing the AdditionQuery class methods
@@ -82,7 +84,7 @@ public class TestMethods {
     // object tests
     private static void testingDegreeObject() {
         // instantiate a Degree
-        Degree test = new Degree("COMU01", "Computer Science", false, false);
+        Degree test = new Degree("COMU01", "Computer Science", false, false, null, null);
         System.out.println(test.toString());
     }
 }
