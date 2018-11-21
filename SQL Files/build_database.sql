@@ -1,18 +1,13 @@
+#3NF
 CREATE TABLE users (
     login_id int,
+    salt CHAR (32),
     password CHAR (64), -- stores hash code
     privilege INT NOT NULL,
-    salt CHAR (32),
     PRIMARY KEY (login_id)
 );
 
-CREATE TABLE degree (
-    code CHAR (6),
-    name VARCHAR (100),
-    masters BOOLEAN,
-    PRIMARY KEY (code)
-);
-
+#3NF
 CREATE TABLE student (
     login_id int,
     title CHAR (2),
@@ -26,15 +21,28 @@ CREATE TABLE student (
     FOREIGN KEY (degree_code) REFERENCES degree (code)
 );
 
+#3NF
 CREATE TABLE period_of_study (
-    label CHAR (1),
     login_id int,
-    level_of_study CHAR (1), -- the level of study
+    label CHAR (1),
     start_date DATE,
     end_date DATE,
-    PRIMARY KEY (label, login_id),
+    level_of_study CHAR (1),
+    PRIMARY KEY (login_id, label),
     FOREIGN KEY (login_id) REFERENCES student (login_id)
 );
+
+
+CREATE TABLE degree (
+    code CHAR (6),
+    name VARCHAR (100),
+    masters BOOLEAN,
+    PRIMARY KEY (code)
+);
+
+
+
+
 
 CREATE TABLE department (
     code CHAR (3),
