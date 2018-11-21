@@ -12,7 +12,6 @@ public class GUIFrame extends JFrame {
         currentPanel = new Login(this).getJPanel();
         setContentPane(currentPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setVisible(true);
         setSize(800,500);
         setLocationRelativeTo(null);
