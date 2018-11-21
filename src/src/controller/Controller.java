@@ -68,7 +68,6 @@ public class Controller {
 	
     public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-        System.out.println(degreeCode + degreeName + masters + yearIndustry);
         additionQ.addDegree(degreeCode, degreeName, masters, yearIndustry);
     }
 

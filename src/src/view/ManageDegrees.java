@@ -25,7 +25,9 @@ public class ManageDegrees extends Form {
         frame.setTitle("Manage Degrees");
 
         //loops through users in database and adds all of their loginIDs to the JList.
+        System.out.println("Sbout to search through Degree");
         for (Degree degree : Controller.getDegrees()) {
+            System.out.println(degree.getDegreeCode());
             degreeModel.addElement(degree.getDegreeCode());
         }
         degreeList.setLayoutOrientation(JList.VERTICAL);

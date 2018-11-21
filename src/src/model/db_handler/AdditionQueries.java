@@ -46,24 +46,24 @@ public class AdditionQueries extends Queries{
      * @param credits is an int of the numbers of credits the modules is worth
      * */
     public void addModule(String code, String name, int credits, int semester) {
-        if (super.getPriv() == 4) {
-            PreparedStatement pstmt = null;
-            try {
-                db.enableACID();
-                pstmt = super.conn.prepareStatement("INSERT INTO module VALUES (?,?,?,?)");
-                pstmt.setString(1, code);
-                pstmt.setString(2, name);
-                pstmt.setInt(3, credits);
-                pstmt.setInt(4, semester);
-                pstmt.executeUpdate();
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                super.db.rollBack();
-                e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt);
-            }
+        System.out.println(super.getPriv());
+        System.out.println(src.controller.Main.getPriv());
+        PreparedStatement pstmt = null;
+        try {
+            db.enableACID();
+            pstmt = super.conn.prepareStatement("INSERT INTO module VALUES (?,?,?,?)");
+            pstmt.setString(1, code);
+            pstmt.setString(2, name);
+            pstmt.setInt(3, credits);
+            pstmt.setInt(4, semester);
+            pstmt.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack();
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 

@@ -29,6 +29,7 @@ public class Welcome extends Form {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         int privilege = Main.getPriv();
+        System.out.println(privilege);
 
         //Admin buttons
         if(privilege == 4) {

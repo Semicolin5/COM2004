@@ -74,7 +74,7 @@ public class RetrieveQueries extends Queries {
         List<Module> table = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
-        if (!super.isTableEmpty("module") && super.getPriv() == 4) {
+        if (!super.isTableEmpty("module")) {
             try {
                 pstmt = conn.prepareStatement("SELECT * FROM module");
                 res = pstmt.executeQuery();
