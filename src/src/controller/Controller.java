@@ -68,6 +68,7 @@ public class Controller {
 	
     public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+        System.out.println(degreeCode + degreeName + masters + yearIndustry);
         additionQ.addDegree(degreeCode, degreeName, masters, yearIndustry);
     }
 
@@ -122,6 +123,12 @@ public class Controller {
     public static void removeUser(String login) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeUser(login);
+    }
+
+    public static void removeDegree(String login) {
+        System.out.println("Remove degree needs coding"); //TODO: How will removeDegree work? Can a student on that degree be left with a null degree field?
+        //RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+        //removalQ.removeDegree(login);
     }
 
     public static void saveUser(int login, String pass, int priv) {

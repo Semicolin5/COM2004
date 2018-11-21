@@ -74,24 +74,24 @@ public class AdditionQueries extends Queries{
      * @param name String describing the degree, i.e. "Computer Science"
      * */
     public void addDegree(String code, String name, boolean masters, boolean yearIndustry) {
-        if (super.getPriv() == 4) {
-            PreparedStatement pstmt = null;
-            try {
-                db.enableACID();
-                pstmt = super.conn.prepareStatement("INSERT INTO degree VALUES (?,?,?,?)");
-                pstmt.setString(1, code);
-                pstmt.setString(2, name);
-                pstmt.setBoolean(3, masters);
-                pstmt.setBoolean(4, yearIndustry);
-                pstmt.executeUpdate();
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                super.db.rollBack();
-                e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt);
-            }
+        //TODO: Reinsert privilege checks within Controller
+        PreparedStatement pstmt = null;
+        try {
+            System.out.println(name + masters + code + yearIndustry);
+            db.enableACID();
+            pstmt = super.conn.prepareStatement("INSERT INTO degree VALUES (?,?,?,?)");
+            pstmt.setString(1, code);
+            pstmt.setString(2, name);
+            pstmt.setBoolean(3, masters);
+            pstmt.setBoolean(4, yearIndustry);
+            pstmt.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack();
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 
