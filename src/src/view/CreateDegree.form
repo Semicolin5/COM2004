@@ -101,8 +101,8 @@
         </constraints>
         <properties>
           <model>
-            <item value="Includes Year In Industry"/>
             <item value="Exclues Year In Industry"/>
+            <item value="Includes Year In Industry"/>
           </model>
         </properties>
       </component>

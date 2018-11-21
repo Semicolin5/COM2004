@@ -66,7 +66,7 @@ public class Welcome extends Form {
 
     public class degreeButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.Course(getFrame()).getJPanel());
+            changeJPanel(new src.view.ManageDegrees(getFrame()).getJPanel());
         }
     }
 

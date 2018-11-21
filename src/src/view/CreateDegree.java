@@ -88,8 +88,8 @@ public class CreateDegree extends Form {
         panel1.add(spacer4, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         yearIndustryCombo = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel2 = new DefaultComboBoxModel();
-        defaultComboBoxModel2.addElement("Includes Year In Industry");
         defaultComboBoxModel2.addElement("Exclues Year In Industry");
+        defaultComboBoxModel2.addElement("Includes Year In Industry");
         yearIndustryCombo.setModel(defaultComboBoxModel2);
         panel1.add(yearIndustryCombo, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
@@ -109,15 +109,22 @@ public class CreateDegree extends Form {
         @Override
         public void actionPerformed(ActionEvent e) {
             //TODO: Check Length here
+            System.out.println(mastersCombo.getSelectedIndex());
+            System.out.println(yearIndustryCombo.getSelectedIndex());
             if (mastersCombo.getSelectedIndex() == 1) {
                 if (yearIndustryCombo.getSelectedIndex() == 1)
                     Controller.saveDegree(degreeCode.getText(), degreeName.getText(), true, true);
-                else
+                else {
                     Controller.saveDegree(degreeCode.getText(), degreeName.getText(), true, false);
-            } else if (yearIndustryCombo.getSelectedIndex() == 0)
+                }
+            } else if (yearIndustryCombo.getSelectedIndex() == 0) {
+                System.out.println("0, 0");
                 Controller.saveDegree(degreeCode.getText(), degreeName.getText(), false, false);
-            else
+            }
+            else {
                 Controller.saveDegree(degreeCode.getText(), degreeName.getText(), false, true);
+            }
+            changeJPanel(new src.view.ManageDegrees(getFrame()).getJPanel());
         }
     }
 
