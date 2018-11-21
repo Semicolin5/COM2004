@@ -17,7 +17,42 @@ import src.model.*;
  * are being passed.
  * */
 public class Controller {
+	//*******************************************
+	//Private Controller methods (may be put into a different file at a later date) 
+	//*******************************************
+	private static boolean passwordMatch(int loginID, String password) {
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+    	String[] passSalt = retrieveQ.getPassSalt(loginID);
+		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
+		if (passSalt[0].equals(hashedPass)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
+	
+	private static String generateModuleCode(String depCode) {
+		
+		//We check every itteration 
+		
+		
+		String moduleCode = "";
+		
+		
+		return moduleCode;
+	}
+	
+	
+	
+	
+	
+	
+	
+	//*******************************************
+	//Public Controller methods
+	//*******************************************
 	
     /**
      * setCurrentUser, takes a login ID and sets the current user to the one linked to the login ID
@@ -54,17 +89,7 @@ public class Controller {
     }
     
     
-	private static boolean passwordMatch(int loginID, String password) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-    	String[] passSalt = retrieveQ.getPassSalt(loginID);
-		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
-		if (passSalt[0].equals(hashedPass)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+
 	
     public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
