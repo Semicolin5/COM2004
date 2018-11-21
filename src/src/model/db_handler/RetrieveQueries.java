@@ -127,7 +127,7 @@ public class RetrieveQueries extends Queries {
       PreparedStatement pstmt = null;
       ResultSet res = null;
       try {
-    	  pstmt = conn.prepareStatement("SELECT * FROM users where login_id ?");
+    	  pstmt = conn.prepareStatement("SELECT * FROM users where login_id = ?");
           pstmt.setInt(1, loginID);
           res = pstmt.executeQuery();
           if (res.next()) {
