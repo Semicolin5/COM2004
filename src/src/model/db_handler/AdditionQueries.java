@@ -240,7 +240,7 @@ public class AdditionQueries extends Queries{
      * @param priv  Privilege level of staff member.
      * @param salt Salt used for user's password (prevents Rainbow table attacks).
      * */
-    public void addUser(int loginId, String password, int priv, String salt) {
+    public void addUser(int loginId, String salt, String password, int priv) {
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
@@ -248,9 +248,9 @@ public class AdditionQueries extends Queries{
                 // first create entry in the user table
                 pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
                 pstmt.setInt(1, loginId);
-                pstmt.setString(2, password);
-                pstmt.setInt(3, priv);
-                pstmt.setString(4, salt);
+                pstmt.setString(2, salt);
+                pstmt.setString(3, password);
+                pstmt.setInt(4, priv);
                 pstmt.executeUpdate();
 
                 // commit connection, then close resources
