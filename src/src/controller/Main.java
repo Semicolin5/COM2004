@@ -27,24 +27,6 @@ public class Main {
     }
 
     /**
-     * validate determines if the user logs in correctly
-     * @param potentialUser User object contains unvalidated user info
-     * @return bool true if properly validated
-     * */
-    public static boolean validate(User potentialUser) {
-        Boolean validated = false;
-        if (true) { //todo call db.obtainPrivilege() and find out details
-            user = potentialUser;
-            validated = true; // TODO shouldn't be hardcoded
-            System.out.println("TEST IN Main.java " + user.toString());
-        } else {
-            validated = false;
-        }
-        db.setPrivLevel(user.getPriv());
-        return validated;
-    }
-
-    /**
      * Accessor method for the DatabaseHandler object db
      * @return DatabaseHandler object
      * */
@@ -58,6 +40,10 @@ public class Main {
      * */
     public static int getPriv() {
         return user.getPriv();
+    }
+    
+    public static int getLoginID() {
+    	return user.getLogin();
     }
 
 

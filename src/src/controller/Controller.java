@@ -6,7 +6,6 @@ import src.objects.Department;
 import src.objects.Module;
 import src.objects.User;
 
-import java.text.DateFormat;
 import java.util.List;
 import src.model.*;
 
@@ -19,7 +18,51 @@ import src.model.*;
  * */
 public class Controller {
 	
-	public static boolean passwordMatch(int loginID, String password) {
+	
+    /**
+     * validate determines if the user logs in correctly
+     * @param potentialUser User object contains unvalidated user info
+     * @return bool true if properly validated
+     * */
+    public static boolean validate(User potentialUser) {
+        /*Boolean validated = false;
+        if (true) { //todo call db.obtainPrivilege() and find out details
+            user = potentialUser;
+            validated = true; // TODO shouldn't be hardcoded
+            System.out.println("TEST IN Main.java " + user.toString());
+        } else {
+            validated = false;
+        }
+        db.setPrivLevel(user.getPriv());*/
+        return false;
+    }
+    
+    public static String checkLogin(String loginID, String password) {
+    	CheckQueries checkQ = new CheckQueries(Main.getDB());
+    	//Check that we can turn login ID to an int
+    	int loginInt;
+    	String returnMessage = "";
+    	if (!RegexTests.checkLoginID(loginID)) {
+    		return "Incorrect Login ID format.";
+    	}
+    	else {
+    		loginInt = Integer.parseInt(loginID);		
+    	}
+    	//Run the checks
+    	if (!checkQ.checkLoginIDExists(loginInt)) {
+    		returnMessage = "Incorrect User ID and Password combination.";
+    	}
+    	else if (!Controller.passwordMatch(loginInt, password)) {
+    		returnMessage = "Incorrect User ID and Password combination.";
+    	}
+    	else {
+    		returnMessage = "Accepted";
+    	}
+    	return returnMessage;
+    }
+    
+    
+	private static boolean passwordMatch(int loginID, String password) {
     	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
     	String[] passSalt = retrieveQ.getPassSalt(loginID);
 		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);

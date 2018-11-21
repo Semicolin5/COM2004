@@ -1,5 +1,6 @@
 package src.view;
 
+import src.controller.Controller;
 /*import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -109,11 +110,12 @@ public class Login extends Form {
          * // TODO will need to change this so it actually checks pw
          */
         public void actionPerformed(ActionEvent actionEvent) {
-            //TODO: .getText below is depreciated & fix unvalidated Login.
-            User unvalidatedUser = new User(100, "@OJDSJOFDJFDS", passwordField1.getText(), 4 );
-            System.out.println("TEST IN Login.java: " + unvalidatedUser.toString());
-            // pass unvalidated user into Controller.java, validate pw
-            if (Main.validate(unvalidatedUser)) {
+            String loginID = textField1.getText();
+            String password = new String(passwordField1.getPassword());
+            String returnedString = Controller.checkLogin(loginID, password);
+            password = ""; //Clears up old the password so it can be garbage collected
+            //TODO
+            if (loginID.equals("")) {
                 changeJPanel(new Welcome(getFrame()).getJPanel());
             } else {
                 //TODO something happens if entered wrong pw, i.e. prompt pw error
