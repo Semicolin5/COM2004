@@ -103,23 +103,21 @@ public class AdditionQueries extends Queries{
      * @param lead boolean expressing whether the associated department is the lead department
      * */
     public void addDepartmentAssociation (String degreeCode, String departmentCode, boolean lead) {
-        if (super.getPriv() == 4) {
-            PreparedStatement pstmt = null;
-            try {
-                db.enableACID();
-                pstmt = super.conn.prepareStatement("INSERT INTO associated_department VALUES (?,?,?)");
-                pstmt.setString(1, degreeCode);
-                pstmt.setString(2, departmentCode);
-                pstmt.setBoolean(3, lead);
-                pstmt.executeUpdate();
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                super.db.rollBack();
-                e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt);
-            }
+        PreparedStatement pstmt = null;
+        try {
+            db.enableACID();
+            pstmt = super.conn.prepareStatement("INSERT INTO degree_department VALUES (?,?,?)");
+            pstmt.setString(1, degreeCode);
+            pstmt.setString(2, departmentCode);
+            pstmt.setBoolean(3, lead);
+            pstmt.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack();
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 

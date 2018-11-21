@@ -161,29 +161,32 @@ public class CreateDegree extends Form {
     }
 
     /**
-     * Event listener which passes parameters to a controller class,
-     * which ultimately creates a new row in the Degree table with those parameters.
+     *This function calls checks, then providing they are passed
+     * it will add a row to the degree table, and then loop through the JList,
+     * creating a row in the degree_department table for every entry in the JList.
      */
     public class CreateDegreeHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             //TODO: Check Length here + other necessary checks
-            System.out.println(mastersCombo.getSelectedIndex());
-            System.out.println(yearIndustryCombo.getSelectedIndex());
-            if (mastersCombo.getSelectedIndex() == 1) {
-                if (yearIndustryCombo.getSelectedIndex() == 1)
-                    Controller.saveDegree(degreeCode.getText(), degreeName.getText(), true, true);
-                else {
-                    Controller.saveDegree(degreeCode.getText(), degreeName.getText(), true, false);
+            boolean masters = mastersCombo.getSelectedItem().toString().equals("Masters");
+            boolean industryYear = yearIndustryCombo.getSelectedItem().toString().equals("Includes Year In Industry");
+                    Controller.saveDegree(degreeCode.getText(), degreeName.getText(), masters, industryYear);
+
+            //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
+            //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
+            ListModel model = departmentList.getModel();
+
+            for (int i = 0; i < model.getSize(); i++) {
+                Object o = model.getElementAt(i);
+                String arr[] = o.toString().split(" ");
+                String departmentCode = arr[0];
+                if (arr[1].equals("Lead")) {
+                    Controller.saveDepartmentAssociation(degreeCode.getText(), departmentCode, true);
+                } else {
+                    Controller.saveDepartmentAssociation(degreeCode.getText(), departmentCode, false);
                 }
-            } else if (yearIndustryCombo.getSelectedIndex() == 0) {
-                System.out.println("0, 0");
-                Controller.saveDegree(degreeCode.getText(), degreeName.getText(), false, false);
-            } else {
-                Controller.saveDegree(degreeCode.getText(), degreeName.getText(), false, true);
             }
-            changeJPanel(new src.view.ManageDegrees(getFrame()).getJPanel());
         }
     }
-
 }

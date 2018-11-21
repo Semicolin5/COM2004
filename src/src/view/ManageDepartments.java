@@ -12,10 +12,15 @@ public class ManageDepartments extends Form {
     private JButton createDepartmentButton;
     private JList list1;
     private JButton deleteDepartmentButton;
+    private JButton backButton;
     private DefaultListModel<String> departmentsModel;
 
     public ManageDepartments(GUIFrame frame) {
         super(frame);
+
+        //Set back button
+        setBackButton(backButton);
+        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
         setJPanel(panel1);
         departmentsModel = new DefaultListModel<>();
         frame.setTitle("Manage Departments");
@@ -94,6 +99,19 @@ public class ManageDepartments extends Form {
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel1.add(label1, gbc);
+        backButton = new JButton();
+        backButton.setText("Back");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(backButton, gbc);
+        final JPanel spacer4 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel1.add(spacer4, gbc);
     }
 
     /**
