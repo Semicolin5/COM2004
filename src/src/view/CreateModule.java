@@ -207,7 +207,8 @@ public class CreateModule extends Form {
             //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
             ListModel model = moduleList.getModel();
-            Controller.saveModule(moduleCode.getText(), moduleName.getText(), Integer.parseInt(moduleCredits.getText()), semesterCombo.getSelectedIndex());
+            //Need to put in checks here
+            //Controller.saveModule(moduleCode.getText(), moduleName.getText(), Integer.parseInt(moduleCredits.getText()), semesterCombo.getSelectedIndex());
             for (int i = 0; i < model.getSize(); i++) {
                 Object o = model.getElementAt(i);
                 String arr[] = o.toString().split(" ");

@@ -1,10 +1,6 @@
 package src.model.db_handler;
 import java.sql.*;
-
-import src.objects.Degree;
-import src.objects.Department;
-import src.objects.Module;
-import src.objects.User;
+import src.objects.*;
 import java.util.*;
 
 
@@ -107,6 +103,27 @@ public class RetrieveQueries extends Queries {
             }
         }
         return modules;
+    }
+    
+    public List<ModuleDegree> retrieveModuleLinkDegreeTable() {
+        List<ModuleDegree> moduleDegreeTable = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+     	   pstmt = conn.prepareStatement("SELECT * FROM module_degree");
+            res = pstmt.executeQuery();
+            while (res.next()) {
+         	   moduleDegreeTable.add(new ModuleDegree(res.getString(1), res.getString(2),
+                res.getString(3), res.getBoolean(4)));
+            }
+        }
+        catch (SQLException e) {
+     	   e.printStackTrace();
+        }
+        finally {
+     	   closeResources(pstmt, res);
+        }
+    	return moduleDegreeTable;
     }
     
     

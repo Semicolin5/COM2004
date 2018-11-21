@@ -13,9 +13,7 @@ public class CryptoModule {
 		//This is just used for testing the functions
 		String salt = generateSalt();
 		System.out.println(salt);
-		System.out.println(hashPassword("password",salt));
-		
-		
+		System.out.println(hashPassword("password",salt));	
 	}
 	
     /**

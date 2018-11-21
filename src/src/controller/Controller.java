@@ -1,11 +1,7 @@
 package src.controller;
 
 import src.model.db_handler.*;
-import src.objects.Degree;
-import src.objects.Department;
-import src.objects.Module;
-import src.objects.User;
-
+import src.objects.*;
 import java.util.List;
 import src.model.*;
 
@@ -33,10 +29,11 @@ public class Controller {
 	}
 	
 	
+	//TODO - auto generate module codes to minimise attack surface
 	private static String generateModuleCode(String depCode) {
-		
-		//We check every itteration 
-		
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		List<String> listModulesCodes = retrieveQ.retrieveDepartmentsModules(depCode);		
+		//Now we must check all values	
 		
 		String moduleCode = "";
 		
@@ -89,6 +86,9 @@ public class Controller {
     }
     
     
+    
+    
+    
 
 	
     public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
@@ -102,10 +102,44 @@ public class Controller {
         additionQ.addDepartment(departmentCode, departmentName);
     }
 
-    public static void saveModule(String moduleCode, String moduleName, int credits, int semester) {
-        // TODO maybe have logic to check that the parameters are the right length?
+    
+    
+    public static String saveModule(String moduleCode, String moduleName, int credits, int semester, List<ModuleDegree> moduleDegreeList, int priv) {
+        //Get our databases initialised
+    	
+    	String returnMessage = "";
+        
+        //Lets start our if statements
+        if (priv != 4) {
+        	returnMessage = "Denied - Insufficient privelige.";
+        }
+        else if (!RegexTests.checkModuleCode(moduleCode)) {
+        	returnMessage = "Incorrect module code format.";
+        }
+        else if (returnMessage.equals("q")/* check unique module code*/) {
+        	returnMessage = "Module Code already exists.";
+        }
+        else if (moduleName.length() > 100) { 
+        	returnMessage = "Module name too long.";
+        }
+        else if (returnMessage.equals("q")/*Check credits are an int in range 0 -  120*/) {
+        	
+        }
+        else if (returnMessage.equals("q")/* not sure I need to check this?*/) {
+        	
+        }
+        else {
+        	//Store in the database
+        }
+            
+        
+        
+        
+        //Module needs to be added to the module table and the module_degree table
+        
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addModule(moduleCode, moduleName, credits, semester);
+        return returnMessage;
     }
 
     public static void saveModuleAssociation(String moduleCode, String moduleName, int level, boolean core) {
