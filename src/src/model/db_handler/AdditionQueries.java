@@ -107,7 +107,7 @@ public class AdditionQueries extends Queries{
             PreparedStatement pstmt = null;
             try {
                 db.enableACID();
-                pstmt = super.conn.prepareStatement("INSERT INTO associated_department VALUES (?,?,?)");
+                pstmt = super.conn.prepareStatement("INSERT INTO degree_department VALUES (?,?,?)");
                 pstmt.setString(1, degreeCode);
                 pstmt.setString(2, departmentCode);
                 pstmt.setBoolean(3, lead);

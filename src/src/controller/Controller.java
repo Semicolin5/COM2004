@@ -83,6 +83,12 @@ public class Controller {
         additionQ.addModule(moduleCode, moduleName, credits, semester);
     }
 
+    public static void saveDepartmentAssociation(String degreeCode, String departmentCode, boolean lead) {
+        // TODO maybe have logic to check that the parameters are the right length?
+        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+        additionQ.addDepartmentAssociation(degreeCode, departmentCode, lead);
+    }
+
     public static void saveModuleAssociation(String moduleCode, String moduleName, int level, boolean core) {
         // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
