@@ -2,6 +2,8 @@ package src.view;
 
 import javax.swing.*;
 
+import src.controller.Main;
+
 public class GUIFrame extends JFrame {
 
     private JPanel currentPanel;
@@ -24,6 +26,10 @@ public class GUIFrame extends JFrame {
         currentPanel = panel;
         getContentPane().add(currentPanel);
         getContentPane().setVisible(true);
+    }
+    
+    public void privCheck() {
+    	//TODO get it to check if you're actually logged in or not
     }
 
 }
