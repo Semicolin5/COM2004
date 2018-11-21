@@ -16,10 +16,16 @@ public class ManageDegrees extends Form {
     private JList degreeList;
     private JButton deleteSelectedDegreesButton;
     private JButton createDegreeButton;
+    private JButton backButton;
     private DefaultListModel<String> degreeModel;
 
     public ManageDegrees(GUIFrame frame) {
         super(frame);
+
+        //Setup back button
+        setBackButton(backButton);
+        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
+
         setJPanel(panel1);
         degreeModel = new DefaultListModel<>();
         frame.setTitle("Manage Degrees");
@@ -53,7 +59,7 @@ public class ManageDegrees extends Form {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(8, 1, new Insets(0, 0, 0, 0), -1, -1));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         degreeList = new JList();
@@ -70,6 +76,11 @@ public class ManageDegrees extends Form {
         createDegreeButton = new JButton();
         createDegreeButton.setText("Create Degree");
         panel1.add(createDegreeButton, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer4 = new Spacer();
+        panel1.add(spacer4, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        backButton = new JButton();
+        backButton.setText("Back");
+        panel1.add(backButton, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

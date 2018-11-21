@@ -16,9 +16,15 @@ public class ManageModules extends Form {
     private JButton createAModuleButton;
     private DefaultListModel<String> moduleModel;
     private JPanel panel1;
+    private JButton backButton;
 
     public ManageModules(GUIFrame frame) {
         super(frame);
+
+        //Set back button
+        setBackButton(backButton);
+        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
+
         setJPanel(panel1);
         moduleModel = new DefaultListModel<>();
         frame.setTitle("Manage Modules");
@@ -50,7 +56,7 @@ public class ManageModules extends Form {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(7, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(9, 1, new Insets(0, 0, 0, 0), -1, -1));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         moduleList = new JList();
@@ -70,6 +76,11 @@ public class ManageModules extends Form {
         final JLabel label1 = new JLabel();
         label1.setText("List of Current Modules");
         panel1.add(label1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer4 = new Spacer();
+        panel1.add(spacer4, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        backButton = new JButton();
+        backButton.setText("Back");
+        panel1.add(backButton, new GridConstraints(8, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

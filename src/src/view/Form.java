@@ -12,7 +12,6 @@ public class Form extends JPanel {
 
     public Form(GUIFrame frame) {
         this.frame = frame;
-        this.backButton = new JButton("Back");
     }
 
     public GUIFrame getFrame() {
@@ -31,7 +30,12 @@ public class Form extends JPanel {
         frame.changeJPanel(panel);
     }
 
+    public void setBackButton(JButton backButton) {
+        this.backButton = backButton;
+    }
+
     public JButton getBackButton() {
+        backButton = new JButton("Back");
         return backButton;
     }
 
