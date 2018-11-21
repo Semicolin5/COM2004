@@ -1,10 +1,6 @@
 package src.model.db_handler;
 import java.sql.*;
-
-import src.objects.Degree;
-import src.objects.Department;
-import src.objects.Module;
-import src.objects.User;
+import src.objects.*;
 import java.util.*;
 
 
@@ -146,6 +142,49 @@ public class RetrieveQueries extends Queries {
         return table;
     }
     
+    public List<String> retrieveDepartmentsModules(String depCode) {
+        List<String> modules = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        if (!super.isTableEmpty("module")) {
+            try {
+                pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ?");
+                pstmt.setString(1, depCode);
+                res = pstmt.executeQuery();
+                while (res.next()) {
+                    modules.add(res.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                closeResources(pstmt, res);
+            }
+        }
+        return modules;
+    }
+    
+    public List<ModuleDegree> retrieveModuleLinkDegreeTable() {
+        List<ModuleDegree> moduleDegreeTable = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+     	   pstmt = conn.prepareStatement("SELECT * FROM module_degree");
+            res = pstmt.executeQuery();
+            while (res.next()) {
+         	   moduleDegreeTable.add(new ModuleDegree(res.getString(1), res.getString(2),
+                res.getString(3), res.getBoolean(4)));
+            }
+        }
+        catch (SQLException e) {
+     	   e.printStackTrace();
+        }
+        finally {
+     	   closeResources(pstmt, res);
+        }
+    	return moduleDegreeTable;
+    }
+    
+    
     /**
      * retrieve the users table
      * @return List<User>, returns the list of the users table
@@ -154,19 +193,19 @@ public class RetrieveQueries extends Queries {
        List<User> userTable = new ArrayList<>();
        PreparedStatement pstmt = null;
        ResultSet res = null;
-       if (super.getPriv() == 4) {
-           try {
-               pstmt = conn.prepareStatement("SELECT * FROM users");
-               res = pstmt.executeQuery();
-               while (res.next()) {
-                   userTable.add(new User(res.getInt(1), res.getString(2),
-                           res.getString(3), res.getInt(4)));
-               }
-           } catch (SQLException e) {
-               e.printStackTrace();
-           } finally {
-               closeResources(pstmt, res);
+       try {
+    	   pstmt = conn.prepareStatement("SELECT * FROM users");
+           res = pstmt.executeQuery();
+           while (res.next()) {
+        	   userTable.add(new User(res.getInt(1), res.getString(2),
+               res.getString(3), res.getInt(4)));
            }
+       }
+       catch (SQLException e) {
+    	   e.printStackTrace();
+       }
+       finally {
+    	   closeResources(pstmt, res);
        }
        return userTable;
    }

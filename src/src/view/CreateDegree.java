@@ -28,6 +28,7 @@ public class CreateDegree extends Form {
     private JComboBox leadCombo;
     private JButton linkDepartmentButton;
     private JList departmentList;
+    private JButton cancelButton;
     private DefaultListModel<String> departmentsModel;
 
     /**
@@ -37,6 +38,10 @@ public class CreateDegree extends Form {
      */
     public CreateDegree(GUIFrame frame) {
         super(frame);
+
+        setBackButton(cancelButton);
+        setBackButtonPanel(new ManageDegrees(getFrame()).getJPanel());
+
         setJPanel(panel1);
         createDegree.addActionListener(new CreateDegreeHandler());
 
@@ -81,9 +86,7 @@ public class CreateDegree extends Form {
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
-        panel1.add(spacer2, new GridConstraints(10, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final Spacer spacer3 = new Spacer();
-        panel1.add(spacer3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel1.add(spacer2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
         label3.setText("Bachelors or Masters?");
         panel1.add(label3, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -99,16 +102,16 @@ public class CreateDegree extends Form {
         createDegree = new JButton();
         createDegree.setText("Create Degree");
         panel1.add(createDegree, new GridConstraints(10, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer4 = new Spacer();
-        panel1.add(spacer4, new GridConstraints(11, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        panel1.add(spacer3, new GridConstraints(11, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         yearIndustryCombo = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel2 = new DefaultComboBoxModel();
         defaultComboBoxModel2.addElement("Exclues Year In Industry");
         defaultComboBoxModel2.addElement("Includes Year In Industry");
         yearIndustryCombo.setModel(defaultComboBoxModel2);
         panel1.add(yearIndustryCombo, new GridConstraints(4, 2, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer5 = new Spacer();
-        panel1.add(spacer5, new GridConstraints(5, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer4 = new Spacer();
+        panel1.add(spacer4, new GridConstraints(5, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JLabel label5 = new JLabel();
         label5.setText("Add Related Department");
         panel1.add(label5, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -136,6 +139,9 @@ public class CreateDegree extends Form {
         final JLabel label8 = new JLabel();
         label8.setText("Lead Status");
         panel1.add(label8, new GridConstraints(6, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        cancelButton = new JButton();
+        cancelButton.setText("Cancel");
+        panel1.add(cancelButton, new GridConstraints(10, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -161,7 +167,7 @@ public class CreateDegree extends Form {
     }
 
     /**
-     *This function calls checks, then providing they are passed
+     * This function calls checks, then providing they are passed
      * it will add a row to the degree table, and then loop through the JList,
      * creating a row in the degree_department table for every entry in the JList.
      */
@@ -171,7 +177,7 @@ public class CreateDegree extends Form {
             //TODO: Check Length here + other necessary checks
             boolean masters = mastersCombo.getSelectedItem().toString().equals("Masters");
             boolean industryYear = yearIndustryCombo.getSelectedItem().toString().equals("Includes Year In Industry");
-                    Controller.saveDegree(degreeCode.getText(), degreeName.getText(), masters, industryYear);
+            Controller.saveDegree(degreeCode.getText(), degreeName.getText(), masters, industryYear);
 
             //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.

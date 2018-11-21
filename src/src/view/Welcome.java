@@ -56,14 +56,11 @@ public class Welcome extends Form {
             panel.add(new JButton("View Record"));
         }
 
-        //Add back button
-        panel.add(getBackButton());
+        //Add logout button
+        JButton backButton = new JButton("Logout");
+        panel.add(backButton);
+        setBackButton(backButton);
         setBackButtonPanel(new Login(getFrame()).getJPanel());
-
-        //Add logout button at the end
-        JButton logoutButton = new JButton("Logout");
-        panel.add(logoutButton);
-        logoutButton.addActionListener(new logoutButtonHandler());
 
         return panel;
     }

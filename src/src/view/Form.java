@@ -34,11 +34,6 @@ public class Form extends JPanel {
         this.backButton = backButton;
     }
 
-    public JButton getBackButton() {
-        backButton = new JButton("Back");
-        return backButton;
-    }
-
     public void setBackButtonPanel(JPanel panel) {
         backButton.addActionListener(new backButtonHandler(panel));
     }

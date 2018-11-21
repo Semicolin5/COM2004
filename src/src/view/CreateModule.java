@@ -33,6 +33,7 @@ public class CreateModule extends Form {
     private JList moduleList;
     private JButton createModuleButton;
     private JComboBox semesterCombo;
+    private JButton cancelButton;
     private DefaultListModel<String> departmentsModel;
 
     /**
@@ -43,6 +44,10 @@ public class CreateModule extends Form {
      */
     public CreateModule(GUIFrame frame) {
         super(frame);
+
+        setBackButton(cancelButton);
+        setBackButtonPanel(new ManageModules(getFrame()).getJPanel());
+
         setJPanel(myPanel);
         frame.setTitle("Create Module Screen");
 
@@ -169,6 +174,9 @@ public class CreateModule extends Form {
         defaultComboBoxModel1.addElement("Year-long");
         semesterCombo.setModel(defaultComboBoxModel1);
         myPanel.add(semesterCombo, new GridConstraints(4, 2, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        cancelButton = new JButton();
+        cancelButton.setText("Cancel");
+        myPanel.add(cancelButton, new GridConstraints(11, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -207,7 +215,8 @@ public class CreateModule extends Form {
             //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
             ListModel model = moduleList.getModel();
-            Controller.saveModule(moduleCode.getText(), moduleName.getText(), Integer.parseInt(moduleCredits.getText()), semesterCombo.getSelectedIndex());
+            //Need to put in checks here
+            //Controller.saveModule(moduleCode.getText(), moduleName.getText(), Integer.parseInt(moduleCredits.getText()), semesterCombo.getSelectedIndex());
             for (int i = 0; i < model.getSize(); i++) {
                 Object o = model.getElementAt(i);
                 String arr[] = o.toString().split(" ");
