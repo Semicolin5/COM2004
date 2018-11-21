@@ -1,10 +1,5 @@
 package src.model.db_handler;
 import java.sql.*;
-
-import src.objects.Degree;
-import src.objects.Department;
-import src.objects.Module;
-import src.objects.User;
 import java.util.*;
 
 
@@ -52,8 +47,6 @@ public class CheckQueries extends Queries {
        }
    }
    
-   
-   
    /**
     * checkLoginIDExists, takes a login ID and returns true if it exists
     * @param int loginID, the login ID we search on
@@ -84,6 +77,4 @@ public class CheckQueries extends Queries {
     	   return false;
        }
    }
-   
-
 }
