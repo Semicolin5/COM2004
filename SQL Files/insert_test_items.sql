@@ -46,5 +46,5 @@ INSERT INTO module_degree VALUES
     ("RSS2109", "COMU49", 2, 0);
 
 INSERT INTO grades VALUES
-    (1004, "COM1005", "74.55655", null),
-    (1004, "COM1001", "20.001", "50.5555");
+    (1001, "COM1005", "74.55655", null),
+    (1001, "COM1001", "20.001", "50.5555");
