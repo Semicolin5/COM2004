@@ -19,7 +19,6 @@ public class Welcome extends Form {
         frame.setTitle("Welcome Screen");
     }
 
-
     private JPanel initPanel() {
         JButton courseButton = new JButton("Course Management");
         JButton departmentButton = new JButton("Department Management");
@@ -56,6 +55,10 @@ public class Welcome extends Form {
         else {
             panel.add(new JButton("View Record"));
         }
+
+        //Add back button
+        panel.add(getBackButton());
+        setBackButtonPanel(new Login(getFrame()).getJPanel());
 
         //Add logout button at the end
         JButton logoutButton = new JButton("Logout");
@@ -99,7 +102,6 @@ public class Welcome extends Form {
     public class userButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new src.view.ManageUsers(getFrame()).getJPanel());
-
         }
     }
 }
