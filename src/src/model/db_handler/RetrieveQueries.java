@@ -51,18 +51,17 @@ public class RetrieveQueries extends Queries {
         List<Degree> degreeTable = new ArrayList<Degree>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
-        if(super.getPriv() == 4) {
-            try {
-                pstmt = conn.prepareStatement("SELECT * FROM degree");
-                res = pstmt.executeQuery();
-                while (res.next()) {
-                    degreeTable.add(new Degree(res.getString(1), res.getString(2), res.getBoolean(3), res.getBoolean(4)));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                closeResources(pstmt, res);
+        //TODO: Add privilege check to controller function.
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM degree");
+            res = pstmt.executeQuery();
+            while (res.next()) {
+                degreeTable.add(new Degree(res.getString(1), res.getString(2), res.getBoolean(3), res.getBoolean(4)));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
         }
         return degreeTable;
     }
