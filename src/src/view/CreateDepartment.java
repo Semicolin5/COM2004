@@ -76,12 +76,13 @@ public class CreateDepartment extends Form {
         public void actionPerformed(ActionEvent e) {
             //TODO: Form check on the two textboxes, and check for duplicates on the primary key.
             Controller.saveDepartment(departmentCode.getText(), departmentName.getText());
-            changeJPanel(new src.view.ManageDepartments(getFrame()).getJPanel());
+            changeJPanel(new ManageDepartments(getFrame()).getJPanel());
         }
     }
 
     /**
      * Set default JFrame sizes & add Event Listener
+     *
      * @param frame - JFrame with properties set in the GUIFrame class.
      */
     public CreateDepartment(GUIFrame frame) {
