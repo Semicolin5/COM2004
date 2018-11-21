@@ -110,7 +110,7 @@ public class Login extends Form {
          */
         public void actionPerformed(ActionEvent actionEvent) {
             //TODO: .getText below is depreciated & fix unvalidated Login.
-            User unvalidatedUser = new User(100, passwordField1.getText(), 4, "@OJDSJOFDJFDS");
+            User unvalidatedUser = new User(100, "@OJDSJOFDJFDS", passwordField1.getText(), 4 );
             System.out.println("TEST IN Login.java: " + unvalidatedUser.toString());
             // pass unvalidated user into Controller.java, validate pw
             if (Main.validate(unvalidatedUser)) {
