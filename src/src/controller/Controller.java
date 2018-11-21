@@ -31,9 +31,9 @@ public class Controller {
 		}
 	}
 	
-    public static void saveDegree(String degreeCode, String degreeName, boolean masters) {
+    public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-        additionQ.addDegree(degreeCode, degreeName, masters);
+        additionQ.addDegree(degreeCode, degreeName, masters, yearIndustry);
     }
 
     public static void saveDepartment(String departmentCode, String departmentName) {

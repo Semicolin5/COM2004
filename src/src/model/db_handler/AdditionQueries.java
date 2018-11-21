@@ -72,15 +72,16 @@ public class AdditionQueries extends Queries{
      * @param code String that is 6 char code representing the degree
      * @param name String describing the degree, i.e. "Computer Science"
      * */
-    public void addDegree(String code, String name, boolean masters) {
+    public void addDegree(String code, String name, boolean masters, boolean yearIndustry) {
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
                 db.enableACID();
-                pstmt = super.conn.prepareStatement("INSERT INTO degree VALUES (?,?,?)");
+                pstmt = super.conn.prepareStatement("INSERT INTO degree VALUES (?,?,?,?)");
                 pstmt.setString(1, code);
                 pstmt.setString(2, name);
                 pstmt.setBoolean(3, masters);
+                pstmt.setBoolean(4, yearIndustry);
                 pstmt.executeUpdate();
                 super.conn.commit();
                 db.disableACID();
