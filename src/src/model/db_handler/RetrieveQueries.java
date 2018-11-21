@@ -24,10 +24,9 @@ public class RetrieveQueries extends Queries {
      * @return list of Department objects.
      * */
     public List<Department> retrieveDepartmentTable() {
-        List<Department> table = new ArrayList<Department>();
+        List<Department> table = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
-        if (!super.isTableEmpty("department") && super.getPriv() == 4) {
             try {
                 pstmt = conn.prepareStatement("SELECT * FROM department");
                 res = pstmt.executeQuery();
@@ -39,7 +38,6 @@ public class RetrieveQueries extends Queries {
             } finally {
                 closeResources(pstmt, res);
             }
-        }
         return table;
     }
 
