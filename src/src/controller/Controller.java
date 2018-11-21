@@ -104,7 +104,7 @@ public class Controller {
         DateFormat df = DateFormat.getDateInstance();
         start = df.parse(df);
         additionQ.addStudent(login, title, forename, surname, tutor, email, degree);
-    }*//
+    }*/
 
     public static String checkInputUser(int loginID, String password, String confirmPassword) {
     	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());

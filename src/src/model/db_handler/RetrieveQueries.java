@@ -56,7 +56,7 @@ public class RetrieveQueries extends Queries {
                 pstmt = conn.prepareStatement("SELECT * FROM degree");
                 res = pstmt.executeQuery();
                 while (res.next()) {
-                    degreeTable.add(new Degree(res.getString(1), res.getString(2),res.getBoolean(3)));
+                    degreeTable.add(new Degree(res.getString(1), res.getString(2), res.getBoolean(3), res.getBoolean(4)));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -80,7 +80,7 @@ public class RetrieveQueries extends Queries {
                 pstmt = conn.prepareStatement("SELECT * FROM module");
                 res = pstmt.executeQuery();
                 while (res.next()) {
-                    table.add(new Module(res.getString(1), res.getString(2), res.getInt(3)));
+                    table.add(new Module(res.getString(1), res.getString(2), res.getInt(3), res.getInt(4)));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -90,9 +90,11 @@ public class RetrieveQueries extends Queries {
         }
         return table;
     }
+    
     /**
      * retrieve the users table
-     * */
+     * @return List<User>, returns the list of the users table
+     */
    public List<User> retrieveUsersTable() {
        List<User> userTable = new ArrayList<>();
        PreparedStatement pstmt = null;
@@ -103,7 +105,7 @@ public class RetrieveQueries extends Queries {
                res = pstmt.executeQuery();
                while (res.next()) {
                    userTable.add(new User(res.getInt(1), res.getString(2),
-                           res.getInt(3), res.getString(4)));
+                           res.getString(3), res.getInt(4)));
                }
            } catch (SQLException e) {
                e.printStackTrace();
@@ -121,7 +123,6 @@ public class RetrieveQueries extends Queries {
     */
    public String[] getPassSalt(int loginID) {
 	   String[] passSalt = new String[2];
-	   
 	   PreparedStatement pstmt = null;
 	   ResultSet res = null;
        try {
@@ -139,49 +140,4 @@ public class RetrieveQueries extends Queries {
        }
 	   return passSalt;
    }
-   
-   
-   
-   
-   
-   //****************************************
-   //Methods to check various duplicates.  Return True of False.  Might put this in a separate class
-   //****************************************   
-   
-   
-   /**
-    * checkDuplicateLoginID, takes a login ID and returns true if we already have one
-    * @param int loginID, the loginID we are checking we don't have duplicate of
-    * @return boolean, true if we already have the user ID stored
-    */
-   public boolean checkDuplicateLoginID(int loginID) {
-	   List<Integer> lIDS = new ArrayList<Integer>();
-	   PreparedStatement pstmt = null;
-	   ResultSet res = null;
-       if (super.getPriv() == 0) {
-           try {
-               pstmt = conn.prepareStatement("SELECT login_id FROM users WHERE login_id = ?");
-               pstmt.setInt(1, loginID);
-               res = pstmt.executeQuery();
-               while (res.next()) {
-                   lIDS.add(res.getInt(1));
-               }
-           }
-           catch (SQLException e) {
-               e.printStackTrace();
-               lIDS.add(1);  //This just stops some funky stuff from happening maybe will TODO later
-           } finally {
-               closeResources(pstmt, res);
-           }
-       }
-       if (lIDS.size() > 0) {
-    	   return true;
-       }
-       else {
-    	   return false;
-       }
-   }
-   
-
-
 }

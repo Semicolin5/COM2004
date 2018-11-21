@@ -8,16 +8,17 @@ package src.objects;
 public class User {
 
     private int login_id;
+    private String salt;
     private String password;
     private int priv;
-    private String salt;
+
 
     /**
      * Forms the User object given parameters
      * @param login_id String, the Users name code
      * @param password String that describes department.
      * */
-    public User (int login_id, String password, int priv, String salt) {
+    public User (int login_id, String salt, String password, int priv) {
         this.login_id = login_id;
         this.password = password;
         this.priv = priv;

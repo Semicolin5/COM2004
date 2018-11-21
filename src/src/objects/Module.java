@@ -10,6 +10,7 @@ public class Module {
     private String code;
     private String name;
     private int credits;
+    private int semester;
 
     /**
      * Forms the Module object given parameters
@@ -17,10 +18,11 @@ public class Module {
      * @param name, String that describes module.
      * @param credits, int that sets how many credits the module is worth.
      * */
-    public Module (String code, String name, int credits) {
+    public Module (String code, String name, int credits, int semester) {
         this.code = code;
         this.name = name;
         this.credits = credits;
+        this.semester = semester;
     }
 
     /**

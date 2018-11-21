@@ -8,6 +8,31 @@ CREATE TABLE users (
 );
 
 #3NF
+CREATE TABLE department (
+    department_code CHAR (3),
+    department_name VARCHAR (100),
+    PRIMARY KEY (department_code)
+);
+
+#3NF
+CREATE TABLE degree (
+    degree_code CHAR (6),
+    degree_name VARCHAR (100),
+    masters BOOLEAN,
+    year_industry BOOLEAN,
+    PRIMARY KEY (degree_code)
+);
+
+#3NF
+CREATE TABLE module (
+    module_code CHAR (7),
+    module_name VARCHAR (100),
+    credits VARCHAR (3),
+    semester int,
+    PRIMARY KEY (module_code)
+);
+
+#3NF
 CREATE TABLE student (
     login_id int,
     title CHAR (2),
@@ -32,25 +57,10 @@ CREATE TABLE period_of_study (
     FOREIGN KEY (login_id) REFERENCES student (login_id)
 );
 
-#3NF
-CREATE TABLE department (
-    department_code CHAR (3),
-    department_name VARCHAR (100),
-    PRIMARY KEY (department_code)
-);
-
-#3NF
-CREATE TABLE degree (
-    degree_code CHAR (6),
-    degree_name VARCHAR (100),
-    masters BOOLEAN,
-    year_industry BOOLEAN,
-    PRIMARY KEY (degree_code)
-);
-
 -- linker table to store how the departments associated with each degrees, 
 -- and whether a department is the lead department
 -- Linker Tables
+
 #3NF
 CREATE TABLE degree_department (
     degree_code CHAR (6),
@@ -61,14 +71,7 @@ CREATE TABLE degree_department (
     FOREIGN KEY (department_code) REFERENCES department (department_code)
 );
 
-#3NF
-CREATE TABLE module (
-    module_code CHAR (7),
-    module_name VARCHAR (100),
-    credits VARCHAR (3),
-    semester int,
-    PRIMARY KEY (module_code)
-);
+
 
 -- linker table to store how the module is associated with each degree,
 -- whether it is a core module for each degree that allows the module to be taken
@@ -95,6 +98,6 @@ CREATE TABLE grades (
     resit_percent DECIMAL(8, 5), 
     PRIMARY KEY (student_id, module_code),
     FOREIGN KEY (student_id) REFERENCES student (login_id),
-    FOREIGN KEY (module_code) REFERENCES module (modue_code)
+    FOREIGN KEY (module_code) REFERENCES module (module_code)
 );
 

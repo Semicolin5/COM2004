@@ -69,6 +69,7 @@ public class RemovalQueries extends Queries {
      * @param column String describing column in WHERE column=item
      * @param whereEquals String describing the item to be delete
      **/
+    //TODO Method seems awfully powerful, might remove
     public void removeRowWhere(String table, String column, String whereEquals) {
         PreparedStatement pstmt = null;
         String query = "DELETE FROM $tableName WHERE $columnName = ?";

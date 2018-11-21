@@ -53,6 +53,7 @@ public class DatabaseHandler{
      * @param login is the String of the users login
      * @return Integer ranging from 1 to 4, where 4 is highest priviledge level.
      * */
+    //TODO - move to retrival queries
     public Integer obtainPrivilege(String login) {
         try {
             PreparedStatement pstmt = conn.prepareStatement("SELECT privilege FROM users WHERE login_id=?");
