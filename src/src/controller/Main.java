@@ -39,11 +39,21 @@ public class Main {
      * @return the users privilege level
      * */
     public static int getPriv() {
-        return user.getPriv();
+    	if (user == null) {
+    		return 0;
+    	}
+    	else {
+    		return user.getPriv();
+    	}
     }
     
     public static int getLoginID() {
-    	return user.getLogin();
+    	if (user == null) {
+    		return 0;
+    	}
+    	else {
+    		return user.getLogin();
+    	}
     }
     
     public static void setUser(User ourUser) {
