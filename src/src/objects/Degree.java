@@ -42,7 +42,7 @@ public class Degree {
      * toString method //TODO remove aafter testing
      * */
     public String toString() {
-        String s = "Code: " + degreeCode + ", Name: " + degreeName;
+        String s = "Code: " + degreeCode + ", Name: " + degreeName + ", Lead Dep: " + lead.toString();
         return s;
     }
 }

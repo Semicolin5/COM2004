@@ -40,6 +40,7 @@ public class RetrieveQueries extends Queries {
 
     /**
      * retrieve the degree table, linked with the departments that teach that course
+     * @return degreeTable, list of Degree objects, with all their accessible values set.
      * */
     public List<Degree> retrieveDegreesTable() {
         List<Degree> degreeTable = new ArrayList<Degree>();
@@ -68,7 +69,7 @@ public class RetrieveQueries extends Queries {
      * @param code; String of degree whose Departments are to be found
      * @return nonLead; List of department objects representing the non-lead departments for the degree.
      * */
-    public List<Department> retrieveAffiliatedNonLeadDep(String code) {
+    private List<Department> retrieveAffiliatedNonLeadDep(String code) {
 
         List<Department> nonLead = new ArrayList<Department>();
         PreparedStatement pstmt = null;
@@ -95,7 +96,7 @@ public class RetrieveQueries extends Queries {
      * @param code; String of degree whose lead Department is to be found
      * @return lead; Department object representing the lead departmnet
      * */
-    public Department retrieveAffiliatedLeadDep(String code) {
+    private Department retrieveAffiliatedLeadDep(String code) {
 
         Department lead = null;
         PreparedStatement pstmt = null;

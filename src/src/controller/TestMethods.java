@@ -38,16 +38,16 @@ public class TestMethods {
         }
 
         // testing the retrieval method for a list of degrees
-        System.out.println("\n2)Retrieving list of degrees");
-        System.out.println("2.1)Testing retrieveAffiliatedNonLeadDep method");
-        List<Department> nonLead = tester.retrieveAffiliatedNonLeadDep("COMU49"); //
-        for (Department d : nonLead) {
-            System.out.println(d.toString());
-        }
+        //System.out.println("\n2)Retrieving list of degrees");
+        //System.out.println("2.1)Testing retrieveAffiliatedNonLeadDep method");
+        //List<Department> nonLead = tester.retrieveAffiliatedNonLeadDep("COMU49"); //
+        //for (Department d : nonLead) {
+        //    System.out.println(d.toString());
+        //}
 
-        System.out.println("2.2)Testing retrieveAffiliatedLeadDep method");
-        Department lead = tester.retrieveAffiliatedLeadDep("COMU49");
-        System.out.println(lead.toString());
+        //System.out.println("2.2)Testing retrieveAffiliatedLeadDep method");
+        //Department lead = tester.retrieveAffiliatedLeadDep("COMU49");
+        //System.out.println(lead.toString());
 
         System.out.println("2.3)Testing retrieveDegreesTable() method");
         List<Degree> lsDeg = tester.retrieveDegreesTable();
