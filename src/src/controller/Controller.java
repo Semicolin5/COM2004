@@ -232,7 +232,7 @@ public class Controller {
 		else if (!RegexTests.checkLoginID(Integer.toString(loginID))) {
 			returnMessage = "Incorrect LoginID format.";
 		}
-		else if (retrieveQ.checkDuplicateLoginID(loginID)) {
+		else if (retrieveQ.checkDuplicateUser(loginID)) {
 			returnMessage = "LoginID already in use.";
 		}
 		else if (password != confirmPassword) {
