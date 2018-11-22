@@ -92,7 +92,7 @@ public class Welcome extends Form {
 
     private class studentButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.CreateStudent(getFrame()).getJPanel());
+            changeJPanel(new src.view.ManageStudents(getFrame()).getJPanel());
         }
     }
 
