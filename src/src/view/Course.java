@@ -16,7 +16,6 @@ public class Course extends Form {
 
     private JPanel initPanel() {
         JButton createDegree = new JButton("CreateDegree");
-
         createDegree.setText("Create Degree");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
