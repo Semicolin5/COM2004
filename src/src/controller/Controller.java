@@ -174,6 +174,11 @@ public class Controller {
         return retrieveQ.retrieveUsersTable();
     }
 
+    public static List<Student> getStudents() {
+	    RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+	    return retrieveQ.retrieveStudentsTable();
+    }
+
     public static void removeDepartment(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeDepartment(code);
