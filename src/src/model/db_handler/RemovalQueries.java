@@ -109,4 +109,20 @@ public class RemovalQueries extends Queries {
         }
     }
 
+    public void removeStudent(String loginID) {
+        if (super.getPriv() == 0) {
+            try {
+                db.enableACID();
+
+                removeRowWhere("grades", "student_id", loginID);
+                removeRowWhere("student", "login_id", loginID);
+
+                super.conn.commit();
+                db.disableACID();
+            } catch (SQLException e) {
+                super.db.rollBack(); // maintains ACID if failure in query
+                e.printStackTrace();
+            }
+        }
+    }
 }

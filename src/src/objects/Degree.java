@@ -36,6 +36,8 @@ public class Degree {
    public String getDegreeName() { return degreeName; }
     public  boolean getDegreeType() {
         return masters; }
+    public  boolean getDegreePlacement() {
+        return yearIndustry; }
    // TODO make ones for department too
 
     /**

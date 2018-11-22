@@ -133,40 +133,38 @@ public class AdditionQueries extends Queries{
      * */
     public void addStudent(String loginId, String password, String salt, int priv, String title, String forename, String surname,
                            String personalTutor, String email, String degreeCode) {
-        if (super.getPriv() == 3) {
-            PreparedStatement pstmt = null;
-            PreparedStatement pstmt2 = null;
-            try {
-                db.enableACID();
-                // first create entry in the user table
-                pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
-                pstmt.setString(1, loginId);
-                pstmt.setString(2, password);
-                pstmt.setInt(3, priv);
-                pstmt.setString(4, salt);
-                pstmt.executeUpdate();
+        PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
+        try {
+            db.enableACID();
+            // first create entry in the user table
+            pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
+            pstmt.setString(1, loginId);
+            pstmt.setString(2, password);
+            pstmt.setInt(3, priv);
+            pstmt.setString(4, salt);
+            pstmt.executeUpdate();
 
-                // then create entry in the student table
-                pstmt2 = super.conn.prepareStatement("INSERT INTO student VALUES (?, ?, ?, ?, ?, ?, ?)");
-                pstmt2.setString(1, loginId);
-                pstmt2.setString(2, title);
-                pstmt2.setString(3, forename);
-                pstmt2.setString(4,surname);
-                pstmt2.setString(5,personalTutor);
-                pstmt2.setString(6,email);
-                pstmt2.setString(7, degreeCode);
-                pstmt2.executeUpdate();
+            // then create entry in the student table
+            pstmt2 = super.conn.prepareStatement("INSERT INTO student VALUES (?, ?, ?, ?, ?, ?, ?)");
+            pstmt2.setString(1, loginId);
+            pstmt2.setString(2, title);
+            pstmt2.setString(3, forename);
+            pstmt2.setString(4,surname);
+            pstmt2.setString(5,personalTutor);
+            pstmt2.setString(6,email);
+            pstmt2.setString(7, degreeCode);
+            pstmt2.executeUpdate();
 
-                // commit connection, then close resources
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                super.db.rollBack();
-            } finally {
-                closePreparedStatement(pstmt);
-                closePreparedStatement(pstmt2); //TODO would this work as just one pstmt?
-            }
+            // commit connection, then close resources
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            super.db.rollBack();
+        } finally {
+            closePreparedStatement(pstmt);
+            closePreparedStatement(pstmt2); //TODO would this work as just one pstmt?
         }
     }
 
@@ -179,19 +177,17 @@ public class AdditionQueries extends Queries{
      * @param moduleCode String representing the module the student takes.
      * */
     public void addStudentModuleAssociation(String studentId, String moduleCode) {
-        if (super.getPriv() == 3) {
-            try {
-                db.enableACID();
-                PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,NULL, NULL)");
-                pstmt.setString(1, studentId);
-                pstmt.setString(2, moduleCode);
-                pstmt.executeUpdate();
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                super.db.rollBack();
-            }
+        try {
+            db.enableACID();
+            PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,NULL, NULL)");
+            pstmt.setString(1, studentId);
+            pstmt.setString(2, moduleCode);
+            pstmt.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            super.db.rollBack();
         }
     }
 
@@ -207,28 +203,26 @@ public class AdditionQueries extends Queries{
      * @param endDate: Date tells us when the period of study ended.
      */
     public void addPeriodOfStudy(String label, int loginId, String level, Date startDate, Date endDate) {
-        if (super.getPriv() == 3) {
-            PreparedStatement pstmt = null;
-            try {
-                db.enableACID();
-                // first create entry in the user table
-                pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?)");
-                pstmt.setString(1, label);
-                pstmt.setInt(2, loginId);
-                pstmt.setString(3, level);
-                pstmt.setDate(4, startDate);
-                pstmt.setDate(5,endDate);
-                pstmt.executeUpdate();
+        PreparedStatement pstmt = null;
+        try {
+            db.enableACID();
+            // first create entry in the user table
+            pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?)");
+            pstmt.setString(1, label);
+            pstmt.setInt(2, loginId);
+            pstmt.setString(3, level);
+            pstmt.setDate(4, startDate);
+            pstmt.setDate(5,endDate);
+            pstmt.executeUpdate();
 
-                // commit connection, then close resources
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                super.db.rollBack();
-            } finally {
-                closePreparedStatement(pstmt);
-            }
+            // commit connection, then close resources
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            super.db.rollBack();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 
@@ -241,27 +235,25 @@ public class AdditionQueries extends Queries{
      * @param salt Salt used for user's password (prevents Rainbow table attacks).
      * */
     public void addUser(int loginId, String salt, String password, int priv) {
-        if (super.getPriv() == 4) {
-            PreparedStatement pstmt = null;
-            try {
-                db.enableACID();
-                // first create entry in the user table
-                pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
-                pstmt.setInt(1, loginId);
-                pstmt.setString(2, salt);
-                pstmt.setString(3, password);
-                pstmt.setInt(4, priv);
-                pstmt.executeUpdate();
+        PreparedStatement pstmt = null;
+        try {
+            db.enableACID();
+            // first create entry in the user table
+            pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
+            pstmt.setInt(1, loginId);
+            pstmt.setString(2, salt);
+            pstmt.setString(3, password);
+            pstmt.setInt(4, priv);
+            pstmt.executeUpdate();
 
-                // commit connection, then close resources
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                super.db.rollBack();
-            } finally {
-                closePreparedStatement(pstmt);
-            }
+            // commit connection, then close resources
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            super.db.rollBack();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 
@@ -269,23 +261,21 @@ public class AdditionQueries extends Queries{
      * Add Module Degree Association Query - only accessible for Administrators (privilege level 4)
      * TODO:
      * */
-    public void addModuleDegreeAssociation(String moduleCode, String degreeCode,int level, boolean core) {
-        if (super.getPriv() == 4) {
-            try {
-                db.enableACID();
-                PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO core VALUES (?,?,?,?)");
-                System.out.println("saving, module code is " + "degree code is" + degreeCode);
-                pstmt.setString(1, moduleCode);
-                pstmt.setString(2, degreeCode);
-                pstmt.setInt(3, level);
-                pstmt.setBoolean(4,core);
-                pstmt.executeUpdate();
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                super.db.rollBack();
-            }
+    public void addModuleDegreeAssociation(String moduleCode, String degreeCode,String level, boolean core) {
+        try {
+            db.enableACID();
+            PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO module_degree VALUES (?,?,?,?)");
+            System.out.println("saving, module code is " + "degree code is" + degreeCode);
+            pstmt.setString(1, moduleCode);
+            pstmt.setString(2, degreeCode);
+            pstmt.setString(3, level);
+            pstmt.setBoolean(4,core);
+            pstmt.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            super.db.rollBack();
         }
     }
 

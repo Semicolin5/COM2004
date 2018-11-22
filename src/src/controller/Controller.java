@@ -148,7 +148,7 @@ public class Controller {
         additionQ.addDepartmentAssociation(degreeCode, departmentCode, lead);
     }
 
-    public static void saveModuleAssociation(String moduleCode, String moduleName, int level, boolean core) {
+    public static void saveModuleAssociation(String moduleCode, String moduleName, String level, boolean core) {
         // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addModuleDegreeAssociation(moduleCode, moduleName, level, core);
@@ -174,6 +174,11 @@ public class Controller {
         return retrieveQ.retrieveUsersTable();
     }
 
+    public static List<Student> getStudents() {
+	    RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+	    return retrieveQ.retrieveStudentsTable();
+    }
+
     public static void removeDepartment(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeDepartment(code);
@@ -187,6 +192,11 @@ public class Controller {
     public static void removeUser(String login) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeUser(login);
+    }
+
+    public static void removeStudent(String login) {
+	    RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+	    removalQ.removeStudent(login);
     }
 
     public static void removeDegree(String login) {
@@ -222,7 +232,7 @@ public class Controller {
 		else if (!RegexTests.checkLoginID(Integer.toString(loginID))) {
 			returnMessage = "Incorrect LoginID format.";
 		}
-		else if (retrieveQ.checkDuplicateLoginID(loginID)) {
+		else if (retrieveQ.checkDuplicateUser(loginID)) {
 			returnMessage = "LoginID already in use.";
 		}
 		else if (password != confirmPassword) {

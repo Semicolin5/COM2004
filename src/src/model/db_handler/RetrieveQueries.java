@@ -210,6 +210,28 @@ public class RetrieveQueries extends Queries {
        }
        return userTable;
    }
+
+   public List<Student> retrieveStudentsTable() {
+       List<Student> studentTable = new ArrayList<>();
+       PreparedStatement pstmt = null;
+       ResultSet res = null;
+       try {
+    	   pstmt = conn.prepareStatement("SELECT * FROM student");
+           res = pstmt.executeQuery();
+           while (res.next()) {
+        	   studentTable.add(new Student(res.getString(1), res.getString(2),
+                       res.getString(3), res.getString(4), res.getString(5),
+                       res.getString(6), res.getString(7)));
+           }
+       }
+       catch (SQLException e) {
+    	   e.printStackTrace();
+       }
+       finally {
+    	   closeResources(pstmt, res);
+       }
+       return studentTable;
+   }
    
    
    /**
