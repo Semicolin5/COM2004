@@ -41,7 +41,7 @@ public class ManageStudents extends Form {
 
         //loops through users in database and adds all of their loginIDs to the JList.
         for (Student student : Controller.getStudents()) {
-            studentModel.addElement(String.valueOf(student.getForename() + " " + student.getSurname()));
+            studentModel.addElement(String.valueOf(student.getLogin()));
         }
         studentList.setLayoutOrientation(JList.VERTICAL);
         studentList.setModel(studentModel);
@@ -120,7 +120,7 @@ public class ManageStudents extends Form {
     private class RemoveStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             for (Object code : studentList.getSelectedValuesList()) {
-                Controller.removeUser((String) code);
+                Controller.removeStudent((String) code);
             }
             changeJPanel(new ManageStudents(getFrame()).getJPanel());
         }

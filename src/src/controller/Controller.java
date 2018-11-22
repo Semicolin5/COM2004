@@ -194,6 +194,11 @@ public class Controller {
         removalQ.removeUser(login);
     }
 
+    public static void removeStudent(String login) {
+	    RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+	    removalQ.removeStudent(login);
+    }
+
     public static void removeDegree(String login) {
         System.out.println("Remove degree needs coding"); //TODO: How will removeDegree work? Can a student on that degree be left with a null degree field?
         //RemovalQueries removalQ = new RemovalQueries(Main.getDB());
