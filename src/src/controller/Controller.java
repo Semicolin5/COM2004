@@ -14,10 +14,10 @@ import src.model.*;
  * */
 public class Controller {
 	//*******************************************
-	//Private Controller methods (may be put into a different file at a later date) 
+	//Private Controller methods (may be put into a different file at a later date)
 	//*******************************************
 	private static boolean passwordMatch(int loginID, String password) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB()); //TODO put in own file
     	String[] passSalt = retrieveQ.getPassSalt(loginID);
 		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
 		if (passSalt[0].equals(hashedPass)) {
@@ -219,11 +219,22 @@ public class Controller {
         start = df.parse(df);
         additionQ.addStudent(login, title, forename, surname, tutor, email, degree);
     }*/
-
-    public static String checkInputUser(int loginID, String password, String confirmPassword) {
+    
+    
+    
+    //********************************************************
+    //Methods to check user input
+    //********************************************************
+    
+    //Level 4 inputs
+    
+    public static String checkInputUser(int loginID, String password, String confirmPassword, int priv) {
     	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
     	String returnMessage = "";
-		if (password != confirmPassword) {
+		if (priv != 4) {
+			returnMessage = "Insufficient privilege for this opperation.";
+		}		
+		else if (password != confirmPassword) {
 			returnMessage = "Passwords do not match.";
 		}
 		else if (!RegexTests.checkPassword(password)) {
@@ -235,12 +246,61 @@ public class Controller {
 		else if (retrieveQ.checkDuplicateUser(loginID)) {
 			returnMessage = "LoginID already in use.";
 		}
-		else if (password != confirmPassword) {
-			returnMessage = "Passwords do not match.";
-		}
 		else {
 			returnMessage = "Accepted";
 		}
 		return returnMessage;
 	}
+    
+    //TODO maybe add check to see if a department name is duplicated (very QOL)
+    public static String checkInputDepartment(String depCode, String depName, int priv) {
+    	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
+    	String returnMessage = "";
+    	if (priv != 4) {
+			returnMessage = "Insufficient privilege for this opperation.";
+    	}
+		else if (!RegexTests.checkDepartmentCode(depCode)) {
+			returnMessage = "Incorrect department code format.";
+		}
+		else if (retrieveQ.checkDuplicateDepartment(depCode)) {
+			returnMessage = "Department code already in use";
+		}
+		else if (depName.length() > 100) {
+			returnMessage = "Department name is too long.";
+		}
+		else {
+			returnMessage = "Accepted";
+		}
+    	return returnMessage;
+    }
+    
+    //TODO add checks for the list of linked departments
+    public static String checkInputDegree(String degCode, String degName, List<DegreeDepartment> degDep, int priv) {
+    	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
+    	String returnMessage = "";
+    	if (priv != 4) {
+			returnMessage = "Insufficient privilege for this opperation.";
+    	}
+    	else if (!RegexTests.checkDegreeCode(degCode)) {
+    		returnMessage = "Incorrect degree code format.";
+    	}
+    	else if (retrieveQ.checkDuplicateDegree(degCode)) {
+    		returnMessage = "Degree code already in use";
+    	}
+    	else if (degName.length() > 100) {
+    		returnMessage = "Degree name is too long.";
+    	}
+    	else if (returnMessage.equals("A")) {
+    		//TODO check for each linked department, the linkage is unique, the departments exist
+    	}
+    	else {
+    		returnMessage = "Accepted";
+    	}
+    	return returnMessage;
+    	
+    }
+    
+    
+    
+    
 }
