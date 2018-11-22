@@ -148,7 +148,7 @@ public class Controller {
         additionQ.addDepartmentAssociation(degreeCode, departmentCode, lead);
     }
 
-    public static void saveModuleAssociation(String moduleCode, String moduleName, int level, boolean core) {
+    public static void saveModuleAssociation(String moduleCode, String moduleName, String level, boolean core) {
         // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addModuleDegreeAssociation(moduleCode, moduleName, level, core);

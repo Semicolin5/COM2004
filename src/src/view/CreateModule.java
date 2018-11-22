@@ -67,15 +67,28 @@ public class CreateModule extends Form {
         degreeCombo.addItemListener(e -> {
             levelCombo.removeAllItems();
             for (Degree degree : Controller.getDegrees()) {
-                if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
-                    for (int i = 1; i < 5; i++)
-                        levelCombo.addItem(i);
-                } else if (degree.getDegreeCode().equals(e.getItem())) {
-                    for (int i = 1; i < 4; i++)
-                        levelCombo.addItem(i);
-                }
+                if (degree.getDegreeCode().equals(e.getItem())&& degree.getDegreePlacement()) {
+                    if (degree.getDegreeType()) {
+                        for (int i = 1; i < 4; i++)
+                            levelCombo.addItem(i);
+                        levelCombo.addItem("Placement Year");
+                        levelCombo.addItem("4");
+                    } else{
+                        for (int i = 1; i < 3; i++)
+                            levelCombo.addItem(i);
+                        levelCombo.addItem("Placement Year");
+                        levelCombo.addItem("3");
+                    }
+                }else  if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
+                        for (int i = 1; i < 5; i++)
+                            levelCombo.addItem(i);
+                    } else if (degree.getDegreeCode().equals(e.getItem())) {
+                        for (int i = 1; i < 4; i++)
+                            levelCombo.addItem(i);
+                    }
             }
         });
+        //TODO: Modify the above code so that it takes into account yeas in industry.
         //TODO: Can we call the item listener in the constructor, so that the...
         //TODO: Continued: ...second comboBox automatically loads based on the value of the first?
         linkButton.addActionListener(new LinkHandler());
@@ -216,12 +229,15 @@ public class CreateModule extends Form {
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
             ListModel model = moduleList.getModel();
             //Need to put in checks here
+
+            //TODO: saveModule needs to work.
             //Controller.saveModule(moduleCode.getText(), moduleName.getText(), Integer.parseInt(moduleCredits.getText()), semesterCombo.getSelectedIndex());
             for (int i = 0; i < model.getSize(); i++) {
                 Object o = model.getElementAt(i);
                 String arr[] = o.toString().split(" ");
                 String degreeCode = arr[0];
-                int level = Integer.parseInt(arr[1]);
+                char character = arr[0].charAt(0);
+                String level = Character.toString(character);
                 if (arr[2].equals("Core")) {
                     Controller.saveModuleAssociation(moduleCode.getText(), degreeCode, level, true);
                 } else {
