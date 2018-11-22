@@ -111,22 +111,18 @@ public class RemovalQueries extends Queries {
 
     public void removeStudent(String loginID) {
         if (super.getPriv() == 0) {
-            PreparedStatement pstmt = null;
             try {
                 db.enableACID();
-                pstmt = super.conn.prepareStatement("DELETE FROM student WHERE login_id=?");
-                pstmt.setString(1, loginID);
-                pstmt.executeUpdate();
+
+                removeRowWhere("grades", "student_id", loginID);
+                removeRowWhere("student", "login_id", loginID);
+
                 super.conn.commit();
                 db.disableACID();
             } catch (SQLException e) {
                 super.db.rollBack(); // maintains ACID if failure in query
                 e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt);
             }
         }
     }
-
-
 }
