@@ -152,7 +152,12 @@
         <constraints>
           <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <model>
+            <item value="Core"/>
+            <item value="Not Core"/>
+          </model>
+        </properties>
       </component>
       <component id="b1e2a" class="javax.swing.JButton" binding="linkButton">
         <constraints>

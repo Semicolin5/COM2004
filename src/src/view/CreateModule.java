@@ -52,8 +52,6 @@ public class CreateModule extends Form {
         frame.setTitle("Create Module Screen");
 
         degreeCombo.addItem("");
-        coreCombo.addItem("Core");
-        coreCombo.addItem("Not Core");
         departmentsModel = new DefaultListModel<>();
         moduleList.setModel(departmentsModel);
         moduleList.setVisibleRowCount(10);
@@ -62,26 +60,24 @@ public class CreateModule extends Form {
             degreeCombo.addItem(degree.getDegreeCode());
         }
 
-        /**
+        /*
          * Item Listener which updates the levelsCombo depending on which value
          * is selected in  the degreeCombo JComboBox.
          */
-        degreeCombo.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                levelCombo.removeAllItems();
-                for (Degree degree : Controller.getDegrees()) {
-                    if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
-                        for (int i = 1; i < 5; i++)
-                            levelCombo.addItem(i);
-                    } else if (degree.getDegreeCode().equals(e.getItem())) {
-                        for (int i = 1; i < 4; i++)
-                            levelCombo.addItem(i);
-                    }
+        degreeCombo.addItemListener(e -> {
+            levelCombo.removeAllItems();
+            for (Degree degree : Controller.getDegrees()) {
+                if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
+                    for (int i = 1; i < 5; i++)
+                        levelCombo.addItem(i);
+                } else if (degree.getDegreeCode().equals(e.getItem())) {
+                    for (int i = 1; i < 4; i++)
+                        levelCombo.addItem(i);
                 }
             }
         });
         //TODO: Can we call the item listener in the constructor, so that the...
-        //TODO: Continued: ...second combobox autmotaically loads based on the value of the first?
+        //TODO: Continued: ...second comboBox automatically loads based on the value of the first?
         linkButton.addActionListener(new LinkHandler());
         createModuleButton.addActionListener(new CreateModuleHandler());
     }
@@ -153,6 +149,10 @@ public class CreateModule extends Form {
         levelCombo = new JComboBox();
         myPanel.add(levelCombo, new GridConstraints(6, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         coreCombo = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        defaultComboBoxModel1.addElement("Core");
+        defaultComboBoxModel1.addElement("Not Core");
+        coreCombo.setModel(defaultComboBoxModel1);
         myPanel.add(coreCombo, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         linkButton = new JButton();
         linkButton.setText("Link to Degree Level");
@@ -167,12 +167,12 @@ public class CreateModule extends Form {
         label10.setText("Semester");
         myPanel.add(label10, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semesterCombo = new JComboBox();
-        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
-        defaultComboBoxModel1.addElement("Autumn");
-        defaultComboBoxModel1.addElement("Spring");
-        defaultComboBoxModel1.addElement("Summer");
-        defaultComboBoxModel1.addElement("Year-long");
-        semesterCombo.setModel(defaultComboBoxModel1);
+        final DefaultComboBoxModel defaultComboBoxModel2 = new DefaultComboBoxModel();
+        defaultComboBoxModel2.addElement("Autumn");
+        defaultComboBoxModel2.addElement("Spring");
+        defaultComboBoxModel2.addElement("Summer");
+        defaultComboBoxModel2.addElement("Year-long");
+        semesterCombo.setModel(defaultComboBoxModel2);
         myPanel.add(semesterCombo, new GridConstraints(4, 2, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         cancelButton = new JButton();
         cancelButton.setText("Cancel");
@@ -231,8 +231,6 @@ public class CreateModule extends Form {
             changeJPanel(new ManageModules(getFrame()).getJPanel());
         }
     }
-
-
 }
 
 
