@@ -38,6 +38,12 @@ public class Degree {
         return masters; }
     public  boolean getDegreePlacement() {
         return yearIndustry; }
+    public List <Department> getNonLead(){
+       return nonLead;
+    }
+    public Department getLead(){
+       return lead;
+    }
    // TODO make ones for department too
 
     /**

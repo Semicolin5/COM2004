@@ -18,9 +18,9 @@ public class TestMethods {
 
         testdb = new DatabaseHandler();
 
-        testingRemovalQueries();
+        //testingRemovalQueries();
         //testingAdditionQueries();
-        //testingRetrieveQueries();
+        testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -87,26 +87,9 @@ public class TestMethods {
 
         RemovalQueries tester = new RemovalQueries(testdb);
         testdb.setPrivLevel(4);
-
-        // testing the removeStudent function
-        //System.out.println("Testing removeStudent");
-        //tester.removeStudent(1001);
-
-        // testing the removeStudentsModuleChoice function
-        //System.out.println("Testing removeStudentsModuleChoice");
-        //tester.removeStudentsModuleChoice(1001, "COM1005");
-
         // testing the removeModule method, removing the COM1005 module
-        //System.out.println("Testing removeModule");
-        //tester.removeModule("COM1005");
-
-        //testing the removeDepartment method on a Department with no affiliated degrees
-        System.out.println("trying out removeDepartment");
-        tester.removeDepartment("RSS");
-
-        // testing the removeDegree method on a Degree with no affilaited modules
-        System.out.println("trying out removeDegree");
-        tester.removeDegree("COMU03");
+        System.out.println("\n1) Testing removeModule");
+        tester.removeModule("COM1005");
 
     }
 
