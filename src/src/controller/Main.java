@@ -23,7 +23,6 @@ public class Main {
     public static void main(String[] args) {
         new GUIFrame();
         db = new DatabaseHandler();
-        
     }
 
     /**
@@ -49,7 +48,7 @@ public class Main {
     
     public static int getLoginID() {
     	if (user == null) {
-    		return 0;
+    		return 0;//TODO maybe fix this so it throws an Exception
     	}
     	else {
     		return user.getLogin();

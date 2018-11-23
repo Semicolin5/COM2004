@@ -289,4 +289,27 @@ public class RetrieveQueries extends Queries {
        }
 	   return passSalt;
    }
+
+   /**
+    * Returns true if the degree is 'allowed' to be deleted (i.e. has no student affiliations.
+    * */
+   public boolean allowedToDeleteDegree(String degree_code) {
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        boolean allowed = false;
+        try {
+            pstmt = super.conn.prepareStatement("SELECT * FROM student WHERE degree_code=?");
+            pstmt.setString(1, degree_code);
+            res = pstmt.executeQuery();
+            // checks to see if res is empty
+            if (!res.next()) {
+                allowed = true; // allowed is true if no student takes the degree
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
+        }
+        return allowed;
+   }
 }
