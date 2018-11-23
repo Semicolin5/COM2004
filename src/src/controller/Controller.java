@@ -2,6 +2,8 @@ package src.controller;
 
 import src.model.db_handler.*;
 import src.objects.*;
+
+import java.text.DateFormat;
 import java.util.List;
 import src.model.*;
 
@@ -40,13 +42,7 @@ public class Controller {
 		
 		return moduleCode;
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	//*******************************************
 	//Public Controller methods
 	//*******************************************
@@ -84,13 +80,7 @@ public class Controller {
     	}
     	return returnMessage;
     }
-    
-    
-    
-    
-    
 
-	
     public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDegree(degreeCode, degreeName, masters, yearIndustry);
@@ -102,8 +92,6 @@ public class Controller {
         additionQ.addDepartment(departmentCode, departmentName);
     }
 
-    
-    
     public static String saveModule(String moduleCode, String moduleName, int credits, int semester, List<ModuleDegree> moduleDegreeList, int priv) {
         //Get our databases initialised
     	
@@ -131,10 +119,6 @@ public class Controller {
         else {
         	//Store in the database
         }
-            
-        
-        
-        
         //Module needs to be added to the module table and the module_degree table
         
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
@@ -212,12 +196,30 @@ public class Controller {
         additionQ.addUser(login, salt, hashedPassword, priv);
     }
 
-    /**public static void saveStudent(int login, String title, String forename, String surname, String tutor,
-                                   String email, String degree, String label, String level, String startDate, String endDate) {
+    public static void saveStudent(int loginID, String password, String title,
+								   String forename, String surname, String tutor,
+								   String email, String degreeCode, String degreeLevel,
+								   String posLabel, String startDate, String endDate) {
+		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+
+		String salt = CryptoModule.generateSalt();
+		String hashedPassword = CryptoModule.hashPassword(password, salt);
+
+		additionQ.addStudent(loginID, hashedPassword, salt, title, forename, surname,
+				tutor, email, degreeCode);
+		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel);
+	}
+
+    /*public static void saveStudent(int login, String password, String title, String forename, String surname, String tutor,
+                                   String email, String degree, String degreeLevel, String label, String levelOfStudy, String startDate, String endDate) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-        DateFormat df = DateFormat.getDateInstance();
-        start = df.parse(df);
-        additionQ.addStudent(login, title, forename, surname, tutor, email, degree);
+
+        String salt = CryptoModule.generateSalt();
+        String hashedPassword = CryptoModule.hashPassword(password, salt);
+
+        additionQ.addStudent(login, hashedPassword, salt, 0, title, forename, surname, tutor, email, degree);
+        additionQ.addDegree(degree, );
+        additionQ.addPeriodOfStudy(login, label, startDate, endDate, levelOfStudy);
     }*/
     
     
