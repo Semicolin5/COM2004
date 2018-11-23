@@ -33,6 +33,7 @@ public class CreateUser extends Form {
      */
     public CreateUser(GUIFrame frame) {
         super(frame);
+        frame.setTitle("Create Users Screen");
 
         setBackButton(cancelButton);
         setBackButtonPanel(new ManageUsers(getFrame()).getJPanel());
@@ -127,12 +128,10 @@ public class CreateUser extends Form {
                     priv = 2;
                     break;
             }
-
             Controller.saveUser(Integer.parseInt(loginID.getText()), confirmPass.getText(), priv);
             changeJPanel(new ManageUsers(getFrame()).getJPanel());
         }
     }
-
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
