@@ -8,7 +8,6 @@ public class ModuleDegree {
 	private String degreeLevel;
 	private boolean core;
 	
-
 	public ModuleDegree(String mC, String dC, String dL, boolean c) {
 		moduleCode = mC;
 		degreeCode = dC;
@@ -31,5 +30,4 @@ public class ModuleDegree {
 	public boolean getCore() {
 		return core;
 	}
-
 }
