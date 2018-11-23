@@ -1,7 +1,7 @@
 #3NF
 CREATE TABLE users (
     login_id int,
-    saldet CHAR (32),
+    salt CHAR (32),
     hashpass CHAR (64), -- stores hash code
     privilege INT NOT NULL,
     PRIMARY KEY (login_id)
@@ -57,9 +57,9 @@ CREATE TABLE period_of_study (
     FOREIGN KEY (login_id) REFERENCES student (login_id)
 );
 
--- Linker Tables
 -- linker table to store how the departments associated with each degrees, 
 -- and whether a department is the lead department
+-- Linker Tables
 
 #3NF
 CREATE TABLE degree_department (
@@ -70,6 +70,8 @@ CREATE TABLE degree_department (
     FOREIGN KEY (degree_code) REFERENCES degree (degree_code),
     FOREIGN KEY (department_code) REFERENCES department (department_code)
 );
+
+
 
 -- linker table to store how the module is associated with each degree,
 -- whether it is a core module for each degree that allows the module to be taken
@@ -98,4 +100,3 @@ CREATE TABLE grades (
     FOREIGN KEY (login_id) REFERENCES student (login_id),
     FOREIGN KEY (module_code) REFERENCES module (module_code)
 );
-
