@@ -7,6 +7,8 @@ INSERT INTO users VALUES
     (1004, "B5B66856E5BE1FA46437AD429094309A", "49080FA8A51EB4D122BB76452FD537BEA357AFC5A5DC88DE14BB05532A4C8B07", 4);
 
 INSERT INTO degree VALUES
+    ("COMU03", "MEng Software Engineering", 1, 0),
+    ("PHYP01", "Postgraduate Physical and Spiritual orgone studies", 1, 0),
     ("COMU49", "BSc Philosophy and Computer Science", 0, 0);
 
 INSERT INTO student VALUES
@@ -19,8 +21,6 @@ INSERT INTO users VALUES
 
 -- INSERTING EXAMPLE DEGREES AND DEPARTMENTS --
 
-INSERT INTO degree VALUES
-    ("COMU03", "MEng Software Engineering", 1, 0);
 
 INSERT INTO department VALUES
     ("COM", "Computer Science"),

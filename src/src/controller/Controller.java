@@ -2,6 +2,8 @@ package src.controller;
 
 import src.model.db_handler.*;
 import src.objects.*;
+
+import java.text.DateFormat;
 import java.util.List;
 import src.model.*;
 
@@ -40,20 +42,14 @@ public class Controller {
 		
 		return moduleCode;
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	//*******************************************
 	//Public Controller methods
 	//*******************************************
 	
     /**
      * setCurrentUser, takes a login ID and sets the current user to the one linked to the login ID
-     * @param int loginID, the login ID of the user we want to set as current user
+     * @param loginID int, the login ID of the user we want to set as current user
      */
 	public static void setCurrentUser(int loginID) {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());	
@@ -84,13 +80,7 @@ public class Controller {
     	}
     	return returnMessage;
     }
-    
-    
-    
-    
-    
 
-	
     public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDegree(degreeCode, degreeName, masters, yearIndustry);
@@ -102,8 +92,6 @@ public class Controller {
         additionQ.addDepartment(departmentCode, departmentName);
     }
 
-    
-    
     public static String saveModule(String moduleCode, String moduleName, int credits, int semester, List<ModuleDegree> moduleDegreeList, int priv) {
         //Get our databases initialised
     	
@@ -131,10 +119,6 @@ public class Controller {
         else {
         	//Store in the database
         }
-            
-        
-        
-        
         //Module needs to be added to the module table and the module_degree table
         
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
@@ -199,11 +183,26 @@ public class Controller {
 	    removalQ.removeStudent(login);
     }
 
-    public static void removeDegree(String login) {
-        System.out.println("Remove degree needs coding"); //TODO: How will removeDegree work? Can a student on that degree be left with a null degree field?
-        //RemovalQueries removalQ = new RemovalQueries(Main.getDB());
-        //removalQ.removeDegree(login);
+    /**
+	 * removeDegree first ensures that there are no students currently taking that degree, if not, then it deletes
+	 * the degree.
+	 * @param degree_code String representing the degree that should be deleted.
+	 * @return boolean that returns false if the degree is not allowed to be deleted and hasn't been, true if it
+	 * is allowed to be deleted and has been.
+	 * */
+    public static boolean removeDegree(String degree_code) {
+        RemovalQueries removeQ = new RemovalQueries(Main.getDB());
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        boolean deletionAllowed = retrieveQ.allowedToDeleteDegree(degree_code);
+        // if there aren't any associated users, delete the degree
+        if(deletionAllowed){
+            System.out.println("deleting the degree");
+            removeQ.removeDegree(degree_code);
+        }
+		return deletionAllowed; // returns true if the degree was deleted, false otherwise
     }
+
+
 
     public static void saveUser(int login, String pass, int priv) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
@@ -212,12 +211,30 @@ public class Controller {
         additionQ.addUser(login, salt, hashedPassword, priv);
     }
 
-    /**public static void saveStudent(int login, String title, String forename, String surname, String tutor,
-                                   String email, String degree, String label, String level, String startDate, String endDate) {
+    public static void saveStudent(int loginID, String password, String title,
+								   String forename, String surname, String tutor,
+								   String email, String degreeCode, String degreeLevel,
+								   String posLabel, String startDate, String endDate) {
+		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+
+		String salt = CryptoModule.generateSalt();
+		String hashedPassword = CryptoModule.hashPassword(password, salt);
+
+		additionQ.addStudent(loginID, hashedPassword, salt, title, forename, surname,
+				tutor, email, degreeCode);
+		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel);
+	}
+
+    /*public static void saveStudent(int login, String password, String title, String forename, String surname, String tutor,
+                                   String email, String degree, String degreeLevel, String label, String levelOfStudy, String startDate, String endDate) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-        DateFormat df = DateFormat.getDateInstance();
-        start = df.parse(df);
-        additionQ.addStudent(login, title, forename, surname, tutor, email, degree);
+
+        String salt = CryptoModule.generateSalt();
+        String hashedPassword = CryptoModule.hashPassword(password, salt);
+
+        additionQ.addStudent(login, hashedPassword, salt, 0, title, forename, surname, tutor, email, degree);
+        additionQ.addDegree(degree, );
+        additionQ.addPeriodOfStudy(login, label, startDate, endDate, levelOfStudy);
     }*/
     
     

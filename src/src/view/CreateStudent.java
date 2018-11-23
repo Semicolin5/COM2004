@@ -3,9 +3,12 @@ package src.view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import src.controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CreateStudent extends Form {
     private JTextField studentNo;
@@ -23,11 +26,17 @@ public class CreateStudent extends Form {
     private JTextField studyLabel;
     private JTextField degreeLevel;
     private JPanel panel1;
+    private JButton cancelButton;
 
     public CreateStudent(GUIFrame frame) {
         super(frame);
+
+        setBackButton(cancelButton);
+        setBackButtonPanel(new ManageStudents(getFrame()).getJPanel());
+
         setJPanel(panel1);
         frame.setTitle("Create Student");
+        addStudentButton.addActionListener(new AddStudentHandler());
     }
 
     {
@@ -46,7 +55,7 @@ public class CreateStudent extends Form {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(17, 4, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(17, 5, new Insets(0, 0, 0, 0), -1, -1));
         final JLabel label1 = new JLabel();
         label1.setText("Student No.");
         panel1.add(label1, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -109,7 +118,7 @@ public class CreateStudent extends Form {
         studyEndDate = new JTextField();
         panel1.add(studyEndDate, new GridConstraints(13, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer1 = new Spacer();
-        panel1.add(spacer1, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel1.add(spacer1, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JLabel label13 = new JLabel();
         label13.setText("Add a Student");
         panel1.add(label13, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -126,6 +135,9 @@ public class CreateStudent extends Form {
         panel1.add(studentEmail, new GridConstraints(8, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer4 = new Spacer();
         panel1.add(spacer4, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        cancelButton = new JButton();
+        cancelButton.setText("Cancel");
+        panel1.add(cancelButton, new GridConstraints(16, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -134,4 +146,13 @@ public class CreateStudent extends Form {
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
+
+    private class AddStudentHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            Controller.saveStudent(Integer.valueOf(studentNo.getText()), "", "Mr", studentForename.getText(),
+                    studentSurname.getText(), studentTutor.getText(),
+                    studentEmail.getText(), "COMU03", "!", "A", studyStartDate.getText(), studyEndDate.getText());
+        }
+    }
+
 }

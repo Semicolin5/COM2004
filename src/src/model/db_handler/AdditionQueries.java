@@ -19,23 +19,21 @@ public class AdditionQueries extends Queries{
      * @param desc is String describing the degree (maxlength 100).
      * */
     public void addDepartment(String code, String desc) {
-        if (super.getPriv() == 4) {
-            System.out.println("yes");
-            PreparedStatement pstmt = null;
-            try {
-                db.enableACID();
-                pstmt = super.conn.prepareStatement("INSERT INTO department VALUES (?,?)");
-                pstmt.setString(1, code);
-                pstmt.setString(2, desc);
-                pstmt.executeUpdate();
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                super.db.rollBack(); // ensure ACID
-                e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt);
-            }
+        System.out.println("yes");
+        PreparedStatement pstmt = null;
+        try {
+            db.enableACID();
+            pstmt = super.conn.prepareStatement("INSERT INTO department VALUES (?,?)");
+            pstmt.setString(1, code);
+            pstmt.setString(2, desc);
+            pstmt.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack(); // ensure ACID
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 
@@ -46,8 +44,6 @@ public class AdditionQueries extends Queries{
      * @param credits is an int of the numbers of credits the modules is worth
      * */
     public void addModule(String code, String name, int credits, int semester) {
-        System.out.println(super.getPriv());
-        System.out.println(src.controller.Main.getPriv());
         PreparedStatement pstmt = null;
         try {
             db.enableACID();
@@ -74,7 +70,6 @@ public class AdditionQueries extends Queries{
      * @param name String describing the degree, i.e. "Computer Science"
      * */
     public void addDegree(String code, String name, boolean masters, boolean yearIndustry) {
-        //TODO: Reinsert privilege checks within Controller
         PreparedStatement pstmt = null;
         try {
             System.out.println(name + masters + code + yearIndustry);
@@ -121,17 +116,12 @@ public class AdditionQueries extends Queries{
         }
     }
 
-
-    /**
-     * TODO add approval
-     * */
-
     /**
      * Add Students Query - only accessible for Registrars (privilege level 3)
      * Adds first to the users database table, then to the student table
      * using ACID to ensure that there is no possibility of inconsistency.
      * */
-    public void addStudent(String loginId, String password, String salt, int priv, String title, String forename, String surname,
+    public void addStudent(int loginId, String password, String salt, String title, String forename, String surname,
                            String personalTutor, String email, String degreeCode) {
         PreparedStatement pstmt = null;
         PreparedStatement pstmt2 = null;
@@ -139,15 +129,15 @@ public class AdditionQueries extends Queries{
             db.enableACID();
             // first create entry in the user table
             pstmt = super.conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?)");
-            pstmt.setString(1, loginId);
-            pstmt.setString(2, password);
-            pstmt.setInt(3, priv);
-            pstmt.setString(4, salt);
+            pstmt.setInt(1, loginId);
+            pstmt.setString(2, salt);
+            pstmt.setString(3, password);
+            pstmt.setInt(4, 0);
             pstmt.executeUpdate();
 
             // then create entry in the student table
             pstmt2 = super.conn.prepareStatement("INSERT INTO student VALUES (?, ?, ?, ?, ?, ?, ?)");
-            pstmt2.setString(1, loginId);
+            pstmt2.setInt(1, loginId);
             pstmt2.setString(2, title);
             pstmt2.setString(3, forename);
             pstmt2.setString(4,surname);
@@ -196,23 +186,23 @@ public class AdditionQueries extends Queries{
      * This table tracks when the student studied each level of a degree.
      * Will allow staff to see if a student redid a year, for example
      * This SQL query takes a student and adds a row in the period of study with their ID as the foreign key.
-     * @param label: Part of a composite primary key, along with loginID.
      * @param loginId: int representing the student.
-     * @param level: Char representing the level of the degree the student took in this period of study.
+     * @param label: Part of a composite primary key, along with loginID.
      * @param startDate: Date tells us when the period of study began.
      * @param endDate: Date tells us when the period of study ended.
+     * @param level: Char representing the level of the degree the student took in this period of study.
      */
-    public void addPeriodOfStudy(String label, int loginId, String level, Date startDate, Date endDate) {
+    public void addPeriodOfStudy(int loginId, String label, String startDate, String endDate, String level) {
         PreparedStatement pstmt = null;
         try {
             db.enableACID();
-            // first create entry in the user table
+
             pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?)");
-            pstmt.setString(1, label);
-            pstmt.setInt(2, loginId);
-            pstmt.setString(3, level);
-            pstmt.setDate(4, startDate);
-            pstmt.setDate(5,endDate);
+            pstmt.setInt(1, loginId);
+            pstmt.setString(2, label);
+            pstmt.setDate(3, java.sql.Date.valueOf(startDate));
+            pstmt.setDate(4, java.sql.Date.valueOf(endDate));
+            pstmt.setString(5, level);
             pstmt.executeUpdate();
 
             // commit connection, then close resources
