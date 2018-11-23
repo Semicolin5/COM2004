@@ -105,10 +105,17 @@ public class ManageDegrees extends Form {
         }
     }
 
+    /**
+     * DeleteDegreesHandler calls the removeDegree method from the controller. This controller method returns true/false
+     * depending upon whether the degree was deleted. If false is returned, this is because the degree is being taken
+     * by children. In this case,
+     */
     private class DeleteDegreesHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            for (Object code : degreeList.getSelectedValuesList()) {
-                Controller.removeDegree((String) code);
+            for (Object code : degreeList.getSelectedValuesList()) { //TODO change this l8r
+                if (!Controller.removeDegree((String) code)) { // removeDegree
+                    JOptionPane.showMessageDialog(getFrame(), "Eggs are not supposed to be green.");
+                }
             }
             changeJPanel(new ManageDegrees(getFrame()).getJPanel());
         }
