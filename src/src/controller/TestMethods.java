@@ -93,12 +93,12 @@ public class TestMethods {
         //tester.removeStudent(1001);
 
         // testing the removeStudentsModuleChoice function
-        System.out.println("Testing removeStudentsModuleChoice");
-        tester.removeStudentsModuleChoice(1001, "COM1005");
+        //System.out.println("Testing removeStudentsModuleChoice");
+        //tester.removeStudentsModuleChoice(1001, "COM1005");
 
         // testing the removeModule method, removing the COM1005 module
-        //System.out.println("Testing removeModule");
-        //tester.removeModule("COM1005");
+        System.out.println("Testing removeModule");
+        tester.removeModule("COM1005");
 
     }
 

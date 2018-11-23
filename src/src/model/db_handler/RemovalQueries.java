@@ -11,23 +11,24 @@ public class RemovalQueries extends Queries {
     }
 
     /**
-     * // TODO do this one last this is impossible to do without removing like everything
      * Remove Department Query - only accessible for Administrators (privilege level 4)
+     * This method is only run after it is checked that there are no associated degrees to the department.
+     * If there are degrees associated to a department the Administrator wants to delete, that Admin should
+     * be prompted to delete the degrees first.
      * @param code String that represents the departments code, used to identify what row to delete.
      * */
     public void removeDepartment(String code) {
         if (super.getPriv() == 4) {
             PreparedStatement pstmt = null;
             try {
+
                 db.enableACID();
-                // TODO remove students related to the department
-
-
                 pstmt = super.conn.prepareStatement("DELETE FROM department WHERE code=?");
                 pstmt.setString(1, code);
                 pstmt.executeUpdate();
                 super.conn.commit();
                 db.disableACID();
+
             } catch (SQLException e) {
                 super.db.rollBack(); // maintains ACID if failure in query
                 e.printStackTrace();
@@ -41,20 +42,25 @@ public class RemovalQueries extends Queries {
 
     /**
      * Remove Module Query - only accessible for Administrators (privilege level 4)
+     * Given a module_code of a module, this method will delete this module, and all its references.
+     * Firstly all of the module's affiliations with degrees are delete from module_degree,
+     * then the module is deleted from the module table.
      * @param code String that represents the modules code, used to identify the row to delete
      * */
     public void removeModule(String code) {
-        if (super.getPriv() == 4) {
+        if (true) { // TODO implement privilege check
             try {
+
                 db.enableACID();
                 // first delete all rows from grades table that refers to the module
                 removeRowWhere("grades", "module_code", code);
                 // secondly, delete all rows from the core table that refers to the module
-                removeRowWhere("core", "module_code", code);
+                removeRowWhere("module_degree", "module_code", code);
                 // then delete the row from the module table
-                removeRowWhere("module", "code", code);
+                removeRowWhere("module", "module_code", code);
                 super.conn.commit();
                 db.disableACID();
+
             } catch (SQLException e) {
                 super.db.rollBack();
                 e.printStackTrace();
@@ -165,20 +171,25 @@ public class RemovalQueries extends Queries {
      * */
     public void removeStudentsModuleChoice(int login_id, String module_code) {
         if (true) { //TODO sort out the privilege check for this (bearing in mind that students can also do this if it is their module)
+
+            PreparedStatement pstmt = null;
             try{
 
                 db.enableACID();
-                PreparedStatement pstmt = super.conn.prepareStatement("DELETE FROM grades WHERE login_id=? AND module_code=?");
+                pstmt = super.conn.prepareStatement("DELETE FROM grades WHERE login_id=? AND module_code=?");
                 pstmt.setInt(1, login_id);
                 pstmt.setString(2, module_code);
                 pstmt.executeUpdate();
                 db.disableACID();
 
-                closePreparedStatement(pstmt); // release resources
             } catch (SQLException e) {
                db.rollBack(); // rolls back if there is a problem
                e.printStackTrace();
+            } finally {
+                closePreparedStatement(pstmt); // release resources
             }
+
         }
     }
+
 }
