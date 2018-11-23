@@ -49,7 +49,7 @@ public class Controller {
 	
     /**
      * setCurrentUser, takes a login ID and sets the current user to the one linked to the login ID
-     * @param int loginID, the login ID of the user we want to set as current user
+     * @param loginID int, the login ID of the user we want to set as current user
      */
 	public static void setCurrentUser(int loginID) {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());	
@@ -183,11 +183,26 @@ public class Controller {
 	    removalQ.removeStudent(login);
     }
 
-    public static void removeDegree(String login) {
-        System.out.println("Remove degree needs coding"); //TODO: How will removeDegree work? Can a student on that degree be left with a null degree field?
-        //RemovalQueries removalQ = new RemovalQueries(Main.getDB());
-        //removalQ.removeDegree(login);
+    /**
+	 * removeDegree first ensures that there are no students currently taking that degree, if not, then it deletes
+	 * the degree.
+	 * @param degree_code String representing the degree that should be deleted.
+	 * @return boolean that returns false if the degree is not allowed to be deleted and hasn't been, true if it
+	 * is allowed to be deleted and has been.
+	 * */
+    public static boolean removeDegree(String degree_code) {
+        RemovalQueries removeQ = new RemovalQueries(Main.getDB());
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        boolean deletionAllowed = retrieveQ.allowedToDeleteDegree(degree_code);
+        // if there aren't any associated users, delete the degree
+        if(deletionAllowed){
+            System.out.println("deleting the degree");
+            removeQ.removeDegree(degree_code);
+        }
+		return deletionAllowed; // returns true if the degree was deleted, false otherwise
     }
+
+
 
     public static void saveUser(int login, String pass, int priv) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());

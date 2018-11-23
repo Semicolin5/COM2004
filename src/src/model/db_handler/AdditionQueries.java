@@ -19,23 +19,21 @@ public class AdditionQueries extends Queries{
      * @param desc is String describing the degree (maxlength 100).
      * */
     public void addDepartment(String code, String desc) {
-        if (super.getPriv() == 4) {
-            System.out.println("yes");
-            PreparedStatement pstmt = null;
-            try {
-                db.enableACID();
-                pstmt = super.conn.prepareStatement("INSERT INTO department VALUES (?,?)");
-                pstmt.setString(1, code);
-                pstmt.setString(2, desc);
-                pstmt.executeUpdate();
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                super.db.rollBack(); // ensure ACID
-                e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt);
-            }
+        System.out.println("yes");
+        PreparedStatement pstmt = null;
+        try {
+            db.enableACID();
+            pstmt = super.conn.prepareStatement("INSERT INTO department VALUES (?,?)");
+            pstmt.setString(1, code);
+            pstmt.setString(2, desc);
+            pstmt.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack(); // ensure ACID
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 
@@ -46,8 +44,6 @@ public class AdditionQueries extends Queries{
      * @param credits is an int of the numbers of credits the modules is worth
      * */
     public void addModule(String code, String name, int credits, int semester) {
-        System.out.println(super.getPriv());
-        System.out.println(src.controller.Main.getPriv());
         PreparedStatement pstmt = null;
         try {
             db.enableACID();
@@ -74,7 +70,6 @@ public class AdditionQueries extends Queries{
      * @param name String describing the degree, i.e. "Computer Science"
      * */
     public void addDegree(String code, String name, boolean masters, boolean yearIndustry) {
-        //TODO: Reinsert privilege checks within Controller
         PreparedStatement pstmt = null;
         try {
             System.out.println(name + masters + code + yearIndustry);
@@ -120,11 +115,6 @@ public class AdditionQueries extends Queries{
             closePreparedStatement(pstmt);
         }
     }
-
-
-    /**
-     * TODO add approval
-     * */
 
     /**
      * Add Students Query - only accessible for Registrars (privilege level 3)
