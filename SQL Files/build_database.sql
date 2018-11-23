@@ -90,12 +90,12 @@ CREATE TABLE module_degree (
 
 #3NF 
 CREATE TABLE grades (
-    student_id int,
+    login_id int,
     module_code CHAR (7),
     initial_percent DECIMAL(8, 5), -- marks achieved
     resit_percent DECIMAL(8, 5), 
-    PRIMARY KEY (student_id, module_code),
-    FOREIGN KEY (student_id) REFERENCES student (login_id),
+    PRIMARY KEY (login_id, module_code),
+    FOREIGN KEY (login_id) REFERENCES student (login_id),
     FOREIGN KEY (module_code) REFERENCES module (module_code)
 );
 

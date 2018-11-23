@@ -18,9 +18,9 @@ public class TestMethods {
 
         testdb = new DatabaseHandler();
 
-        //testingRemovalQueries();
+        testingRemovalQueries();
         //testingAdditionQueries();
-        testingRetrieveQueries();
+        //testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -87,9 +87,15 @@ public class TestMethods {
 
         RemovalQueries tester = new RemovalQueries(testdb);
         testdb.setPrivLevel(4);
+
+        // testing the removeStudent function
+        System.out.println("Testing removeStudent");
+        tester.removeStudent(1001);
+
+
         // testing the removeModule method, removing the COM1005 module
-        System.out.println("\n1) Testing removeModule");
-        tester.removeModule("COM1005");
+        //System.out.println("Testing removeModule");
+        //tester.removeModule("COM1005");
 
     }
 

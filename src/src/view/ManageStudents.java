@@ -120,7 +120,7 @@ public class ManageStudents extends Form {
     private class RemoveStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             for (Object code : studentList.getSelectedValuesList()) {
-                Controller.removeStudent((String) code);
+                Controller.removeStudent((Integer) code);
             }
             changeJPanel(new ManageStudents(getFrame()).getJPanel());
         }

@@ -194,7 +194,7 @@ public class Controller {
         removalQ.removeUser(login);
     }
 
-    public static void removeStudent(String login) {
+    public static void removeStudent(int login) {
 	    RemovalQueries removalQ = new RemovalQueries(Main.getDB());
 	    removalQ.removeStudent(login);
     }

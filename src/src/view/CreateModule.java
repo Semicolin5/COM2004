@@ -67,25 +67,25 @@ public class CreateModule extends Form {
         degreeCombo.addItemListener(e -> {
             levelCombo.removeAllItems();
             for (Degree degree : Controller.getDegrees()) {
-                if (degree.getDegreeCode().equals(e.getItem())&& degree.getDegreePlacement()) {
+                if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreePlacement()) {
                     if (degree.getDegreeType()) {
                         for (int i = 1; i < 4; i++)
                             levelCombo.addItem(i);
                         levelCombo.addItem("Placement Year");
                         levelCombo.addItem("4");
-                    } else{
+                    } else {
                         for (int i = 1; i < 3; i++)
                             levelCombo.addItem(i);
                         levelCombo.addItem("Placement Year");
                         levelCombo.addItem("3");
                     }
-                }else  if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
-                        for (int i = 1; i < 5; i++)
-                            levelCombo.addItem(i);
-                    } else if (degree.getDegreeCode().equals(e.getItem())) {
-                        for (int i = 1; i < 4; i++)
-                            levelCombo.addItem(i);
-                    }
+                } else if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
+                    for (int i = 1; i < 5; i++)
+                        levelCombo.addItem(i);
+                } else if (degree.getDegreeCode().equals(e.getItem())) {
+                    for (int i = 1; i < 4; i++)
+                        levelCombo.addItem(i);
+                }
             }
         });
         //TODO: Modify the above code so that it takes into account yeas in industry.

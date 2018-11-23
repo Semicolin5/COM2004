@@ -69,8 +69,7 @@ public class RemovalQueries extends Queries {
      * @param column String describing column in WHERE column=item
      * @param whereEquals String describing the item to be delete
      **/
-    //TODO Method seems awfully powerful, might remove
-    public void removeRowWhere(String table, String column, String whereEquals) {
+    private void removeRowWhere(String table, String column, String whereEquals) {
         PreparedStatement pstmt = null;
         String query = "DELETE FROM $tableName WHERE $columnName = ?";
         String addedTable = query.replace("$tableName",table);
@@ -87,41 +86,70 @@ public class RemovalQueries extends Queries {
     }
 
     /**
-     * Remove Module User - only accessible for Administrators (privilege level 4)
+     * Remove User. Assumption that this method wouldn't be able to be run a user who is also a student.
      * @param loginID String that represents the user's loginID, used to identify the row to delete
      * */
     public void removeUser(String loginID) {
-        if (super.getPriv() == 4) {
-            PreparedStatement pstmt = null;
+        PreparedStatement pstmt = null;
+        try {
+            db.enableACID();
+            pstmt = super.conn.prepareStatement("DELETE FROM users WHERE login_id=?");
+            pstmt.setString(1, loginID);
+            pstmt.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack(); // maintains ACID if failure in query
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
+        }
+
+    }
+
+
+    /**
+     * @param loginID int representing the primary key of a row in the student table, the student login id,
+     * The method queues, then executes for deletions from the database:
+     *      1) deletes the student's associated row(s) in grades
+     *      2) deletes the student's associated row in period of study
+     *      3) deletes the student's row in the student table
+     *      4) deletes the student's row in the user table.
+     * */
+    public void removeStudent(int loginID) {
+        if (true) { // TODO implement the privilege check
+            PreparedStatement pstmtRemoveGrades = null;
+            PreparedStatement pstmtRemovePoS = null;
+            PreparedStatement pstmtRemoveStudent = null;
+            PreparedStatement pstmtRemoveUser =null;
             try {
+
                 db.enableACID();
-                pstmt = super.conn.prepareStatement("DELETE FROM users WHERE login_id=?");
-                pstmt.setString(1, loginID);
-                pstmt.executeUpdate();
+                pstmtRemoveGrades = super.conn.prepareStatement("DELETE FROM grades WHERE login_id = ?");
+                pstmtRemoveGrades.setInt(1, loginID);
+                pstmtRemoveGrades.executeUpdate();
+                pstmtRemovePoS = super.conn.prepareStatement("DELETE FROM period_of_study WHERE login_id = ?");
+                pstmtRemovePoS.setInt(1, loginID);
+                pstmtRemovePoS.executeUpdate();
+                pstmtRemoveStudent = super.conn.prepareStatement("DELETE FROM student WHERE login_id = ?");
+                pstmtRemoveStudent.setInt(1, loginID);
+                pstmtRemoveStudent.executeUpdate();
+                pstmtRemoveUser = super.conn.prepareStatement("DELETE FROM users WHERE login_id = ?");
+                pstmtRemoveUser.setInt(1, loginID);
+                pstmtRemoveUser.executeUpdate();
                 super.conn.commit();
                 db.disableACID();
+
+                pstmtRemoveGrades.close(); // releasing resource
+                pstmtRemovePoS.close();
             } catch (SQLException e) {
                 super.db.rollBack(); // maintains ACID if failure in query
                 e.printStackTrace();
             } finally {
-                closePreparedStatement(pstmt);
-            }
-        }
-    }
-
-    public void removeStudent(String loginID) {
-        if (super.getPriv() == 0) {
-            try {
-                db.enableACID();
-
-                removeRowWhere("grades", "student_id", loginID);
-                removeRowWhere("student", "login_id", loginID);
-
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                super.db.rollBack(); // maintains ACID if failure in query
-                e.printStackTrace();
+                closePreparedStatement(pstmtRemoveGrades);
+                closePreparedStatement(pstmtRemovePoS);
+                closePreparedStatement(pstmtRemoveStudent);
+                closePreparedStatement(pstmtRemoveUser);
             }
         }
     }
