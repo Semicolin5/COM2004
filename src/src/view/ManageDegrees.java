@@ -34,9 +34,7 @@ public class ManageDegrees extends Form {
         frame.setTitle("Manage Degrees");
 
         //loops through users in database and adds all of their loginIDs to the JList.
-        System.out.println("Sbout to search through Degree");
         for (Degree degree : Controller.getDegrees()) {
-            System.out.println(degree.getDegreeCode());
             degreeModel.addElement(degree.getDegreeCode());
         }
         degreeList.setLayoutOrientation(JList.VERTICAL);
@@ -106,15 +104,17 @@ public class ManageDegrees extends Form {
     }
 
     /**
-     * DeleteDegreesHandler calls the removeDegree method from the controller. This controller method returns true/false
-     * depending upon whether the degree was deleted. If false is returned, this is because the degree is being taken
-     * by children. In this case,
+     * DeleteDegreesHandler calls the removeDegree methods from the controller to work out if the Admin is allowed
+     * to delete the degree. In order for a degree to be allowed to be deleted:
+     *      1) no students should be taking it
+     *      2) no modules should be associated with the degree
      */
     private class DeleteDegreesHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            for (Object code : degreeList.getSelectedValuesList()) { //TODO change this l8r
-                if (!Controller.removeDegree((String) code)) { // removeDegree
-                    JOptionPane.showMessageDialog(getFrame(), "Eggs are not supposed to be green.");
+            for (Object code : degreeList.getSelectedValuesList()) { //TODO change this
+                if (!Controller.removeDegree((String) code)) {
+                    JOptionPane.showMessageDialog(getFrame(), "The current degree is not allowed to be deleted until " +
+                            "there are no students or modules affiliated with the degree");
                 }
             }
             changeJPanel(new ManageDegrees(getFrame()).getJPanel());

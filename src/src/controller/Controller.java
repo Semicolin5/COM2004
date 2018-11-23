@@ -214,11 +214,11 @@ public class Controller {
         if(deletionAllowed){
             System.out.println("deleting the degree");
             removeQ.removeDegree(degree_code);
-        } else {
-        	System.out.println("PROMPT ADMIN YOU CANNOT DELETE THERE ARE ASSOCIATED USERS");
-		}
+        }
 		return deletionAllowed; // returns true if the degree was deleted, false otherwise
     }
+
+
 
     public static void saveUser(int login, String pass, int priv) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());

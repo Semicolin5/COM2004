@@ -291,25 +291,32 @@ public class RetrieveQueries extends Queries {
    }
 
    /**
-    * Returns true if the degree is 'allowed' to be deleted (i.e. has no student affiliations.
+    * Returns true if the degree is 'allowed' to be deleted (i.e. has no student affiliations, and has no
     * */
    public boolean allowedToDeleteDegree(String degree_code) {
         PreparedStatement pstmt = null;
         ResultSet res = null;
-        boolean allowed = false;
+        boolean hasAffiliatedStudents = true; // assume it has students, and check
+        boolean hasAffiliatedModules = true; // assume it has affiliated modules, and check
         try {
             pstmt = super.conn.prepareStatement("SELECT * FROM student WHERE degree_code=?");
             pstmt.setString(1, degree_code);
             res = pstmt.executeQuery();
             // checks to see if res is empty
             if (!res.next()) {
-                allowed = true; // allowed is true if no student takes the degree
+                hasAffiliatedStudents = false; // allowed is true if no student takes the degree
+            }
+            pstmt = super.conn.prepareStatement("SELECT * FROM module_degree WHERE degree_code=?");
+            pstmt.setString(1, degree_code);
+            res = pstmt.executeQuery();
+            if (!res.next()) {
+                hasAffiliatedModules = false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeResources(pstmt, res);
         }
-        return allowed;
+        return (!hasAffiliatedModules && !hasAffiliatedStudents);
    }
 }

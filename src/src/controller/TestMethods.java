@@ -30,8 +30,8 @@ public class TestMethods {
         RetrieveQueries tester = new RetrieveQueries(testdb);
         //testdb.setPrivLevel(4);
 
-        System.out.println("Testing degreeContainsStudents");
-        System.out.println(tester.allowedToDeleteDegree("COMU03"));
+        System.out.println("Testing allowedToDeleteDegree");
+        System.out.println(tester.allowedToDeleteDegree("COMU49"));
 
 
         // testing the retrieval method for a list of departments
