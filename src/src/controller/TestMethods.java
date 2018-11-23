@@ -89,9 +89,12 @@ public class TestMethods {
         testdb.setPrivLevel(4);
 
         // testing the removeStudent function
-        System.out.println("Testing removeStudent");
-        tester.removeStudent(1001);
+        //System.out.println("Testing removeStudent");
+        //tester.removeStudent(1001);
 
+        // testing the removeStudentsModuleChoice function
+        System.out.println("Testing removeStudentsModuleChoice");
+        tester.removeStudentsModuleChoice(1001, "COM1005");
 
         // testing the removeModule method, removing the COM1005 module
         //System.out.println("Testing removeModule");

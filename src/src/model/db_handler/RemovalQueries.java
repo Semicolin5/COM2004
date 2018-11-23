@@ -109,6 +109,8 @@ public class RemovalQueries extends Queries {
 
 
     /**
+     * Method removeStudent is used by the registrar to remove students, or admin to remove users - only accessible to
+     * privilege level 3/4
      * @param loginID int representing the primary key of a row in the student table, the student login id,
      * The method queues, then executes for deletions from the database:
      *      1) deletes the student's associated row(s) in grades
@@ -117,7 +119,7 @@ public class RemovalQueries extends Queries {
      *      4) deletes the student's row in the user table.
      * */
     public void removeStudent(int loginID) {
-        if (true) { // TODO implement the privilege check
+        if (true) { // TODO implement the privilege check so only privilege 3/4 can access this method
             PreparedStatement pstmtRemoveGrades = null;
             PreparedStatement pstmtRemovePoS = null;
             PreparedStatement pstmtRemoveStudent = null;
@@ -150,6 +152,32 @@ public class RemovalQueries extends Queries {
                 closePreparedStatement(pstmtRemovePoS);
                 closePreparedStatement(pstmtRemoveStudent);
                 closePreparedStatement(pstmtRemoveUser);
+            }
+        }
+    }
+
+    /**
+     * removeStudentsModuleChoice takes two parameters, a student, and the module they need to drop.
+     * This is to be used by registrars so that they can drop modules on behalf of the student. Is also accessible
+     * for the student whose grade will be dropped.
+     * @param login_id int representing the student whose module choice is being dropped
+     * @param module_code String representing the module that the student will drop.
+     * */
+    public void removeStudentsModuleChoice(int login_id, String module_code) {
+        if (true) { //TODO sort out the privilege check for this (bearing in mind that students can also do this if it is their module)
+            try{
+
+                db.enableACID();
+                PreparedStatement pstmt = super.conn.prepareStatement("DELETE FROM grades WHERE login_id=? AND module_code=?");
+                pstmt.setInt(1, login_id);
+                pstmt.setString(2, module_code);
+                pstmt.executeUpdate();
+                db.disableACID();
+
+                closePreparedStatement(pstmt); // release resources
+            } catch (SQLException e) {
+               db.rollBack(); // rolls back if there is a problem
+               e.printStackTrace();
             }
         }
     }
