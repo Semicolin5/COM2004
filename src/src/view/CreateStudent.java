@@ -149,6 +149,12 @@ public class CreateStudent extends Form {
 
     private class AddStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
+
+            if (!initPassword.getText().equals(confirmPassword.getText())) {
+                JOptionPane.showMessageDialog(getFrame(), "Passwords don't match");
+                return;
+            }
+
             Controller.saveStudent(Integer.valueOf(studentNo.getText()), "", "Mr", studentForename.getText(),
                     studentSurname.getText(), studentTutor.getText(),
                     studentEmail.getText(), "COMU03", "!", "A", studyStartDate.getText(), studyEndDate.getText());
