@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import src.controller.Controller;
 import src.objects.Degree;
+import src.objects.Department;
 
 public class ManageDegrees extends Form {
     private JPanel panel1;
@@ -21,6 +22,7 @@ public class ManageDegrees extends Form {
     private JButton createDegreeButton;
     private JButton backButton;
     private DefaultListModel<String> degreeModel;
+    private DefaultListModel<String> associateModel;
 
     public ManageDegrees(GUIFrame frame) {
         super(frame);
@@ -31,6 +33,7 @@ public class ManageDegrees extends Form {
 
         setJPanel(panel1);
         degreeModel = new DefaultListModel<>();
+        associateModel = new DefaultListModel<>();
         frame.setTitle("Manage Degrees");
 
         //loops through users in database and adds all of their loginIDs to the JList.
@@ -40,6 +43,9 @@ public class ManageDegrees extends Form {
         degreeList.setLayoutOrientation(JList.VERTICAL);
         degreeList.setModel(degreeModel);
         degreeList.setVisibleRowCount(10);
+        associatedList.setLayoutOrientation(JList.VERTICAL);
+        associatedList.setModel(associateModel);
+        associatedList.setVisibleRowCount(10);
         createDegreeButton.addActionListener(new CreateDegreeHandler());
         deleteSelectedDegreesButton.addActionListener(new DeleteDegreesHandler());
         loadAssociatedDepartmentsButton.addActionListener(new AssociatedHandler());
@@ -123,11 +129,18 @@ public class ManageDegrees extends Form {
 
     private class AssociatedHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            for (Object code : degreeList.getSelectedValuesList()) {
-                Controller.removeDegree((String) code);
+            associateModel.removeAllElements();
+            String degreeCode = degreeList.getSelectedValue().toString();
+            for (Degree degree : Controller.getDegrees()) {
+                if (degreeCode.equals(degree.getDegreeCode())) {
+                    associateModel.addElement(degree.getLead() + " |Lead");
+                    if (degree.getNonLead() !=null){
+                        for (Department d : degree.getNonLead())
+                        associateModel.addElement(d.getCode() + " |" + d.getName() + " |Non-lead" );
+                    }
+                }
             }
-            changeJPanel(new ManageDegrees(getFrame()).getJPanel());
         }
     }
-
 }
+
