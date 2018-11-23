@@ -112,8 +112,8 @@ public class ManageDegrees extends Form {
     /**
      * DeleteDegreesHandler calls the removeDegree methods from the controller to work out if the Admin is allowed
      * to delete the degree. In order for a degree to be allowed to be deleted:
-     *      1) no students should be taking it
-     *      2) no modules should be associated with the degree
+     * 1) no students should be taking it
+     * 2) no modules should be associated with the degree
      */
     private class DeleteDegreesHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
@@ -134,9 +134,9 @@ public class ManageDegrees extends Form {
             for (Degree degree : Controller.getDegrees()) {
                 if (degreeCode.equals(degree.getDegreeCode())) {
                     associateModel.addElement(degree.getLead() + " |Lead");
-                    if (degree.getNonLead() !=null){
+                    if (degree.getNonLead() != null) {
                         for (Department d : degree.getNonLead())
-                        associateModel.addElement(d.getCode() + " |" + d.getName() + " |Non-lead" );
+                            associateModel.addElement(d.getCode() + " |" + d.getName() + " |Non-lead");
                     }
                 }
             }

@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
+import src.objects.Degree;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,6 +36,13 @@ public class CreateStudent extends Form {
         setBackButtonPanel(new ManageStudents(getFrame()).getJPanel());
 
         setJPanel(panel1);
+
+        //Add degree codes to combo box
+        degreeCombo.addItem("");
+        for (Degree degree : Controller.getDegrees()) {
+            degreeCombo.addItem(degree.getDegreeCode());
+        }
+
         frame.setTitle("Create Student");
         addStudentButton.addActionListener(new AddStudentHandler());
     }
@@ -66,6 +74,11 @@ public class CreateStudent extends Form {
         studentForename = new JTextField();
         panel1.add(studentForename, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         titleCombo = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        defaultComboBoxModel1.addElement("");
+        defaultComboBoxModel1.addElement("Mr");
+        defaultComboBoxModel1.addElement("Ms");
+        titleCombo.setModel(defaultComboBoxModel1);
         panel1.add(titleCombo, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("Surname");
@@ -155,9 +168,14 @@ public class CreateStudent extends Form {
                 return;
             }
 
-            Controller.saveStudent(Integer.valueOf(studentNo.getText()), "", "Mr", studentForename.getText(),
-                    studentSurname.getText(), studentTutor.getText(),
-                    studentEmail.getText(), "COMU03", "!", "A", studyStartDate.getText(), studyEndDate.getText());
+            Controller.saveStudent(Integer.valueOf(studentNo.getText()),
+                    confirmPassword.getText(), titleCombo.getSelectedItem().toString(),
+                    studentForename.getText(), studentSurname.getText(),
+                    studentTutor.getText(), studentEmail.getText(),
+                    degreeCombo.getSelectedItem().toString(), degreeLevel.getText(),
+                    studyLabel.getText(), studyStartDate.getText(), studyEndDate.getText());
+
+            changeJPanel(new ManageStudents(getFrame()).getJPanel());
         }
     }
 
