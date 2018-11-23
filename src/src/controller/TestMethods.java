@@ -97,8 +97,16 @@ public class TestMethods {
         //tester.removeStudentsModuleChoice(1001, "COM1005");
 
         // testing the removeModule method, removing the COM1005 module
-        System.out.println("Testing removeModule");
-        tester.removeModule("COM1005");
+        //System.out.println("Testing removeModule");
+        //tester.removeModule("COM1005");
+
+        //testing the removeDepartment method on a Department with no affiliated degrees
+        System.out.println("trying out removeDepartment");
+        tester.removeDepartment("RSS");
+
+        // testing the removeDegree method on a Degree with no affilaited modules
+        System.out.println("trying out removeDegree");
+        tester.removeDegree("COMU03");
 
     }
 

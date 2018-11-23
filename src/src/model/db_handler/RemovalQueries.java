@@ -3,6 +3,7 @@ import java.sql.*;
 
 /**
  * RemovalQueries.java class methods stores all SQL queries related to deletion
+ * An extension of Queries.java
  * */
 public class RemovalQueries extends Queries {
 
@@ -18,27 +19,42 @@ public class RemovalQueries extends Queries {
      * @param code String that represents the departments code, used to identify what row to delete.
      * */
     public void removeDepartment(String code) {
-        if (super.getPriv() == 4) {
-            PreparedStatement pstmt = null;
+        if (true) { //TODO implement privilege check
             try {
-
                 db.enableACID();
-                pstmt = super.conn.prepareStatement("DELETE FROM department WHERE code=?");
-                pstmt.setString(1, code);
-                pstmt.executeUpdate();
+                removeRowWhere("department", "department_code", code);
                 super.conn.commit();
                 db.disableACID();
-
             } catch (SQLException e) {
                 super.db.rollBack(); // maintains ACID if failure in query
                 e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt);
             }
         }
     }
 
-
+    /**
+     * Method removeDegree Query - only accessible for Administrators (privilege level 4)
+     * Method is used to delete degrees, given the degree code. First deletes the degree's association
+     * with a department from the degree_department table, then deletes the degree from the degree table.
+     * This method is only run after it has been checked that there are no students currently
+     * taking this degree. Similarly to removing departments, if there are students who need to
+     * be deleted first, the Administrator cannot run this method, until they have first deleted dependencies.
+     * @param code String that represents the degrees code, used to identify what degree to delete.
+     * */
+    public void removeDegree(String code) {
+        if (true) { //TODO implement privilege check
+           PreparedStatement pstmt = null;
+           try {
+               db.enableACID();
+               removeRowWhere("degree_department", "degree_code", code);
+               removeRowWhere("degree", "degree_code", code);
+               db.disableACID();
+           } catch (SQLException e) {
+                super.db.rollBack();
+                e.printStackTrace();
+           }
+        }
+    }
 
     /**
      * Remove Module Query - only accessible for Administrators (privilege level 4)
@@ -69,33 +85,11 @@ public class RemovalQueries extends Queries {
     }
 
     /**
-     * Removes rows from table where condition. Shouldn't be called directly.
-     * Removes grade row completely from the database given a column and variable
-     * @param table String describing the table containing the row(s) to delete
-     * @param column String describing column in WHERE column=item
-     * @param whereEquals String describing the item to be delete
-     **/
-    private void removeRowWhere(String table, String column, String whereEquals) {
-        PreparedStatement pstmt = null;
-        String query = "DELETE FROM $tableName WHERE $columnName = ?";
-        String addedTable = query.replace("$tableName",table);
-        String addedColumn = addedTable.replace("$columnName", column);
-        try {
-            pstmt = conn.prepareStatement(addedColumn); //WHERE module_code=\"COM1005\"");
-            pstmt.setString(1, whereEquals);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-           e.printStackTrace();
-        } finally {
-            closePreparedStatement(pstmt);
-        }
-    }
-
-    /**
      * Remove User. Assumption that this method wouldn't be able to be run a user who is also a student.
      * @param loginID String that represents the user's loginID, used to identify the row to delete
      * */
     public void removeUser(String loginID) {
+        // TODO implement a privilege check in here
         PreparedStatement pstmt = null;
         try {
             db.enableACID();
@@ -112,7 +106,6 @@ public class RemovalQueries extends Queries {
         }
 
     }
-
 
     /**
      * Method removeStudent is used by the registrar to remove students, or admin to remove users - only accessible to
@@ -192,4 +185,28 @@ public class RemovalQueries extends Queries {
         }
     }
 
+    // helper methods
+
+     /**
+     * Removes rows from table where condition is met. Shouldn't be called directly.
+     * Removes grade row completely from the database given a column and variable
+     * @param table String describing the table containing the row(s) to delete
+     * @param column String describing column in WHERE column=item
+     * @param whereEquals String describing the item to be delete
+     **/
+    private void removeRowWhere(String table, String column, String whereEquals) {
+        PreparedStatement pstmt = null;
+        String query = "DELETE FROM $tableName WHERE $columnName = ?";
+        String addedTable = query.replace("$tableName",table);
+        String addedColumn = addedTable.replace("$columnName", column);
+        try {
+            pstmt = conn.prepareStatement(addedColumn); //WHERE module_code=\"COM1005\"");
+            pstmt.setString(1, whereEquals);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+           e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
+        }
+    }
 }
