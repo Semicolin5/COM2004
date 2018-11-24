@@ -26,27 +26,27 @@ public class ModulePick extends Form {
         super(frame);
 
         //Set back button
-        //setBackButton(backButton);
-        //setBackButtonPanel(new Welcome(getFrame()).getJPanel());
+        setBackButton(backButton);
+        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
 
         setJPanel(panel1);
         studentModel = new DefaultListModel<>();
         choiceModel = new DefaultListModel<>();
         chosenModel = new DefaultListModel<>();
         frame.setTitle("Manage Modules Screen");
-        frame.setSize(1000,800);
+        //frame.setSize(1000,800);
 
         studentList.setLayoutOrientation(JList.VERTICAL);
         studentList.setModel(studentModel);
-        studentList.setVisibleRowCount(10);
+        studentList.setVisibleRowCount(8);
 
         moduleChoiceList.setLayoutOrientation(JList.VERTICAL);
         moduleChoiceList.setModel(choiceModel);
-        moduleChoiceList.setVisibleRowCount(10);
+        moduleChoiceList.setVisibleRowCount(8);
 
         chosenModuleList.setLayoutOrientation(JList.VERTICAL);
         chosenModuleList.setModel(chosenModel);
-        chosenModuleList.setVisibleRowCount(10);
+        chosenModuleList.setVisibleRowCount(9);
     }
 
     {
