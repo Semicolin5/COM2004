@@ -163,6 +163,11 @@ public class Controller {
 	    return retrieveQ.retrieveStudentsTable();
     }
 
+    public static List<PeriodOfStudy> getPeriodsOfStudy() {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrievePeriodOfStudyTable();
+	}
+
     public static void removeDepartment(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeDepartment(code);
