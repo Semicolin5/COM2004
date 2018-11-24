@@ -47,4 +47,10 @@ INSERT INTO module_degree VALUES
 
 INSERT INTO grades VALUES
     (1001, "COM1005", "74.55655", null),
-(1001, "COM1001", "20.001", "50.5555");
+    (1001, "COM1001", "20.001", "50.5555");
+
+-- INSERT PERIODS OF STUDY
+
+INSERT INTO period_of_study VALUES
+    (1001, "A", "1000-10-10", "1200-12-12", "1"),
+    (1001, "B", "1955-11-01", "1975-04-30", "2");

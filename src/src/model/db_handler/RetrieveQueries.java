@@ -185,7 +185,6 @@ public class RetrieveQueries extends Queries {
     	return moduleDegreeTable;
     }
     
-    
     /**
      * retrieve the users table
      * @return List<User>, returns the list of the users table
