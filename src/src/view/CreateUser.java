@@ -21,7 +21,7 @@ public class CreateUser extends Form {
     private JPanel panel1;
     private JTextField loginID;
     private JComboBox userType;
-    private JTextField confirmPass;
+    private JPasswordField confirmPass;
     private JButton createAccountButton;
     private JPasswordField initPass;
     private JButton cancelButton;
@@ -128,6 +128,12 @@ public class CreateUser extends Form {
                     priv = 2;
                     break;
             }
+
+            if (!initPass.getText().equals(confirmPass.getText())) {
+                JOptionPane.showMessageDialog(getFrame(), "Passwords don't match");
+                return;
+            }
+
             Controller.saveUser(Integer.parseInt(loginID.getText()), confirmPass.getText(), priv);
             changeJPanel(new ManageUsers(getFrame()).getJPanel());
         }

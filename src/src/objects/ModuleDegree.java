@@ -27,7 +27,7 @@ public class ModuleDegree {
 		return degreeLevel;
 	}
 	
-	public boolean getCore() {
+	public boolean isCore() {
 		return core;
 	}
 }

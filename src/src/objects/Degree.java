@@ -34,14 +34,14 @@ public class Degree {
    public  String getDegreeCode() {
        return degreeCode; }
    public String getDegreeName() { return degreeName; }
-    public  boolean getDegreeType() {
+    public  boolean isMasters() {
         return masters; }
-    public  boolean getDegreePlacement() {
+    public  boolean hasPlacementYear() {
         return yearIndustry; }
-    public List <Department> getNonLead(){
+    public List <Department> getNonLeadDepartments(){
        return nonLead;
     }
-    public Department getLead(){
+    public Department getLeadDepartment(){
        return lead;
     }
    // TODO make ones for department too
