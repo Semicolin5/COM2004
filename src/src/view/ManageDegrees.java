@@ -133,9 +133,9 @@ public class ManageDegrees extends Form {
             String degreeCode = degreeList.getSelectedValue().toString();
             for (Degree degree : Controller.getDegrees()) {
                 if (degreeCode.equals(degree.getDegreeCode())) {
-                    associateModel.addElement(degree.getLead() + " |Lead");
-                    if (degree.getNonLead() != null) {
-                        for (Department d : degree.getNonLead())
+                    associateModel.addElement(degree.getLeadDepartment() + " |Lead");
+                    if (degree.getNonLeadDepartments() != null) {
+                        for (Department d : degree.getNonLeadDepartments())
                             associateModel.addElement(d.getCode() + " |" + d.getName() + " |Non-lead");
                     }
                 }

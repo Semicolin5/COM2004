@@ -7,8 +7,6 @@ import com.intellij.uiDesigner.core.Spacer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import javax.swing.*;
 import src.objects.Degree;
 import src.controller.Controller;
@@ -67,8 +65,8 @@ public class CreateModule extends Form {
         degreeCombo.addItemListener(e -> {
             levelCombo.removeAllItems();
             for (Degree degree : Controller.getDegrees()) {
-                if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreePlacement()) {
-                    if (degree.getDegreeType()) {
+                if (degree.getDegreeCode().equals(e.getItem()) && degree.hasPlacementYear()) {
+                    if (degree.isMasters()) {
                         for (int i = 1; i < 4; i++)
                             levelCombo.addItem(i);
                         levelCombo.addItem("Placement Year");
@@ -79,7 +77,7 @@ public class CreateModule extends Form {
                         levelCombo.addItem("Placement Year");
                         levelCombo.addItem("3");
                     }
-                } else if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
+                } else if (degree.getDegreeCode().equals(e.getItem()) && degree.isMasters()) {
                     for (int i = 1; i < 5; i++)
                         levelCombo.addItem(i);
                 } else if (degree.getDegreeCode().equals(e.getItem())) {

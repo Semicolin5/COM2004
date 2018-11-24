@@ -47,8 +47,8 @@ public class CreateStudent extends Form {
         degreeCombo.addItemListener(e -> {
             degreeLevelCombo.removeAllItems();
             for (Degree degree : Controller.getDegrees()) {
-                if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreePlacement()) {
-                    if (degree.getDegreeType()) {
+                if (degree.getDegreeCode().equals(e.getItem()) && degree.hasPlacementYear()) {
+                    if (degree.isMasters()) {
                         for (int i = 1; i < 4; i++)
                             degreeLevelCombo.addItem(i);
                         degreeLevelCombo.addItem("Placement Year");
@@ -59,7 +59,7 @@ public class CreateStudent extends Form {
                         degreeLevelCombo.addItem("Placement Year");
                         degreeLevelCombo.addItem("3");
                     }
-                } else if (degree.getDegreeCode().equals(e.getItem()) && degree.getDegreeType()) {
+                } else if (degree.getDegreeCode().equals(e.getItem()) && degree.isMasters()) {
                     for (int i = 1; i < 5; i++)
                         degreeLevelCombo.addItem(i);
                 } else if (degree.getDegreeCode().equals(e.getItem())) {
