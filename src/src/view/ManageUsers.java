@@ -38,10 +38,11 @@ public class ManageUsers extends Form {
 
         setJPanel(panel1);
         userModel = new DefaultListModel<>();
+        frame.setTitle("Manage Users Screen");
 
         //loops through users in database and adds all of their loginIDs to the JList.
         for (User user : Controller.getUsers()) {
-            userModel.addElement(String.valueOf(user.getLogin()));
+            userModel.addElement(+ user.getPriv() + " " + String.valueOf(user.getLogin()) );
         }
         userList.setLayoutOrientation(JList.VERTICAL);
         userList.setModel(userModel);
