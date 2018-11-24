@@ -121,16 +121,25 @@ public class ManageDepartments extends Form {
         return panel1;
     }
 
+
     public class DepartmentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateDepartment(getFrame()).getJPanel());
         }
     }
 
+    /**
+     * RemoveDepartmentHandler calls the removeDegree methods from the controller to work out if the Admin is allowed
+     * to delete the department. In order for a degree to be allowed to be deleted:
+     * 1) no degrees should be affiliated with the department.
+     */
     private class RemoveDepartmentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             for (Object code : list1.getSelectedValuesList()) {
-                Controller.removeDepartment((String) code);
+                if (!Controller.removeDepartment((String) code)) {
+                    JOptionPane.showMessageDialog(getFrame(), "The current department is not allowed to be deleted until " +
+                            "there are no degrees affiliated with the department");
+                }
             }
             changeJPanel(new ManageDepartments(getFrame()).getJPanel());
         }

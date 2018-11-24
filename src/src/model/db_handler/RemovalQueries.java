@@ -19,16 +19,14 @@ public class RemovalQueries extends Queries {
      * @param code String that represents the departments code, used to identify what row to delete.
      * */
     public void removeDepartment(String code) {
-        if (true) { //TODO implement privilege check
-            try {
-                db.enableACID();
-                removeRowWhere("department", "department_code", code);
-                super.conn.commit();
-                db.disableACID();
-            } catch (SQLException e) {
-                super.db.rollBack(); // maintains ACID if failure in query
-                e.printStackTrace();
-            }
+        try {
+            db.enableACID();
+            removeRowWhere("department", "department_code", code);
+            super.conn.commit();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack(); // maintains ACID if failure in query
+            e.printStackTrace();
         }
     }
 
@@ -42,18 +40,16 @@ public class RemovalQueries extends Queries {
      * @param code String that represents the degrees code, used to identify what degree to delete.
      * */
     public void removeDegree(String code) {
-        if (true) { //TODO implement privilege check
-           PreparedStatement pstmt = null;
-           try {
-               db.enableACID();
-               removeRowWhere("degree_department", "degree_code", code);
-               removeRowWhere("degree", "degree_code", code);
-               db.disableACID();
-           } catch (SQLException e) {
-                super.db.rollBack();
-                e.printStackTrace();
-           }
-        }
+       PreparedStatement pstmt = null;
+       try {
+           db.enableACID();
+           removeRowWhere("degree_department", "degree_code", code);
+           removeRowWhere("degree", "degree_code", code);
+           db.disableACID();
+       } catch (SQLException e) {
+            super.db.rollBack();
+            e.printStackTrace();
+       }
     }
 
     /**

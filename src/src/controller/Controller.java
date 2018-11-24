@@ -163,10 +163,7 @@ public class Controller {
 	    return retrieveQ.retrieveStudentsTable();
     }
 
-    public static void removeDepartment(String code) {
-        RemovalQueries removalQ = new RemovalQueries(Main.getDB());
-        removalQ.removeDepartment(code);
-    }
+
 
     public static void removeModule(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
@@ -187,7 +184,7 @@ public class Controller {
 	 * removeDegree first ensures that there are no students currently taking that degree, if not, then it deletes
 	 * the degree.
 	 * @param degree_code String representing the degree that should be deleted.
-	 * @return boolean that returns false if the degree is not allowed to be deleted and hasn't been, true if it
+	 * @return boolean that returns false if the degree is not allowed to be deleted and hence has not been, true if it
 	 * is allowed to be deleted and has been.
 	 * */
     public static boolean removeDegree(String degree_code) {
@@ -202,7 +199,24 @@ public class Controller {
 		return deletionAllowed; // returns true if the degree was deleted, false otherwise
     }
 
-
+    /**
+	 * removeDepartment first ensures that there are no degrees currently associated with the department, if not,
+	 * the department is deleted.
+	 * @param code String represents the department that should be deleted.
+     * @return boolean that returns false if the department is not allowed to be delted and hence has not been, true if it is
+     * allowed to be deleted and has been.
+	 * */
+	public static boolean removeDepartment(String code) {
+        RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        boolean deletionAllowed = retrieveQ.allowedToDeleteDepartment(code);
+        // if there aren't any associated degrees, delete the department
+        if(deletionAllowed){
+           System.out.println("deleting the department");
+           removalQ.removeDepartment(code);
+        }
+        return deletionAllowed;
+    }
 
     public static void saveUser(int login, String pass, int priv) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
