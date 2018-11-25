@@ -138,24 +138,18 @@ public class ManageDegrees extends Form {
 
     private class AssociatedHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            associateModel = new DefaultTableModel();
+            //associateModel = new DefaultTableModel();
             associateModel.setRowCount(0);
             associateTable.setModel(associateModel);
-            associateModel.addColumn("Department Code");
-            associateModel.addColumn("Department Name");
-            associateModel.addColumn("Lead Status");
-
-           //associateModel.removeAllElements();
+            
             String degreeCode = degreeList.getSelectedValue().toString();
             for (Degree degree : Controller.getDegrees()) {
                 if (degreeCode.equals(degree.getDegreeCode())) {
                     Department lead = degree.getLeadDepartment();
                     associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
-                    //associateModel.addElement(degree.getLeadDepartment() + " |Lead");
                     if (degree.getNonLeadDepartments() != null) {
                         for (Department d : degree.getNonLeadDepartments())
                             associateModel.addRow(new Object[]{d.getCode(), d.getName(), "Non-Lead"});
-                            //associateModel.addElement(d.getCode() + " |" + d.getName() + " |Non-lead");
                     }
                 }
             }
