@@ -289,14 +289,15 @@ public class CheckQueries extends Queries {
     * @param String degCode, the degree code we are pairing with degree code to check we don't have a duplicate
     * @return boolean, true if we already have the module degree link stored
     */
-   public boolean checkDuplicateGrades(int studID, String modCode) {
+   public boolean checkDuplicateGrades(int studID, String modCode, String label) {
 	   List<Integer> sID = new ArrayList<Integer>();
 	   PreparedStatement pstmt = null;
 	   ResultSet res = null;
        try {
-           pstmt = conn.prepareStatement("SELECT student_id FROM grades WHERE student_id = ? and module_code = ?");
+           pstmt = conn.prepareStatement("SELECT student_id FROM grades WHERE student_id = ? and module_code = ? and label = ?");
            pstmt.setInt(1, studID);
            pstmt.setString(2, modCode);
+           pstmt.setString(3, label);
            res = pstmt.executeQuery();
            while (res.next()) {
                sID.add(res.getInt(1));
