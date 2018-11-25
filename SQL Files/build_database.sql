@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS=0;
+
 CREATE TABLE users (
     login_id int,
     salt CHAR (32),
@@ -79,6 +81,8 @@ CREATE TABLE module_degree (
     FOREIGN KEY (degree_code) REFERENCES degree (degree_code)    
 );
 
+ALTER TABLE period_of_study ADD KEY (label);
+
 -- linker table to represent the modules a student is taking at each period of
 -- study  and to store their grades for the module.
 CREATE TABLE grades (
@@ -92,4 +96,3 @@ CREATE TABLE grades (
     FOREIGN KEY (module_code) REFERENCES module (module_code),
     FOREIGN KEY (label) REFERENCES period_of_study (label)
 );
-
