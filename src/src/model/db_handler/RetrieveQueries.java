@@ -252,8 +252,7 @@ public class RetrieveQueries extends Queries {
 	   }
 	   return studentTable;
 	}
-   
-   
+
    /**
     * retrieveUser, given a login ID retrieves the users object including their privilege
     * @param loginID, int, the login ID of the user we want to retrieve
@@ -312,6 +311,34 @@ public class RetrieveQueries extends Queries {
             closeResources(pstmt, rs);
         }
         return studentModules;
+    }
+
+    /**
+     * retrieveStudentsModuleGrade, given a student, and a module that they take, this method
+     * returns their grades as a Grade object.
+     * @param login, int, the users loginID
+     * @param module, String, the module that the student takes/has taken
+     * @return Grade object
+     * */
+    public Grade retrieveStudentsModuleGrade(int login, String module){
+        Grade studentsGrade = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=?");
+           pstmt.setInt(1, login);
+           pstmt.setString(2, module);
+           rs = pstmt.executeQuery();
+           if(rs.next()) {
+               studentsGrade = new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
+                       rs.getFloat(4), rs.getFloat(5));
+           }
+        } catch (SQLException e) {
+           e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return studentsGrade;
     }
 
 	/**
