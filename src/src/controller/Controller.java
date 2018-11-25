@@ -304,7 +304,6 @@ public class Controller {
 		return returnMessage;
 	}
     
-    //TODO maybe add check to see if a department name is duplicated (very QOL)
     public static String checkInputDepartment(String depCode, String depName, int priv) {
     	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
     	String returnMessage = "";
@@ -326,8 +325,7 @@ public class Controller {
     	return returnMessage;
     }
     
-    //TODO add checks for the list of linked departments
-    public static String checkInputDegree(String degCode, String degName, List<DegreeDepartment> degDep, int priv) {
+    public static String checkInputDegree(String degCode, String degName, boolean masters, int priv) {
     	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
     	String returnMessage = "";
     	if (priv != 4) {
@@ -342,8 +340,13 @@ public class Controller {
     	else if (degName.length() > 100) {
     		returnMessage = "Degree name is too long.";
     	}
-    	else if (returnMessage.equals("A")) {
-    		//TODO check for each linked department, the linkage is unique, the departments exist
+    	else if (masters && degCode.substring(3, 4).equals("U")) {
+    		returnMessage = "Masters degrees should have a P in the middle of their code.";
+    		System.out.println("Here");
+    	}
+    	else if (!masters && degCode.substring(3, 4).equals("P")) {
+    		returnMessage = "Undergraduate degrees should have a U in the middle of their code.";
+    		System.out.println("Horo");
     	}
     	else {
     		returnMessage = "Accepted";
