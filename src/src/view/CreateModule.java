@@ -7,9 +7,13 @@ import com.intellij.uiDesigner.core.Spacer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import src.objects.Degree;
 import src.controller.Controller;
+import src.controller.Main;
+import src.model.RegexTests;
 
 /**
  * CreateModdule.java
@@ -33,6 +37,9 @@ public class CreateModule extends Form {
     private JComboBox semesterCombo;
     private JButton cancelButton;
     private DefaultListModel<String> departmentsModel;
+    private ArrayList<String[]> degreeLinker = new ArrayList<String[]>();
+    private String errorMessage = "";
+    
 
     /**
      * Set default JFrame sizes & add Event Listeners & Item Listener.
@@ -202,17 +209,41 @@ public class CreateModule extends Form {
      * Before adding the info to the JList.
      */
     public class LinkHandler implements ActionListener {
-        @Override
+    	private ArrayList<String> storedDegs = new ArrayList<String>();
+    	
+    	@Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Run length/form/duplicate checks here.
-            //TODO: Check that the module code is not already present in the JList.
-            //TODO: Check that the degree & module choice aren't forming a duplicate primary key.
-            //TODO: Colin, do we need length/form checks here? If we have correct checks on the degree data we are saving.
-            //TODO: 't all data in here already be correct? Other than the potential for the first JComboBox being blank.
-            //TODO: idea is that we know that data is correct before it is added to the JList.
-            String details = degreeCombo.getSelectedItem().toString() + " " +
-                    levelCombo.getSelectedItem().toString() + " " + coreCombo.getSelectedItem().toString();
-            departmentsModel.addElement(details);
+        	String deg = degreeCombo.getSelectedItem().toString();
+        	String level;
+        	//Got to make sure levelCombo isn't null
+        	if (levelCombo.getSelectedItem() == null) {
+        		level = "";
+        	}
+        	else {
+        		level = levelCombo.getSelectedItem().toString();
+        	}
+        	String core = coreCombo.getSelectedItem().toString();
+            String[] degLevelCore = {deg, level, core};
+            
+            //Now we can do our other checks
+            if (deg.equals("")) {
+            	errorMessage = "Please select a degree to link to.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            }
+            else if (levelCombo.getSelectedItem() == null) {
+            	errorMessage = "Please select a level of study.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            }
+            else if (storedDegs.contains(deg)) {
+                errorMessage = "This degree is already linked to this module.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            } 
+            else {
+                degreeLinker.add(degLevelCore);
+                storedDegs.add(deg);
+                departmentsModel.addElement(degreeCombo.getSelectedItem().toString() + " " + levelCombo.getSelectedItem().toString() + " " + coreCombo.getSelectedItem().toString());
+                errorMessage = "";
+            }
         }
     }
 
@@ -221,15 +252,21 @@ public class CreateModule extends Form {
      * Also adds a row to the core table for each degree level which this module is approved for.
      */
     public class CreateModuleHandler implements ActionListener {
-        @Override
+        private ArrayList<String> storedDegs = new ArrayList<String>();
+    	
+    	@Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
-            //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
-            ListModel model = moduleList.getModel();
-            //Need to put in checks here
-
-            //TODO: saveModule needs to work.
-            //Controller.saveModule(moduleCode.getText(), moduleName.getText(), Integer.parseInt(moduleCredits.getText()), semesterCombo.getSelectedIndex());
+            String modCode = moduleCode.getSelectedText().toString();
+            String modName = moduleName.getSelectedText().toString();
+            String modCredits = moduleCredits.getSelectedText().toString();
+            String semesterString = semesterCombo.getSelectedItem().toString();
+            
+            
+            
+            //Lets call our big boy checking function           
+            errorMessage = Controller.checkInputModule(modCode, modName, Main.getPriv());
+            
+            
             for (int i = 0; i < model.getSize(); i++) {
                 Object o = model.getElementAt(i);
                 String arr[] = o.toString().split(" ");
