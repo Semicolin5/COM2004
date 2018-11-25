@@ -206,7 +206,6 @@ public class CreateStudent extends Form {
             }
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            System.out.println(dateFormat.format(posStart.getValue()));
 
             Controller.saveStudent(Integer.valueOf(studentNo.getText()),
                     confirmPassword.getText(), titleCombo.getSelectedItem().toString(),

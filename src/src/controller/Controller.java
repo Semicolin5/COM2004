@@ -184,9 +184,9 @@ public class Controller {
     }
 
     /**
-     * removeUser first ensures that the user to be deleted isn't also a student. Since only Administrators
-     * are able to delete users, and only, registrars are allowed to delete students, the method to remove students
-     * is separate, and this method prohibits the removal of students.
+     * Only the Administrator (privilege level 4) should be able to access this method.
+     * removeUser removes users. First it is ensured that the user to be deleted isn't also a student. Since only Administrators
+     * are able to delete users, and only, registrars are allowed to delete students, the two cases are separated.
      * @param login String for the users login id.
      * @boolean returns true if the user was allowed to be removed, and hence was removed. However, returns false
      * if the user was a student, and the user remains in the table.
@@ -202,6 +202,15 @@ public class Controller {
         return deletionAllowed;
     }
 
+    /**
+     * Only the Registrar (privilege level 3) should be able to access this method.
+     * @param login String representing the user to remove.
+     * For the selected student, this method deletes:
+     *      1) the students grades/module association from the grades table
+     *      2) the students period of study information from the period_of_study table
+     *      3) the students reference in the student table
+     *      4) the students user details in the user table
+     * */
     public static void removeStudent(int login) {
 	    RemovalQueries removalQ = new RemovalQueries(Main.getDB());
 	    removalQ.removeStudent(login);
