@@ -286,11 +286,11 @@ public class Controller {
 		if (priv != 4) {
 			returnMessage = "Insufficient privilege for this opperation.";
 		}		
-		else if (password != confirmPassword) {
+		else if (!password.equals(confirmPassword)) {
 			returnMessage = "Passwords do not match.";
 		}
 		else if (!RegexTests.checkPassword(password)) {
-			returnMessage = "Incorrect password format."; //must contain 1 uppercase, 1 lowercase, 1 symbol
+			returnMessage = "Incorrect password format."; //must contain at least 1 uppercase, 1 lowercase, 1 symbol, 1 number and between 8-16 chars long
 		}
 		else if (!RegexTests.checkLoginID(Integer.toString(loginID))) {
 			returnMessage = "Incorrect LoginID format.";

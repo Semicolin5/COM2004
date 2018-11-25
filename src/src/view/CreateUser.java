@@ -4,6 +4,9 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
+import src.controller.Main;
+import src.model.RegexTests;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +29,9 @@ public class CreateUser extends Form {
     private JPasswordField initPass;
     private JButton cancelButton;
     private int priv;
-
+    private String errorMessage = "";
+    
+    
     /**
      * Constructor sets the frame and draws up the GUI.
      * Also creates an actionListener on the button.
@@ -112,30 +117,53 @@ public class CreateUser extends Form {
     public class CreateAccountHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Check String length BEFORE doing toString.
-            //TODO: Check LoginID is an int - Auto-generate it into a label maybe?
-            //TODO: Generate Hash and salt, call the function which hashes and salts and pass through.
-            //TODO: Should the passwords be in PasswordTextBoxes or does it not matter?
-            String str = userType.getSelectedItem().toString();
-            switch (str) {
+            String logIDString = loginID.getText();
+            String userPrivString = userType.getSelectedItem().toString();
+            int logID;
+            String password;
+            String confirmPassword;  
+            int userPriv;
+            
+            //Run some checks on the form
+            if (!RegexTests.checkLoginID(logIDString)) {
+            	errorMessage = "Login ID should be a four digit number.";
+            	JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            }
+            else if (userPrivString.equals("")) {
+            	errorMessage = "Please select a user privilege.";
+            	JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            }
+            else {
+            	logID = Integer.parseInt(logIDString);
+            	password = new String(initPass.getPassword());
+            	confirmPassword = new String(confirmPass.getPassword());           	
+            	switch (userPrivString) {
                 case "Administrator":
-                    priv = 4;
+                    userPriv = 4;
                     break;
                 case "Registrar":
-                    priv = 3;
+                    userPriv = 3;
                     break;
                 default:
-                    priv = 2;
+                    userPriv = 2;
                     break;
+            	}
+            	
+            	//Run our controller checks (uniqueness password matching etc.
+            	errorMessage = Controller.checkInputUser(logID, password, confirmPassword, Main.getPriv());
+            	if (errorMessage.equals("Accepted")) {
+                    Controller.saveUser(logID, password, userPriv);
+                    changeJPanel(new ManageUsers(getFrame()).getJPanel());     		
+            	}
+            	else {
+                	JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            	}
+            	//Allow password to be deleted by the garbage collector.
+            	password = "";
+            	confirmPassword = "";
             }
 
-            if (!initPass.getText().equals(confirmPass.getText())) {
-                JOptionPane.showMessageDialog(getFrame(), "Passwords don't match");
-                return;
-            }
 
-            Controller.saveUser(Integer.parseInt(loginID.getText()), confirmPass.getText(), priv);
-            changeJPanel(new ManageUsers(getFrame()).getJPanel());
         }
     }
     private void createUIComponents() {
