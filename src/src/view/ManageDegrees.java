@@ -5,6 +5,10 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import javax.swing.*;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +25,11 @@ public class ManageDegrees extends Form {
     private JButton deleteSelectedDegreesButton;
     private JButton createDegreeButton;
     private JButton backButton;
+    private JTable associateTable;
+    private JScrollPane scroll1;
     private DefaultListModel<String> degreeModel;
-    private DefaultListModel<String> associateModel;
+    //private DefaultListModel<String> associateModel;
+    private DefaultTableModel associateModel;
 
     public ManageDegrees(GUIFrame frame) {
         super(frame);
@@ -33,19 +40,21 @@ public class ManageDegrees extends Form {
 
         setJPanel(panel1);
         degreeModel = new DefaultListModel<>();
-        associateModel = new DefaultListModel<>();
+        associateModel = new DefaultTableModel();
         frame.setTitle("Manage Degrees");
 
-        //loops through users in database and adds all of their loginIDs to the JList.
+        //Add columns to JTable
+        associateModel.addColumn("Department Name");
+        associateModel.addColumn("Lead Status");
+        associateModel.addColumn("Degree Name");
         for (Degree degree : Controller.getDegrees()) {
             degreeModel.addElement(degree.getDegreeCode());
         }
+
         degreeList.setLayoutOrientation(JList.VERTICAL);
         degreeList.setModel(degreeModel);
         degreeList.setVisibleRowCount(10);
-        associatedList.setLayoutOrientation(JList.VERTICAL);
-        associatedList.setModel(associateModel);
-        associatedList.setVisibleRowCount(10);
+        associateTable.setModel(associateModel);
         createDegreeButton.addActionListener(new CreateDegreeHandler());
         deleteSelectedDegreesButton.addActionListener(new DeleteDegreesHandler());
         loadAssociatedDepartmentsButton.addActionListener(new AssociatedHandler());
@@ -72,10 +81,10 @@ public class ManageDegrees extends Form {
         panel1.add(scrollPane1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         degreeList = new JList();
         scrollPane1.setViewportView(degreeList);
-        final JScrollPane scrollPane2 = new JScrollPane();
-        panel1.add(scrollPane2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        associatedList = new JList();
-        scrollPane2.setViewportView(associatedList);
+        scroll1 = new JScrollPane();
+        panel1.add(scroll1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        associateTable = new JTable();
+        scroll1.setViewportView(associateTable);
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
@@ -129,14 +138,24 @@ public class ManageDegrees extends Form {
 
     private class AssociatedHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            associateModel.removeAllElements();
+            associateModel = new DefaultTableModel();
+            associateModel.setRowCount(0);
+            associateTable.setModel(associateModel);
+            associateModel.addColumn("Department Name");
+            associateModel.addColumn("Lead Status");
+            associateModel.addColumn("Degree Name");
+
+           //associateModel.removeAllElements();
             String degreeCode = degreeList.getSelectedValue().toString();
             for (Degree degree : Controller.getDegrees()) {
                 if (degreeCode.equals(degree.getDegreeCode())) {
-                    associateModel.addElement(degree.getLeadDepartment() + " |Lead");
+                    Department lead = degree.getLeadDepartment();
+                    associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
+                    //associateModel.addElement(degree.getLeadDepartment() + " |Lead");
                     if (degree.getNonLeadDepartments() != null) {
                         for (Department d : degree.getNonLeadDepartments())
-                            associateModel.addElement(d.getCode() + " |" + d.getName() + " |Non-lead");
+                            associateModel.addRow(new Object[]{d.getCode(), d.getName(), "Non-Lead"});
+                            //associateModel.addElement(d.getCode() + " |" + d.getName() + " |Non-lead");
                     }
                 }
             }
