@@ -20,7 +20,7 @@ public class Welcome extends Form {
     }
 
     private JPanel initPanel() {
-        JButton courseButton = new JButton("Course Management");
+        JButton courseButton = new JButton("Degree Management");
         JButton departmentButton = new JButton("Department Management");
         JButton userButton = new JButton("User Management");
         JButton moduleButton = new JButton("Module Management");
@@ -38,17 +38,17 @@ public class Welcome extends Form {
             panel.add(departmentButton);
             panel.add(courseButton);
             panel.add(moduleButton);
-            departmentButton.addActionListener(new departmentButtonHandler());
-            courseButton.addActionListener(new degreeButtonHandler());
-            userButton.addActionListener(new userButtonHandler());
-            moduleButton.addActionListener(new moduleButtonHandler());
+            departmentButton.addActionListener(new AdminHandler());
+            courseButton.addActionListener(new AdminHandler());
+            userButton.addActionListener(new AdminHandler());
+            moduleButton.addActionListener(new AdminHandler());
         }
-        //Registrar
+        //Registrar buttons
         else if(privilege == 3) {
             panel.add(studentButton);
             panel.add(pickModuleButton);
-            pickModuleButton.addActionListener(new pickModuleHandler());
-            studentButton.addActionListener(new studentButtonHandler());
+            pickModuleButton.addActionListener(new RegistrarHandler());
+            studentButton.addActionListener(new RegistrarHandler());
         }
         //Teacher
         else if(privilege == 2) {
@@ -63,52 +63,43 @@ public class Welcome extends Form {
         //Add logout button
         JButton backButton = new JButton("Logout");
         panel.add(backButton);
-        setBackButton(backButton);
-        setBackButtonPanel(new Login(getFrame()).getJPanel());
+        backButton.addActionListener(new logoutButtonHandler());
 
         return panel;
     }
 
-    public class degreeButtonHandler implements ActionListener {
+    private class AdminHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageDegrees(getFrame()).getJPanel());
+            String command = actionEvent.getActionCommand();
+            if (command.equals("Degree Management"))
+                changeJPanel(new src.view.ManageDegrees(getFrame()).getJPanel());
+            if (command.equals("Department Management"))
+                changeJPanel(new src.view.ManageDepartments(getFrame()).getJPanel());
+            if (command.equals("User Management"))
+                changeJPanel(new src.view.ManageUsers(getFrame()).getJPanel());
+            if (command.equals("Module Management"))
+                changeJPanel(new src.view.ManageModules(getFrame()).getJPanel());
         }
     }
 
-    private class departmentButtonHandler implements ActionListener {
+    private class RegistrarHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageDepartments(getFrame()).getJPanel());
+            String command = actionEvent.getActionCommand();
+            if (command.equals("Add/Drop Student Modules"))
+                changeJPanel(new src.view.ModulePick(getFrame()).getJPanel());
+            if (command.equals("Student Management"))
+                changeJPanel(new src.view.ManageStudents(getFrame()).getJPanel());
         }
     }
 
     private class logoutButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            Main.getDB().closeConnection();
-            exit(0);
-        }
-    }
-
-    private class moduleButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageModules(getFrame()).getJPanel());
-        }
-    }
-
-    private class studentButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageStudents(getFrame()).getJPanel());
-        }
-    }
-
-    private class pickModuleHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ModulePick(getFrame()).getJPanel());
-        }
-    }
-
-    public class userButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageUsers(getFrame()).getJPanel());
+            //Main.getDB().closeConnection();
+            //exit(0);
+            //new GUIFrame();
+            //db = new DatabaseHandler();
+            changeJPanel(new src.view.Login(getFrame()).getJPanel());
+            //TODO: Can someone get this working please?
         }
     }
 

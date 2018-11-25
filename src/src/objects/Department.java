@@ -27,7 +27,7 @@ public class Department {
 
     // TODO remove this after testing is done
     public String toString() {
-        String s = code + " |" + name;
+        String s = name;
         return s;
     }
 
