@@ -342,11 +342,9 @@ public class Controller {
     	}
     	else if (masters && degCode.substring(3, 4).equals("U")) {
     		returnMessage = "Masters degrees should have a P in the middle of their code.";
-    		System.out.println("Here");
     	}
     	else if (!masters && degCode.substring(3, 4).equals("P")) {
     		returnMessage = "Undergraduate degrees should have a U in the middle of their code.";
-    		System.out.println("Horo");
     	}
     	else {
     		returnMessage = "Accepted";

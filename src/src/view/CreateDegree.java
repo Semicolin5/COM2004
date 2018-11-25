@@ -177,9 +177,11 @@ public class CreateDegree extends Form {
         	
         	if (leadStatus.equals("Lead") && hasLead) {
         		errorMessage = "A lead department already exists for this module.";
+        		JOptionPane.showMessageDialog(getFrame(), errorMessage);
         	}
         	else if(storedDeps.contains(depCode)) {
         		errorMessage = "This department is already linked to this module.";
+        		JOptionPane.showMessageDialog(getFrame(), errorMessage);
         	}
         	else if (leadStatus.equals("Lead") && !hasLead) {
         		hasLead = true;
@@ -222,6 +224,9 @@ public class CreateDegree extends Form {
         		for (int i = 0; i < departmentLinker.size(); i++) {
         			Controller.saveDepartmentAssociation(degCode, departmentLinker.get(i)[0], departmentLinker.get(i)[1].equals("Lead"));
         		}
+        	}
+        	else {
+        		JOptionPane.showMessageDialog(getFrame(), errorMessage);
         	}
         }
     }
