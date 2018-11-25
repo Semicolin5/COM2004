@@ -20,7 +20,7 @@ public class Welcome extends Form {
     }
 
     private JPanel initPanel() {
-        JButton courseButton = new JButton("Course Management");
+        JButton courseButton = new JButton("Degree Management");
         JButton departmentButton = new JButton("Department Management");
         JButton userButton = new JButton("User Management");
         JButton moduleButton = new JButton("Module Management");
