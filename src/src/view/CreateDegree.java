@@ -33,9 +33,8 @@ public class CreateDegree extends Form {
     private JButton cancelButton;
     private JTable departmentTable;
     private DefaultTableModel departmentsModel;
-    
-    private  ArrayList<String[]> departmentLinker = new ArrayList<String[]>();
-    
+
+    private ArrayList<String[]> departmentLinker = new ArrayList<String[]>();
 
 
     /**
@@ -165,32 +164,29 @@ public class CreateDegree extends Form {
     public class LinkHandler implements ActionListener {
         private boolean hasLead = false;
         private ArrayList<String> storedDeps = new ArrayList<String>();
-    	
+
         //TODO Have error messages return
-    	@Override
-        public void actionPerformed(ActionEvent e) {      	
-        	String depCode = departmentCombo.getSelectedItem().toString();
-        	String leadStatus = leadCombo.getSelectedItem().toString();
-        	String[] depLead = {depCode, leadStatus};
-        	System.out.println(leadStatus);
-        	
-        	if (leadStatus.equals("Lead") && hasLead) {
-        		//Reject for already having lead
-        	}
-        	else if(storedDeps.contains(depCode)) {
-        		//Reject for already having this department
-        	}
-        	else if (leadStatus.equals("Lead") && !hasLead) {
-        		hasLead = true;
-        		departmentLinker.add(depLead);
-        		storedDeps.add(depCode);
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String depCode = departmentCombo.getSelectedItem().toString();
+            String leadStatus = leadCombo.getSelectedItem().toString();
+            String[] depLead = {depCode, leadStatus};
+            System.out.println(leadStatus);
+
+            if (leadStatus.equals("Lead") && hasLead) {
+                //Reject for already having lead
+            } else if (storedDeps.contains(depCode)) {
+                //Reject for already having this department
+            } else if (leadStatus.equals("Lead") && !hasLead) {
+                hasLead = true;
+                departmentLinker.add(depLead);
+                storedDeps.add(depCode);
                 departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(), leadCombo.getSelectedItem().toString()});
-        	}
-        	else {
-        		departmentLinker.add(depLead);
-        		storedDeps.add(depCode);
+            } else {
+                departmentLinker.add(depLead);
+                storedDeps.add(depCode);
                 departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(), leadCombo.getSelectedItem().toString()});
-        	}
+            }
 
         }
     }
@@ -203,11 +199,10 @@ public class CreateDegree extends Form {
     public class CreateDegreeHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-        	//TODO check which button has actually been pressed
-        	
-        	
-        	
-        	//TODO: Check Length here + other necessary checks
+            //TODO check which button has actually been pressed
+
+
+            //TODO: Check Length here + other necessary checks
             boolean masters = mastersCombo.getSelectedItem().toString().equals("Masters");
             boolean industryYear = yearIndustryCombo.getSelectedItem().toString().equals("Includes Year In Industry");
             Controller.saveDegree(degreeCode.getText(), degreeName.getText(), masters, industryYear);
@@ -216,14 +211,14 @@ public class CreateDegree extends Form {
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
 
             for (int i = 1; i < departmentsModel.getRowCount(); i++) {
-                    String depCode = departmentsModel.getValueAt(i, 0).toString();
-                    String lead = departmentsModel.getValueAt(i, 1).toString();
+                String depCode = departmentsModel.getValueAt(i, 0).toString();
+                String lead = departmentsModel.getValueAt(i, 1).toString();
 
-                    if (lead.equals("Lead")) {
-                        Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, true);
-                    } else {
-                        Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, false);
-                    }
+                if (lead.equals("Lead")) {
+                    Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, true);
+                } else {
+                    Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, false);
+                }
             }
         }
     }

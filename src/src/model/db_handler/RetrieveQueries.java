@@ -314,6 +314,13 @@ public class RetrieveQueries extends Queries {
         return studentModules;
     }
 
+    /**
+     * retrieveStudentsModuleGrades, returns the grade a student has achieved in a module they took.
+     * @param loginID, int, the users loginID
+     * @param
+     * */
+    //public Grade
+
    
    /**
     * getPassSalt, takes a loginID and returns the associated hashed password and salt
@@ -423,34 +430,4 @@ public class RetrieveQueries extends Queries {
        }
        return allowedToDeleteUser;
    }
-
-    /** DO NOT DELETE THIS METHOD, WILL HOPEFULLY USE THIS TO REFACTOR SOME METHODS ^
-     * Retrieves rows from table where condition is met. Shouldn't be called directly.
-     * @param table String describing the table containing the row(s) to delete
-     * @param column String describing column in WHERE column=item.
-     * @param whereEquals String describing the item to be delete
-     * @return boolean true if the table is empty where a condition given the where condition
-     **/
-    /*private boolean tableEmptyWhere(String table, String column, String whereEquals) {
-        PreparedStatement pstmt = null;
-        boolean tableEmpty = false;
-        ResultSet rs = null;
-        String query = "SELECT * FROM $tableName WHERE $columnName = ?";
-        String addedTable = query.replace("$tableName",table);
-        String addedColumn = addedTable.replace("$columnName", column);
-        try {
-            pstmt = conn.prepareStatement(addedColumn);
-            pstmt.setString(1, whereEquals);
-            rs = pstmt.executeQuery();
-            if(!rs.next()) {
-                tableEmpty = true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closePreparedStatement(pstmt);
-        }
-        return tableEmpty;
-    }*/
-
 }

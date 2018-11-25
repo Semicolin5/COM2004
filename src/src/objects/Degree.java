@@ -18,6 +18,10 @@ public class Degree {
     /**
      * @param degreeCode String of 7 letter degree code
      * @param degreeName String of the name of the degree
+     * @param masters boolean representing whether or not the degree will be taken to master
+     * @param yearIndustry boolean representing whether or not the
+     * @param lead Department object representing the lead Department for the degree
+     * @param nonLead list of department objects representing the non-lead departments for the degree.
      * */
     public Degree (String degreeCode, String degreeName, boolean masters, boolean yearIndustry, Department lead, List<Department> nonLead) {
         this.degreeCode = degreeCode;
