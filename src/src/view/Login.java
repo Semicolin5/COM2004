@@ -130,7 +130,7 @@ public class Login extends Form {
     public Login(GUIFrame frame) {
         super(frame);
         setJPanel(panel1);
-        frame.setTitle("Login Screen");
         loginButton.addActionListener(new LoginHandler());
+        frame.setTitle("Login Screen");
     }
 }
