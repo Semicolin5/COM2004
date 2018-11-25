@@ -312,6 +312,9 @@ public class RetrieveQueries extends Queries {
 
    /**
     * Returns true if the degree is 'allowed' to be deleted (i.e. has no student affiliations, and has no
+    * module affiliations).
+    * @param degree_code String representing the degree code to be deleted.
+    * @return boolean of whether the degree was deleted and allowed to be deleted
     * */
    public boolean allowedToDeleteDegree(String degree_code) {
         PreparedStatement pstmt = null;
@@ -339,4 +342,35 @@ public class RetrieveQueries extends Queries {
         }
         return (!hasAffiliatedModules && !hasAffiliatedStudents);
    }
+
+   /**
+    * Returns true if the Department is allowed to be deleted.
+    * Departments are allowed to be deleted if there are no degrees affiliated with the department.
+    * @param department_code String represents the department to check.
+    * @return boolean of whether the department was allowed to be deleted
+    * */
+   public boolean allowedToDeleteDepartment(String department_code) {
+       PreparedStatement pstmt = null;
+       ResultSet res = null;
+       boolean affiliatedDegrees = true; // assume that there are affiliated degrees, and code proves otherwise
+       try {
+           pstmt = super.conn.prepareStatement("SELECT * FROM degree_department WHERE department_code=?");
+           pstmt.setString(1, department_code);
+           res = pstmt.executeQuery();
+           // checks to see if res is empty
+           if(!res.next()) {
+               affiliatedDegrees = false;
+
+           }
+
+       } catch (SQLException e) {
+            e.printStackTrace();
+       } finally {
+           closeResources(pstmt, res);
+       }
+
+       return (!affiliatedDegrees);
+   }
+
+
 }
