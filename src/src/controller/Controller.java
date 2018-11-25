@@ -81,6 +81,11 @@ public class Controller {
     	return returnMessage;
     }
 
+    public  static  void saveBlankGrades(String studentId, String moduleCode){
+		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+		additionQ.addStudentModuleAssociation(studentId, moduleCode);
+	}
+
     public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDegree(degreeCode, degreeName, masters, yearIndustry);
