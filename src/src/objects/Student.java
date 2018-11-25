@@ -13,7 +13,7 @@ public class Student {
     private String surname;
     private String personalTutor;
     private String degreeCode;
-    private String levelOfStudy;
+    private String email;
 
     /**
      * Forms the User object given parameters
@@ -24,19 +24,20 @@ public class Student {
      * @param personalTutor String storing who the student's
      * personal tutor is.
      * @param degreeCode String representing the degree the student is taking
-     * @param levelOfStudy String representing the student's level of study.
+     * @param email String representing the student's email address.
      * */
     public Student(String loginId, String title, String forename,
-                   String surname, String personalTutor,
-                   String degreeCode, String levelOfStudy) {
+                   String surname, String personalTutor, String email,
+                   String degreeCode) {
        this.loginId = loginId;
        this.title = title;
        this.forename= forename;
        this.surname = surname;
        this.personalTutor = personalTutor;
+       this.email = email;
        this.degreeCode = degreeCode;
-       this.levelOfStudy = levelOfStudy;
     }
+
 
     /**
      * Accessor methods
@@ -47,14 +48,14 @@ public class Student {
     public String getSurname() { return surname; }
     public String getPersonalTutor() { return personalTutor; }
     public String getDegreeCode() { return degreeCode; }
-    public String getLevelOfStudy() { return levelOfStudy; }
+    public String getEmail() { return email; }
 
     //TODO remove this later, currently just for testing
     public String toString() {
         String details = "loginId: " + loginId + ", title: " + title
                 + ", forename: " + forename + ", surname: " + surname
                 + ", personalTutor: " + personalTutor + ", degreeCode: "
-                + degreeCode + ", level of study: " + levelOfStudy;
+                + degreeCode + ", level of study: " + email;
         return details;
     }
 

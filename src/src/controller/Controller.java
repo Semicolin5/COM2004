@@ -153,6 +153,16 @@ public class Controller {
         return retrieveQ.retrieveModuleTable();
     }
 
+	public static List<ModuleDegree> getModuleDegrees() {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveModuleLinkDegreeTable();
+	}
+
+    public static List <PeriodOfStudy> getPeriodsOfStudy(){
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrievePeriodOfStudyTable();
+	}
+
     public static List<User> getUsers() {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
         return retrieveQ.retrieveUsersTable();
@@ -162,11 +172,6 @@ public class Controller {
 	    RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 	    return retrieveQ.retrieveStudentsTable();
     }
-
-    public static List<PeriodOfStudy> getPeriodsOfStudy() {
-		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-		return retrieveQ.retrievePeriodOfStudyTable();
-	}
 
     public static void removeDepartment(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
