@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import src.objects.Department;
 import src.controller.Controller;
+import src.controller.Main;
 
 /**
  * CreateDegree.java
@@ -33,8 +34,8 @@ public class CreateDegree extends Form {
     private JButton cancelButton;
     private JTable departmentTable;
     private DefaultTableModel departmentsModel;
-
     private ArrayList<String[]> departmentLinker = new ArrayList<String[]>();
+    private String errorMessage = "";
 
 
     /**
@@ -174,20 +175,23 @@ public class CreateDegree extends Form {
             System.out.println(leadStatus);
 
             if (leadStatus.equals("Lead") && hasLead) {
-                //Reject for already having lead
+                errorMessage = "A lead department already exists for this module.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
             } else if (storedDeps.contains(depCode)) {
-                //Reject for already having this department
+                errorMessage = "This department is already linked to this module.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
             } else if (leadStatus.equals("Lead") && !hasLead) {
                 hasLead = true;
                 departmentLinker.add(depLead);
                 storedDeps.add(depCode);
                 departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(), leadCombo.getSelectedItem().toString()});
+                errorMessage = "";
             } else {
                 departmentLinker.add(depLead);
                 storedDeps.add(depCode);
                 departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(), leadCombo.getSelectedItem().toString()});
+                errorMessage = "";
             }
-
         }
     }
 
@@ -200,25 +204,24 @@ public class CreateDegree extends Form {
         @Override
         public void actionPerformed(ActionEvent e) {
             //TODO check which button has actually been pressed
-
-
-            //TODO: Check Length here + other necessary checks
+            String degCode = degreeCode.getText();
+            String degName = degreeName.getText();
             boolean masters = mastersCombo.getSelectedItem().toString().equals("Masters");
-            boolean industryYear = yearIndustryCombo.getSelectedItem().toString().equals("Includes Year In Industry");
-            Controller.saveDegree(degreeCode.getText(), degreeName.getText(), masters, industryYear);
+            boolean yearInd = yearIndustryCombo.getSelectedItem().toString().equals("Includes Year In Industry");
 
-            //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
-            //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
+            //Check the inputs
+            errorMessage = Controller.checkInputDegree(degCode, degName, masters, Main.getPriv());
 
-            for (int i = 1; i < departmentsModel.getRowCount(); i++) {
-                String depCode = departmentsModel.getValueAt(i, 0).toString();
-                String lead = departmentsModel.getValueAt(i, 1).toString();
+            if (errorMessage.equals("Accepted")) {
+                //Now we can store everything
+                Controller.saveDegree(degCode, degName, masters, yearInd);
 
-                if (lead.equals("Lead")) {
-                    Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, true);
-                } else {
-                    Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, false);
+                //Now lets save the stored department links
+                for (int i = 0; i < departmentLinker.size(); i++) {
+                    Controller.saveDepartmentAssociation(degCode, departmentLinker.get(i)[0], departmentLinker.get(i)[1].equals("Lead"));
                 }
+            } else {
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
             }
         }
     }
