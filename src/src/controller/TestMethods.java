@@ -28,10 +28,13 @@ public class TestMethods {
     private static void testingRetrieveQueries() {
 
         RetrieveQueries tester = new RetrieveQueries(testdb);
-        //testdb.setPrivLevel(4);
 
-        System.out.println("Testing allowedToDeleteDepartment");
-        System.out.println(tester.allowedToDeleteDepartment("COM"));
+        System.out.println("testing allowedToDeleteUser method");
+        System.out.println("1002" + tester.allowedToDeleteUser("1002"));
+        System.out.println("1001" + tester.allowedToDeleteUser("1001"));
+
+        //System.out.println("Testing allowedToDeleteDepartment");
+        //System.out.println(tester.allowedToDeleteDepartment("COM"));
 
         //System.out.println("Testing allowedToDeleteDegree");
         //System.out.println(tester.allowedToDeleteDegree("COMU49"));

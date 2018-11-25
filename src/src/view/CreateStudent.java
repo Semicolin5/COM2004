@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class CreateStudent extends Form {
     private JTextField studentNo;
@@ -22,13 +24,12 @@ public class CreateStudent extends Form {
     private JPasswordField initPassword;
     private JPasswordField confirmPassword;
     private JButton addStudentButton;
-    private JTextField studyStartDate;
-    private JTextField studyEndDate;
     private JTextField studyLabel;
-    private JTextField degreeLevel;
     private JPanel panel1;
     private JButton cancelButton;
     private JComboBox degreeLevelCombo;
+    private JSpinner posStart;
+    private JSpinner posEnd;
 
     public CreateStudent(GUIFrame frame) {
         super(frame);
@@ -49,13 +50,15 @@ public class CreateStudent extends Form {
             for (Degree degree : Controller.getDegrees()) {
                 if (degree.getDegreeCode().equals(e.getItem()) && degree.hasPlacementYear()) {
                     if (degree.isMasters()) {
-                        for (int i = 1; i < 4; i++)
+                        for (int i = 1; i < 4; i++) {
                             degreeLevelCombo.addItem(i);
+                        }
                         degreeLevelCombo.addItem("Placement Year");
                         degreeLevelCombo.addItem("4");
                     } else {
-                        for (int i = 1; i < 3; i++)
+                        for (int i = 1; i < 3; i++) {
                             degreeLevelCombo.addItem(i);
+                        }
                         degreeLevelCombo.addItem("Placement Year");
                         degreeLevelCombo.addItem("3");
                     }
@@ -68,6 +71,14 @@ public class CreateStudent extends Form {
                 }
             }
         });
+
+        posStart.setModel(new SpinnerDateModel(Calendar.getInstance().getTime(),
+                null, null, Calendar.DAY_OF_WEEK));
+        posStart.setEditor(new JSpinner.DateEditor(posStart, "yyyy-MM-dd"));
+
+        posEnd.setModel(new SpinnerDateModel(Calendar.getInstance().getTime(),
+                null, null, Calendar.DAY_OF_WEEK));
+        posEnd.setEditor(new JSpinner.DateEditor(posEnd, "yyyy-MM-dd"));
 
         frame.setTitle("Create Student");
         addStudentButton.addActionListener(new AddStudentHandler());
@@ -152,10 +163,6 @@ public class CreateStudent extends Form {
         final JLabel label12 = new JLabel();
         label12.setText("Period of Study End Date");
         panel1.add(label12, new GridConstraints(13, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        studyStartDate = new JTextField();
-        panel1.add(studyStartDate, new GridConstraints(12, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        studyEndDate = new JTextField();
-        panel1.add(studyEndDate, new GridConstraints(13, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JLabel label13 = new JLabel();
@@ -177,6 +184,10 @@ public class CreateStudent extends Form {
         panel1.add(cancelButton, new GridConstraints(16, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         degreeLevelCombo = new JComboBox();
         panel1.add(degreeLevelCombo, new GridConstraints(10, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        posStart = new JSpinner();
+        panel1.add(posStart, new GridConstraints(12, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        posEnd = new JSpinner();
+        panel1.add(posEnd, new GridConstraints(13, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -194,12 +205,16 @@ public class CreateStudent extends Form {
                 return;
             }
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            System.out.println(dateFormat.format(posStart.getValue()));
+
             Controller.saveStudent(Integer.valueOf(studentNo.getText()),
                     confirmPassword.getText(), titleCombo.getSelectedItem().toString(),
                     studentForename.getText(), studentSurname.getText(),
                     studentTutor.getText(), studentEmail.getText(),
-                    degreeCombo.getSelectedItem().toString(), degreeLevel.getText(),
-                    studyLabel.getText(), studyStartDate.getText(), studyEndDate.getText());
+                    degreeCombo.getSelectedItem().toString(), degreeLevelCombo.getSelectedItem().toString(),
+                    studyLabel.getText(), dateFormat.format(posStart.getValue()),
+                    dateFormat.format(posEnd.getValue()));
 
             changeJPanel(new ManageStudents(getFrame()).getJPanel());
         }
