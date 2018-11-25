@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import src.objects.Department;
 import src.controller.Controller;
 
@@ -31,6 +33,9 @@ public class CreateDegree extends Form {
     private JButton cancelButton;
     private JTable departmentTable;
     private DefaultTableModel departmentsModel;
+    
+    private  ArrayList<String[]> departmentLinker = new ArrayList<String[]>();
+    
 
 
     /**
@@ -158,16 +163,52 @@ public class CreateDegree extends Form {
      * This ActionListener adds the selected JCombo values to the JTable - if the checks are passed.
      */
     public class LinkHandler implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //TODO: Run length/form/duplicate checks here.
+        private boolean hasLead = false;
+        private ArrayList<String> storedDeps = new ArrayList<String>();
+    	
+        //TODO Have error messages return
+    	@Override
+        public void actionPerformed(ActionEvent e) {      	
+        	String depCode = departmentCombo.getSelectedItem().toString();
+        	String leadStatus = leadCombo.getSelectedItem().toString();
+        	String[] depLead = {depCode, leadStatus};
+        	System.out.println(leadStatus);
+        	
+        	if (leadStatus.equals("Lead") && hasLead) {
+        		//Reject for already having lead
+        	}
+        	else if(storedDeps.contains(depCode)) {
+        		//Reject for already having this department
+        	}
+        	else if (leadStatus.equals("Lead") && !hasLead) {
+        		hasLead = true;
+        		departmentLinker.add(depLead);
+        		storedDeps.add(depCode);
+                departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(), leadCombo.getSelectedItem().toString()});
+        	}
+        	else {
+        		departmentLinker.add(depLead);
+        		storedDeps.add(depCode);
+                departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(), leadCombo.getSelectedItem().toString()});
+        	}
+        	
+        	
+        	
+        	
+        	//TODO: Run length/form/duplicate checks here.
             //TODO: Check that the module code is not already present in the JList.
             //TODO: Check that the degree & module choice aren't forming a duplicate primary key.
-            //TODO: Colin, do we need length/form checks here? If we have correct checks on the degree data we are saving.
+           
             //TODO: 't all data in here already be correct? Other than the potential for the first JComboBox being blank.
             //TODO: idea is that we know that data is correct before it is added to the JList.
-            departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(),
-                    leadCombo.getSelectedItem().toString()});
+
+        }
+        
+        public String checkLink() {
+        	String returnMessage = "";
+        	
+        	
+        	return returnMessage;
         }
     }
 
@@ -179,7 +220,11 @@ public class CreateDegree extends Form {
     public class CreateDegreeHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: Check Length here + other necessary checks
+        	//TODO check which button has actually been pressed
+        	
+        	
+        	
+        	//TODO: Check Length here + other necessary checks
             boolean masters = mastersCombo.getSelectedItem().toString().equals("Masters");
             boolean industryYear = yearIndustryCombo.getSelectedItem().toString().equals("Includes Year In Industry");
             Controller.saveDegree(degreeCode.getText(), degreeName.getText(), masters, industryYear);
