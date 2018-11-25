@@ -173,9 +173,23 @@ public class Controller {
         removalQ.removeModule(code);
     }
 
-    public static void removeUser(String login) {
+    /**
+     * removeUser first ensures that the user to be deleted isn't also a student. Since only Administrators
+     * are able to delete users, and only, registrars are allowed to delete students, the method to remove students
+     * is separate, and this method prohibits the removal of students.
+     * @param login String for the users login id.
+     * @boolean returns true if the user was allowed to be removed, and hence was removed. However, returns false
+     * if the user was a student, and the user remains in the table.
+     * */
+    public static boolean removeUser(String login) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
-        removalQ.removeUser(login);
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        // if there aren't any associate
+        boolean deletionAllowed = retrieveQ.allowedToDeleteUser(login);
+        if (deletionAllowed) {
+           removalQ.removeUser(login);
+        }
+        return deletionAllowed;
     }
 
     public static void removeStudent(int login) {
@@ -196,7 +210,6 @@ public class Controller {
         boolean deletionAllowed = retrieveQ.allowedToDeleteDegree(degree_code);
         // if there aren't any associated users, delete the degree
         if(deletionAllowed){
-            System.out.println("deleting the degree");
             removeQ.removeDegree(degree_code);
         }
 		return deletionAllowed; // returns true if the degree was deleted, false otherwise

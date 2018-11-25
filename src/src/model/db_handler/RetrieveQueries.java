@@ -360,7 +360,6 @@ public class RetrieveQueries extends Queries {
            // checks to see if res is empty
            if(!res.next()) {
                affiliatedDegrees = false;
-
            }
 
        } catch (SQLException e) {
@@ -368,9 +367,57 @@ public class RetrieveQueries extends Queries {
        } finally {
            closeResources(pstmt, res);
        }
-
        return (!affiliatedDegrees);
    }
 
+   /**
+    * Return true if the user is allowed to be deleted. A user is allowed to be deleted if the user isn't a student
+    * and has an associated row in the student table.
+    * @param login_id String representing the user under question
+    * */
+   public boolean allowedToDeleteUser(String login_id) {
+       boolean allowedToDeleteUser = false;
+       // checks the user isn't a student
+       try {
+           PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM student WHERE login_id = ? ");
+           pstmt.setString(1, login_id);
+           ResultSet rs = pstmt.executeQuery();
+           if(!rs.next()){
+               allowedToDeleteUser = true; // no affiliated entry in the student table
+           }
+       } catch (SQLException e)  {
+           e.printStackTrace();
+       }
+       return allowedToDeleteUser;
+   }
+
+    /** DO NOT DELETE THIS METHOD, WILL HOPEFULLY USE THIS TO REFACTOR SOME METHODS ^
+     * Retrieves rows from table where condition is met. Shouldn't be called directly.
+     * @param table String describing the table containing the row(s) to delete
+     * @param column String describing column in WHERE column=item.
+     * @param whereEquals String describing the item to be delete
+     * @return boolean true if the table is empty where a condition given the where condition
+     **/
+    /*private boolean tableEmptyWhere(String table, String column, String whereEquals) {
+        PreparedStatement pstmt = null;
+        boolean tableEmpty = false;
+        ResultSet rs = null;
+        String query = "SELECT * FROM $tableName WHERE $columnName = ?";
+        String addedTable = query.replace("$tableName",table);
+        String addedColumn = addedTable.replace("$columnName", column);
+        try {
+            pstmt = conn.prepareStatement(addedColumn);
+            pstmt.setString(1, whereEquals);
+            rs = pstmt.executeQuery();
+            if(!rs.next()) {
+                tableEmpty = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
+        }
+        return tableEmpty;
+    }*/
 
 }

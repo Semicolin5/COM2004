@@ -42,7 +42,7 @@ public class ManageUsers extends Form {
 
         //loops through users in database and adds all of their loginIDs to the JList.
         for (User user : Controller.getUsers()) {
-            userModel.addElement(+user.getPriv() + " " + String.valueOf(user.getLogin()));
+            userModel.addElement(String.valueOf(user.getLogin()));//TODO FIX THIS: +user.getPriv() + " " + String.valueOf(user.getLogin()));
         }
         userList.setLayoutOrientation(JList.VERTICAL);
         userList.setModel(userModel);
@@ -121,7 +121,11 @@ public class ManageUsers extends Form {
     private class RemoveUserHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             for (Object code : userList.getSelectedValuesList()) {
-                Controller.removeUser((String) code);
+                // if the Admin is trying to delete a student, an error message is prompted, and the user isn't deleted.
+                if (!Controller.removeUser((String) code)) {
+                    JOptionPane.showMessageDialog(getFrame(), "The selected user is a student. Only" +
+                            " registrars are allowed to remove students");
+                }
             }
             changeJPanel(new ManageUsers(getFrame()).getJPanel());
         }
