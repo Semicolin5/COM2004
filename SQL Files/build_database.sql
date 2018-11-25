@@ -1,4 +1,3 @@
-#3NF
 CREATE TABLE users (
     login_id int,
     salt CHAR (32),
@@ -7,14 +6,12 @@ CREATE TABLE users (
     PRIMARY KEY (login_id)
 );
 
-#3NF
 CREATE TABLE department (
     department_code CHAR (3),
     department_name VARCHAR (100),
     PRIMARY KEY (department_code)
 );
 
-#3NF
 CREATE TABLE degree (
     degree_code CHAR (6),
     degree_name VARCHAR (100),
@@ -23,7 +20,6 @@ CREATE TABLE degree (
     PRIMARY KEY (degree_code)
 );
 
-#3NF
 CREATE TABLE module (
     module_code CHAR (7),
     module_name VARCHAR (100),
@@ -32,7 +28,6 @@ CREATE TABLE module (
     PRIMARY KEY (module_code)
 );
 
-#3NF
 CREATE TABLE student (
     login_id int,
     title CHAR (2),
@@ -46,7 +41,6 @@ CREATE TABLE student (
     FOREIGN KEY (degree_code) REFERENCES degree (degree_code)
 );
 
-#3NF
 CREATE TABLE period_of_study (
     login_id int,
     label CHAR (1),
@@ -61,7 +55,6 @@ CREATE TABLE period_of_study (
 -- and whether a department is the lead department
 -- Linker Tables
 
-#3NF
 CREATE TABLE degree_department (
     degree_code CHAR (6),
     department_code CHAR (3),
@@ -76,7 +69,6 @@ CREATE TABLE degree_department (
 -- linker table to store how the module is associated with each degree,
 -- whether it is a core module for each degree that allows the module to be taken
 
-#3NF
 CREATE TABLE module_degree (
     module_code CHAR (7),
     degree_code CHAR (6),
@@ -87,16 +79,17 @@ CREATE TABLE module_degree (
     FOREIGN KEY (degree_code) REFERENCES degree (degree_code)    
 );
 
--- linker table to represent the modules a student is taking, and to store
--- their grades for the module.
-
-#3NF 
+-- linker table to represent the modules a student is taking at each period of
+-- study  and to store their grades for the module.
 CREATE TABLE grades (
     login_id int,
     module_code CHAR (7),
+    label CHAR (1),
     initial_percent DECIMAL(8, 5), -- marks achieved
     resit_percent DECIMAL(8, 5), 
-    PRIMARY KEY (login_id, module_code),
+    PRIMARY KEY (login_id, module_code, label),
     FOREIGN KEY (login_id) REFERENCES student (login_id),
-    FOREIGN KEY (module_code) REFERENCES module (module_code)
+    FOREIGN KEY (module_code) REFERENCES module (module_code),
+    FOREIGN KEY (label) REFERENCES period_of_study (label)
 );
+

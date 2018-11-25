@@ -206,52 +206,52 @@ public class RetrieveQueries extends Queries {
     	return table;
     }
     
-    /**
-     * retrieve the users table
-     * @return List<User>, returns the list of the users table
-     */
-   public List<User> retrieveUsersTable() {
-       List<User> userTable = new ArrayList<>();
-       PreparedStatement pstmt = null;
-       ResultSet res = null;
-       try {
-    	   pstmt = conn.prepareStatement("SELECT * FROM users");
-           res = pstmt.executeQuery();
-           while (res.next()) {
-        	   userTable.add(new User(res.getInt(1), res.getString(2),
-               res.getString(3), res.getInt(4)));
-           }
-       }
-       catch (SQLException e) {
-    	   e.printStackTrace();
-       }
-       finally {
-    	   closeResources(pstmt, res);
-       }
-       return userTable;
-   }
+	/**
+	 * retrieve the users table
+	 * @return List<User>, returns the list of the users table
+	 */
+	public List<User> retrieveUsersTable() {
+	   List<User> userTable = new ArrayList<>();
+	   PreparedStatement pstmt = null;
+	   ResultSet res = null;
+	   try {
+		   pstmt = conn.prepareStatement("SELECT * FROM users");
+	       res = pstmt.executeQuery();
+	       while (res.next()) {
+	    	   userTable.add(new User(res.getInt(1), res.getString(2),
+	           res.getString(3), res.getInt(4)));
+	       }
+	   }
+	   catch (SQLException e) {
+		   e.printStackTrace();
+	   }
+	   finally {
+		   closeResources(pstmt, res);
+	   }
+	   return userTable;
+	}
 
-   public List<Student> retrieveStudentsTable() {
-       List<Student> studentTable = new ArrayList<>();
-       PreparedStatement pstmt = null;
-       ResultSet res = null;
-       try {
-    	   pstmt = conn.prepareStatement("SELECT * FROM student");
-           res = pstmt.executeQuery();
-           while (res.next()) {
-        	   studentTable.add(new Student(res.getString(1), res.getString(2),
-                       res.getString(3), res.getString(4), res.getString(5),
-                       res.getString(6), res.getString(7)));
-           }
-       }
-       catch (SQLException e) {
-    	   e.printStackTrace();
-       }
-       finally {
-    	   closeResources(pstmt, res);
-       }
-       return studentTable;
-   }
+	public List<Student> retrieveStudentsTable() {
+	   List<Student> studentTable = new ArrayList<>();
+	   PreparedStatement pstmt = null;
+	   ResultSet res = null;
+	   try {
+		   pstmt = conn.prepareStatement("SELECT * FROM student");
+	       res = pstmt.executeQuery();
+	       while (res.next()) {
+	    	   studentTable.add(new Student(res.getString(1), res.getString(2),
+	                   res.getString(3), res.getString(4), res.getString(5),
+	                   res.getString(6), res.getString(7)));
+	       }
+	   }
+	   catch (SQLException e) {
+		   e.printStackTrace();
+	   }
+	   finally {
+		   closeResources(pstmt, res);
+	   }
+	   return studentTable;
+	}
    
    
    /**
@@ -259,57 +259,66 @@ public class RetrieveQueries extends Queries {
     * @param loginID, int, the login ID of the user we want to retrieve
     * @return User user, the User object of the user we want to retrieve
     */
-  public User retrieveUser(int loginID) {
-      User ourUser = null;
-      PreparedStatement pstmt = null;
-      ResultSet res = null;
-      try {
-    	  pstmt = conn.prepareStatement("SELECT * FROM users where login_id = ?");
-          pstmt.setInt(1, loginID);
-          res = pstmt.executeQuery();
-          if (res.next()) {
-        	  ourUser = new User(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
-         }
-      } 
-      catch (SQLException e) {
-    	  e.printStackTrace();
-      } 
-      finally {
-    	  closeResources(pstmt, res);
-      }
-      return ourUser;
-  }
-   
+	public User retrieveUser(int loginID) {
+	  User ourUser = null;
+	  PreparedStatement pstmt = null;
+	  ResultSet res = null;
+	  try {
+		  pstmt = conn.prepareStatement("SELECT * FROM users where login_id = ?");
+	      pstmt.setInt(1, loginID);
+	      res = pstmt.executeQuery();
+	      if (res.next()) {
+	    	  ourUser = new User(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
+	     }
+	  } 
+	  catch (SQLException e) {
+		  e.printStackTrace();
+	  } 
+	  finally {
+		  closeResources(pstmt, res);
+	  }
+	  return ourUser;
+	}
+
+    /**
+    * retrieveStudentsModules, given a student's loginID, this function returns all the modules that that student is
+    * taking, and has previously taken as a list of Module objects.
+    * @param login String of the Student's login id.
+    * @return List<Module>
+    * */
+    public List<Module> retrieveStudentsModules(String login) {
+        return
+    }
 
    
-   /**
-    * getPassSalt, takes a loginID and returns the associated hashed password and salt
-    * @param loginID, int, the users loginID
-    * @return String[], returns the hashed password and salt
-    */
-   public String[] getPassSalt(int loginID) {
+	/**
+	* getPassSalt, takes a loginID and returns the associated hashed password and salt
+	* @param loginID, int, the users loginID
+	* @return String[], returns the hashed password and salt
+	*/
+	public String[] getPassSalt(int loginID) {
 	   String[] passSalt = new String[2];
 	   PreparedStatement pstmt = null;
 	   System.out.println(loginID);
 	   ResultSet res = null;
-       try {
-    	   pstmt = conn.prepareStatement("SELECT hashpass, salt FROM users WHERE login_id = ?");
-           pstmt.setInt(1, loginID);
-           res = pstmt.executeQuery();
-           if (res.next()) {
-        	   passSalt[0] = res.getString(1);
-        	   passSalt[1] = res.getString(2);
-           }
-       }
-       catch (SQLException e) {
-           e.printStackTrace();
-       } 
-       finally {
-    	   closeResources(pstmt, res);
-       }
+	   try {
+		   pstmt = conn.prepareStatement("SELECT hashpass, salt FROM users WHERE login_id = ?");
+	       pstmt.setInt(1, loginID);
+	       res = pstmt.executeQuery();
+	       if (res.next()) {
+	    	   passSalt[0] = res.getString(1);
+	    	   passSalt[1] = res.getString(2);
+	       }
+	   }
+	   catch (SQLException e) {
+	       e.printStackTrace();
+	   } 
+	   finally {
+		   closeResources(pstmt, res);
+	   }
 	   return passSalt;
-   }
-
+	}
+	
    /**
     * Returns true if the degree is 'allowed' to be deleted (i.e. has no student affiliations, and has no
     * module affiliations).
@@ -343,53 +352,53 @@ public class RetrieveQueries extends Queries {
         return (!hasAffiliatedModules && !hasAffiliatedStudents);
    }
 
-   /**
-    * Returns true if the Department is allowed to be deleted.
-    * Departments are allowed to be deleted if there are no degrees affiliated with the department.
-    * @param department_code String represents the department to check.
-    * @return boolean of whether the department was allowed to be deleted
-    * */
-   public boolean allowedToDeleteDepartment(String department_code) {
-       PreparedStatement pstmt = null;
-       ResultSet res = null;
-       boolean affiliatedDegrees = true; // assume that there are affiliated degrees, and code proves otherwise
-       try {
-           pstmt = super.conn.prepareStatement("SELECT * FROM degree_department WHERE department_code=?");
-           pstmt.setString(1, department_code);
-           res = pstmt.executeQuery();
-           // checks to see if res is empty
-           if(!res.next()) {
-               affiliatedDegrees = false;
-           }
+	/**
+	* Returns true if the Department is allowed to be deleted.
+	* Departments are allowed to be deleted if there are no degrees affiliated with the department.
+	* @param department_code String represents the department to check.
+	* @return boolean of whether the department was allowed to be deleted
+	* */
+	public boolean allowedToDeleteDepartment(String department_code) {
+	   PreparedStatement pstmt = null;
+	   ResultSet res = null;
+	   boolean affiliatedDegrees = true; // assume that there are affiliated degrees, and code proves otherwise
+	   try {
+	       pstmt = super.conn.prepareStatement("SELECT * FROM degree_department WHERE department_code=?");
+	       pstmt.setString(1, department_code);
+	       res = pstmt.executeQuery();
+	       // checks to see if res is empty
+	       if(!res.next()) {
+	           affiliatedDegrees = false;
+	       }
+	
+	   } catch (SQLException e) {
+	        e.printStackTrace();
+	   } finally {
+	       closeResources(pstmt, res);
+	   }
+	   return (!affiliatedDegrees);
+	}
 
-       } catch (SQLException e) {
-            e.printStackTrace();
-       } finally {
-           closeResources(pstmt, res);
-       }
-       return (!affiliatedDegrees);
-   }
-
-   /**
-    * Return true if the user is allowed to be deleted. A user is allowed to be deleted if the user isn't a student
-    * and has an associated row in the student table.
-    * @param login_id String representing the user under question
-    * */
-   public boolean allowedToDeleteUser(String login_id) {
-       boolean allowedToDeleteUser = false;
-       // checks the user isn't a student
-       try {
-           PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM student WHERE login_id = ? ");
-           pstmt.setString(1, login_id);
-           ResultSet rs = pstmt.executeQuery();
-           if(!rs.next()){
-               allowedToDeleteUser = true; // no affiliated entry in the student table
-           }
-       } catch (SQLException e)  {
-           e.printStackTrace();
-       }
-       return allowedToDeleteUser;
-   }
+	/**
+	* Return true if the user is allowed to be deleted. A user is allowed to be deleted if the user isn't a student
+	* and has an associated row in the student table.
+	* @param login_id String representing the user under question
+	* */
+	public boolean allowedToDeleteUser(String login_id) {
+	   boolean allowedToDeleteUser = false;
+	   // checks the user isn't a student
+	   try {
+	       PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM student WHERE login_id = ? ");
+	       pstmt.setString(1, login_id);
+	       ResultSet rs = pstmt.executeQuery();
+	       if(!rs.next()){
+	           allowedToDeleteUser = true; // no affiliated entry in the student table
+	       }
+	   } catch (SQLException e)  {
+	       e.printStackTrace();
+	   }
+	   return allowedToDeleteUser;
+	}
 
     /** DO NOT DELETE THIS METHOD, WILL HOPEFULLY USE THIS TO REFACTOR SOME METHODS ^
      * Retrieves rows from table where condition is met. Shouldn't be called directly.
