@@ -1,8 +1,7 @@
 package src.controller;
 
 import src.model.db_handler.*;
-import src.objects.Degree;
-import src.objects.Department;
+import src.objects.*;
 
 import java.util.*;
 
@@ -29,37 +28,27 @@ public class TestMethods {
 
         RetrieveQueries tester = new RetrieveQueries(testdb);
 
-        System.out.println("testing allowedToDeleteUser method");
-        System.out.println("1002" + tester.allowedToDeleteUser("1002"));
-        System.out.println("1001" + tester.allowedToDeleteUser("1001"));
+        System.out.println("testing retrieveStudentsModules");
+        List<Module> modulesStudentTakes = tester.retrieveStudentsModules(1001);
+        for (Module m : modulesStudentTakes) {
+            System.out.println(m.toString());
+        }
 
-        //System.out.println("Testing allowedToDeleteDepartment");
+
+        //System.out.println("1002" + tester.allowedToDeleteUser("1002"));
+        //System.out.println("1001" + tester.allowedToDeleteUser("1001"));
         //System.out.println(tester.allowedToDeleteDepartment("COM"));
-
-        //System.out.println("Testing allowedToDeleteDegree");
         //System.out.println(tester.allowedToDeleteDegree("COMU49"));
-
-
-        // testing the retrieval method for a list of departments
-        //System.out.println("\n1) Retrieving list of departments");
         //List<Department> lsDep = tester.retrieveDepartmentTable();
         //for (Department d : lsDep) {
         //    System.out.println(d.toString());
         //}
-
-        // testing the retrieval method for a list of degrees
-        //System.out.println("\n2)Retrieving list of degrees");
-        //System.out.println("2.1)Testing retrieveAffiliatedNonLeadDep method");
         //List<Department> nonLead = tester.retrieveAffiliatedNonLeadDep("COMU49"); //
         //for (Department d : nonLead) {
         //    System.out.println(d.toString());
         //}
-
-        //System.out.println("2.2)Testing retrieveAffiliatedLeadDep method");
         //Department lead = tester.retrieveAffiliatedLeadDep("COMU49");
         //System.out.println(lead.toString());
-
-        //System.out.println("2.3)Testing retrieveDegreesTable() method");
         //List<Degree> lsDeg = tester.retrieveDegreesTable();
         //for (Degree d : lsDeg) {
         //    System.out.println(d.toString());

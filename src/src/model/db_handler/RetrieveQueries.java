@@ -279,7 +279,40 @@ public class RetrieveQueries extends Queries {
       }
       return ourUser;
   }
-   
+
+    /**
+    * retrieveStudentsModules, given a student's loginID, this function returns all the modules that that student is
+    * taking, and has previously taken as a list of Module objects.
+    * @param login int of the Student's login id.
+    * @return List<Module>
+    * */
+    public List<Module> retrieveStudentsModules(int login) {
+        List<Module> studentModules = new ArrayList<Module>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            // obtain references to the modules that a student takes
+            pstmt = conn.prepareStatement("SELECT module_code FROM grades WHERE login_id=? ");
+            pstmt.setInt(1, login);
+            rs = pstmt.executeQuery();
+            ResultSet moduleDetails = null;
+            while(rs.next()) {
+                pstmt = conn.prepareStatement("SELECT * FROM module WHERE module_code=?");
+                pstmt.setString(1, rs.getString(1));
+                moduleDetails = pstmt.executeQuery();
+                // build a Module object, and add it to the Module list
+                if(moduleDetails.next()) {
+                    studentModules.add(new Module(moduleDetails.getString(1), moduleDetails.getString(2),
+                            moduleDetails.getInt(3), moduleDetails.getInt(4)));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return studentModules;
+    }
 
    
    /**

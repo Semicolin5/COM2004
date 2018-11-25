@@ -68,7 +68,7 @@ public class ModulePick extends Form {
 
         studentList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
-                if(!evt.getValueIsAdjusting()){
+                if (!evt.getValueIsAdjusting()) {
                     chosenModel.removeAllElements();
                     choiceModel.removeAllElements();
                     for (Student student : Controller.getStudents()) {
@@ -84,7 +84,7 @@ public class ModulePick extends Form {
                                     for (Module mod : Controller.getModules()) {
                                         if (mod.getCode().equals(m.getModuleCode())) {
                                             if (m.isCore() == true)
-                                                chosenModel.addElement(m.getModuleCode()+" " + mod.getCredits() + " CORE " );
+                                                chosenModel.addElement(m.getModuleCode() + " " + mod.getCredits() + " CORE ");
                                             else
                                                 choiceModel.addElement((m.getModuleCode() + " " + mod.getCredits() + " NOT CORE"));
                                         }
@@ -99,7 +99,7 @@ public class ModulePick extends Form {
         });
     }
 
-    private void calculateCredits () {
+    private void calculateCredits() {
         int total = 0;
         for (int i = 0; i < chosenModel.getSize(); i++) {
             Object o = chosenModel.getElementAt(i);
@@ -108,40 +108,6 @@ public class ModulePick extends Form {
             total = total + credits;
         }
         totalCredits.setText(String.valueOf(total));
-    }
-
-    public class assignModuleHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            if (moduleChoiceList.getSelectedValue()!=null) {
-                chosenModel.addElement(moduleChoiceList.getSelectedValue().toString());
-                choiceModel.removeElement(moduleChoiceList.getSelectedValue().toString());
-            }
-            calculateCredits();
-        }
-    }
-
-    public class submitButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            if (totalCredits.getText().equals(120)){
-                for (int i = 0; i < chosenModel.getSize(); i++) {
-                    Object o = chosenModel.getElementAt(i);
-                    String arr[] = o.toString().split(" ");
-                    String module = arr[1];
-                    Controller.saveBlankGrades(studentList.getSelectedValue().toString(), module);
-                }
-            }
-        }
-    }
-
-    public class unassignModuleHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            String arr [] = chosenModuleList.getSelectedValue().toString().split(" ");
-            if (chosenModuleList.getSelectedValue()!=null && arr[2].equals("NOT")) {
-                choiceModel.addElement(chosenModuleList.getSelectedValue().toString());
-                chosenModel.removeElement(chosenModuleList.getSelectedValue().toString());
-            }
-            calculateCredits();
-        }
     }
 
     {
@@ -227,4 +193,39 @@ public class ModulePick extends Form {
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
+
+    public class assignModuleHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (moduleChoiceList.getSelectedValue() != null) {
+                chosenModel.addElement(moduleChoiceList.getSelectedValue().toString());
+                choiceModel.removeElement(moduleChoiceList.getSelectedValue().toString());
+            }
+            calculateCredits();
+        }
+    }
+
+    public class submitButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (totalCredits.getText().equals(120)) {
+                for (int i = 0; i < chosenModel.getSize(); i++) {
+                    Object o = chosenModel.getElementAt(i);
+                    String arr[] = o.toString().split(" ");
+                    String module = arr[1];
+                    Controller.saveBlankGrades(studentList.getSelectedValue().toString(), module);
+                }
+            }
+        }
+    }
+
+    public class unassignModuleHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            String arr[] = chosenModuleList.getSelectedValue().toString().split(" ");
+            if (chosenModuleList.getSelectedValue() != null && arr[2].equals("NOT")) {
+                choiceModel.addElement(chosenModuleList.getSelectedValue().toString());
+                chosenModel.removeElement(chosenModuleList.getSelectedValue().toString());
+            }
+            calculateCredits();
+        }
+    }
+
 }

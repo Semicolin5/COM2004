@@ -14,7 +14,7 @@ public class Module {
 
     /**
      * Forms the Module object given parameters
-     * @param  code, the Module's code
+     * @param code, the Module's code
      * @param name, String that describes module.
      * @param credits, int that sets how many credits the module is worth.
      * */
