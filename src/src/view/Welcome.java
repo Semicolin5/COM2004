@@ -63,8 +63,7 @@ public class Welcome extends Form {
         //Add logout button
         JButton backButton = new JButton("Logout");
         panel.add(backButton);
-        setBackButton(backButton);
-        setBackButtonPanel(new Login(getFrame()).getJPanel());
+        backButton.addActionListener(new logoutButtonHandler());
 
         return panel;
     }
@@ -95,8 +94,12 @@ public class Welcome extends Form {
 
     private class logoutButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            Main.getDB().closeConnection();
-            exit(0);
+            //Main.getDB().closeConnection();
+            //exit(0);
+            //new GUIFrame();
+            //db = new DatabaseHandler();
+            changeJPanel(new src.view.Login(getFrame()).getJPanel());
+            //TODO: Can someone get this working please?
         }
     }
 

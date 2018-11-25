@@ -35,11 +35,14 @@ public class ManageDegrees extends Form {
      */
     public ManageDegrees(GUIFrame frame) {
         super(frame);
-        frame.setTitle("Manage Degrees");
+
         //Setup back button
         setBackButton(backButton);
         setBackButtonPanel(new Welcome(getFrame()).getJPanel());
+        //backButton.addActionListener(new testHandler());
+        //changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
         setJPanel(panel1);
+        frame.setTitle("Manage Degrees");
 
         degreeModel = new DefaultListModel<>();
         associateModel = new DefaultTableModel();
@@ -136,6 +139,12 @@ public class ManageDegrees extends Form {
                 }
             }
             changeJPanel(new ManageDegrees(getFrame()).getJPanel());
+        }
+    }
+
+    private class testHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
         }
     }
 
