@@ -44,9 +44,9 @@ public class ManageDegrees extends Form {
         frame.setTitle("Manage Degrees");
 
         //Add columns to JTable
+        associateModel.addColumn("Department Code");
         associateModel.addColumn("Department Name");
         associateModel.addColumn("Lead Status");
-        associateModel.addColumn("Degree Name");
         for (Degree degree : Controller.getDegrees()) {
             degreeModel.addElement(degree.getDegreeCode());
         }
@@ -141,9 +141,9 @@ public class ManageDegrees extends Form {
             associateModel = new DefaultTableModel();
             associateModel.setRowCount(0);
             associateTable.setModel(associateModel);
+            associateModel.addColumn("Department Code");
             associateModel.addColumn("Department Name");
             associateModel.addColumn("Lead Status");
-            associateModel.addColumn("Degree Name");
 
            //associateModel.removeAllElements();
             String degreeCode = degreeList.getSelectedValue().toString();
