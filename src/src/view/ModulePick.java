@@ -5,9 +5,13 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import src.objects.Student;
+import src.objects.PeriodOfStudy;
+import src.objects.ModuleDegree;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import src.controller.Controller;
@@ -53,20 +57,56 @@ public class ModulePick extends Form {
         chosenModuleList.setModel(chosenModel);
         chosenModuleList.setVisibleRowCount(8);
 
+        assignModuleToStudentButton.addActionListener(new assignModuleHandler());
+        unassignModuleFromStudentButton.addActionListener(new unassignModuleHandler());
+
         for (Student student : Controller.getStudents()) {
             studentModel.addElement(student.getLogin());
         }
 
         studentList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
-                for (Student student : Controller.getStudents()) {
-                    if (student.getLogin().equals(studentList.getSelectedValue())) {
-                        studentName.setText(student.getForename() + " " + student.getSurname());
-                        //studentLevel.setText();
+                if(!evt.getValueIsAdjusting()){
+                    for (Student student : Controller.getStudents()) {
+                        System.out.println(student.getLogin());
+                        if (student.getLogin().equals(studentList.getSelectedValue())) {
+                            studentName.setText(student.getForename() + " " + student.getSurname());
+                            for (PeriodOfStudy p : Controller.getPeriodsOfStudy()) {
+                                if (p.getLoginID().equals(studentList.getSelectedValue()))
+                                    studentLevel.setText(p.getLevelOfStudy());
+                            }
+                            for (ModuleDegree m : Controller.getModuleDegrees()) {
+                                if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel.getText()))) {
+                                    if (m.isCore()==true)
+                                        chosenModel.addElement(m.getModuleCode() + " CORE");
+                                    else
+                                        choiceModel.addElement((m.getModuleCode() + " NOT CORE"));
+                                }
+                            }
+                        }
                     }
                 }
             }
         });
+    }
+
+    public class assignModuleHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (moduleChoiceList.getSelectedValue()!=null) {
+                chosenModel.addElement(moduleChoiceList.getSelectedValue().toString());
+                choiceModel.removeElement(moduleChoiceList.getSelectedValue().toString());
+            }
+        }
+    }
+
+    public class unassignModuleHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            String arr [] = chosenModuleList.getSelectedValue().toString().split(" ");
+            if (chosenModuleList.getSelectedValue()!=null && arr[1].equals("NOT CORE")) {
+                choiceModel.addElement(chosenModuleList.getSelectedValue().toString());
+                chosenModel.removeElement(chosenModuleList.getSelectedValue().toString());
+            }
+        }
     }
 
     {

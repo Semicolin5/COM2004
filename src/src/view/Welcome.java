@@ -101,7 +101,6 @@ public class Welcome extends Form {
     private class pickModuleHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new src.view.ModulePick(getFrame()).getJPanel());
-            System.out.println("Form change");
         }
     }
 

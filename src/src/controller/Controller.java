@@ -153,6 +153,11 @@ public class Controller {
         return retrieveQ.retrieveModuleTable();
     }
 
+	public static List<ModuleDegree> getModuleDegrees() {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveModuleLinkDegreeTable();
+	}
+
     public static List<User> getUsers() {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
         return retrieveQ.retrieveUsersTable();
