@@ -12,6 +12,7 @@ import java.awt.event.ItemListener;
 import src.objects.Student;
 import src.objects.PeriodOfStudy;
 import src.objects.ModuleDegree;
+import src.objects.Module;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import src.controller.Controller;
@@ -59,6 +60,7 @@ public class ModulePick extends Form {
 
         assignModuleToStudentButton.addActionListener(new assignModuleHandler());
         unassignModuleFromStudentButton.addActionListener(new unassignModuleHandler());
+        submitModuleChoiceForButton.addActionListener(new submitButtonHandler());
 
         for (Student student : Controller.getStudents()) {
             studentModel.addElement(student.getLogin());
@@ -66,7 +68,9 @@ public class ModulePick extends Form {
 
         studentList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
-                if (!evt.getValueIsAdjusting()) {
+                if(!evt.getValueIsAdjusting()){
+                    chosenModel.removeAllElements();
+                    choiceModel.removeAllElements();
                     for (Student student : Controller.getStudents()) {
                         System.out.println(student.getLogin());
                         if (student.getLogin().equals(studentList.getSelectedValue())) {
@@ -77,17 +81,67 @@ public class ModulePick extends Form {
                             }
                             for (ModuleDegree m : Controller.getModuleDegrees()) {
                                 if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel.getText()))) {
-                                    if (m.isCore() == true)
-                                        chosenModel.addElement(m.getModuleCode() + " CORE");
-                                    else
-                                        choiceModel.addElement((m.getModuleCode() + " NOT CORE"));
+                                    for (Module mod : Controller.getModules()) {
+                                        if (mod.getCode().equals(m.getModuleCode())) {
+                                            if (m.isCore() == true)
+                                                chosenModel.addElement(m.getModuleCode()+" " + mod.getCredits() + " CORE " );
+                                            else
+                                                choiceModel.addElement((m.getModuleCode() + " " + mod.getCredits() + " NOT CORE"));
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+                    calculateCredits();
                 }
             }
         });
+    }
+
+    private void calculateCredits () {
+        int total = 0;
+        for (int i = 0; i < chosenModel.getSize(); i++) {
+            Object o = chosenModel.getElementAt(i);
+            String arr[] = o.toString().split(" ");
+            int credits = Integer.parseInt(arr[1]);
+            total = total + credits;
+        }
+        totalCredits.setText(String.valueOf(total));
+    }
+
+    public class assignModuleHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (moduleChoiceList.getSelectedValue()!=null) {
+                chosenModel.addElement(moduleChoiceList.getSelectedValue().toString());
+                choiceModel.removeElement(moduleChoiceList.getSelectedValue().toString());
+            }
+            calculateCredits();
+        }
+    }
+
+    public class submitButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (totalCredits.getText().equals(120)){
+                for (int i = 0; i < chosenModel.getSize(); i++) {
+                    Object o = chosenModel.getElementAt(i);
+                    String arr[] = o.toString().split(" ");
+                    String module = arr[1];
+                    Controller.saveBlankGrades(studentList.getSelectedValue().toString(), module);
+                }
+            }
+        }
+    }
+
+    public class unassignModuleHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            String arr [] = chosenModuleList.getSelectedValue().toString().split(" ");
+            if (chosenModuleList.getSelectedValue()!=null && arr[2].equals("NOT")) {
+                choiceModel.addElement(chosenModuleList.getSelectedValue().toString());
+                chosenModel.removeElement(chosenModuleList.getSelectedValue().toString());
+            }
+            calculateCredits();
+        }
     }
 
     {
@@ -173,24 +227,4 @@ public class ModulePick extends Form {
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
-
-    public class assignModuleHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            if (moduleChoiceList.getSelectedValue() != null) {
-                chosenModel.addElement(moduleChoiceList.getSelectedValue().toString());
-                choiceModel.removeElement(moduleChoiceList.getSelectedValue().toString());
-            }
-        }
-    }
-
-    public class unassignModuleHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            String arr[] = chosenModuleList.getSelectedValue().toString().split(" ");
-            if (chosenModuleList.getSelectedValue() != null && arr[1].equals("NOT CORE")) {
-                choiceModel.addElement(chosenModuleList.getSelectedValue().toString());
-                chosenModel.removeElement(chosenModuleList.getSelectedValue().toString());
-            }
-        }
-    }
-
 }
