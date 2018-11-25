@@ -32,7 +32,6 @@ public class CreateDegree extends Form {
     private JTable departmentTable;
     private DefaultTableModel departmentsModel;
 
-
     /**
      * Set default JFrame sizes & add Event Listener
      *
@@ -187,15 +186,14 @@ public class CreateDegree extends Form {
             //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
 
-            for (int i = 1; i < departmentsModel.getRowCount(); i++) {
-                    String depCode = departmentsModel.getValueAt(i, 0).toString();
-                    String lead = departmentsModel.getValueAt(i, 1).toString();
-
-                    if (lead.equals("Lead")) {
-                        Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, true);
-                    } else {
-                        Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, false);
-                    }
+            for (int i = 0; i < departmentsModel.getRowCount(); i++) {
+                String depCode = departmentsModel.getValueAt(i, 0).toString();
+                String lead = departmentsModel.getValueAt(i, 1).toString();
+                if (lead.equals("Lead")) {
+                    Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, true);
+                } else {
+                    Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, false);
+                }
             }
         }
     }

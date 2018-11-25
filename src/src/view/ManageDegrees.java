@@ -153,6 +153,7 @@ public class ManageDegrees extends Form {
             for (Degree degree : Controller.getDegrees()) {
                 if (degreeCode.equals(degree.getDegreeCode())) {
                     Department lead = degree.getLeadDepartment();
+                    //System.out.println(lead.getCode() + " " + lead.getName() + " Lead");
                     associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
                     if (degree.getNonLeadDepartments() != null) {
                         for (Department d : degree.getNonLeadDepartments())
