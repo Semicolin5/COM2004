@@ -37,6 +37,7 @@ public class CreateDegree extends Form {
     private  ArrayList<String[]> departmentLinker = new ArrayList<String[]>();
     
 
+
     /**
      * Set default JFrame sizes & add Event Listener
      *
@@ -190,24 +191,7 @@ public class CreateDegree extends Form {
         		storedDeps.add(depCode);
                 departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(), leadCombo.getSelectedItem().toString()});
         	}
-        	
-        	
-        	
-        	
-        	//TODO: Run length/form/duplicate checks here.
-            //TODO: Check that the module code is not already present in the JList.
-            //TODO: Check that the degree & module choice aren't forming a duplicate primary key.
-           
-            //TODO: 't all data in here already be correct? Other than the potential for the first JComboBox being blank.
-            //TODO: idea is that we know that data is correct before it is added to the JList.
 
-        }
-        
-        public String checkLink() {
-        	String returnMessage = "";
-        	
-        	
-        	return returnMessage;
         }
     }
 
@@ -231,14 +215,15 @@ public class CreateDegree extends Form {
             //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
 
-            for (int i = 0; i < departmentsModel.getRowCount(); i++) {
-                String depCode = departmentsModel.getValueAt(i, 0).toString();
-                String lead = departmentsModel.getValueAt(i, 1).toString();
-                if (lead.equals("Lead")) {
-                    Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, true);
-                } else {
-                    Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, false);
-                }
+            for (int i = 1; i < departmentsModel.getRowCount(); i++) {
+                    String depCode = departmentsModel.getValueAt(i, 0).toString();
+                    String lead = departmentsModel.getValueAt(i, 1).toString();
+
+                    if (lead.equals("Lead")) {
+                        Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, true);
+                    } else {
+                        Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, false);
+                    }
             }
         }
     }
