@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
+import src.objects.Degree;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,7 @@ public class CreateStudent extends Form {
     private JTextField degreeLevel;
     private JPanel panel1;
     private JButton cancelButton;
+    private JComboBox degreeLevelCombo;
 
     public CreateStudent(GUIFrame frame) {
         super(frame);
@@ -35,6 +37,38 @@ public class CreateStudent extends Form {
         setBackButtonPanel(new ManageStudents(getFrame()).getJPanel());
 
         setJPanel(panel1);
+
+        //Add degree codes to combo box
+        degreeCombo.addItem("");
+        for (Degree degree : Controller.getDegrees()) {
+            degreeCombo.addItem(degree.getDegreeCode());
+        }
+
+        degreeCombo.addItemListener(e -> {
+            degreeLevelCombo.removeAllItems();
+            for (Degree degree : Controller.getDegrees()) {
+                if (degree.getDegreeCode().equals(e.getItem()) && degree.hasPlacementYear()) {
+                    if (degree.isMasters()) {
+                        for (int i = 1; i < 4; i++)
+                            degreeLevelCombo.addItem(i);
+                        degreeLevelCombo.addItem("Placement Year");
+                        degreeLevelCombo.addItem("4");
+                    } else {
+                        for (int i = 1; i < 3; i++)
+                            degreeLevelCombo.addItem(i);
+                        degreeLevelCombo.addItem("Placement Year");
+                        degreeLevelCombo.addItem("3");
+                    }
+                } else if (degree.getDegreeCode().equals(e.getItem()) && degree.isMasters()) {
+                    for (int i = 1; i < 5; i++)
+                        degreeLevelCombo.addItem(i);
+                } else if (degree.getDegreeCode().equals(e.getItem())) {
+                    for (int i = 1; i < 4; i++)
+                        degreeLevelCombo.addItem(i);
+                }
+            }
+        });
+
         frame.setTitle("Create Student");
         addStudentButton.addActionListener(new AddStudentHandler());
     }
@@ -66,6 +100,11 @@ public class CreateStudent extends Form {
         studentForename = new JTextField();
         panel1.add(studentForename, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         titleCombo = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        defaultComboBoxModel1.addElement("");
+        defaultComboBoxModel1.addElement("Mr");
+        defaultComboBoxModel1.addElement("Ms");
+        titleCombo.setModel(defaultComboBoxModel1);
         panel1.add(titleCombo, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("Surname");
@@ -126,8 +165,6 @@ public class CreateStudent extends Form {
         panel1.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
         panel1.add(spacer3, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        degreeLevel = new JTextField();
-        panel1.add(degreeLevel, new GridConstraints(10, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label14 = new JLabel();
         label14.setText("Student Email");
         panel1.add(label14, new GridConstraints(8, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -138,6 +175,8 @@ public class CreateStudent extends Form {
         cancelButton = new JButton();
         cancelButton.setText("Cancel");
         panel1.add(cancelButton, new GridConstraints(16, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        degreeLevelCombo = new JComboBox();
+        panel1.add(degreeLevelCombo, new GridConstraints(10, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -149,9 +188,20 @@ public class CreateStudent extends Form {
 
     private class AddStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            Controller.saveStudent(Integer.valueOf(studentNo.getText()), "", "Mr", studentForename.getText(),
-                    studentSurname.getText(), studentTutor.getText(),
-                    studentEmail.getText(), "COMU03", "!", "A", studyStartDate.getText(), studyEndDate.getText());
+
+            if (!initPassword.getText().equals(confirmPassword.getText())) {
+                JOptionPane.showMessageDialog(getFrame(), "Passwords don't match");
+                return;
+            }
+
+            Controller.saveStudent(Integer.valueOf(studentNo.getText()),
+                    confirmPassword.getText(), titleCombo.getSelectedItem().toString(),
+                    studentForename.getText(), studentSurname.getText(),
+                    studentTutor.getText(), studentEmail.getText(),
+                    degreeCombo.getSelectedItem().toString(), degreeLevel.getText(),
+                    studyLabel.getText(), studyStartDate.getText(), studyEndDate.getText());
+
+            changeJPanel(new ManageStudents(getFrame()).getJPanel());
         }
     }
 

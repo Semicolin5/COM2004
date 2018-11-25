@@ -184,7 +184,27 @@ public class RetrieveQueries extends Queries {
         }
     	return moduleDegreeTable;
     }
-    
+
+    public List<PeriodOfStudy> retrievePeriodOfStudyTable() {
+        List<PeriodOfStudy> table = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+     	   pstmt = conn.prepareStatement("SELECT * FROM period_of_study");
+           res = pstmt.executeQuery();
+           while (res.next()) {
+               table.add(new PeriodOfStudy(res.getString(1), res.getString(2),
+                       res.getDate(3), res.getDate(4), res.getString(5)));
+            }
+        }
+        catch (SQLException e) {
+     	   e.printStackTrace();
+        }
+        finally {
+     	   closeResources(pstmt, res);
+        }
+    	return table;
+    }
     
     /**
      * retrieve the users table

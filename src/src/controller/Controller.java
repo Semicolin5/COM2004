@@ -163,7 +163,10 @@ public class Controller {
 	    return retrieveQ.retrieveStudentsTable();
     }
 
-
+    public static List<PeriodOfStudy> getPeriodsOfStudy() {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrievePeriodOfStudyTable();
+	}
 
     public static void removeModule(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
@@ -239,20 +242,6 @@ public class Controller {
 		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel);
 	}
 
-    /*public static void saveStudent(int login, String password, String title, String forename, String surname, String tutor,
-                                   String email, String degree, String degreeLevel, String label, String levelOfStudy, String startDate, String endDate) {
-        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-
-        String salt = CryptoModule.generateSalt();
-        String hashedPassword = CryptoModule.hashPassword(password, salt);
-
-        additionQ.addStudent(login, hashedPassword, salt, 0, title, forename, surname, tutor, email, degree);
-        additionQ.addDegree(degree, );
-        additionQ.addPeriodOfStudy(login, label, startDate, endDate, levelOfStudy);
-    }*/
-    
-    
-    
     //********************************************************
     //Methods to check user input
     //********************************************************

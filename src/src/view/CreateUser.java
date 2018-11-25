@@ -21,7 +21,7 @@ public class CreateUser extends Form {
     private JPanel panel1;
     private JTextField loginID;
     private JComboBox userType;
-    private JTextField confirmPass;
+    private JPasswordField confirmPass;
     private JButton createAccountButton;
     private JPasswordField initPass;
     private JButton cancelButton;
@@ -33,6 +33,7 @@ public class CreateUser extends Form {
      */
     public CreateUser(GUIFrame frame) {
         super(frame);
+        frame.setTitle("Create Users Screen");
 
         setBackButton(cancelButton);
         setBackButtonPanel(new ManageUsers(getFrame()).getJPanel());
@@ -128,11 +129,15 @@ public class CreateUser extends Form {
                     break;
             }
 
+            if (!initPass.getText().equals(confirmPass.getText())) {
+                JOptionPane.showMessageDialog(getFrame(), "Passwords don't match");
+                return;
+            }
+
             Controller.saveUser(Integer.parseInt(loginID.getText()), confirmPass.getText(), priv);
             changeJPanel(new ManageUsers(getFrame()).getJPanel());
         }
     }
-
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }

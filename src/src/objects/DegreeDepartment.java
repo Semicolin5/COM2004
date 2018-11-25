@@ -21,7 +21,7 @@ public class DegreeDepartment {
 		return departmentCode;
 	}
 	
-	public boolean getLeadDepartment() {
+	public boolean isLeadDepartment() {
 		return leadDepartment;
 	}
 

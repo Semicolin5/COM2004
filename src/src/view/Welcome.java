@@ -25,6 +25,7 @@ public class Welcome extends Form {
         JButton userButton = new JButton("User Management");
         JButton moduleButton = new JButton("Module Management");
         JButton studentButton = new JButton("Student Management");
+        JButton pickModuleButton = new JButton("Add/Drop Student Modules");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         int privilege = Main.getPriv();
@@ -44,7 +45,8 @@ public class Welcome extends Form {
         //Registrar
         else if(privilege == 3) {
             panel.add(studentButton);
-            panel.add(new JButton("Add/Drop Student Modules"));
+            panel.add(pickModuleButton);
+            pickModuleButton.addActionListener(new pickModuleHandler());
             studentButton.addActionListener(new studentButtonHandler());
         }
         //Teacher
@@ -93,6 +95,13 @@ public class Welcome extends Form {
     private class studentButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new src.view.ManageStudents(getFrame()).getJPanel());
+        }
+    }
+
+    private class pickModuleHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.ModulePick(getFrame()).getJPanel());
+            System.out.println("Form change");
         }
     }
 
