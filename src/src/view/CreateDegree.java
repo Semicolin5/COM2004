@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,9 +28,10 @@ public class CreateDegree extends Form {
     private JComboBox departmentCombo;
     private JComboBox leadCombo;
     private JButton linkDepartmentButton;
-    private JList departmentList;
     private JButton cancelButton;
-    private DefaultListModel<String> departmentsModel;
+    private JTable departmentTable;
+    private DefaultTableModel departmentsModel;
+
 
     /**
      * Set default JFrame sizes & add Event Listener
@@ -38,20 +40,21 @@ public class CreateDegree extends Form {
      */
     public CreateDegree(GUIFrame frame) {
         super(frame);
-
         setBackButton(cancelButton);
         setBackButtonPanel(new ManageDegrees(getFrame()).getJPanel());
-
         setJPanel(panel1);
-        createDegree.addActionListener(new CreateDegreeHandler());
+        frame.setTitle("Create Degree Screen");
 
-        departmentsModel = new DefaultListModel<>();
-        departmentList.setModel(departmentsModel);
-        departmentList.setVisibleRowCount(10);
+        departmentsModel = new DefaultTableModel();
+        departmentsModel.addColumn("Department Code");
+        departmentsModel.addColumn("Lead Status");
+        departmentTable.setModel(departmentsModel);
+
         //loops through degrees in database and adds all of their codes to the JComboBox.
         for (Department department : Controller.getDepartments()) {
             departmentCombo.addItem(department.getCode());
         }
+
         linkDepartmentButton.addActionListener(new LinkHandler());
         createDegree.addActionListener(new CreateDegreeHandler());
     }
@@ -131,8 +134,8 @@ public class CreateDegree extends Form {
         panel1.add(label6, new GridConstraints(8, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, new GridConstraints(9, 2, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        departmentList = new JList();
-        scrollPane1.setViewportView(departmentList);
+        departmentTable = new JTable();
+        scrollPane1.setViewportView(departmentTable);
         final JLabel label7 = new JLabel();
         label7.setText("Department Code");
         panel1.add(label7, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -151,6 +154,9 @@ public class CreateDegree extends Form {
         return panel1;
     }
 
+    /**
+     * This ActionListener adds the selected JCombo values to the JTable - if the checks are passed.
+     */
     public class LinkHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -160,9 +166,8 @@ public class CreateDegree extends Form {
             //TODO: Colin, do we need length/form checks here? If we have correct checks on the degree data we are saving.
             //TODO: 't all data in here already be correct? Other than the potential for the first JComboBox being blank.
             //TODO: idea is that we know that data is correct before it is added to the JList.
-            String details = departmentCombo.getSelectedItem().toString() + " " +
-                    leadCombo.getSelectedItem().toString();
-            departmentsModel.addElement(details);
+            departmentsModel.addRow(new Object[]{departmentCombo.getSelectedItem().toString(),
+                    leadCombo.getSelectedItem().toString()});
         }
     }
 
@@ -181,17 +186,16 @@ public class CreateDegree extends Form {
 
             //TODO: Check that text entered into the first three textboxes meets format/length/duplication checks before runnimg this.
             //We should already know that data in the JList is in the correct format here, as we checked it before adding to the JList.
-            ListModel model = departmentList.getModel();
 
-            for (int i = 0; i < model.getSize(); i++) {
-                Object o = model.getElementAt(i);
-                String arr[] = o.toString().split(" ");
-                String departmentCode = arr[0];
-                if (arr[1].equals("Lead")) {
-                    Controller.saveDepartmentAssociation(degreeCode.getText(), departmentCode, true);
-                } else {
-                    Controller.saveDepartmentAssociation(degreeCode.getText(), departmentCode, false);
-                }
+            for (int i = 1; i < departmentsModel.getRowCount(); i++) {
+                    String depCode = departmentsModel.getValueAt(i, 0).toString();
+                    String lead = departmentsModel.getValueAt(i, 1).toString();
+
+                    if (lead.equals("Lead")) {
+                        Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, true);
+                    } else {
+                        Controller.saveDepartmentAssociation(degreeCode.getText(), depCode, false);
+                    }
             }
         }
     }
