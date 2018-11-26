@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
+import src.objects.Grade;
 import src.objects.Module;
 import src.objects.Student;
 
@@ -13,17 +14,21 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class UpdateGrades extends Form {
     private JPanel panel1;
     private JList studentList;
     private JList moduleList;
+    private DefaultListModel<String> studentModel;
     private DefaultListModel<String> moduleModel;
     private JTextField initialGrade;
     private JTextField resitGrade;
     private JTextField repeatGrade;
     private JButton updateButton;
     private JButton backButton;
+
+    private int loginID;
 
     public UpdateGrades(GUIFrame frame) {
         super(frame);
@@ -33,7 +38,7 @@ public class UpdateGrades extends Form {
 
         setJPanel(panel1);
 
-        DefaultListModel<String> studentModel = new DefaultListModel<>();
+        studentModel = new DefaultListModel<>();
         for (Student student : Controller.getStudents()) {
             studentModel.addElement(student.getLogin());
         }
@@ -117,8 +122,17 @@ public class UpdateGrades extends Form {
             ListSelectionModel model = (ListSelectionModel) listSelectionEvent.getSource();
 
             //Get list of student's modules
+            int index = model.getLeadSelectionIndex();
+            loginID = Integer.valueOf((String) studentList.getModel().getElementAt(index));
             if (model.getValueIsAdjusting()) {
-                moduleModel.addElement("Test");
+                clearGrades();
+
+                //Clear module list
+                moduleModel.removeAllElements();
+
+                for(Module module : Controller.getStudentModules(loginID)) {
+                    moduleModel.addElement(module.getCode());
+                }
             }
         }
     }
@@ -129,9 +143,22 @@ public class UpdateGrades extends Form {
 
             //Get student's module grades
             if (model.getValueIsAdjusting()) {
+                clearGrades();
+
                 String code = moduleModel.getElementAt(model.getLeadSelectionIndex());
+                Grade grades = Controller.getStudentModuleGrades(loginID, code);
+
+                initialGrade.setText(String.valueOf(grades.getInitialPercent()));
+                resitGrade.setText(String.valueOf(grades.getResitPercent()));
+                repeatGrade.setText(String.valueOf(grades.getRepeatPercent()));
             }
         }
+    }
+
+    private void clearGrades() {
+        initialGrade.setText("");
+        resitGrade.setText("");
+        repeatGrade.setText("");
     }
 
 }

@@ -4,6 +4,7 @@ import src.model.db_handler.*;
 import src.objects.*;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import src.model.*;
 
@@ -144,6 +145,16 @@ public class Controller {
     public static List<PeriodOfStudy> getPeriodsOfStudy() {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 		return retrieveQ.retrievePeriodOfStudyTable();
+	}
+
+	public static List<Module> getStudentModules(int loginID) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveStudentsModules(loginID);
+	}
+
+	public static Grade getStudentModuleGrades(int loginID, String moduleCode) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveStudentsModuleGrade(loginID, moduleCode);
 	}
 
     public static void removeModule(String code) {
