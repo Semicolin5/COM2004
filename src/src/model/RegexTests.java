@@ -26,6 +26,7 @@ public class RegexTests {
 	public static void main(String[] args) {
 		//This is just used for testing		
 		System.out.println(checkName("aaaaa  &&&&ASFaaaa"));
+
 	}
 	
 	
