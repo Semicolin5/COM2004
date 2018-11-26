@@ -27,6 +27,7 @@ public class Welcome extends Form {
         JButton studentButton = new JButton("Student Management");
         JButton pickModuleButton = new JButton("Add/Drop Student Modules");
         JButton updateGradesButton = new JButton("Update Grades");
+        JButton viewStudentRecordButton = new JButton("View Record");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         int privilege = Main.getPriv();
@@ -57,7 +58,8 @@ public class Welcome extends Form {
         }
         //Student
         else {
-            panel.add(new JButton("View Record"));
+            panel.add(viewStudentRecordButton);
+            viewStudentRecordButton.addActionListener(new StudentHandler());
         }
 
         //Add logout button
@@ -89,6 +91,18 @@ public class Welcome extends Form {
                 changeJPanel(new src.view.ModulePick(getFrame()).getJPanel());
             if (command.equals("Student Management"))
                 changeJPanel(new src.view.ManageStudents(getFrame()).getJPanel());
+        }
+    }
+
+    /**
+     * Class that handles the student's navigation from the welcome page.
+     * Method actionPerformed allows the student to navigate to new pages.
+     * */
+    private class StudentHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            String command = actionEvent.getActionCommand();
+            if (command.equals("View Record"))
+                System.out.println("changing to view record");
         }
     }
 
