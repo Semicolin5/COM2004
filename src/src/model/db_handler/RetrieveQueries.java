@@ -393,7 +393,7 @@ public class RetrieveQueries extends Queries {
            rs = pstmt.executeQuery();
            while(rs.next()) { // construct a grade object for each module taken at that period
                table.add(new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
-                       rs.getFloat(4), rs.getFloat(5)));
+                       rs.getFloat(4), rs.getFloat(5), -1));
            }
         } catch (SQLException e) {
             e.printStackTrace();

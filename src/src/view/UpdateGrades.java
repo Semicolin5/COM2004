@@ -130,7 +130,7 @@ public class UpdateGrades extends Form {
                 //Clear module list
                 moduleModel.removeAllElements();
 
-                for(Module module : Controller.getStudentModules(loginID)) {
+                for (Module module : Controller.getStudentModules(loginID)) {
                     moduleModel.addElement(module.getCode());
                 }
             }

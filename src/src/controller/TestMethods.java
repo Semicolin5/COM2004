@@ -18,8 +18,8 @@ public class TestMethods {
         testdb = new DatabaseHandler();
 
         //testingRemovalQueries();
-        //testingAdditionQueries();
-        testingRetrieveQueries();
+        testingAdditionQueries();
+        //testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -65,22 +65,12 @@ public class TestMethods {
 
         AdditionQueries tester = new AdditionQueries(testdb);
 
-        // testing admin sql queries
-        testdb.setPrivLevel(4);
+        System.out.println("testing createStudentModuleAssociation() method");
+        tester.createStudentModuleAssociation(1001, "B", "RSS2109");
 
-        System.out.println("testing addDepartment");
-        // positive test case
-        tester.addDepartment("LIT", "English Literature");
-
-        System.out.println("testing addModule");
-        // positive test case
-        tester.addModule("COM2008", "super cool module", 120, 2);
-
-        System.out.println("testing addDegree");
-        //positive test case
-        tester.addDegree("LITU04", "Nineteenth Century French Poetry", false, false);
-
-        System.out.println("testing addStudent");
+        //tester.addDepartment("LIT", "English Literature");
+        //tester.addModule("COM2008", "super cool module", 120, 2);
+        //tester.addDegree("LITU04", "Nineteenth Century French Poetry", false, false);
 
     }
 

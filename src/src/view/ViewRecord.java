@@ -28,6 +28,7 @@ public class ViewRecord extends Form {
     private DefaultTableModel outcomeModel;
     private DefaultListModel<String> periodListModel;
     private int username; // int for the current user record being viewed
+    private boolean isTeacher;
 
     /**
      * Constructor sets up an empty JTable, and sets up a JList containing the periods of study, and levels for the
@@ -37,14 +38,15 @@ public class ViewRecord extends Form {
      */
     public ViewRecord(GUIFrame frame) {
         super(frame);
+        isTeacher = false; // if the teacher is viewing the records, they can see all students records
+        // displays the page differently depending if the
         if (Main.getPriv() == 2) { // running for a teacher
-            //TODO
-            // Teacher should be able to change username so that they can view records for any student
+            isTeacher = true;
+
         } else if (Main.getPriv() == 1) { // running for a student
             username = Main.getLoginID();
-            System.out.println("loading record for: " + username);
         }
-        System.out.println("in here");
+
         // setup the backbutton
         setBackButton(backButton);
         setBackButtonPanel(new Welcome(getFrame()).getJPanel());
@@ -60,6 +62,7 @@ public class ViewRecord extends Form {
         outcomeModel.addColumn("Resit Percent Achieved");
         // filling JList
         for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
+            System.out.println(p.getLabel());
             periodListModel.addElement(p.getLabel()); // selects students periods of study
         }
         periodList.setLayoutOrientation(JList.VERTICAL);
@@ -122,22 +125,10 @@ public class ViewRecord extends Form {
             outcomeModel.setRowCount(0); // resets the table
             String periodOfStudyLabel = periodList.getSelectedValue().toString(); // finds the period of study label
             for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
-                System.out.println(g.toString());
+                System.out.println("resit percent: " + g.getResitPercent());
+                //TODO just need to check that resit isn't displayed as 0.00
+                outcomeModel.addRow(new Object[]{g.getModuleCode(), g.getInitialPercent(), g.getResitPercent()});
             }
-            /*associateModel.setRowCount(0);
-
-            String degreeCode = degreeList.getSelectedValue().toString();
-            for (Degree degree : Controller.getDegrees()) {
-                if (degreeCode.equals(degree.getDegreeCode())) {
-                    Department lead = degree.getLeadDepartment();
-                    //System.out.println(lead.getCode() + " " + lead.getName() + " Lead");
-                    associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
-                    if (degree.getNonLeadDepartments() != null) {
-                        for (Department d : degree.getNonLeadDepartments())
-                            associateModel.addRow(new Object[]{d.getCode(), d.getName(), "Non-Lead"});
-                    }
-                }
-            }*/
         }
     }
 
