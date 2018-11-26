@@ -30,12 +30,9 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="eb6d7" class="javax.swing.JList" binding="moduleChoiceList">
+          <component id="b166e" class="javax.swing.JTable" binding="choiceTable">
             <constraints/>
-            <properties>
-              <model/>
-              <selectionMode value="0"/>
-            </properties>
+            <properties/>
           </component>
         </children>
       </scrollpane>
@@ -46,11 +43,9 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="7506f" class="javax.swing.JList" binding="chosenModuleList">
+          <component id="54e82" class="javax.swing.JTable" binding="chosenTable">
             <constraints/>
-            <properties>
-              <selectionMode value="0"/>
-            </properties>
+            <properties/>
           </component>
         </children>
       </scrollpane>

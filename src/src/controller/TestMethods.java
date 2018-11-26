@@ -34,9 +34,9 @@ public class TestMethods {
             System.out.println(m.toString());
         }
 
-        System.out.println("testing retrieveStudentsModulesGrades");
-        Grade g = tester.retrieveStudentsModuleGrade(1001, "COM1005");
-        System.out.println(g.toString());
+        //System.out.println("testing retrieveStudentsModulesGrades");
+        //Grade g = tester.retrieveStudentsModuleGrade(1001, "COM1005");
+        //System.out.println(g.toString());
 
         //System.out.println("1002" + tester.allowedToDeleteUser("1002"));
         //System.out.println("1001" + tester.allowedToDeleteUser("1001"));

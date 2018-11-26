@@ -13,21 +13,26 @@ public class Grade {
     private char label;
     private float initialPercent;
     private float resitPercent;
+    private float repeatPercent;
 
     /**
-     * Constructs a Grade object given its parameters.
+     * Builds a grade object
      * @param loginID
      * @param moduleCode
-     * @param label;
+     * @param label
      * @param initialPercent
-     * @param resitPercent*/
-    public Grade(int loginID, String moduleCode, char label, float initialPercent, float resitPercent) {
+     * @param resitPercent
+     * @param repeatPercent
+     */
+    public Grade(int loginID, String moduleCode, char label, float initialPercent, float resitPercent, float repeatPercent) {
         this.loginID = loginID;
-
         this.moduleCode = moduleCode;
+        this.label = label;
         this.initialPercent = initialPercent;
         this.resitPercent = resitPercent;
+        this.repeatPercent = repeatPercent;
     }
+
 
     public int getLoginID() {
         return loginID;
@@ -67,6 +72,14 @@ public class Grade {
 
     public void setInitialPercent(float initialPercent) {
         this.initialPercent = initialPercent;
+    }
+
+    public float getRepeatPercent() {
+        return repeatPercent;
+    }
+
+    public void setRepeatPercent(float repeatPercent) {
+        this.repeatPercent = repeatPercent;
     }
 
     /**

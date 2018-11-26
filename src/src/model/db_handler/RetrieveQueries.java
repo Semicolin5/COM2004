@@ -350,24 +350,29 @@ public class RetrieveQueries extends Queries {
      * @return Grade object
      * */
     public Grade retrieveStudentsModuleGrade(int login, String module){
-        Grade studentsGrade = null;
+        Grade grades = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=?");
+           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=? ORDER BY label ASC");
            pstmt.setInt(1, login);
            pstmt.setString(2, module);
            rs = pstmt.executeQuery();
+
+           rs.next();
+           grades = new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
+                   rs.getFloat(4), rs.getFloat(5), -1);
+
            if(rs.next()) {
-               studentsGrade = new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
-                       rs.getFloat(4), rs.getFloat(5));
+               grades.setRepeatPercent(rs.getFloat(4));
            }
+
         } catch (SQLException e) {
            e.printStackTrace();
         } finally {
             closeResources(pstmt, rs);
         }
-        return studentsGrade;
+        return grades;
     }
 
     /**
