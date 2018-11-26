@@ -185,6 +185,35 @@ public class RetrieveQueries extends Queries {
     	return moduleDegreeTable;
     }
 
+    /**
+     * retrievePeriodOfStudyForStudent finds all the periods that a targeted student has experienced.
+     * @param studentID, int representing the student
+     * @return List<PeriodOfStudy>
+     * */
+    public List<PeriodOfStudy> retrievePeriodOfStudyForStudent(int studentID) {
+        List<PeriodOfStudy> table = new ArrayList<PeriodOfStudy>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id=?");
+            pstmt.setInt(1, studentID);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+               table.add(new PeriodOfStudy(rs.getString(1), rs.getString(2),
+                       rs.getDate(3), rs.getDate(4), rs.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return table;
+    }
+
+    /**
+     * retrievePeriodOfStudyTable obtains all the periods from the database.
+     * @return List<PeriodOfStudy> all the period of study objects
+     * */
     public List<PeriodOfStudy> retrievePeriodOfStudyTable() {
         List<PeriodOfStudy> table = new ArrayList<>();
         PreparedStatement pstmt = null;

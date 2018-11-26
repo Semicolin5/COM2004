@@ -184,6 +184,18 @@ public class Controller {
     }
 
     /**
+     * getPeriodsOfStudent
+     * @param studentID int, the login id for a student
+     * @return List<PeriodOfStudy> is a list of all the periods of study that the student has experienced.
+     * */
+    public static List<PeriodOfStudy> getPeriodsOfStudyForStudent(int studentID) {
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        return retrieveQ.retrievePeriodOfStudyForStudent(studentID);
+    }
+
+
+
+    /**
      * Only the Administrator (privilege level 4) should be able to access this method.
      * removeUser removes users. First it is ensured that the user to be deleted isn't also a student. Since only Administrators
      * are able to delete users, and only, registrars are allowed to delete students, the two cases are separated.

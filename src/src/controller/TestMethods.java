@@ -38,7 +38,6 @@ public class TestMethods {
         Grade g = tester.retrieveStudentsModuleGrade(1001, "COM1005");
         System.out.println(g.toString());
 
-
         //System.out.println("1002" + tester.allowedToDeleteUser("1002"));
         //System.out.println("1001" + tester.allowedToDeleteUser("1001"));
         //System.out.println(tester.allowedToDeleteDepartment("COM"));
