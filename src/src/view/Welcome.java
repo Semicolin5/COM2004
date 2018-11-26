@@ -102,7 +102,7 @@ public class Welcome extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             String command = actionEvent.getActionCommand();
             if (command.equals("View Record"))
-                System.out.println("changing to view record");
+                changeJPanel(new src.view.ViewRecord(getFrame()).getJPanel());
         }
     }
 
