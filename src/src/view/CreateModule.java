@@ -76,7 +76,7 @@ public class CreateModule extends Form {
                     if (degree.isMasters()) {
                         for (int i = 1; i < 4; i++)
                             levelCombo.addItem(i);
-                        levelCombo.addItem("Placement Year");
+                        levelCombo.addItem("P");
                         levelCombo.addItem("4");
                     } else {
                         for (int i = 1; i < 3; i++)
@@ -256,30 +256,40 @@ public class CreateModule extends Form {
     	
     	@Override
         public void actionPerformed(ActionEvent e) {
-            String modCode = moduleCode.getSelectedText().toString();
-            String modName = moduleName.getSelectedText().toString();
-            String modCredits = moduleCredits.getSelectedText().toString();
+            String modCode = moduleCode.getText().toString();
+            String modName = moduleName.getText().toString();
+            String modCredits = moduleCredits.getText().toString();
             String semesterString = semesterCombo.getSelectedItem().toString();
-            
-            
-            
+            int semester;
+            //Case statement for semester
+        	switch (semesterString) {
+            case "Autumn":
+                semester = 0;
+                break;
+            case "Spring":
+            	semester = 1;
+                break;
+            case "Summer":
+            	semester = 2;
+            default:
+            	semester = 3;
+                break;
+        	}
+        	
             //Lets call our big boy checking function           
-            errorMessage = Controller.checkInputModule(modCode, modName, Main.getPriv());
-            
-            
-            for (int i = 0; i < model.getSize(); i++) {
-                Object o = model.getElementAt(i);
-                String arr[] = o.toString().split(" ");
-                String degreeCode = arr[0];
-                char character = arr[0].charAt(0);
-                String level = Character.toString(character);
-                if (arr[2].equals("Core")) {
-                    Controller.saveModuleAssociation(moduleCode.getText(), degreeCode, level, true);
-                } else {
-                    Controller.saveModuleAssociation(moduleCode.getText(), degreeCode, level, false);
+            errorMessage = Controller.checkInputModule(modCode, modName, modCredits, Main.getPriv());
+            if (errorMessage.equals("Accepted")) {
+            	Controller.saveModule(modCode, modName, Integer.parseInt(modCredits), semester);
+            	
+            	//Save the module department linker
+                for (int i = 0; i < degreeLinker.size(); i++) {
+                    Controller.saveModuleAssociation(modCode, degreeLinker.get(i)[0], degreeLinker.get(i)[1], degreeLinker.get(i)[2].equals("Core"));
                 }
+            	changeJPanel(new ManageModules(getFrame()).getJPanel());
             }
-            changeJPanel(new ManageModules(getFrame()).getJPanel());
+            else {
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            }           
         }
     }
 }

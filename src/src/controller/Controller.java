@@ -93,43 +93,13 @@ public class Controller {
     }
 
     public static void saveDepartment(String departmentCode, String departmentName) {
-        // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartment(departmentCode, departmentName);
     }
 
-    public static String saveModule(String moduleCode, String moduleName, int credits, int semester, List<ModuleDegree> moduleDegreeList, int priv) {
-        //Get our databases initialised
-    	
-    	String returnMessage = "";
-        
-        //Lets start our if statements
-        if (priv != 4) {
-        	returnMessage = "Denied - Insufficient privelige.";
-        }
-        else if (!RegexTests.checkModuleCode(moduleCode)) {
-        	returnMessage = "Incorrect module code format.";
-        }
-        else if (returnMessage.equals("q")/* check unique module code*/) {
-        	returnMessage = "Module Code already exists.";
-        }
-        else if (moduleName.length() > 100) { 
-        	returnMessage = "Module name too long.";
-        }
-        else if (returnMessage.equals("q")/*Check credits are an int in range 0 -  120*/) {
-        	
-        }
-        else if (returnMessage.equals("q")/* not sure I need to check this?*/) {
-        	
-        }
-        else {
-        	//Store in the database
-        }
-        //Module needs to be added to the module table and the module_degree table
-        
-        AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+    public static void saveModule(String moduleCode, String moduleName, int credits, int semester) {
+    	AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addModule(moduleCode, moduleName, credits, semester);
-        return returnMessage;
     }
 
     public static void saveDepartmentAssociation(String degreeCode, String departmentCode, boolean lead) {
@@ -380,6 +350,12 @@ public class Controller {
     	}
     	else if (modName.length() > 100) {
 			returnMessage = "Module name is too long.";
+    	}
+    	else if(!RegexTests.checkModuleCredits(credits)) {
+    		returnMessage = "Credits should be a valid number.";
+    	}
+    	else if (Integer.parseInt(credits) < 0 || Integer.parseInt(credits) > 120) {
+    		returnMessage = "Credits value shoul be between 0 and 120";
     	}
     	else {
     		returnMessage = "Accepted";
