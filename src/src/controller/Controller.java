@@ -19,7 +19,7 @@ public class Controller {
 	//Private Controller methods (may be put into a different file at a later date)
 	//*******************************************
 	private static boolean passwordMatch(int loginID, String password) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB()); //TODO put in own file
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
     	String[] passSalt = retrieveQ.getPassSalt(loginID);
 		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
 		if (passSalt[0].equals(hashedPass)) {
@@ -102,13 +102,11 @@ public class Controller {
     }
 
     public static void saveDepartmentAssociation(String degreeCode, String departmentCode, boolean lead) {
-        // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartmentAssociation(degreeCode, departmentCode, lead);
     }
 
     public static void saveModuleAssociation(String moduleCode, String moduleName, String level, boolean core) {
-        // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addModuleDegreeAssociation(moduleCode, moduleName, level, core);
     }
@@ -291,6 +289,9 @@ public class Controller {
 		else if (depName.length() > 100) {
 			returnMessage = "Department name is too long.";
 		}
+		else if (!RegexTests.checkTitle(depName)) {
+			returnMessage = "Please only use special characters . ) ( & for department name.";
+		}
 		else {
 			returnMessage = "Accepted";
 		}
@@ -312,6 +313,9 @@ public class Controller {
     	else if (degName.length() > 100) {
     		returnMessage = "Degree name is too long.";
     	}
+		else if (!RegexTests.checkTitle(degName)) {
+			returnMessage = "Please only use special characters . ) ( & for degree name.";
+		}
     	else if (masters && degCode.substring(3, 4).equals("U")) {
     		returnMessage = "Masters degrees should have a P in the middle of their code.";
     	}
@@ -340,6 +344,9 @@ public class Controller {
     	else if (modName.length() > 100) {
 			returnMessage = "Module name is too long.";
     	}
+		else if (!RegexTests.checkTitle(modName)) {
+			returnMessage = "Please only use special characters . ) ( & for module name.";
+		}
     	else if(!RegexTests.checkModuleCredits(credits)) {
     		returnMessage = "Credits should be a valid number.";
     	}
@@ -349,6 +356,49 @@ public class Controller {
     	else {
     		returnMessage = "Accepted";
     	}
+    	return returnMessage;
+    }
+    
+    public static String checkInputStudent(String studNo, String forename, String surname, String personalT, String password,  String confirmPassword, int priv) {
+    	CheckQueries checkQ = new CheckQueries(Main.getDB());
+    	String returnMessage = "";
+    	
+    	if (priv < 3) {
+			returnMessage = "Insufficient privilege for this opperation.";
+    	}
+		else if (!RegexTests.checkLoginID(studNo)) {
+			returnMessage = "Incorrect Student number format.";
+		}
+		else if (checkQ.checkDuplicateUser(Integer.parseInt(studNo))) {
+			returnMessage = "Student number is already in use.";
+		}
+		else if (forename.length() > 50) {
+			returnMessage = "Forename is too long.";
+		}
+		else if (!RegexTests.checkName(forename)) {
+			returnMessage = "Forename cannot contain special characters or spaces.";
+		}
+		else if (surname.length() > 50) {
+			returnMessage = "Surname is too long.";
+		}
+		else if (!RegexTests.checkName(surname)) {
+			returnMessage = "Surname cannot contain special characters or spaces.";
+		}
+		else if (personalT.length() > 50) {
+			returnMessage = "Personal tutor name is too long.";
+		}
+		else if (!RegexTests.checkFullName(personalT)) {
+			returnMessage = "Personal tutor cannot contain special characters";
+		}
+		else if (!password.equals(confirmPassword)) {
+			returnMessage = "Passwords do not match.";
+		}
+		else if (!RegexTests.checkPassword(password)) {
+			returnMessage = "Incorrect password format."; //must contain at least 1 uppercase, 1 lowercase, 1 symbol, 1 number and between 8-16 chars long
+		}
+		else {
+			returnMessage = "Accepted";
+		}   	
     	return returnMessage;
     }
     
