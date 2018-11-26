@@ -3,3 +3,9 @@
 *.iml
 *.class
 out/
+
+#Latex stuff
+*.pdf
+*.log
+*.toc
+*.aux
