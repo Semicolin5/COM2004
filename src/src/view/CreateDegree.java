@@ -174,7 +174,6 @@ public class CreateDegree extends Form {
             String depCode = departmentCombo.getSelectedItem().toString();
             String leadStatus = leadCombo.getSelectedItem().toString();
             String[] depLead = {depCode, leadStatus};
-            System.out.println(leadStatus);
 
             if (leadStatus.equals("Lead") && hasLead) {
                 errorMessage = "A lead department already exists for this module.";

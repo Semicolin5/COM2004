@@ -280,8 +280,10 @@ public class Controller {
     
     //Level 4 inputs
     
+     
+    
     public static String checkInputUser(int loginID, String password, String confirmPassword, int priv) {
-    	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
+    	CheckQueries checkQ = new CheckQueries(Main.getDB());
     	String returnMessage = "";
 		if (priv != 4) {
 			returnMessage = "Insufficient privilege for this opperation.";
@@ -295,7 +297,7 @@ public class Controller {
 		else if (!RegexTests.checkLoginID(Integer.toString(loginID))) {
 			returnMessage = "Incorrect LoginID format.";
 		}
-		else if (retrieveQ.checkDuplicateUser(loginID)) {
+		else if (checkQ.checkDuplicateUser(loginID)) {
 			returnMessage = "LoginID already in use.";
 		}
 		else {
@@ -305,7 +307,7 @@ public class Controller {
 	}
     
     public static String checkInputDepartment(String depCode, String depName, int priv) {
-    	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
+    	CheckQueries checkQ = new CheckQueries(Main.getDB());
     	String returnMessage = "";
     	if (priv != 4) {
 			returnMessage = "Insufficient privilege for this opperation.";
@@ -313,7 +315,7 @@ public class Controller {
 		else if (!RegexTests.checkDepartmentCode(depCode)) {
 			returnMessage = "Incorrect department code format.";
 		}
-		else if (retrieveQ.checkDuplicateDepartment(depCode)) {
+		else if (checkQ.checkDuplicateDepartment(depCode)) {
 			returnMessage = "Department code already in use";
 		}
 		else if (depName.length() > 100) {
@@ -326,7 +328,7 @@ public class Controller {
     }
     
     public static String checkInputDegree(String degCode, String degName, boolean masters, int priv) {
-    	CheckQueries retrieveQ = new CheckQueries(Main.getDB());
+    	CheckQueries checkQ = new CheckQueries(Main.getDB());
     	String returnMessage = "";
     	if (priv != 4) {
 			returnMessage = "Insufficient privilege for this opperation.";
@@ -334,7 +336,7 @@ public class Controller {
     	else if (!RegexTests.checkDegreeCode(degCode)) {
     		returnMessage = "Incorrect degree code format.";
     	}
-    	else if (retrieveQ.checkDuplicateDegree(degCode)) {
+    	else if (checkQ.checkDuplicateDegree(degCode)) {
     		returnMessage = "Degree code already in use";
     	}
     	else if (degName.length() > 100) {
@@ -351,6 +353,27 @@ public class Controller {
     	}
     	return returnMessage;
     	
+    }
+    
+    public static String checkInputModule(String modCode, String modName, String credits, int priv) {
+    	CheckQueries checkQ = new CheckQueries(Main.getDB());
+    	String returnMessage = "";
+    	if (priv != 4) {
+			returnMessage = "Insufficient privilege for this opperation.";
+    	}
+    	else if (!RegexTests.checkModuleCode(modCode)) {
+			returnMessage = "Incorrect module code format.";
+    	}
+    	else if (checkQ.checkDuplicateModule(modCode)) {
+			returnMessage = "Module code already exists.";
+    	}
+    	else if (modName.length() > 100) {
+			returnMessage = "Module name is too long.";
+    	}
+    	else {
+    		returnMessage = "Accepted";
+    	}
+    	return returnMessage;
     }
     
     
