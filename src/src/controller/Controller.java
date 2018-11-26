@@ -277,7 +277,7 @@ public class Controller {
 		boolean loopInv = true;
 		int i = 1;
 		while (loopInv) {
-			email = emailStart + String.valueOf(i) + "@sheffieldringroad.ac.uk";
+			email = (emailStart + String.valueOf(i) + "@sheffieldringroad.ac.uk").toLowerCase();
 			
 			if (!storedEM.contains(email)) {
 				//We do not have that email stored => we can use it!

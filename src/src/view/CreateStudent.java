@@ -115,7 +115,7 @@ public class CreateStudent extends Form {
         panel1.add(studentForename, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         titleCombo = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
-        defaultComboBoxModel1.addElement("");
+        //defaultComboBoxModel1.addElement("");
         defaultComboBoxModel1.addElement("Mr");
         defaultComboBoxModel1.addElement("Ms");
         titleCombo.setModel(defaultComboBoxModel1);
@@ -205,7 +205,7 @@ public class CreateStudent extends Form {
         	 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         	//Pull the values from the tables
         	String studNo = studentNo.getText();
-        	String title = "";
+        	String title = titleCombo.getSelectedItem().toString();
         	String forename = studentForename.getText();
         	String surname = studentSurname.getText();
         	String pTutor = studentTutor.getText();
@@ -216,11 +216,7 @@ public class CreateStudent extends Form {
         	String password = new String(initPassword.getPassword());
         	String passwordConfirm = new String(confirmPassword.getPassword()); 
         	//Check combo boxes are not null
-        	if (titleCombo.getSelectedItem() == null) {
-        		errorMessage = "Please select a title.";
-            	JOptionPane.showMessageDialog(getFrame(), errorMessage);
-        	}
-        	else if (degreeCombo.getSelectedItem() == null) {
+        	if (degreeCombo.getSelectedItem() == null) {
         		errorMessage = "Please select degree.";
             	JOptionPane.showMessageDialog(getFrame(), errorMessage);
         	}
@@ -229,14 +225,13 @@ public class CreateStudent extends Form {
             	JOptionPane.showMessageDialog(getFrame(), errorMessage);
         	}
         	else {
-        		title = titleCombo.getSelectedItem().toString();
         		degCode = degreeCombo.getSelectedItem().toString();
         		degLevel = degreeLevelCombo.getSelectedItem().toString();
-        		
         		//Run our controller testing function
         		errorMessage = Controller.checkInputStudent(studNo, forename, surname, pTutor, password, passwordConfirm, Main.getPriv());
         		if (errorMessage.equals("Accepted")) {
         			//Save everything! - email is auto generated and degree level always starts at A
+        			//Also not hashing passwords.  this needs a fix asap
         			Controller.saveStudent(Integer.parseInt(studNo), password, title, forename, surname, pTutor, Controller.generateEmail(forename, surname), degCode, degLevel, "A", startDate, endDate);
         			changeJPanel(new ManageStudents(getFrame()).getJPanel());
         		}
