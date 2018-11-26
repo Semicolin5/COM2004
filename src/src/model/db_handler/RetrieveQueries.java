@@ -185,6 +185,35 @@ public class RetrieveQueries extends Queries {
     	return moduleDegreeTable;
     }
 
+    /**
+     * retrievePeriodOfStudyForStudent finds all the periods that a targeted student has experienced.
+     * @param studentID, int representing the student
+     * @return List<PeriodOfStudy>
+     * */
+    public List<PeriodOfStudy> retrievePeriodOfStudyForStudent(int studentID) {
+        List<PeriodOfStudy> table = new ArrayList<PeriodOfStudy>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id=?");
+            pstmt.setInt(1, studentID);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+               table.add(new PeriodOfStudy(rs.getString(1), rs.getString(2),
+                       rs.getDate(3), rs.getDate(4), rs.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return table;
+    }
+
+    /**
+     * retrievePeriodOfStudyTable obtains all the periods from the database.
+     * @return List<PeriodOfStudy> all the period of study objects
+     * */
     public List<PeriodOfStudy> retrievePeriodOfStudyTable() {
         List<PeriodOfStudy> table = new ArrayList<>();
         PreparedStatement pstmt = null;
@@ -355,6 +384,34 @@ public class RetrieveQueries extends Queries {
         return grades;
     }
 
+    /**
+     * retrieveGradeAtPeriodOfStudy is similar to retrieveStudentsModuleGrade. It allows for a different selection,
+     * so that given a student and a label, the grades for that period of study can be retrieved, for all modules.
+     * @param login, int representing the students login.
+     * @param label, String (of length 1) is the label for a period of study.
+     * @return List<Grade> Grade objects, one for each module taken.
+     * */
+    public List<Grade> retrieveGradeAtPeriodOfStudy(int login, String label) {
+        List<Grade> table = new ArrayList<Grade>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND label=?");
+           pstmt.setInt(1, login);
+           pstmt.setString(2, label);
+           rs = pstmt.executeQuery();
+           while(rs.next()) { // construct a grade object for each module taken at that period
+               table.add(new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
+                       rs.getFloat(4), rs.getFloat(5), -1));
+           }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return table;
+    }
+
 	/**
 	* getPassSalt, takes a loginID and returns the associated hashed password and salt
 	* @param loginID, int, the users loginID
@@ -363,7 +420,6 @@ public class RetrieveQueries extends Queries {
 	public String[] getPassSalt(int loginID) {
 	   String[] passSalt = new String[2];
 	   PreparedStatement pstmt = null;
-	   System.out.println(loginID);
 	   ResultSet res = null;
 	   try {
 		   pstmt = conn.prepareStatement("SELECT hashpass, salt FROM users WHERE login_id = ?");

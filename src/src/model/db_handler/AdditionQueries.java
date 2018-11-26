@@ -252,10 +252,10 @@ public class AdditionQueries extends Queries{
      * TODO:
      * */
     public void addModuleDegreeAssociation(String moduleCode, String degreeCode,String level, boolean core) {
+        PreparedStatement pstmt = null;
         try {
             db.enableACID();
-            PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO module_degree VALUES (?,?,?,?)");
-            System.out.println("saving, module code is " + "degree code is" + degreeCode);
+            pstmt = super.conn.prepareStatement("INSERT INTO module_degree VALUES (?,?,?,?)");
             pstmt.setString(1, moduleCode);
             pstmt.setString(2, degreeCode);
             pstmt.setString(3, level);
@@ -266,11 +266,34 @@ public class AdditionQueries extends Queries{
         } catch (SQLException e) {
             e.printStackTrace();
             super.db.rollBack();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 
-    //TODO add grades is actually performed through an INSERT statement which is why it isn't here
-
-
+    /**
+     * createStudentModuleAssociation is given a student, a label and a module code. It creates the students association
+     * with this module by creating a row in the grades table.
+     * @param login, int representing the students login code,
+     * @param label, String of length one representing the period of study label,
+     * @param moduleCode String representing the module the student is to take.
+     * */
+    public void createStudentModuleAssociation(int login, String label, String moduleCode) {
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,?,NULL,NULL)");
+            db.enableACID();
+            pstmt.setInt(1, login);
+            pstmt.setString(2, moduleCode); // label must be length one
+            pstmt.setString(3, label);
+            pstmt.executeUpdate();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack();
+            e.printStackTrace();
+        } finally {
+           closePreparedStatement(pstmt);
+        }
+    }
 
 }

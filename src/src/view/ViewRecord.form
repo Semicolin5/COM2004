@@ -15,9 +15,11 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="a86db" class="javax.swing.JList" binding="levelOrPeriod">
+          <component id="a86db" class="javax.swing.JList" binding="periodList">
             <constraints/>
-            <properties/>
+            <properties>
+              <model/>
+            </properties>
           </component>
         </children>
       </scrollpane>
@@ -28,7 +30,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="dd388" class="javax.swing.JTable" binding="table1" default-binding="true">
+          <component id="dd388" class="javax.swing.JTable" binding="displayOutcome">
             <constraints/>
             <properties/>
           </component>

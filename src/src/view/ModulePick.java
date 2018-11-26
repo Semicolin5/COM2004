@@ -199,9 +199,9 @@ public class ModulePick extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             if (choiceTable.getSelectedRow() != -1) {
                 int rowNumber = choiceTable.getSelectedRow();
-                String code = choiceTable.getValueAt(rowNumber,0).toString();
-                String cred = choiceTable.getValueAt(rowNumber,1).toString();
-                String coreStatus = choiceTable.getValueAt(rowNumber,2).toString();
+                String code = choiceTable.getValueAt(rowNumber, 0).toString();
+                String cred = choiceTable.getValueAt(rowNumber, 1).toString();
+                String coreStatus = choiceTable.getValueAt(rowNumber, 2).toString();
                 chosenModel.addRow(new Object[]{code, cred, coreStatus});
                 choiceModel.removeRow(rowNumber);
             }
@@ -213,7 +213,7 @@ public class ModulePick extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             String level = studentLevel.getText();
             String sumCredits = totalCredits.getText();
-            if ((level.equals("4")&&sumCredits.equals("180"))||(Integer.parseInt(level)<4&&sumCredits.equals("120"))){
+            if ((level.equals("4") && sumCredits.equals("180")) || (Integer.parseInt(level) < 4 && sumCredits.equals("120"))) {
                 for (int i = 0; i < chosenModel.getRowCount(); i++) {
                     String module = chosenTable.getValueAt(i, 0).toString();
                     Controller.saveBlankGrades(studentList.getSelectedValue().toString(), module);
@@ -226,10 +226,10 @@ public class ModulePick extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             if (chosenTable.getSelectedRow() != -1) {
                 int rowNumber = chosenTable.getSelectedRow();
-                if (chosenTable.getValueAt(rowNumber,2).equals("Not Core")) {
-                    String code = chosenTable.getValueAt(rowNumber,0).toString();
-                    String credits = chosenTable.getValueAt(rowNumber,1).toString();
-                    String coreStatus = chosenTable.getValueAt(rowNumber,2).toString();
+                if (chosenTable.getValueAt(rowNumber, 2).equals("Not Core")) {
+                    String code = chosenTable.getValueAt(rowNumber, 0).toString();
+                    String credits = chosenTable.getValueAt(rowNumber, 1).toString();
+                    String coreStatus = chosenTable.getValueAt(rowNumber, 2).toString();
                     choiceModel.addRow(new Object[]{code, credits, coreStatus});
                     chosenModel.removeRow(chosenTable.getSelectedRow());
                 }
