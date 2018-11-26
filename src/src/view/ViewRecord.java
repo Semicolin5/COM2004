@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
 import src.controller.Main;
+import src.objects.Grade;
 import src.objects.PeriodOfStudy;
 
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class ViewRecord extends Form {
     /**
      * Constructor sets up an empty JTable, and sets up a JList containing the periods of study, and levels for the
      * student.
+     *
      * @param frame - JFrame with properties defined in the GUIFrame class.
      */
     public ViewRecord(GUIFrame frame) {
@@ -58,9 +60,7 @@ public class ViewRecord extends Form {
         outcomeModel.addColumn("Resit Percent Achieved");
         // filling JList
         for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
-            //TODO find the student login id when selecting period of study
-            periodListModel.addElement(p.getLabel());
-            System.out.println(p.getLabel());
+            periodListModel.addElement(p.getLabel()); // selects students periods of study
         }
         periodList.setLayoutOrientation(JList.VERTICAL);
         periodList.setModel(periodListModel);
@@ -115,15 +115,15 @@ public class ViewRecord extends Form {
 
 
     /**
-     * AssociateHandler calls methods from the controller which check the user's privilege level
-     * and assuming it is suitable, will load the list of departments which the selected degree
-     * is related to.
+     * LoadRecordHandler loads a students progress in a given period of study onto a JTable
      */
     private class LoadRecordHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            String periodCode = periodList.getSelectedValue().toString();
-            System.out.println("in here: " + periodCode);
-            //Reset JTable
+            outcomeModel.setRowCount(0); // resets the table
+            String periodOfStudyLabel = periodList.getSelectedValue().toString(); // finds the period of study label
+            for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
+                System.out.println(g.toString());
+            }
             /*associateModel.setRowCount(0);
 
             String degreeCode = degreeList.getSelectedValue().toString();

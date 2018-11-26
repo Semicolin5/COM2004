@@ -163,6 +163,16 @@ public class Controller {
         return retrieveQ.retrievePeriodOfStudyForStudent(studentID);
     }
 
+    /**
+     * getStudentsGradeAtPeriod given a period of study, and a student, returns their grades in an ArrayList.
+     * @param studentID int, the login id for the student
+     * @param label, String of length 1, representing hte
+     * */
+    public static List<Grade> getStudentsGradeAtPeriod(int studentID, String label) {
+       RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+       return retrieveQ.retrieveGradeAtPeriodOfStudy(studentID, label);
+    }
+
 
 
     /**
