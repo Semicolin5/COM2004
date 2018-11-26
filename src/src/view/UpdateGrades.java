@@ -117,8 +117,15 @@ public class UpdateGrades extends Form {
             ListSelectionModel model = (ListSelectionModel) listSelectionEvent.getSource();
 
             //Get list of student's modules
+            int index = model.getLeadSelectionIndex();
+            int loginID = Integer.valueOf((String) studentList.getModel().getElementAt(index));
             if (model.getValueIsAdjusting()) {
-                moduleModel.addElement("Test");
+                //Clear module list
+                moduleModel.removeAllElements();
+
+                for(Module module : Controller.getStudentModules(loginID)) {
+                    moduleModel.addElement(module.getCode());
+                }
             }
         }
     }

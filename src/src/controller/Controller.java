@@ -178,6 +178,11 @@ public class Controller {
 		return retrieveQ.retrievePeriodOfStudyTable();
 	}
 
+	public static List<Module> getStudentModules(int loginID) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveStudentsModules(loginID);
+	}
+
     public static void removeModule(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeModule(code);
