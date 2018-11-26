@@ -65,8 +65,13 @@ public class TestMethods {
 
         AdditionQueries tester = new AdditionQueries(testdb);
 
-        System.out.println("testing createStudentModuleAssociation() method");
-        tester.createStudentModuleAssociation(1001, "B", "RSS2109");
+        System.out.println("testing a");
+        Float init = new Float((float) 7.64);
+        Float resit = new Float((float) 49.55);
+        tester.updateGrade(1001, "COM1005", "B", init, resit);
+
+        //System.out.println("testing createStudentModuleAssociation() method");
+        //tester.createStudentModuleAssociation(1001, "B", "RSS2109");
 
         //tester.addDepartment("LIT", "English Literature");
         //tester.addModule("COM2008", "super cool module", 120, 2);

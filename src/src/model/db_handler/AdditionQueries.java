@@ -296,4 +296,43 @@ public class AdditionQueries extends Queries{
         }
     }
 
+    /**
+     * updateGrade enables the teacher to add new scores to a grade.
+     * @param login, int representing the targeted student (1/3 of the primary key)
+     * @param label, String of length 1 representing the period of study of the grade to change (1/3 of the primary key)
+     * @param moduleCode String reprsenting the module of the grade to change (1/3 of the primary key)
+     * @param initialGrade Float representing the initial student grade
+     * @param resitGrade Float representing the initial student grade
+     * */
+    public void updateGrade(int login, String moduleCode, String label, Float initialGrade, Float resitGrade) {
+        PreparedStatement pstmt = null;
+        boolean initialNotNull = (initialGrade > 0) && (initialGrade != null);
+        boolean resitNotNull = (resitGrade > 0) && (resitGrade != null);
+        try {
+            db.enableACID();
+            pstmt = super.conn.prepareStatement("UPDATE grades SET initial_percent=?, resit_percent=? WHERE "
+                    + "login_id=? AND module_code=? AND label=?");
+            pstmt.setInt(3, login);
+            pstmt.setString(4, moduleCode);
+            pstmt.setString(5, label);
+            // check that the floats aren't null, if they are null set using .setNull()
+            if (initialNotNull) { // allows for negative one to act as sentinel
+                pstmt.setFloat(1, initialGrade);
+            } else {
+                pstmt.setNull(1, Types.FLOAT);
+            }
+            if (resitNotNull) { // allows for negative one to act as sentinel
+                pstmt.setFloat(2, resitGrade);
+            } else {
+                pstmt.setNull(2, Types.DECIMAL);
+            }
+            pstmt.executeUpdate();
+            db.disableACID();
+        } catch (SQLException e) {
+            db.rollBack();
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
+        }
+    }
 }
