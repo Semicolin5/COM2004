@@ -343,7 +343,7 @@ public class Controller {
     	else if(!RegexTests.checkModuleCredits(credits)) {
     		returnMessage = "Credits should be a valid number.";
     	}
-    	else if (Integer.parseInt(credits) < 0 && Integer.parseInt(credits) > 120) {
+    	else if (Integer.parseInt(credits) < 0 || Integer.parseInt(credits) > 120) {
     		returnMessage = "Credits value shoul be between 0 and 120";
     	}
     	else {

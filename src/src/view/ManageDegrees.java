@@ -158,18 +158,25 @@ public class ManageDegrees extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             //Reset JTable
             associateModel.setRowCount(0);
-
-            String degreeCode = degreeList.getSelectedValue().toString();
-            for (Degree degree : Controller.getDegrees()) {
-                if (degreeCode.equals(degree.getDegreeCode())) {
-                    Department lead = degree.getLeadDepartment();
-                    //System.out.println(lead.getCode() + " " + lead.getName() + " Lead");
-                    associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
-                    if (degree.getNonLeadDepartments() != null) {
-                        for (Department d : degree.getNonLeadDepartments())
-                            associateModel.addRow(new Object[]{d.getCode(), d.getName(), "Non-Lead"});
-                    }
-                }
+            
+            //Check its not null
+            if (degreeList.getSelectedValue() != null) {
+            	String degreeCode = degreeList.getSelectedValue().toString();
+	            for (Degree degree : Controller.getDegrees()) {
+	                if (degreeCode.equals(degree.getDegreeCode())) {
+	                    Department lead = degree.getLeadDepartment();
+	                    //System.out.println(lead.getCode() + " " + lead.getName() + " Lead");
+	                    associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
+	                    if (degree.getNonLeadDepartments() != null) {
+	                        for (Department d : degree.getNonLeadDepartments()) {
+	                        	associateModel.addRow(new Object[]{d.getCode(), d.getName(), "Non-Lead"});
+	                        }
+	                   	}
+	               	}
+	            }
+            }
+            else {
+            	JOptionPane.showMessageDialog(getFrame(), "Please select a degree to display.");
             }
         }
     }
