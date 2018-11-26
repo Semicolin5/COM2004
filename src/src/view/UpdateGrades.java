@@ -148,9 +148,27 @@ public class UpdateGrades extends Form {
                 String code = moduleModel.getElementAt(model.getLeadSelectionIndex());
                 Grade grades = Controller.getStudentModuleGrades(loginID, code);
 
-                initialGrade.setText(String.valueOf(grades.getInitialPercent()));
-                resitGrade.setText(String.valueOf(grades.getResitPercent()));
-                repeatGrade.setText(String.valueOf(grades.getRepeatPercent()));
+                //Check if grades have been set before setting text fields
+                if(grades.getInitialPercent() == -1) {
+                    initialGrade.setText("");
+                }
+                else {
+                    initialGrade.setText(String.valueOf(grades.getInitialPercent()));
+                }
+
+                if(grades.getResitPercent() == -1) {
+                    resitGrade.setText("");
+                }
+                else {
+                    resitGrade.setText(String.valueOf(grades.getResitPercent()));
+                }
+
+                if(grades.getRepeatPercent() == -1) {
+                    repeatGrade.setText("");
+                }
+                else {
+                    repeatGrade.setText(String.valueOf(grades.getRepeatPercent()));
+                }
             }
         }
     }
