@@ -17,34 +17,6 @@ import src.model.*;
  * */
 public class Controller {
 	//*******************************************
-	//Private Controller methods (may be put into a different file at a later date)
-	//*******************************************
-	private static boolean passwordMatch(int loginID, String password) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-    	String[] passSalt = retrieveQ.getPassSalt(loginID);
-		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
-		if (passSalt[0].equals(hashedPass)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	
-	//TODO - auto generate module codes to minimise attack surface
-	private static String generateModuleCode(String depCode) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-		List<String> listModulesCodes = retrieveQ.retrieveDepartmentsModules(depCode);		
-		//Now we must check all values	
-		
-		String moduleCode = "";
-		
-		
-		return moduleCode;
-	}
-
-	//*******************************************
 	//Public Controller methods
 	//*******************************************
 	
@@ -274,14 +246,58 @@ public class Controller {
 				tutor, email, degreeCode);
 		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel);
 	}
+    
+    //********************************************************
+    //Methods to auto generate input
+    //********************************************************
+	//TODO - auto generate module codes to minimise attack surface
+	public static String generateModuleCode(String depCode) {
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		List<String> listModulesCodes = retrieveQ.retrieveDepartmentsModules(depCode);		
+		//Now we must check all values	
+		
+		String moduleCode = "";
+		
+		
+		return moduleCode;
+	}
+	
+	/**
+	 * generateEmail takes a forename and a surname and generates a unique email
+	 * @param String forename, the forename of the email we are generating
+	 * @param String surname, the surname of the email we are generating
+	 * @return String, the unique email that we have generated
+	 */
+	public static String generateEmail(String forename, String surname) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		String email = "";
+		String emailStart = forename.substring(0, 1) + surname;
+		List<String> storedEM = retrieveQ.retrieveEmails();		
+		
+		boolean loopInv = true;
+		int i = 1;
+		while (loopInv) {
+			email = (emailStart + String.valueOf(i) + "@sheffieldringroad.ac.uk").toLowerCase();
+			
+			if (!storedEM.contains(email)) {
+				//We do not have that email stored => we can use it!
+				loopInv = false;
+			}
+			
+			i ++;
+		}
 
+		return email;
+	}
+    
+    
+    
+    
     //********************************************************
     //Methods to check user input
     //********************************************************
     
     //Level 4 inputs
-    
-     
     
     public static String checkInputUser(int loginID, String password, String confirmPassword, int priv) {
     	CheckQueries checkQ = new CheckQueries(Main.getDB());
@@ -392,6 +408,8 @@ public class Controller {
     	return returnMessage;
     }
     
+    //Level 3 inputs
+    
     public static String checkInputStudent(String studNo, String forename, String surname, String personalT, String password,  String confirmPassword, int priv) {
     	CheckQueries checkQ = new CheckQueries(Main.getDB());
     	String returnMessage = "";
@@ -435,7 +453,19 @@ public class Controller {
     	return returnMessage;
     }
     
-    
-    
+      
+    //A private checking method
+	private static boolean passwordMatch(int loginID, String password) {
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+    	String[] passSalt = retrieveQ.getPassSalt(loginID);
+		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
+		if (passSalt[0].equals(hashedPass)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
     
 }

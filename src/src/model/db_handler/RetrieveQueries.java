@@ -519,4 +519,27 @@ public class RetrieveQueries extends Queries {
        }
        return allowedToDeleteUser;
    }
+   
+   /**
+    * 
+    */
+   public List<String> retrieveEmails() {
+       List<String> emails = new ArrayList<String>();
+       PreparedStatement pstmt = null;
+       ResultSet res = null;
+       try {
+           // obtain references to the modules that a student takes
+           pstmt = conn.prepareStatement("SELECT email FROM student");
+           res = pstmt.executeQuery();
+           while(res.next()) {
+        	   emails.add(res.getString(1));
+           }
+       } catch (SQLException e) {
+           e.printStackTrace();
+       } finally {
+           closeResources(pstmt, res);
+       }
+       return emails; 
+   }
+   
 }

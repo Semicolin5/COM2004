@@ -132,7 +132,7 @@ public class AdditionQueries extends Queries{
             pstmt.setInt(1, loginId);
             pstmt.setString(2, salt);
             pstmt.setString(3, password);
-            pstmt.setInt(4, 0);
+            pstmt.setInt(4, 1);
             pstmt.executeUpdate();
 
             // then create entry in the student table

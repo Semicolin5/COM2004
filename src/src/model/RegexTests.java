@@ -15,8 +15,8 @@ public class RegexTests {
 	private static String regModule = "[A-Z]{3}[0-9]{4}";
 	private static String regCredits = "[0-9]{1,3}";
 	private static String regTitle = "[a-zA-Z .,()&]*";
-	private static String regName = "[a-zA-Z]";
-	private static String regFullName = "[a-zA-Z ]";
+	private static String regName = "[a-zA-Z]+";
+	private static String regFullName = "[a-zA-Z ]+";
 	
 
 	//These are the special chars we allow !#$%&'()*+,-./:;<=>?@^_`{|}~+
@@ -25,10 +25,10 @@ public class RegexTests {
 	//Currently just a class to check regex string checking etc.
 	public static void main(String[] args) {
 		//This is just used for testing		
-		System.out.println(checkName("aaaaa  &&&&ASFaaaa"));
+		System.out.println(checkName("Isacc"));
+
 	}
-	
-	
+
 	//Regex checking functions.  Hopefully this is a start and can come in useful.
 	
 	public static boolean checkPassword (String password) {
