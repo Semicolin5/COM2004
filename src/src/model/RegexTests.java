@@ -13,9 +13,8 @@ public class RegexTests {
 	private static String regDepartment = "[A-Z]{3}";
 	private static String regDegree = "[A-Z]{3}[UP][0-9]{2}";
 	private static String regModule = "[A-Z]{3}[0-9]{4}";
-	
-	
-	
+	private static String regCredits = "[0-9]{1,3}";
+
 	//These are the special chars we allow !#$%&'()*+,-./:;<=>?@^_`{|}~+
 	private static String regPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%&'()*+,-./:;<=>?@^_`{|}~+]).{8,16}$";
 	
@@ -35,7 +34,11 @@ public class RegexTests {
 	
 	public static boolean checkDepartmentCode(String departmentCode) {
 		return Pattern.matches(regDepartment,departmentCode);
-	}	
+	}
+	
+	public static boolean checkModuleCredits(String credits) {
+		return Pattern.matches(regCredits, credits);
+	}
 	
 	public static boolean checkDegreeCode(String degreeCode) {
 		return Pattern.matches(regDegree, degreeCode);
