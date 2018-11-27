@@ -119,6 +119,11 @@ public class Controller {
 		return retrieveQ.retrievePeriodOfStudyTable();
 	}
 
+	public static PeriodOfStudy getLatestPeriodOfStudy(int loginID) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveLatestPeriodOfStudy(loginID);
+	}
+
 	public static ArrayList<Grade> getGrades() {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 		return retrieveQ.retrieveGradesTable();
@@ -287,8 +292,8 @@ public class Controller {
 	
 	/**
 	 * generateEmail takes a forename and a surname and generates a unique email
-	 * @param String forename, the forename of the email we are generating
-	 * @param String surname, the surname of the email we are generating
+	 * @param forename String, the forename of the email we are generating
+	 * @param surname String, the surname of the email we are generating
 	 * @return String, the unique email that we have generated
 	 */
 	public static String generateEmail(String forename, String surname) {

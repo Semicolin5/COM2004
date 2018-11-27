@@ -2,37 +2,40 @@ package src.objects;
 
 /**
  * Grade.java
- * Represents a row in the grade class, i.e. the grades that a student achieved for a module that they either
- * currently take, or
- *
+ * Used to store a students grades for a module. In cases where students need to repeat a year,
+ * the variable initialLabel represents the period of study for the initial and resit grades.
  * */
 public class Grade {
 
     private String loginID;
     private String moduleCode;
-    private char label;
+    private char initialLabel;
     private float initialPercent;
     private float resitPercent;
     private float repeatPercent;
 
     /**
-     * Builds a grade object
-     * @param loginID
-     * @param moduleCode
-     * @param label
-     * @param initialPercent
-     * @param resitPercent
-     * @param repeatPercent
+     * A Grade object differs from how grades are stored in the database as it can also to encapsulate a students grades
+     * in a module across two years.
+     * @param loginID int represents a student login code, identifying who the grade belongs to.
+     * @param moduleCode String representing the module of the grade.
+     * @param label char refers to the period of study under which the initial and resit grades were taken.
+     * @param initialPercent float that stores the percentage of the initial percent scored for a module.
+     * @param resitPercent float that stores the resit percentage scored.
+     * @param repeatPercent float storing percent scored if the module is repeated, in another period of study.
      */
     public Grade(String loginID, String moduleCode, char label, float initialPercent, float resitPercent, float repeatPercent) {
         this.loginID = loginID;
         this.moduleCode = moduleCode;
-        this.label = label;
+        this.initialLabel = label;
         this.initialPercent = initialPercent;
         this.resitPercent = resitPercent;
         this.repeatPercent = repeatPercent;
     }
 
+    /**
+     * Accessor methods
+     * */
 
     public String getLoginID() {
         return loginID;
@@ -46,32 +49,16 @@ public class Grade {
         return moduleCode;
     }
 
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
-
     public char getLabel() {
-        return label;
-    }
-
-    public void setLabel(char label) {
-        this.label = label;
+        return initialLabel;
     }
 
     public float getResitPercent() {
         return resitPercent;
     }
 
-    public void setResitPercent(float resitPercent) {
-        this.resitPercent = resitPercent;
-    }
-
     public float getInitialPercent() {
         return initialPercent;
-    }
-
-    public void setInitialPercent(float initialPercent) {
-        this.initialPercent = initialPercent;
     }
 
     public float getRepeatPercent() {
