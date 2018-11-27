@@ -51,7 +51,7 @@ public class ViewRecord extends Form {
         // displays the page differently depending if the
         if (Main.getPriv() == 2) { // running for a teacher
             isTeacher = true;
-            // if the user is a teacher, load the JList enabling different students to be selected
+            // if the user is a teacher, load the JList enablingumlUseCase-eps-converted-to.pdf different students to be selected
             studentListModel = new DefaultListModel<>();
             for (Student s : Controller.getStudents()) {
                 System.out.println("student: " + s.toString());

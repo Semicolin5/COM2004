@@ -382,10 +382,6 @@ public class RetrieveQueries extends Queries {
     * */
     public List<Module> retrieveStudentsModules(int login) {
         List<Module> studentModules = new ArrayList<Module>();
-
-        //Ignore duplicated modules (e.g. if student repeats a year)
-        List<String> processedModules = new ArrayList<>();
-
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -398,17 +394,13 @@ public class RetrieveQueries extends Queries {
                 pstmt = conn.prepareStatement("SELECT * FROM module WHERE module_code=?");
                 pstmt.setString(1, rs.getString(1));
                 moduleDetails = pstmt.executeQuery();
+
                 // build a Module object, and add it to the Module list
                 if(moduleDetails.next()) {
-                    String moduleCode = moduleDetails.getString(1);
-                    if(!processedModules.contains(moduleCode)) {
-                        //Add to duplicates list
-                        processedModules.add(moduleCode);
-                        studentModules.add(new Module(moduleCode, moduleDetails.getString(2),
-                                moduleDetails.getInt(3), moduleDetails.getInt(4)));
+                    studentModules.add(new Module(moduleDetails.getString(1), moduleDetails.getString(2),
+                            moduleDetails.getInt(3), moduleDetails.getInt(4)));
                     }
                 }
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
