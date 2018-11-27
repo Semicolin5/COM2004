@@ -337,10 +337,6 @@ public class RetrieveQueries extends Queries {
      */
     public ArrayList<Grade> retrieveGradesTable() {
         ArrayList<Grade> gradeList = new ArrayList<>();
-
-        //Store a list of students and modules so we don't have to search gradeList every time
-        ArrayList<String> processedList = new ArrayList<>();
-
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -351,42 +347,35 @@ public class RetrieveQueries extends Queries {
             float resitGrade;
             float repeatGrade;
             while(rs.next()) {
-                //Have we already seen this student and module
-                if(processedList.contains(rs.getString(1) + rs.getString(2))) {
-                    for(Grade grade : gradeList) {
-                        //Find the already existing grade object
-                        if(Integer.parseInt(grade.getLoginID()) == rs.getInt(1) &&
-                                grade.getModuleCode().equals(rs.getString(2))) {
-                            //Set the repeat grade, adding sentinel as appropriate
-                            repeatGrade = rs.getFloat(4);
-                            if(rs.wasNull()) {
-                                repeatGrade = -1;
-                            }
-
-                            grade.setRepeatPercent(repeatGrade);
-                            //Break out early to avoid wasting CPU time
-                            break;
+                for(Grade grade : gradeList) {
+                    //Find the already existing grade object
+                    if (Integer.parseInt(grade.getLoginID()) == rs.getInt(1) &&
+                            grade.getModuleCode().equals(rs.getString(2))) {
+                        //Set the repeat grade, adding sentinel as appropriate
+                        repeatGrade = rs.getFloat(4);
+                        if (rs.wasNull()) {
+                            repeatGrade = -1;
                         }
-                    }
-                }
-                else {
-                    //New type of grade, so add to processed list and create new object
-                    processedList.add(rs.getString(1) + rs.getString(2));
 
-                    //Unfortunately, .getFloat() returns 0 when it encounters a null
-                    //This is a valid percentage, so check if it was definitely null
-                    //and, if so, set to a sentinel (-1), which can never be reached
-                    initialGrade = rs.getFloat(4);
-                    if(rs.wasNull()) {
-                        initialGrade = -1;
-                    }
+                        grade.setRepeatPercent(repeatGrade);
+                        //Break out early to avoid wasting CPU time
+                        break;
+                    } else {
+                        //Unfortunately, .getFloat() returns 0 when it encounters a null
+                        //This is a valid percentage, so check if it was definitely null
+                        //and, if so, set to a sentinel (-1), which can never be reached
+                        initialGrade = rs.getFloat(4);
+                        if (rs.wasNull()) {
+                            initialGrade = -1;
+                        }
 
-                    resitGrade = rs.getFloat(5);
-                    if(rs.wasNull()) {
-                        resitGrade = -1;
+                        resitGrade = rs.getFloat(5);
+                        if (rs.wasNull()) {
+                            resitGrade = -1;
+                        }
+                        gradeList.add(new Grade(rs.getString(1), rs.getString(2),
+                                rs.getString(3).charAt(0), initialGrade, resitGrade, -1));
                     }
-                    gradeList.add(new Grade(rs.getString(1), rs.getString(2),
-                            rs.getString(3).charAt(0), initialGrade, resitGrade, -1));
                 }
             }
         } catch (SQLException e) {
