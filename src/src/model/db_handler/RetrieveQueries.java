@@ -332,7 +332,7 @@ public class RetrieveQueries extends Queries {
                 if(processedList.contains(rs.getString(1) + rs.getString(2))) {
                     for(Grade grade : gradeList) {
                         //Find the already existing grade object
-                        if(grade.getLoginID() == rs.getInt(1) &&
+                        if(Integer.parseInt(grade.getLoginID()) == rs.getInt(1) &&
                                 grade.getModuleCode().equals(rs.getString(2))) {
                             //Set the repeat grade, adding sentinel as appropriate
                             repeatGrade = rs.getFloat(4);
@@ -362,7 +362,7 @@ public class RetrieveQueries extends Queries {
                     if(rs.wasNull()) {
                         resitGrade = -1;
                     }
-                    gradeList.add(new Grade(rs.getInt(1), rs.getString(2),
+                    gradeList.add(new Grade(rs.getString(1), rs.getString(2),
                             rs.getString(3).charAt(0), initialGrade, resitGrade, -1));
                 }
             }
@@ -435,7 +435,7 @@ public class RetrieveQueries extends Queries {
            rs = pstmt.executeQuery();
 
            rs.next();
-           grades = new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
+           grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
                    rs.getFloat(4), rs.getFloat(5), -1);
 
            if(rs.next()) {
@@ -467,7 +467,7 @@ public class RetrieveQueries extends Queries {
            pstmt.setString(2, label);
            rs = pstmt.executeQuery();
            while(rs.next()) { // construct a grade object for each module taken at that period
-               table.add(new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
+               table.add(new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
                        rs.getFloat(4), rs.getFloat(5), -1));
            }
         } catch (SQLException e) {

@@ -8,7 +8,7 @@ package src.objects;
  * */
 public class Grade {
 
-    private int loginID;
+    private String loginID;
     private String moduleCode;
     private char label;
     private float initialPercent;
@@ -24,7 +24,7 @@ public class Grade {
      * @param resitPercent
      * @param repeatPercent
      */
-    public Grade(int loginID, String moduleCode, char label, float initialPercent, float resitPercent, float repeatPercent) {
+    public Grade(String loginID, String moduleCode, char label, float initialPercent, float resitPercent, float repeatPercent) {
         this.loginID = loginID;
         this.moduleCode = moduleCode;
         this.label = label;
@@ -34,11 +34,11 @@ public class Grade {
     }
 
 
-    public int getLoginID() {
+    public String getLoginID() {
         return loginID;
     }
 
-    public void setLoginID(int loginID) {
+    public void setLoginID(String loginID) {
         this.loginID = loginID;
     }
 

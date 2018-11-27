@@ -54,8 +54,9 @@ public class Controller {
     }
 
     public  static  void saveBlankGrades(String studentId, String moduleCode, String label){
+
 		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-		additionQ.addStudentModuleAssociation(studentId, moduleCode);
+		additionQ.addStudentModuleAssociation(studentId, moduleCode, label);
 	}
 
     public static void saveDegree(String degreeCode, String degreeName, boolean masters, boolean yearIndustry) {

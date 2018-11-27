@@ -166,12 +166,13 @@ public class AdditionQueries extends Queries{
      * @param studentId String of the students identification code.
      * @param moduleCode String representing the module the student takes.
      * */
-    public void addStudentModuleAssociation(String studentId, String moduleCode) {
+    public void addStudentModuleAssociation(String studentId, String moduleCode, String label) {
         try {
             db.enableACID();
-            PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,NULL, NULL)");
+            PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,?, NULL, NULL)");
             pstmt.setString(1, studentId);
             pstmt.setString(2, moduleCode);
+            pstmt.setString(3, label);
             pstmt.executeUpdate();
             super.conn.commit();
             db.disableACID();
