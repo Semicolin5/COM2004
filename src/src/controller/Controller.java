@@ -4,6 +4,7 @@ import src.model.db_handler.*;
 import src.objects.*;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import src.model.*;
 
@@ -15,34 +16,6 @@ import src.model.*;
  * are being passed.
  * */
 public class Controller {
-	//*******************************************
-	//Private Controller methods (may be put into a different file at a later date)
-	//*******************************************
-	private static boolean passwordMatch(int loginID, String password) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB()); //TODO put in own file
-    	String[] passSalt = retrieveQ.getPassSalt(loginID);
-		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
-		if (passSalt[0].equals(hashedPass)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	
-	//TODO - auto generate module codes to minimise attack surface
-	private static String generateModuleCode(String depCode) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-		List<String> listModulesCodes = retrieveQ.retrieveDepartmentsModules(depCode);		
-		//Now we must check all values	
-		
-		String moduleCode = "";
-		
-		
-		return moduleCode;
-	}
-
 	//*******************************************
 	//Public Controller methods
 	//*******************************************
@@ -102,13 +75,11 @@ public class Controller {
     }
 
     public static void saveDepartmentAssociation(String degreeCode, String departmentCode, boolean lead) {
-        // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addDepartmentAssociation(degreeCode, departmentCode, lead);
     }
 
     public static void saveModuleAssociation(String moduleCode, String moduleName, String level, boolean core) {
-        // TODO maybe have logic to check that the parameters are the right length?
         AdditionQueries additionQ = new AdditionQueries(Main.getDB());
         additionQ.addModuleDegreeAssociation(moduleCode, moduleName, level, core);
     }
@@ -148,10 +119,47 @@ public class Controller {
 		return retrieveQ.retrievePeriodOfStudyTable();
 	}
 
+	public static ArrayList<Grade> getGrades() {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveGradesTable();
+	}
+
+	public static List<Module> getStudentModules(int loginID) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveStudentsModules(loginID);
+	}
+
+	public static Grade getStudentModuleGrades(int loginID, String moduleCode) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveStudentsModuleGrade(loginID, moduleCode);
+	}
+
     public static void removeModule(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeModule(code);
     }
+
+    /**
+     * getPeriodsOfStudent
+     * @param studentID int, the login id for a student
+     * @return List<PeriodOfStudy> is a list of all the periods of study that the student has experienced.
+     * */
+    public static List<PeriodOfStudy> getPeriodsOfStudyForStudent(int studentID) {
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        return retrieveQ.retrievePeriodOfStudyForStudent(studentID);
+    }
+
+    /**
+     * getStudentsGradeAtPeriod given a period of study, and a student, returns their grades in an ArrayList.
+     * @param studentID int, the login id for the student
+     * @param label, String of length 1, representing hte
+     * */
+    public static List<Grade> getStudentsGradeAtPeriod(int studentID, String label) {
+       RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+       return retrieveQ.retrieveGradeAtPeriodOfStudy(studentID, label);
+    }
+
+
 
     /**
      * Only the Administrator (privilege level 4) should be able to access this method.
@@ -243,14 +251,58 @@ public class Controller {
 				tutor, email, degreeCode);
 		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel);
 	}
+    
+    //********************************************************
+    //Methods to auto generate input
+    //********************************************************
+	//TODO - auto generate module codes to minimise attack surface
+	public static String generateModuleCode(String depCode) {
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		List<String> listModulesCodes = retrieveQ.retrieveDepartmentsModules(depCode);		
+		//Now we must check all values	
+		
+		String moduleCode = "";
+		
+		
+		return moduleCode;
+	}
+	
+	/**
+	 * generateEmail takes a forename and a surname and generates a unique email
+	 * @param String forename, the forename of the email we are generating
+	 * @param String surname, the surname of the email we are generating
+	 * @return String, the unique email that we have generated
+	 */
+	public static String generateEmail(String forename, String surname) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		String email = "";
+		String emailStart = forename.substring(0, 1) + surname;
+		List<String> storedEM = retrieveQ.retrieveEmails();		
+		
+		boolean loopInv = true;
+		int i = 1;
+		while (loopInv) {
+			email = (emailStart + String.valueOf(i) + "@sheffieldringroad.ac.uk").toLowerCase();
+			
+			if (!storedEM.contains(email)) {
+				//We do not have that email stored => we can use it!
+				loopInv = false;
+			}
+			
+			i ++;
+		}
 
+		return email;
+	}
+    
+    
+    
+    
     //********************************************************
     //Methods to check user input
     //********************************************************
     
     //Level 4 inputs
-    
-     
     
     public static String checkInputUser(int loginID, String password, String confirmPassword, int priv) {
     	CheckQueries checkQ = new CheckQueries(Main.getDB());
@@ -291,6 +343,9 @@ public class Controller {
 		else if (depName.length() > 100) {
 			returnMessage = "Department name is too long.";
 		}
+		else if (!RegexTests.checkTitle(depName)) {
+			returnMessage = "Please only use special characters . ) ( & for department name.";
+		}
 		else {
 			returnMessage = "Accepted";
 		}
@@ -312,6 +367,9 @@ public class Controller {
     	else if (degName.length() > 100) {
     		returnMessage = "Degree name is too long.";
     	}
+		else if (!RegexTests.checkTitle(degName)) {
+			returnMessage = "Please only use special characters . ) ( & for degree name.";
+		}
     	else if (masters && degCode.substring(3, 4).equals("U")) {
     		returnMessage = "Masters degrees should have a P in the middle of their code.";
     	}
@@ -340,6 +398,9 @@ public class Controller {
     	else if (modName.length() > 100) {
 			returnMessage = "Module name is too long.";
     	}
+		else if (!RegexTests.checkTitle(modName)) {
+			returnMessage = "Please only use special characters . ) ( & for module name.";
+		}
     	else if(!RegexTests.checkModuleCredits(credits)) {
     		returnMessage = "Credits should be a valid number.";
     	}
@@ -352,7 +413,64 @@ public class Controller {
     	return returnMessage;
     }
     
+    //Level 3 inputs
     
+    public static String checkInputStudent(String studNo, String forename, String surname, String personalT, String password,  String confirmPassword, int priv) {
+    	CheckQueries checkQ = new CheckQueries(Main.getDB());
+    	String returnMessage = "";
+    	
+    	if (priv < 3) {
+			returnMessage = "Insufficient privilege for this opperation.";
+    	}
+		else if (!RegexTests.checkLoginID(studNo)) {
+			returnMessage = "Incorrect Student number format.";
+		}
+		else if (checkQ.checkDuplicateUser(Integer.parseInt(studNo))) {
+			returnMessage = "Student number is already in use.";
+		}
+		else if (forename.length() > 50) {
+			returnMessage = "Forename is too long.";
+		}
+		else if (!RegexTests.checkName(forename)) {
+			returnMessage = "Forename cannot contain special characters or spaces.";
+		}
+		else if (surname.length() > 50) {
+			returnMessage = "Surname is too long.";
+		}
+		else if (!RegexTests.checkName(surname)) {
+			returnMessage = "Surname cannot contain special characters or spaces.";
+		}
+		else if (personalT.length() > 50) {
+			returnMessage = "Personal tutor name is too long.";
+		}
+		else if (!RegexTests.checkFullName(personalT)) {
+			returnMessage = "Personal tutor cannot contain special characters";
+		}
+		else if (!password.equals(confirmPassword)) {
+			returnMessage = "Passwords do not match.";
+		}
+		else if (!RegexTests.checkPassword(password)) {
+			returnMessage = "Incorrect password format."; //must contain at least 1 uppercase, 1 lowercase, 1 symbol, 1 number and between 8-16 chars long
+		}
+		else {
+			returnMessage = "Accepted";
+		}   	
+    	return returnMessage;
+    }
     
+      
+    //A private checking method
+	private static boolean passwordMatch(int loginID, String password) {
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+    	String[] passSalt = retrieveQ.getPassSalt(loginID);
+		String hashedPass = CryptoModule.hashPassword(password, passSalt[1]);
+		if (passSalt[0].equals(hashedPass)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
     
 }

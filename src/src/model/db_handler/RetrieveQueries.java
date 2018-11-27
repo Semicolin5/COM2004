@@ -185,6 +185,35 @@ public class RetrieveQueries extends Queries {
     	return moduleDegreeTable;
     }
 
+    /**
+     * retrievePeriodOfStudyForStudent finds all the periods that a targeted student has experienced.
+     * @param studentID, int representing the student
+     * @return List<PeriodOfStudy>
+     * */
+    public List<PeriodOfStudy> retrievePeriodOfStudyForStudent(int studentID) {
+        List<PeriodOfStudy> table = new ArrayList<PeriodOfStudy>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id=?");
+            pstmt.setInt(1, studentID);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+               table.add(new PeriodOfStudy(rs.getString(1), rs.getString(2),
+                       rs.getDate(3), rs.getDate(4), rs.getString(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return table;
+    }
+
+    /**
+     * retrievePeriodOfStudyTable obtains all the periods from the database.
+     * @return List<PeriodOfStudy> all the period of study objects
+     * */
     public List<PeriodOfStudy> retrievePeriodOfStudyTable() {
         List<PeriodOfStudy> table = new ArrayList<>();
         PreparedStatement pstmt = null;
@@ -258,26 +287,92 @@ public class RetrieveQueries extends Queries {
     * @param loginID, int, the login ID of the user we want to retrieve
     * @return User user, the User object of the user we want to retrieve
     */
-  public User retrieveUser(int loginID) {
+    public User retrieveUser(int loginID) {
       User ourUser = null;
       PreparedStatement pstmt = null;
       ResultSet res = null;
       try {
-    	  pstmt = conn.prepareStatement("SELECT * FROM users where login_id = ?");
+          pstmt = conn.prepareStatement("SELECT * FROM users where login_id = ?");
           pstmt.setInt(1, loginID);
           res = pstmt.executeQuery();
           if (res.next()) {
-        	  ourUser = new User(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
+              ourUser = new User(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
          }
-      } 
+      }
       catch (SQLException e) {
-    	  e.printStackTrace();
-      } 
+          e.printStackTrace();
+      }
       finally {
-    	  closeResources(pstmt, res);
+          closeResources(pstmt, res);
       }
       return ourUser;
-  }
+    }
+
+    /**
+     * Returns a list of all grades in the database
+     * @return ArrayList<Grade> list of all grades in the database</Grade>
+     */
+    public ArrayList<Grade> retrieveGradesTable() {
+        ArrayList<Grade> gradeList = new ArrayList<>();
+
+        //Store a list of students and modules so we don't have to search gradeList every time
+        ArrayList<String> processedList = new ArrayList<>();
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = super.conn.prepareStatement("SELECT * FROM grades ORDER BY label ASC");
+            rs = pstmt.executeQuery();
+
+            float initialGrade;
+            float resitGrade;
+            float repeatGrade;
+            while(rs.next()) {
+                //Have we already seen this student and module
+                if(processedList.contains(rs.getString(1) + rs.getString(2))) {
+                    for(Grade grade : gradeList) {
+                        //Find the already existing grade object
+                        if(grade.getLoginID() == rs.getInt(1) &&
+                                grade.getModuleCode().equals(rs.getString(2))) {
+                            //Set the repeat grade, adding sentinel as appropriate
+                            repeatGrade = rs.getFloat(4);
+                            if(rs.wasNull()) {
+                                repeatGrade = -1;
+                            }
+
+                            grade.setRepeatPercent(repeatGrade);
+                            //Break out early to avoid wasting CPU time
+                            break;
+                        }
+                    }
+                }
+                else {
+                    //New type of grade, so add to processed list and create new object
+                    processedList.add(rs.getString(1) + rs.getString(2));
+
+                    //Unfortunately, .getFloat() returns 0 when it encounters a null
+                    //This is a valid percentage, so check if it was definitely null
+                    //and, if so, set to a sentinel (-1), which can never be reached
+                    initialGrade = rs.getFloat(4);
+                    if(rs.wasNull()) {
+                        initialGrade = -1;
+                    }
+
+                    resitGrade = rs.getFloat(5);
+                    if(rs.wasNull()) {
+                        resitGrade = -1;
+                    }
+                    gradeList.add(new Grade(rs.getInt(1), rs.getString(2),
+                            rs.getString(3).charAt(0), initialGrade, resitGrade, -1));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return gradeList;
+    }
 
     /**
     * retrieveStudentsModules, given a student's loginID, this function returns all the modules that that student is
@@ -287,6 +382,10 @@ public class RetrieveQueries extends Queries {
     * */
     public List<Module> retrieveStudentsModules(int login) {
         List<Module> studentModules = new ArrayList<Module>();
+
+        //Ignore duplicated modules (e.g. if student repeats a year)
+        List<String> processedModules = new ArrayList<>();
+
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -301,8 +400,13 @@ public class RetrieveQueries extends Queries {
                 moduleDetails = pstmt.executeQuery();
                 // build a Module object, and add it to the Module list
                 if(moduleDetails.next()) {
-                    studentModules.add(new Module(moduleDetails.getString(1), moduleDetails.getString(2),
-                            moduleDetails.getInt(3), moduleDetails.getInt(4)));
+                    String moduleCode = moduleDetails.getString(1);
+                    if(!processedModules.contains(moduleCode)) {
+                        //Add to duplicates list
+                        processedModules.add(moduleCode);
+                        studentModules.add(new Module(moduleCode, moduleDetails.getString(2),
+                                moduleDetails.getInt(3), moduleDetails.getInt(4)));
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -321,24 +425,57 @@ public class RetrieveQueries extends Queries {
      * @return Grade object
      * */
     public Grade retrieveStudentsModuleGrade(int login, String module){
-        Grade studentsGrade = null;
+        Grade grades = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=?");
+           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=? ORDER BY label ASC");
            pstmt.setInt(1, login);
            pstmt.setString(2, module);
            rs = pstmt.executeQuery();
+
+           rs.next();
+           grades = new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
+                   rs.getFloat(4), rs.getFloat(5), -1);
+
            if(rs.next()) {
-               studentsGrade = new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
-                       rs.getFloat(4), rs.getFloat(5));
+               grades.setRepeatPercent(rs.getFloat(4));
            }
+
         } catch (SQLException e) {
            e.printStackTrace();
         } finally {
             closeResources(pstmt, rs);
         }
-        return studentsGrade;
+        return grades;
+    }
+
+    /**
+     * retrieveGradeAtPeriodOfStudy is similar to retrieveStudentsModuleGrade. It allows for a different selection,
+     * so that given a student and a label, the grades for that period of study can be retrieved, for all modules.
+     * @param login, int representing the students login.
+     * @param label, String (of length 1) is the label for a period of study.
+     * @return List<Grade> Grade objects, one for each module taken.
+     * */
+    public List<Grade> retrieveGradeAtPeriodOfStudy(int login, String label) {
+        List<Grade> table = new ArrayList<Grade>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND label=?");
+           pstmt.setInt(1, login);
+           pstmt.setString(2, label);
+           rs = pstmt.executeQuery();
+           while(rs.next()) { // construct a grade object for each module taken at that period
+               table.add(new Grade(rs.getInt(1), rs.getString(2), rs.getString(3).charAt(0),
+                       rs.getFloat(4), rs.getFloat(5), -1));
+           }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return table;
     }
 
 	/**
@@ -349,7 +486,6 @@ public class RetrieveQueries extends Queries {
 	public String[] getPassSalt(int loginID) {
 	   String[] passSalt = new String[2];
 	   PreparedStatement pstmt = null;
-	   System.out.println(loginID);
 	   ResultSet res = null;
 	   try {
 		   pstmt = conn.prepareStatement("SELECT hashpass, salt FROM users WHERE login_id = ?");
@@ -449,4 +585,27 @@ public class RetrieveQueries extends Queries {
        }
        return allowedToDeleteUser;
    }
+   
+   /**
+    * 
+    */
+   public List<String> retrieveEmails() {
+       List<String> emails = new ArrayList<String>();
+       PreparedStatement pstmt = null;
+       ResultSet res = null;
+       try {
+           // obtain references to the modules that a student takes
+           pstmt = conn.prepareStatement("SELECT email FROM student");
+           res = pstmt.executeQuery();
+           while(res.next()) {
+        	   emails.add(res.getString(1));
+           }
+       } catch (SQLException e) {
+           e.printStackTrace();
+       } finally {
+           closeResources(pstmt, res);
+       }
+       return emails; 
+   }
+   
 }

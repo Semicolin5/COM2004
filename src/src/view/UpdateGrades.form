@@ -33,6 +33,7 @@
           <component id="fc435" class="javax.swing.JList" binding="moduleList">
             <constraints/>
             <properties>
+              <model/>
               <selectionMode value="0"/>
             </properties>
           </component>
@@ -61,7 +62,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Repeat"/>
+          <text value="Repeat %"/>
         </properties>
       </component>
       <component id="7c4bb" class="javax.swing.JLabel">
@@ -71,7 +72,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Resit"/>
+          <text value="Resit %"/>
         </properties>
       </component>
       <component id="e46fa" class="javax.swing.JLabel">
@@ -81,7 +82,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Initial"/>
+          <text value="Initial %"/>
         </properties>
       </component>
       <component id="de279" class="javax.swing.JTextField" binding="resitGrade">

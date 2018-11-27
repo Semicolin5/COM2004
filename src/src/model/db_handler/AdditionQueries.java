@@ -132,7 +132,7 @@ public class AdditionQueries extends Queries{
             pstmt.setInt(1, loginId);
             pstmt.setString(2, salt);
             pstmt.setString(3, password);
-            pstmt.setInt(4, 0);
+            pstmt.setInt(4, 1);
             pstmt.executeUpdate();
 
             // then create entry in the student table
@@ -252,10 +252,10 @@ public class AdditionQueries extends Queries{
      * TODO:
      * */
     public void addModuleDegreeAssociation(String moduleCode, String degreeCode,String level, boolean core) {
+        PreparedStatement pstmt = null;
         try {
             db.enableACID();
-            PreparedStatement pstmt = super.conn.prepareStatement("INSERT INTO module_degree VALUES (?,?,?,?)");
-            System.out.println("saving, module code is " + "degree code is" + degreeCode);
+            pstmt = super.conn.prepareStatement("INSERT INTO module_degree VALUES (?,?,?,?)");
             pstmt.setString(1, moduleCode);
             pstmt.setString(2, degreeCode);
             pstmt.setString(3, level);
@@ -266,11 +266,73 @@ public class AdditionQueries extends Queries{
         } catch (SQLException e) {
             e.printStackTrace();
             super.db.rollBack();
+        } finally {
+            closePreparedStatement(pstmt);
         }
     }
 
-    //TODO add grades is actually performed through an INSERT statement which is why it isn't here
+    /**
+     * createStudentModuleAssociation is given a student, a label and a module code. It creates the students association
+     * with this module by creating a row in the grades table.
+     * @param login, int representing the students login code,
+     * @param label, String of length one representing the period of study label,
+     * @param moduleCode String representing the module the student is to take.
+     * */
+    public void createStudentModuleAssociation(int login, String label, String moduleCode) {
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,?,NULL,NULL)");
+            db.enableACID();
+            pstmt.setInt(1, login);
+            pstmt.setString(2, moduleCode); // label must be length one
+            pstmt.setString(3, label);
+            pstmt.executeUpdate();
+            db.disableACID();
+        } catch (SQLException e) {
+            super.db.rollBack();
+            e.printStackTrace();
+        } finally {
+           closePreparedStatement(pstmt);
+        }
+    }
 
-
-
+    /**
+     * updateGrade enables the teacher to add new scores to a grade.
+     * @param login, int representing the targeted student (1/3 of the primary key)
+     * @param label, String of length 1 representing the period of study of the grade to change (1/3 of the primary key)
+     * @param moduleCode String reprsenting the module of the grade to change (1/3 of the primary key)
+     * @param initialGrade Float representing the initial student grade
+     * @param resitGrade Float representing the initial student grade
+     * */
+    public void updateGrade(int login, String moduleCode, String label, Float initialGrade, Float resitGrade) {
+        PreparedStatement pstmt = null;
+        boolean initialNotNull = (initialGrade > 0) && (initialGrade != null);
+        boolean resitNotNull = (resitGrade > 0) && (resitGrade != null);
+        try {
+            db.enableACID();
+            pstmt = super.conn.prepareStatement("UPDATE grades SET initial_percent=?, resit_percent=? WHERE "
+                    + "login_id=? AND module_code=? AND label=?");
+            pstmt.setInt(3, login);
+            pstmt.setString(4, moduleCode);
+            pstmt.setString(5, label);
+            // check that the floats aren't null, if they are null set using .setNull()
+            if (initialNotNull) { // allows for negative one to act as sentinel
+                pstmt.setFloat(1, initialGrade);
+            } else {
+                pstmt.setNull(1, Types.FLOAT);
+            }
+            if (resitNotNull) { // allows for negative one to act as sentinel
+                pstmt.setFloat(2, resitGrade);
+            } else {
+                pstmt.setNull(2, Types.DECIMAL);
+            }
+            pstmt.executeUpdate();
+            db.disableACID();
+        } catch (SQLException e) {
+            db.rollBack();
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmt);
+        }
+    }
 }

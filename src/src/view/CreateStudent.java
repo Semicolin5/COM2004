@@ -4,12 +4,14 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
+import src.controller.Main;
 import src.objects.Degree;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -30,6 +32,7 @@ public class CreateStudent extends Form {
     private JComboBox degreeLevelCombo;
     private JSpinner posStart;
     private JSpinner posEnd;
+    private String errorMessage;
 
     public CreateStudent(GUIFrame frame) {
         super(frame);
@@ -199,23 +202,43 @@ public class CreateStudent extends Form {
 
     private class AddStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-
-            if (!initPassword.getText().equals(confirmPassword.getText())) {
-                JOptionPane.showMessageDialog(getFrame(), "Passwords don't match");
-                return;
-            }
-
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            Controller.saveStudent(Integer.valueOf(studentNo.getText()),
-                    confirmPassword.getText(), titleCombo.getSelectedItem().toString(),
-                    studentForename.getText(), studentSurname.getText(),
-                    studentTutor.getText(), studentEmail.getText(),
-                    degreeCombo.getSelectedItem().toString(), degreeLevelCombo.getSelectedItem().toString(),
-                    studyLabel.getText(), dateFormat.format(posStart.getValue()),
-                    dateFormat.format(posEnd.getValue()));
-
-            changeJPanel(new ManageStudents(getFrame()).getJPanel());
+            //Pull the values from the tables
+            String studNo = studentNo.getText();
+            String title = titleCombo.getSelectedItem().toString();
+            String forename = studentForename.getText();
+            String surname = studentSurname.getText();
+            String pTutor = studentTutor.getText();
+            String degCode = "";
+            String degLevel = "";
+            String startDate = dateFormat.format(posStart.getValue());
+            String endDate = dateFormat.format(posEnd.getValue());
+            String password = new String(initPassword.getPassword());
+            String passwordConfirm = new String(confirmPassword.getPassword());
+            //Check combo boxes are not null
+            if (degreeCombo.getSelectedItem() == null) {
+                errorMessage = "Please select degree.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            } else if (degreeLevelCombo.getSelectedItem() == null) {
+                errorMessage = "Please select a degree level.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            } else {
+                degCode = degreeCombo.getSelectedItem().toString();
+                degLevel = degreeLevelCombo.getSelectedItem().toString();
+                //Run our controller testing function
+                errorMessage = Controller.checkInputStudent(studNo, forename, surname, pTutor, password, passwordConfirm, Main.getPriv());
+                if (errorMessage.equals("Accepted")) {
+                    //Save everything! - email is auto generated and degree level always starts at A
+                    //Also not hashing passwords.  this needs a fix asap
+                    Controller.saveStudent(Integer.parseInt(studNo), password, title, forename, surname, pTutor, Controller.generateEmail(forename, surname), degCode, degLevel, "A", startDate, endDate);
+                    changeJPanel(new ManageStudents(getFrame()).getJPanel());
+                } else {
+                    JOptionPane.showMessageDialog(getFrame(), errorMessage);
+                }
+            }
+            //De-reference so the garbage collector can take them
+            password = "";
+            passwordConfirm = "";
         }
     }
 

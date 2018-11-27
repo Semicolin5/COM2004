@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
+import src.objects.Grade;
 import src.objects.Module;
 import src.objects.Student;
 
@@ -13,17 +14,21 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class UpdateGrades extends Form {
     private JPanel panel1;
     private JList studentList;
     private JList moduleList;
+    private DefaultListModel<String> studentModel;
     private DefaultListModel<String> moduleModel;
     private JTextField initialGrade;
     private JTextField resitGrade;
     private JTextField repeatGrade;
     private JButton updateButton;
     private JButton backButton;
+
+    private int loginID;
 
     public UpdateGrades(GUIFrame frame) {
         super(frame);
@@ -33,7 +38,7 @@ public class UpdateGrades extends Form {
 
         setJPanel(panel1);
 
-        DefaultListModel<String> studentModel = new DefaultListModel<>();
+        studentModel = new DefaultListModel<>();
         for (Student student : Controller.getStudents()) {
             studentModel.addElement(student.getLogin());
         }
@@ -71,6 +76,8 @@ public class UpdateGrades extends Form {
         final JScrollPane scrollPane2 = new JScrollPane();
         panel1.add(scrollPane2, new GridConstraints(1, 1, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         moduleList = new JList();
+        final DefaultListModel defaultListModel1 = new DefaultListModel();
+        moduleList.setModel(defaultListModel1);
         moduleList.setSelectionMode(0);
         scrollPane2.setViewportView(moduleList);
         final JLabel label1 = new JLabel();
@@ -80,13 +87,13 @@ public class UpdateGrades extends Form {
         label2.setText("Modules");
         panel1.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
-        label3.setText("Repeat");
+        label3.setText("Repeat %");
         panel1.add(label3, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         final JLabel label4 = new JLabel();
-        label4.setText("Resit");
+        label4.setText("Resit %");
         panel1.add(label4, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         final JLabel label5 = new JLabel();
-        label5.setText("Initial");
+        label5.setText("Initial %");
         panel1.add(label5, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         resitGrade = new JTextField();
         panel1.add(resitGrade, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
@@ -117,8 +124,17 @@ public class UpdateGrades extends Form {
             ListSelectionModel model = (ListSelectionModel) listSelectionEvent.getSource();
 
             //Get list of student's modules
+            int index = model.getLeadSelectionIndex();
+            loginID = Integer.valueOf((String) studentList.getModel().getElementAt(index));
             if (model.getValueIsAdjusting()) {
-                moduleModel.addElement("Test");
+                clearGrades();
+
+                //Clear module list
+                moduleModel.removeAllElements();
+
+                for (Module module : Controller.getStudentModules(loginID)) {
+                    moduleModel.addElement(module.getCode());
+                }
             }
         }
     }
@@ -129,9 +145,37 @@ public class UpdateGrades extends Form {
 
             //Get student's module grades
             if (model.getValueIsAdjusting()) {
+                clearGrades();
+
                 String code = moduleModel.getElementAt(model.getLeadSelectionIndex());
+                Grade grades = Controller.getStudentModuleGrades(loginID, code);
+
+                //Check if grades have been set before setting text fields
+                if (grades.getInitialPercent() == -1) {
+                    initialGrade.setText("");
+                } else {
+                    initialGrade.setText(String.valueOf(grades.getInitialPercent()));
+                }
+
+                if (grades.getResitPercent() == -1) {
+                    resitGrade.setText("");
+                } else {
+                    resitGrade.setText(String.valueOf(grades.getResitPercent()));
+                }
+
+                if (grades.getRepeatPercent() == -1) {
+                    repeatGrade.setText("");
+                } else {
+                    repeatGrade.setText(String.valueOf(grades.getRepeatPercent()));
+                }
             }
         }
+    }
+
+    private void clearGrades() {
+        initialGrade.setText("");
+        resitGrade.setText("");
+        repeatGrade.setText("");
     }
 
 }
