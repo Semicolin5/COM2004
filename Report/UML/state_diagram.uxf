@@ -4,8 +4,8 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>890</x>
-      <y>340</y>
+      <x>920</x>
+      <y>300</y>
       <w>150</w>
       <h>60</h>
     </coordinates>
@@ -13,73 +13,21 @@
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>1620</x>
-      <y>510</y>
-      <w>380</w>
-      <h>410</h>
-    </coordinates>
-    <panel_attributes>state with
-substates
-symbol=substate</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>0</x>
-      <y>510</y>
-      <w>380</w>
-      <h>410</h>
-    </coordinates>
-    <panel_attributes>state with
-substates
-symbol=substate</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>520</x>
-      <y>510</y>
-      <w>380</w>
-      <h>410</h>
-    </coordinates>
-    <panel_attributes>state with
-substates
-symbol=substate</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>1040</x>
-      <y>510</y>
-      <w>380</w>
-      <h>410</h>
-    </coordinates>
-    <panel_attributes>state with
-substates
-symbol=substate</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>230</y>
+      <x>980</x>
+      <y>220</y>
       <w>30</w>
-      <h>130</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>950</x>
-      <y>230</y>
+      <x>980</x>
+      <y>220</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
@@ -89,30 +37,30 @@ symbol=substate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>430</y>
-      <w>290</w>
-      <h>100</h>
+      <x>1000</x>
+      <y>410</y>
+      <w>270</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;270.0;10.0;270.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;250.0;10.0;250.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>390</y>
-      <w>30</w>
+      <x>980</x>
+      <y>350</y>
+      <w>60</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes/>
+    <panel_attributes>Login</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1210</x>
-      <y>430</y>
+      <x>1240</x>
+      <y>410</y>
       <w>640</w>
       <h>90</h>
     </coordinates>
@@ -122,23 +70,255 @@ symbol=substate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>670</x>
-      <y>430</y>
-      <w>310</w>
-      <h>80</h>
+      <x>700</x>
+      <y>410</y>
+      <w>290</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
-    <additional_attributes>290.0;10.0;10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>270.0;10.0;10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>410</y>
+      <w>550</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>530.0;10.0;10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>980</x>
+      <y>130</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>980</x>
+      <y>130</y>
+      <w>100</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+Exit</panel_attributes>
+    <additional_attributes>60.0;170.0;60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>1230</x>
+      <y>0</y>
+      <w>510</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>IDK if this is used yet. I believe It incompasses everything</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>CustomElementImpl</type>
+    <coordinates>
+      <x>30</x>
+      <y>500</y>
+      <w>321</w>
+      <h>471</h>
+    </coordinates>
+    <panel_attributes>Student</panel_attributes>
+    <additional_attributes/>
+    <custom_code>int y=textHeight();
+
+drawRectangleRound(0,0,width,height,20,20);
+
+for(String textline : textlines) {
+	y += printLeft(textline,y);
+}</custom_code>
+  </element>
+  <element>
+    <type>CustomElementImpl</type>
+    <coordinates>
+      <x>560</x>
+      <y>500</y>
+      <w>321</w>
+      <h>471</h>
+    </coordinates>
+    <panel_attributes>Teacher</panel_attributes>
+    <additional_attributes/>
+    <custom_code>int y=textHeight();
+
+drawRectangleRound(0,0,width,height,20,20);
+
+for(String textline : textlines) {
+	y += printLeft(textline,y);
+}</custom_code>
+  </element>
+  <element>
+    <type>CustomElementImpl</type>
+    <coordinates>
+      <x>1100</x>
+      <y>500</y>
+      <w>321</w>
+      <h>411</h>
+    </coordinates>
+    <panel_attributes>Registrar</panel_attributes>
+    <additional_attributes/>
+    <custom_code>int y=textHeight();
+
+drawRectangleRound(0,0,width,height,20,20);
+
+for(String textline : textlines) {
+	y += printLeft(textline,y);
+}</custom_code>
+  </element>
+  <element>
+    <type>CustomElementImpl</type>
+    <coordinates>
+      <x>1690</x>
+      <y>480</y>
+      <w>321</w>
+      <h>411</h>
+    </coordinates>
+    <panel_attributes>Administrator</panel_attributes>
+    <additional_attributes/>
+    <custom_code>int y=textHeight();
+
+drawRectangleRound(0,0,width,height,20,20);
+
+for(String textline : textlines) {
+	y += printLeft(textline,y);
+}</custom_code>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>970</x>
+      <y>400</y>
+      <w>40</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1060</x>
+      <y>320</y>
+      <w>230</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>210.0;180.0;210.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1060</x>
+      <y>320</y>
+      <w>780</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>760.0;160.0;760.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>150</x>
-      <y>430</y>
-      <w>550</w>
-      <h>100</h>
+      <y>320</y>
+      <w>790</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+Logout</panel_attributes>
+    <additional_attributes>10.0;180.0;10.0;10.0;770.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>670</x>
+      <y>320</y>
+      <w>270</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>lt=-&gt;</panel_attributes>
-    <additional_attributes>530.0;10.0;10.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;180.0;10.0;10.0;250.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>120</x>
+      <y>560</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Welcome</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>50</x>
+      <y>130</y>
+      <w>960</w>
+      <h>390</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+Exit</panel_attributes>
+    <additional_attributes>10.0;370.0;10.0;10.0;940.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>590</y>
+      <w>130</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+View Record</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;180.0;60.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>130</x>
+      <y>770</y>
+      <w>90</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>View Record</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>590</y>
+      <w>60</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+Back</panel_attributes>
+    <additional_attributes>10.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>490</y>
+      <w>70</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+Logout</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
