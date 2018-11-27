@@ -169,9 +169,9 @@ public class Controller {
      * */
     public static boolean removeUser(String login) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
-        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        CheckQueries checkQ = new CheckQueries(Main.getDB());
         // if there aren't any associate
-        boolean deletionAllowed = retrieveQ.allowedToDeleteUser(login);
+        boolean deletionAllowed = checkQ.checkDeleteUser(login);
         if (deletionAllowed) {
            removalQ.removeUser(login);
         }
@@ -215,8 +215,8 @@ public class Controller {
 	 * */
     public static boolean removeDegree(String degree_code) {
         RemovalQueries removeQ = new RemovalQueries(Main.getDB());
-        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-        boolean deletionAllowed = retrieveQ.allowedToDeleteDegree(degree_code);
+        CheckQueries checkQ = new CheckQueries(Main.getDB());
+        boolean deletionAllowed = checkQ.checkDeleteDegree(degree_code);
         // if there aren't any associated users, delete the degree
         if(deletionAllowed){
             removeQ.removeDegree(degree_code);
@@ -233,8 +233,8 @@ public class Controller {
 	 * */
 	public static boolean removeDepartment(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
-        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-        boolean deletionAllowed = retrieveQ.allowedToDeleteDepartment(code);
+        CheckQueries checkQ = new CheckQueries(Main.getDB());
+        boolean deletionAllowed = checkQ.checkDeleteDepartment(code);
         // if there aren't any associated degrees, delete the department
         if(deletionAllowed){
            System.out.println("deleting the department");
