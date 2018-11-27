@@ -193,6 +193,20 @@ public class Controller {
     }
 
     /**
+     * Only the Registrar (privilege level 3) should be able to access this method.
+     * @param login String representing the user to remove.
+     * For the selected student, this method deletes:
+     *      1) the students grades/module association from the grades table
+     *      2) the students period of study information from the period_of_study table
+     *      3) the students reference in the student table
+     *      4) the students user details in the user table
+     * */
+    public static void removeGrades(int login, String module_code, String label) {
+        RemovalQueries removalQ = new RemovalQueries(Main.getDB());
+        removalQ.removeGrades(login, module_code, label);
+    }
+
+    /**
 	 * removeDegree first ensures that there are no students currently taking that degree, if not, then it deletes
 	 * the degree.
 	 * @param degree_code String representing the degree that should be deleted.

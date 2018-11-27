@@ -204,4 +204,31 @@ public class RemovalQueries extends Queries {
             closePreparedStatement(pstmt);
         }
     }
+
+    /**
+     * removeStudentsModuleChoice takes two parameters, a student, and the module they need to drop.
+     * This is to be used by registrars so that they can drop modules on behalf of the student. Is also accessible
+     * for the student whose grade will be dropped.
+     * @param login_id int representing the student whose module choice is being dropped
+     * @param module_code String representing the module that the student will drop.
+     * */
+    public void removeGrades(int login_id, String module_code, String label) {
+
+            PreparedStatement pstmt = null;
+            try{
+                db.enableACID();
+                pstmt = super.conn.prepareStatement("DELETE FROM grades WHERE login_id=? AND module_code=? AND label=?");
+                pstmt.setInt(1, login_id);
+                pstmt.setString(2, module_code);
+                pstmt.setString(3, label);
+                pstmt.executeUpdate();
+                db.disableACID();
+            } catch (SQLException e) {
+                db.rollBack(); // rolls back if there is a problem
+                e.printStackTrace();
+            } finally {
+                closePreparedStatement(pstmt); // release resources
+            }
+
+    }
 }

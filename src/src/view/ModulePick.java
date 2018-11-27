@@ -7,13 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import src.objects.Student;
-import src.objects.PeriodOfStudy;
-import src.objects.ModuleDegree;
-import src.objects.Module;
-import src.objects.Grade;
+import src.objects.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -23,13 +17,10 @@ import src.controller.Controller;
 public class ModulePick extends Form {
     private JPanel panel1;
     private JList studentList;
-    private JList moduleChoiceList;
-    private JList chosenModuleList;
     private JLabel studentLevel;
     private JLabel studentName;
     private JButton assignModuleToStudentButton;
     private JButton unassignModuleFromStudentButton;
-    private JButton submitModuleChoiceForButton;
     private JLabel totalCredits;
     private JButton backButton;
     private JTable choiceTable;
@@ -38,7 +29,6 @@ public class ModulePick extends Form {
     private DefaultTableModel choiceModel;
     private DefaultTableModel chosenModel;
     private String periodOfStudyLabel;
-
 
     public ModulePick(GUIFrame frame) {
         super(frame);
@@ -69,7 +59,6 @@ public class ModulePick extends Form {
 
         assignModuleToStudentButton.addActionListener(new assignModuleHandler());
         unassignModuleFromStudentButton.addActionListener(new unassignModuleHandler());
-        submitModuleChoiceForButton.addActionListener(new submitButtonHandler());
 
         for (Student student : Controller.getStudents()) {
             studentModel.addElement(student.getLogin());
@@ -102,21 +91,9 @@ public class ModulePick extends Form {
                                 }
                             }
                             for (Grade grade : Controller.getGrades()) {
-                                if (student.getLogin().equals(grade.getLoginID()) && (grade.getLabel() == (periodOfStudyLabel.charAt(0)))) {
-                                    //chosenModel.addRow(new Object[]{grade.getModuleCode(), "", ""});
-                                    for (ModuleDegree m : Controller.getModuleDegrees()) {
-                                        if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel.getText()))) {
-                                            for (Module mod : Controller.getModules()) {
-                                                if (mod.getCode().equals(grade.getModuleCode())) {
-                                                    if (m.isCore())
-                                                        chosenModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Core"});
-                                                    else
-                                                        chosenModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Not Core"});
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                System.out.println("Module Pick");
+                                System.out.println(grade.getLoginID() + grade.getModuleCode() + grade.getLabel());
+                                chosenModel.addRow(new Object[]{grade.getLoginID(), grade.getModuleCode(), grade.getLabel()});
                             }
                         }
                     }
@@ -151,7 +128,7 @@ public class ModulePick extends Form {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(9, 6, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(8, 6, new Insets(0, 0, 0, 0), -1, -1));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, new GridConstraints(1, 0, 4, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         studentList = new JList();
@@ -180,9 +157,6 @@ public class ModulePick extends Form {
         unassignModuleFromStudentButton = new JButton();
         unassignModuleFromStudentButton.setText("Unassign Module from Student");
         panel1.add(unassignModuleFromStudentButton, new GridConstraints(5, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        submitModuleChoiceForButton = new JButton();
-        submitModuleChoiceForButton.setText("Submit Module Choice for Student");
-        panel1.add(submitModuleChoiceForButton, new GridConstraints(7, 0, 1, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
         label4.setText("Total Credits Selected:");
         panel1.add(label4, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -191,7 +165,7 @@ public class ModulePick extends Form {
         panel1.add(totalCredits, new GridConstraints(6, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         backButton = new JButton();
         backButton.setText("Back");
-        panel1.add(backButton, new GridConstraints(8, 0, 1, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(backButton, new GridConstraints(7, 0, 1, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label5 = new JLabel();
         label5.setText("Student Name");
         panel1.add(label5, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -230,30 +204,16 @@ public class ModulePick extends Form {
         }
     }
 
-    public class submitButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            String level = studentLevel.getText();
-            String sumCredits = totalCredits.getText();
-            if ((level.equals("4") && sumCredits.equals("180")) || (Integer.parseInt(level) < 4 && sumCredits.equals("120"))) {
-                for (int i = 0; i < chosenModel.getRowCount(); i++) {
-                    String module = chosenTable.getValueAt(i, 0).toString();
-                    Controller.saveBlankGrades(studentList.getSelectedValue().toString(), module, periodOfStudyLabel);
-                }
-            }
-        }
-    }
-
     public class unassignModuleHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (chosenTable.getSelectedRow() != -1) {
                 int rowNumber = chosenTable.getSelectedRow();
-                if (chosenTable.getValueAt(rowNumber, 2).equals("Not Core")) {
-                    String code = chosenTable.getValueAt(rowNumber, 0).toString();
-                    String credits = chosenTable.getValueAt(rowNumber, 1).toString();
-                    String coreStatus = chosenTable.getValueAt(rowNumber, 2).toString();
-                    choiceModel.addRow(new Object[]{code, credits, coreStatus});
-                    chosenModel.removeRow(chosenTable.getSelectedRow());
-                }
+                String code = chosenTable.getValueAt(rowNumber, 0).toString();
+                String cred = chosenTable.getValueAt(rowNumber, 1).toString();
+                String coreStatus = chosenTable.getValueAt(rowNumber, 2).toString();
+                Controller.removeGrades(Integer.parseInt(studentList.getSelectedValue().toString()), code, periodOfStudyLabel);
+                //choiceModel.addRow(new Object[]{code, cred, coreStatus});
+                chosenModel.removeRow(rowNumber);
             }
             calculateCredits();
         }
