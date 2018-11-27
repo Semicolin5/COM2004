@@ -36,7 +36,7 @@
           </component>
         </children>
       </scrollpane>
-      <scrollpane id="5727c">
+      <scrollpane id="5727c" binding="studentScrollPane">
         <constraints>
           <grid row="6" column="0" row-span="6" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
