@@ -163,12 +163,12 @@ public class RetrieveQueries extends Queries {
         return modules;
     }
     
-    public List<String> retrieveDepartmentCoreModules(String depCode) {
+    public List<String> retrieveDepartmentCoreModulesForLOS(String depCode, String pos) {
         List<String> modules = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
         try {
-            pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ? AND core = true");
+            pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ? AND core = true AND  ");
             pstmt.setString(1, depCode);
             res = pstmt.executeQuery();
             while (res.next()) {
@@ -304,6 +304,7 @@ public class RetrieveQueries extends Queries {
 	   return userTable;
 	}
 
+	
 	public List<Student> retrieveStudentsTable() {
 	   List<Student> studentTable = new ArrayList<>();
 	   PreparedStatement pstmt = null;
