@@ -73,7 +73,15 @@ public class ModulePick extends Form {
 
         studentList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent evt) {
-                if (!evt.getValueIsAdjusting()) {
+                
+            	
+            	
+            	
+            	
+            	
+            	
+            	
+            	if (!evt.getValueIsAdjusting()) {
                     choiceModel.setRowCount(0);
                     chosenModel.setRowCount(0);
                     for (Student student : Controller.getStudents()) {

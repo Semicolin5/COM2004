@@ -147,22 +147,43 @@ public class RetrieveQueries extends Queries {
         List<String> modules = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
-        if (!super.isTableEmpty("module")) {
-            try {
-                pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ?");
-                pstmt.setString(1, depCode);
-                res = pstmt.executeQuery();
-                while (res.next()) {
-                    modules.add(res.getString(1));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                closeResources(pstmt, res);
+        try {
+            pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ?");
+            pstmt.setString(1, depCode);
+            res = pstmt.executeQuery();
+            while (res.next()) {
+                modules.add(res.getString(1));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
         }
+        
         return modules;
     }
+    
+    public List<String> retrieveDepartmentCoreModules(String depCode) {
+        List<String> modules = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+            pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ? AND core = true");
+            pstmt.setString(1, depCode);
+            res = pstmt.executeQuery();
+            while (res.next()) {
+                modules.add(res.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
+        }
+        
+        return modules;
+    }
+    
+    
     
     public List<ModuleDegree> retrieveModuleLinkDegreeTable() {
         List<ModuleDegree> moduleDegreeTable = new ArrayList<>();

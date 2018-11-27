@@ -312,6 +312,26 @@ public class Controller {
 
 		return email;
 	}
+	
+	
+	/**
+	 * assignCoreModules, automatically assigns the core modules to the student when they are signed up to a new degree
+	 */
+	public static void assignCoreModules(int studentID, String degreeCode) {
+		//First pull out all the core modules associated with said degree
+		ArrayList<Module> coreMoules = new ArrayList<Module>();
+		
+		
+		
+		
+		
+		//Then assign those core modules to the student (maybe wipe the table of module associations first? or check)
+		
+		
+		
+		
+		
+	}
     
     
     
