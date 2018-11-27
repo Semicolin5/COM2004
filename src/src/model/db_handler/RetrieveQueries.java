@@ -497,89 +497,10 @@ public class RetrieveQueries extends Queries {
 	   return passSalt;
 	}
 	
-   /**
-    * Returns true if the degree is 'allowed' to be deleted (i.e. has no student affiliations, and has no
-    * module affiliations).
-    * @param degree_code String representing the degree code to be deleted.
-    * @return boolean of whether the degree was deleted and allowed to be deleted
-    * */
-   public boolean allowedToDeleteDegree(String degree_code) {
-        PreparedStatement pstmt = null;
-        ResultSet res = null;
-        boolean hasAffiliatedStudents = true; // assume it has students, and check
-        boolean hasAffiliatedModules = true; // assume it has affiliated modules, and check
-        try {
-            pstmt = super.conn.prepareStatement("SELECT * FROM student WHERE degree_code=?");
-            pstmt.setString(1, degree_code);
-            res = pstmt.executeQuery();
-            // checks to see if res is empty
-            if (!res.next()) {
-                hasAffiliatedStudents = false; // allowed is true if no student takes the degree
-            }
-            pstmt = super.conn.prepareStatement("SELECT * FROM module_degree WHERE degree_code=?");
-            pstmt.setString(1, degree_code);
-            res = pstmt.executeQuery();
-            if (!res.next()) {
-                hasAffiliatedModules = false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeResources(pstmt, res);
-        }
-        return (!hasAffiliatedModules && !hasAffiliatedStudents);
-   }
-
-	/**
-	* Returns true if the Department is allowed to be deleted.
-	* Departments are allowed to be deleted if there are no degrees affiliated with the department.
-	* @param department_code String represents the department to check.
-	* @return boolean of whether the department was allowed to be deleted
-	* */
-	public boolean allowedToDeleteDepartment(String department_code) {
-	   PreparedStatement pstmt = null;
-	   ResultSet res = null;
-	   boolean affiliatedDegrees = true; // assume that there are affiliated degrees, and code proves otherwise
-	   try {
-	       pstmt = super.conn.prepareStatement("SELECT * FROM degree_department WHERE department_code=?");
-	       pstmt.setString(1, department_code);
-	       res = pstmt.executeQuery();
-	       // checks to see if res is empty
-	       if(!res.next()) {
-	           affiliatedDegrees = false;
-	       }
-	
-	   } catch (SQLException e) {
-	        e.printStackTrace();
-	   } finally {
-	       closeResources(pstmt, res);
-	   }
-	   return (!affiliatedDegrees);
-	}
-
-   /**
-    * Return true if the user is allowed to be deleted. A user is allowed to be deleted if the user isn't a student
-    * and has an associated row in the student table.
-    * @param login_id String representing the user under question
-    * */
-   public boolean allowedToDeleteUser(String login_id) {
-       boolean allowedToDeleteUser = false;
-       // checks the user isn't a student
-       try {
-           PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM student WHERE login_id = ? ");
-           pstmt.setString(1, login_id);
-           ResultSet rs = pstmt.executeQuery();
-           if(!rs.next()){
-               allowedToDeleteUser = true; // no affiliated entry in the student table
-           }
-       } catch (SQLException e)  {
-           e.printStackTrace();
-       }
-       return allowedToDeleteUser;
-   }
    
    /**
-    * 
+    * retrieveEmails, retrieves a list of all stored emails
+    * @param List<String>, the list of emails as strings
     */
    public List<String> retrieveEmails() {
        List<String> emails = new ArrayList<String>();
@@ -599,5 +520,17 @@ public class RetrieveQueries extends Queries {
        }
        return emails; 
    }
+   
+   
+   /*
+   public List<Module> retrieveTakenModules() {
+	   
+	   
+	   
+	   
+   }
+   */
+   
+   
    
 }
