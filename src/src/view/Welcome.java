@@ -53,6 +53,8 @@ public class Welcome extends Form {
         //Teacher
         else if(privilege == 2) {
             panel.add(updateGradesButton);
+            panel.add(viewStudentRecordButton);
+            viewStudentRecordButton.addActionListener(new StudentHandler()); // both teacher and student can view academic progress
             updateGradesButton.addActionListener(new updateGradesHandler());
         }
         //Student
