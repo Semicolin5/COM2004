@@ -124,11 +124,6 @@ public class Controller {
 		return retrieveQ.retrieveLatestPeriodOfStudy(loginID);
 	}
 
-	public static ArrayList<Grade> getGrades() {
-		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-		return retrieveQ.retrieveGradesTable();
-	}
-
 	public static List<Module> getStudentModules(int loginID) {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 		return retrieveQ.retrieveStudentsModules(loginID);

@@ -353,61 +353,6 @@ public class RetrieveQueries extends Queries {
     }
 
     /**
-     * Returns a list of all grades in the database
-     * @return ArrayList<Grade> list of all grades in the database</Grade>
-     */
-    public ArrayList<Grade> retrieveGradesTable() {
-        ArrayList<Grade> gradeList = new ArrayList<>();
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            pstmt = super.conn.prepareStatement("SELECT * FROM grades ORDER BY label ASC");
-            rs = pstmt.executeQuery();
-
-            float initialGrade;
-            float resitGrade;
-            float repeatGrade;
-            while(rs.next()) {
-                for(Grade grade : gradeList) {
-                    //Find the already existing grade object
-                    if (Integer.parseInt(grade.getLoginID()) == rs.getInt(1) &&
-                            grade.getModuleCode().equals(rs.getString(2))) {
-                        //Set the repeat grade, adding sentinel as appropriate
-                        repeatGrade = rs.getFloat(4);
-                        if (rs.wasNull()) {
-                            repeatGrade = -1;
-                        }
-
-                        grade.setRepeatPercent(repeatGrade);
-                        //Break out early to avoid wasting CPU time
-                        break;
-                    } else {
-                        //Unfortunately, .getFloat() returns 0 when it encounters a null
-                        //This is a valid percentage, so check if it was definitely null
-                        //and, if so, set to a sentinel (-1), which can never be reached
-                        initialGrade = rs.getFloat(4);
-                        if (rs.wasNull()) {
-                            initialGrade = -1;
-                        }
-
-                        resitGrade = rs.getFloat(5);
-                        if (rs.wasNull()) {
-                            resitGrade = -1;
-                        }
-                        gradeList.add(new Grade(rs.getString(1), rs.getString(2),
-                                rs.getString(3).charAt(0), initialGrade, resitGrade, -1));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeResources(pstmt, rs);
-        }
-        return gradeList;
-    }
-
-    /**
     * retrieveStudentsModules, given a student's loginID, this function returns all the modules that that student is
     * taking, and has previously taken as a list of Module objects.
     * @param login int of the Student's login id.
