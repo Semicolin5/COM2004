@@ -119,9 +119,9 @@ public class Controller {
 		return retrieveQ.retrievePeriodOfStudyTable();
 	}
 
-	public static ArrayList<Grade> getGrades() {
+	public static PeriodOfStudy getLatestPeriodOfStudy(int loginID) {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-		return retrieveQ.retrieveGradesTable();
+		return retrieveQ.retrieveLatestPeriodOfStudy(loginID);
 	}
 
 	public static List<Module> getStudentModules(int loginID) {
@@ -311,6 +311,26 @@ public class Controller {
 		}
 
 		return email;
+	}
+	
+	
+	/**
+	 * assignCoreModules, automatically assigns the core modules to the student when they are signed up to a new degree
+	 */
+	public static void assignCoreModules(int studentID, String degreeCode) {
+		//First pull out all the core modules associated with said degree
+		ArrayList<Module> coreMoules = new ArrayList<Module>();
+		PeriodOfStudy pos = getLatestPeriodOfStudy(studentID);
+		
+		
+		
+		
+		//Then assign those core modules to the student (maybe wipe the table of module associations first? or check)
+		
+		
+		
+		
+		
 	}
     
     

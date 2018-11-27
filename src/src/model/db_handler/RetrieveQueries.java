@@ -147,22 +147,43 @@ public class RetrieveQueries extends Queries {
         List<String> modules = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
-        if (!super.isTableEmpty("module")) {
-            try {
-                pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ?");
-                pstmt.setString(1, depCode);
-                res = pstmt.executeQuery();
-                while (res.next()) {
-                    modules.add(res.getString(1));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                closeResources(pstmt, res);
+        try {
+            pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ?");
+            pstmt.setString(1, depCode);
+            res = pstmt.executeQuery();
+            while (res.next()) {
+                modules.add(res.getString(1));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
         }
+        
         return modules;
     }
+    
+    public List<String> retrieveDepartmentCoreModulesForLOS(String depCode, String pos) {
+        List<String> modules = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+            pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ? AND core = true AND  ");
+            pstmt.setString(1, depCode);
+            res = pstmt.executeQuery();
+            while (res.next()) {
+                modules.add(res.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
+        }
+        
+        return modules;
+    }
+    
+    
     
     public List<ModuleDegree> retrieveModuleLinkDegreeTable() {
         List<ModuleDegree> moduleDegreeTable = new ArrayList<>();
@@ -235,7 +256,30 @@ public class RetrieveQueries extends Queries {
     	return table;
     }
     
-	/**
+    public PeriodOfStudy retrieveLatestPeriodOfStudy(int loginID) {
+        PeriodOfStudy periodOfStudy = null;
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+     	   pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id = ? ORDER BY label DESC");
+     	   pstmt.setInt(1, loginID);
+           res = pstmt.executeQuery();
+
+           if(res.next()) {
+               periodOfStudy = new PeriodOfStudy(res.getString(1), res.getString(2),
+                       res.getDate(3), res.getDate(4), res.getString(5));
+           }
+        }
+        catch (SQLException e) {
+     	   e.printStackTrace();
+        }
+        finally {
+     	   closeResources(pstmt, res);
+        }
+    	return periodOfStudy;
+    }
+
+    /**
 	 * retrieve the users table
 	 * @return List<User>, returns the list of the users table
 	 */
@@ -260,6 +304,7 @@ public class RetrieveQueries extends Queries {
 	   return userTable;
 	}
 
+	
 	public List<Student> retrieveStudentsTable() {
 	   List<Student> studentTable = new ArrayList<>();
 	   PreparedStatement pstmt = null;
@@ -306,72 +351,6 @@ public class RetrieveQueries extends Queries {
           closeResources(pstmt, res);
       }
       return ourUser;
-    }
-
-    /**
-     * Returns a list of all grades in the database
-     * @return ArrayList<Grade> list of all grades in the database</Grade>
-     */
-    public ArrayList<Grade> retrieveGradesTable() {
-        ArrayList<Grade> gradeList = new ArrayList<>();
-
-        //Store a list of students and modules so we don't have to search gradeList every time
-        ArrayList<String> processedList = new ArrayList<>();
-
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            pstmt = super.conn.prepareStatement("SELECT * FROM grades ORDER BY label ASC");
-            rs = pstmt.executeQuery();
-
-            float initialGrade;
-            float resitGrade;
-            float repeatGrade;
-            while(rs.next()) {
-                //Have we already seen this student and module
-                if(processedList.contains(rs.getString(1) + rs.getString(2))) {
-                    for(Grade grade : gradeList) {
-                        //Find the already existing grade object
-                        if(Integer.parseInt(grade.getLoginID()) == rs.getInt(1) &&
-                                grade.getModuleCode().equals(rs.getString(2))) {
-                            //Set the repeat grade, adding sentinel as appropriate
-                            repeatGrade = rs.getFloat(4);
-                            if(rs.wasNull()) {
-                                repeatGrade = -1;
-                            }
-
-                            grade.setRepeatPercent(repeatGrade);
-                            //Break out early to avoid wasting CPU time
-                            break;
-                        }
-                    }
-                }
-                else {
-                    //New type of grade, so add to processed list and create new object
-                    processedList.add(rs.getString(1) + rs.getString(2));
-
-                    //Unfortunately, .getFloat() returns 0 when it encounters a null
-                    //This is a valid percentage, so check if it was definitely null
-                    //and, if so, set to a sentinel (-1), which can never be reached
-                    initialGrade = rs.getFloat(4);
-                    if(rs.wasNull()) {
-                        initialGrade = -1;
-                    }
-
-                    resitGrade = rs.getFloat(5);
-                    if(rs.wasNull()) {
-                        resitGrade = -1;
-                    }
-                    gradeList.add(new Grade(rs.getString(1), rs.getString(2),
-                            rs.getString(3).charAt(0), initialGrade, resitGrade, -1));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeResources(pstmt, rs);
-        }
-        return gradeList;
     }
 
     /**
