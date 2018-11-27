@@ -105,11 +105,12 @@ public class ModulePick extends Form {
                                     }
                                 }
                             }
-                            for (Grade grade : Controller.getGrades()) {
-                                System.out.println("Module Pick");
-                                System.out.println(grade.getLoginID() + grade.getModuleCode() + grade.getLabel());
-                                chosenModel.addRow(new Object[]{grade.getLoginID(), grade.getModuleCode(), grade.getLabel()});
-                            }
+                           // for (Module module : Controller.getStudentModules(Integer.parseInt(studentList.getSelectedValue().toString()))) {
+                            System.out.println("Search Grades");
+                            for (Grade grade : Controller.getStudentsGradeAtPeriod(Integer.parseInt(studentList.getSelectedValue().toString()), periodOfStudyLabel)) {
+                                    chosenModel.addRow(new Object[]{grade.getModuleCode(), "FILLER1", "FILLER 2"});
+                                }
+                            //}
                         }
                     }
                     calculateCredits();
