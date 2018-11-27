@@ -3,7 +3,6 @@ package src.controller;
 import src.model.db_handler.*;
 import src.objects.*;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import src.model.*;
@@ -159,8 +158,6 @@ public class Controller {
        return retrieveQ.retrieveGradeAtPeriodOfStudy(studentID, label);
     }
 
-
-
     /**
      * Only the Administrator (privilege level 4) should be able to access this method.
      * removeUser removes users. First it is ensured that the user to be deleted isn't also a student. Since only Administrators
@@ -250,6 +247,12 @@ public class Controller {
 		additionQ.addStudent(loginID, hashedPassword, salt, title, forename, surname,
 				tutor, email, degreeCode);
 		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel);
+	}
+
+	public static void updateGrades(int loginID, String moduleCode, String label,
+									Float initialGrade, Float resitGrade, Float repeatGrade) {
+		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+		additionQ.updateGrade(loginID, moduleCode, label, initialGrade, resitGrade, repeatGrade);
 	}
     
     //********************************************************

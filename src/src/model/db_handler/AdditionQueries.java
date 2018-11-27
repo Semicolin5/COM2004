@@ -304,10 +304,11 @@ public class AdditionQueries extends Queries{
      * @param initialGrade Float representing the initial student grade
      * @param resitGrade Float representing the initial student grade
      * */
-    public void updateGrade(int login, String moduleCode, String label, Float initialGrade, Float resitGrade) {
+    public void updateGrade(int login, String moduleCode, String label, Float initialGrade, Float resitGrade, Float repeatGrade) {
         PreparedStatement pstmt = null;
         boolean initialNotNull = (initialGrade > 0) && (initialGrade != null);
         boolean resitNotNull = (resitGrade > 0) && (resitGrade != null);
+        boolean repeatNotNull = (repeatGrade > 0) && (repeatGrade != null);
         try {
             db.enableACID();
             pstmt = super.conn.prepareStatement("UPDATE grades SET initial_percent=?, resit_percent=? WHERE "
@@ -327,6 +328,21 @@ public class AdditionQueries extends Queries{
                 pstmt.setNull(2, Types.DECIMAL);
             }
             pstmt.executeUpdate();
+
+            if(repeatNotNull) {
+                //Increment label to next character of the alphabet
+                int nextLabel = label.charAt(0) + 1;
+                pstmt.setString(5, String.valueOf((char) nextLabel));
+
+                //Set initial grade of new record to repeat grade
+                pstmt.setFloat(1, repeatGrade);
+                //Set resit grade to null
+                pstmt.setNull(2, Types.DECIMAL);
+
+                pstmt.executeUpdate();
+            }
+
+            super.conn.commit();
             db.disableACID();
         } catch (SQLException e) {
             db.rollBack();

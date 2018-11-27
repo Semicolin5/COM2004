@@ -29,6 +29,7 @@ public class UpdateGrades extends Form {
     private JButton backButton;
 
     private int loginID;
+    private Grade selectedGrades;
 
     public UpdateGrades(GUIFrame frame) {
         super(frame);
@@ -49,6 +50,8 @@ public class UpdateGrades extends Form {
         studentList.getSelectionModel().addListSelectionListener(new studentListHandler());
 
         moduleList.getSelectionModel().addListSelectionListener(new moduleListHandler());
+
+        updateButton.addActionListener(new updateButtonHandler());
     }
 
     {
@@ -147,28 +150,36 @@ public class UpdateGrades extends Form {
             if (model.getValueIsAdjusting()) {
                 clearGrades();
 
-                String code = moduleModel.getElementAt(model.getLeadSelectionIndex());
-                Grade grades = Controller.getStudentModuleGrades(loginID, code);
+                String moduleCode = moduleModel.getElementAt(model.getLeadSelectionIndex());
+                selectedGrades = Controller.getStudentModuleGrades(loginID, moduleCode);
 
                 //Check if grades have been set before setting text fields
-                if (grades.getInitialPercent() == -1) {
+                if (selectedGrades.getInitialPercent() == -1) {
                     initialGrade.setText("");
                 } else {
-                    initialGrade.setText(String.valueOf(grades.getInitialPercent()));
+                    initialGrade.setText(String.valueOf(selectedGrades.getInitialPercent()));
                 }
 
-                if (grades.getResitPercent() == -1) {
+                if (selectedGrades.getResitPercent() == -1) {
                     resitGrade.setText("");
                 } else {
-                    resitGrade.setText(String.valueOf(grades.getResitPercent()));
+                    resitGrade.setText(String.valueOf(selectedGrades.getResitPercent()));
                 }
 
-                if (grades.getRepeatPercent() == -1) {
+                if (selectedGrades.getRepeatPercent() == -1) {
                     repeatGrade.setText("");
                 } else {
-                    repeatGrade.setText(String.valueOf(grades.getRepeatPercent()));
+                    repeatGrade.setText(String.valueOf(selectedGrades.getRepeatPercent()));
                 }
             }
+        }
+    }
+
+    private class updateButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            Controller.updateGrades(loginID, selectedGrades.getModuleCode(),
+                    String.valueOf(selectedGrades.getLabel()), Float.valueOf(initialGrade.getText()),
+                    Float.valueOf(resitGrade.getText()), Float.valueOf(repeatGrade.getText()));
         }
     }
 
