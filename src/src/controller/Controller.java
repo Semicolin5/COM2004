@@ -320,7 +320,7 @@ public class Controller {
 	public static void assignCoreModules(int studentID, String degreeCode) {
 		//First pull out all the core modules associated with said degree
 		ArrayList<Module> coreMoules = new ArrayList<Module>();
-		
+		PeriodOfStudy pos = getLatestPeriodOfStudy(studentID);
 		
 		
 		
