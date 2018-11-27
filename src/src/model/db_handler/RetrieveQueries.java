@@ -287,26 +287,92 @@ public class RetrieveQueries extends Queries {
     * @param loginID, int, the login ID of the user we want to retrieve
     * @return User user, the User object of the user we want to retrieve
     */
-  public User retrieveUser(int loginID) {
+    public User retrieveUser(int loginID) {
       User ourUser = null;
       PreparedStatement pstmt = null;
       ResultSet res = null;
       try {
-    	  pstmt = conn.prepareStatement("SELECT * FROM users where login_id = ?");
+          pstmt = conn.prepareStatement("SELECT * FROM users where login_id = ?");
           pstmt.setInt(1, loginID);
           res = pstmt.executeQuery();
           if (res.next()) {
-        	  ourUser = new User(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
+              ourUser = new User(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
          }
-      } 
+      }
       catch (SQLException e) {
-    	  e.printStackTrace();
-      } 
+          e.printStackTrace();
+      }
       finally {
-    	  closeResources(pstmt, res);
+          closeResources(pstmt, res);
       }
       return ourUser;
-  }
+    }
+
+    /**
+     * Returns a list of all grades in the database
+     * @return ArrayList<Grade> list of all grades in the database</Grade>
+     */
+    public ArrayList<Grade> retrieveGradesTable() {
+        ArrayList<Grade> gradeList = new ArrayList<>();
+
+        //Store a list of students and modules so we don't have to search gradeList every time
+        ArrayList<String> processedList = new ArrayList<>();
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = super.conn.prepareStatement("SELECT * FROM grades ORDER BY label ASC");
+            rs = pstmt.executeQuery();
+
+            float initialGrade;
+            float resitGrade;
+            float repeatGrade;
+            while(rs.next()) {
+                //Have we already seen this student and module
+                if(processedList.contains(rs.getString(1) + rs.getString(2))) {
+                    for(Grade grade : gradeList) {
+                        //Find the already existing grade object
+                        if(grade.getLoginID() == rs.getInt(1) &&
+                                grade.getModuleCode().equals(rs.getString(2))) {
+                            //Set the repeat grade, adding sentinel as appropriate
+                            repeatGrade = rs.getFloat(4);
+                            if(rs.wasNull()) {
+                                repeatGrade = -1;
+                            }
+
+                            grade.setRepeatPercent(repeatGrade);
+                            //Break out early to avoid wasting CPU time
+                            break;
+                        }
+                    }
+                }
+                else {
+                    //New type of grade, so add to processed list and create new object
+                    processedList.add(rs.getString(1) + rs.getString(2));
+
+                    //Unfortunately, .getFloat() returns 0 when it encounters a null
+                    //This is a valid percentage, so check if it was definitely null
+                    //and, if so, set to a sentinel (-1), which can never be reached
+                    initialGrade = rs.getFloat(4);
+                    if(rs.wasNull()) {
+                        initialGrade = -1;
+                    }
+
+                    resitGrade = rs.getFloat(5);
+                    if(rs.wasNull()) {
+                        resitGrade = -1;
+                    }
+                    gradeList.add(new Grade(rs.getInt(1), rs.getString(2),
+                            rs.getString(3).charAt(0), initialGrade, resitGrade, -1));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return gradeList;
+    }
 
     /**
     * retrieveStudentsModules, given a student's loginID, this function returns all the modules that that student is
