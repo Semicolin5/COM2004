@@ -235,7 +235,30 @@ public class RetrieveQueries extends Queries {
     	return table;
     }
     
-	/**
+    public PeriodOfStudy retrieveLatestPeriodOfStudy(int loginID) {
+        PeriodOfStudy periodOfStudy = null;
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+     	   pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id = ? ORDER BY label DESC");
+     	   pstmt.setInt(1, loginID);
+           res = pstmt.executeQuery();
+
+           if(res.next()) {
+               periodOfStudy = new PeriodOfStudy(res.getString(1), res.getString(2),
+                       res.getDate(3), res.getDate(4), res.getString(5));
+           }
+        }
+        catch (SQLException e) {
+     	   e.printStackTrace();
+        }
+        finally {
+     	   closeResources(pstmt, res);
+        }
+    	return periodOfStudy;
+    }
+
+    /**
 	 * retrieve the users table
 	 * @return List<User>, returns the list of the users table
 	 */

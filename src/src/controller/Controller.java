@@ -119,6 +119,11 @@ public class Controller {
 		return retrieveQ.retrievePeriodOfStudyTable();
 	}
 
+	public static PeriodOfStudy getLatestPeriodOfStudy(int loginID) {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveLatestPeriodOfStudy(loginID);
+	}
+
 	public static ArrayList<Grade> getGrades() {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 		return retrieveQ.retrieveGradesTable();
