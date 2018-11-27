@@ -139,7 +139,7 @@ public class UpdateGrades extends Form {
                 ArrayList<String> duplicateCodes = new ArrayList<>();
                 for (Module module : Controller.getStudentModules(loginID)) {
                     //If we haven't seen this form before, add to duplicates list and form
-                    if(!duplicateCodes.contains(module.getCode())) {
+                    if (!duplicateCodes.contains(module.getCode())) {
                         duplicateCodes.add(module.getCode());
                         moduleModel.addElement(module.getCode());
                     }

@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import src.objects.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -30,6 +32,11 @@ public class ModulePick extends Form {
     private DefaultTableModel chosenModel;
     private String periodOfStudyLabel;
 
+    private ArrayList<String[]> modChoices = new ArrayList<String[]>();
+    private ArrayList<String[]> modAssigned = new ArrayList<String[]>();
+    
+    
+    
     public ModulePick(GUIFrame frame) {
         super(frame);
 
