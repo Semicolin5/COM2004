@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>504</x>
+      <y>312</y>
+      <w>126</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Student
+--
+Title : String
+Forename : String
+Surname : String
+Personal Tutor : String
+email
+--
+getTitle() : String
+getForename() : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>294</x>
+      <y>312</y>
+      <w>120</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>User
+--
+LoginID : Int
+privilege level : Int
+password : String
+salt : String
+--
+getLoginID() : Int
+getPrivilegeLevel() : Int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>774</x>
+      <y>588</y>
+      <w>126</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>Department
+--
+departmentCode : String
+name : String
+--
+getName() : </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>408</x>
+      <y>348</y>
+      <w>108</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..1
+</panel_attributes>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>828</x>
+      <y>294</y>
+      <w>144</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>Degree
+--
+degreeCode : String
+degreeName : String
+masters : Boolean
+yearInIndustry : Boolean
+--
+getDegreeCode() : String
+getDegreeName() : String
+getMasters() : Boolean
+getYearInIndustry() : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>738</x>
+      <y>228</y>
+      <w>24</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>222</y>
+      <w>96</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>Module
+--
+Attributes
+--
+
+Services</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>624</x>
+      <y>348</y>
+      <w>162</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1
+takes  &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;180.0;20.0;250.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>504</x>
+      <y>138</y>
+      <w>96</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>Period of Study
+--
+Attributes
+--
+
+Services</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>846</x>
+      <y>90</y>
+      <w>96</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>
+--
+Attributes
+--
+
+Services</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
