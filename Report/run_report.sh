@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo "running pdflatex on team_report.tex"
-pdflatex team_report.tex
+pdflatex teamReport.tex
 
 echo "viewing the team report as a pdf"
-firefox team_report.pdf
+firefox teamReport.pdf
 
