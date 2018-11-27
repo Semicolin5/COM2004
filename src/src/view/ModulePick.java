@@ -36,6 +36,7 @@ public class ModulePick extends Form {
     private DefaultListModel<String> studentModel;
     private DefaultTableModel choiceModel;
     private DefaultTableModel chosenModel;
+    private String periodOfStudyLabel;
 
 
     public ModulePick(GUIFrame frame) {
@@ -83,20 +84,25 @@ public class ModulePick extends Form {
                         if (student.getLogin().equals(studentList.getSelectedValue())) {
                             studentName.setText(student.getForename() + " " + student.getSurname());
                             for (PeriodOfStudy p : Controller.getPeriodsOfStudy()) {
-                                if (p.getLoginID().equals(studentList.getSelectedValue()))
+                                if (p.getLoginID().equals(studentList.getSelectedValue())) {
+                                    periodOfStudyLabel = p.getLabel();
                                     studentLevel.setText(p.getLevelOfStudy());
+                                }
                             }
                             for (ModuleDegree m : Controller.getModuleDegrees()) {
                                 if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel.getText()))) {
                                     for (Module mod : Controller.getModules()) {
                                         if (mod.getCode().equals(m.getModuleCode())) {
                                             if (m.isCore())
-                                                chosenModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Core"});
+                                                choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Core"});
                                             else
                                                 choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Not Core"});
                                         }
                                     }
                                 }
+                            }
+                            for (Grade grade : Controller.getModuleDegrees()){
+
                             }
                         }
                     }
@@ -199,11 +205,12 @@ public class ModulePick extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             if (choiceTable.getSelectedRow() != -1) {
                 int rowNumber = choiceTable.getSelectedRow();
-                String code = choiceTable.getValueAt(rowNumber, 0).toString();
-                String cred = choiceTable.getValueAt(rowNumber, 1).toString();
-                String coreStatus = choiceTable.getValueAt(rowNumber, 2).toString();
-                chosenModel.addRow(new Object[]{code, cred, coreStatus});
-                choiceModel.removeRow(rowNumber);
+                String code = choiceTable.getValueAt(rowNumber,0).toString();
+                //String cred = choiceTable.getValueAt(rowNumber,1).toString();
+                //String coreStatus = choiceTable.getValueAt(rowNumber,2).toString();
+                Controller.saveBlankGrades(studentList.getSelectedValue().toString(), code, periodOfStudyLabel);
+                //chosenModel.addRow(new Object[]{code, cred, coreStatus});
+                //choiceModel.removeRow(rowNumber);
             }
             calculateCredits();
         }
@@ -213,10 +220,10 @@ public class ModulePick extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             String level = studentLevel.getText();
             String sumCredits = totalCredits.getText();
-            if ((level.equals("4") && sumCredits.equals("180")) || (Integer.parseInt(level) < 4 && sumCredits.equals("120"))) {
+            if ((level.equals("4")&&sumCredits.equals("180"))||(Integer.parseInt(level)<4&&sumCredits.equals("120"))){
                 for (int i = 0; i < chosenModel.getRowCount(); i++) {
                     String module = chosenTable.getValueAt(i, 0).toString();
-                    Controller.saveBlankGrades(studentList.getSelectedValue().toString(), module);
+                    Controller.saveBlankGrades(studentList.getSelectedValue().toString(), module, periodOfStudyLabel);
                 }
             }
         }
@@ -226,10 +233,10 @@ public class ModulePick extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             if (chosenTable.getSelectedRow() != -1) {
                 int rowNumber = chosenTable.getSelectedRow();
-                if (chosenTable.getValueAt(rowNumber, 2).equals("Not Core")) {
-                    String code = chosenTable.getValueAt(rowNumber, 0).toString();
-                    String credits = chosenTable.getValueAt(rowNumber, 1).toString();
-                    String coreStatus = chosenTable.getValueAt(rowNumber, 2).toString();
+                if (chosenTable.getValueAt(rowNumber,2).equals("Not Core")) {
+                    String code = chosenTable.getValueAt(rowNumber,0).toString();
+                    String credits = chosenTable.getValueAt(rowNumber,1).toString();
+                    String coreStatus = chosenTable.getValueAt(rowNumber,2).toString();
                     choiceModel.addRow(new Object[]{code, credits, coreStatus});
                     chosenModel.removeRow(chosenTable.getSelectedRow());
                 }

@@ -53,7 +53,7 @@ public class Controller {
     	return returnMessage;
     }
 
-    public  static  void saveBlankGrades(String studentId, String moduleCode){
+    public  static  void saveBlankGrades(String studentId, String moduleCode, String label){
 		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
 		additionQ.addStudentModuleAssociation(studentId, moduleCode);
 	}

@@ -48,7 +48,10 @@ INSERT INTO module VALUES
     ("COM1003", "Learn to Program in Java", 20, 1),
     ("COM1070", "Ruby Ruby Ruby Ruby Ruby", 20, 3),
     ("COM1008", "Intro to Web Programming", 20, 2),
-    ("COM2110", "Functional Programming", 20, 4);
+    ("COM2110", "Functional Programming", 20, 4),
+    ("MAS1014", "Introduction to Probability & Statistics", 20, 3),
+    ("MAS1008", "Game Theory", 20, 2),
+    ("MAS1011", "Algebra Intro", 20, 4);
 
 INSERT INTO module_degree VALUES
     ("COM1005", "COMU49", 1, 0),
@@ -58,6 +61,9 @@ INSERT INTO module_degree VALUES
     ("COM1003", "COMU20", 1, 1),
     ("COM1070", "COMU20", 1, 1),
     ("COM1008", "COMU20", 1, 1),
+    ("MAS1014", "COMU20", 1, 1),
+    ("MAS1008", "COMU20", 1, 1),
+    ("MAS1011", "COMU20", 1, 1),
     ("COM2110", "COMU20", 2, 1);
 
 INSERT INTO period_of_study VALUES
