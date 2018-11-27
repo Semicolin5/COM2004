@@ -44,7 +44,10 @@ public class ViewRecord extends Form {
      */
     public ViewRecord(GUIFrame frame) {
         super(frame);
+
+        // setting up JLists and Tables depending on whether being viewed by teacher or student
         isTeacher = false; // if the teacher is viewing the records, they can see all students records
+        periodListModel = new DefaultListModel<>();
         // displays the page differently depending if the
         if (Main.getPriv() == 2) { // running for a teacher
             isTeacher = true;
@@ -57,6 +60,10 @@ public class ViewRecord extends Form {
             selectStudent.setModel(studentListModel);
         } else if (Main.getPriv() == 1) { // running for a student
             username = Main.getLoginID();
+            // filling JList
+            for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
+                periodListModel.addElement(p.getLabel()); // selects students periods of study
+            }
         }
 
         // setup the backbutton
@@ -66,23 +73,19 @@ public class ViewRecord extends Form {
         frame.setTitle("View Record");
 
 
-        // setup the JList and JTable
-        periodListModel = new DefaultListModel<>();
-        outcomeModel = new DefaultTableModel();
         // setting up the columns in the table
+        outcomeModel = new DefaultTableModel();
         outcomeModel.addColumn("Module");
         outcomeModel.addColumn("Initial Percent Achieved");
         outcomeModel.addColumn("Resit Percent Achieved");
-        // filling JList
-        for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
-            System.out.println(p.getLabel());
-            periodListModel.addElement(p.getLabel()); // selects students periods of study
-        }
         periodList.setLayoutOrientation(JList.VERTICAL);
         periodList.setModel(periodListModel);
         periodList.setVisibleRowCount(10);
         displayOutcome.setModel(outcomeModel);
+
+        // setting up loadRecordButton and loadStudentButton
         loadRecordButton.addActionListener(new LoadRecordHandler());
+        loadStudentButton.addActionListener(new LoadStudentHandler());
     }
 
     {
@@ -145,6 +148,8 @@ public class ViewRecord extends Form {
 
     /**
      * LoadRecordHandler loads a students progress in a given period of study onto a JTable
+     * possible that username hasn't been defined (if the teacher is viewing and hasn't yet loaded
+     * a student.) //TODO possibly add check and do nothing rather than have unhandled nullpointerexception
      */
     private class LoadRecordHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
@@ -155,6 +160,25 @@ public class ViewRecord extends Form {
                 //TODO just need to check that resit isn't displayed as 0.00
                 outcomeModel.addRow(new Object[]{g.getModuleCode(), g.getInitialPercent(), g.getResitPercent()});
             }
+        }
+    }
+
+    /**
+     * LoadStudentHandler targets a student. Only teachers will be able to call upon this method.
+     * */
+    private class LoadStudentHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (isTeacher)
+                System.out.println(selectStudent.getSelectedValue());
+                periodListModel.removeAllElements(); // resets the JList
+                username = Integer.parseInt((String) selectStudent.getSelectedValue()); // targeted student's login code
+                System.out.println("username: " + username);
+                // filling JList
+                for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
+                    periodListModel.addElement(p.getLabel()); // selects students periods of study
+                    System.out.println(p.toString());
+                }
+                periodList.setModel(periodListModel);
         }
     }
 
