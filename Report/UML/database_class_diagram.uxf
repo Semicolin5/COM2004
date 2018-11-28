@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>945</x>
+      <y>238</y>
+      <w>182</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+module
+--
+  PK module_code : String[7]
+       module_name : String[100]
+       credits             : String[3]
+       year_industry  : Boolean
+
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>581</x>
+      <y>504</y>
+      <w>182</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+users
+--
+  PK login_id    : Integer
+        salt           : String[32]
+        hashpass : String[64]
+        privilege   : Integer
+
+-
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>217</x>
+      <y>238</y>
+      <w>182</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+department
+--
+  PK department_code  : String[3]
+        department_name : String[100]
+
+    
+
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>763</x>
+      <y>91</y>
+      <w>182</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+module_degree
+--
+  PFK module_code : String[7]
+  PFK degree_code  : String (6),
+          degree_level  : String[1]
+          core                : Boolean
+    
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>945</x>
+      <y>392</y>
+      <w>182</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+student
+--
+  PFK login_id           : Integer
+          title                  : String[2]
+          forename         : String[50]
+          surname          : String[50]
+          personal_tutor : String[50]
+          email               : String [50]
+  FK   degree_code   : String[6]
+
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>945</x>
+      <y>581</y>
+      <w>182</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+period_of_study
+--
+    PFK login_id              : Integer
+    PK   period_of_study : String[1]
+            start_date           : date
+            end_date            : date
+            level_of_study    : String[1]
+
+
+            
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>399</x>
+      <y>91</y>
+      <w>182</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+degree_department
+--
+  PFK degree_code        : String[6]
+  PFK department_code : String[3]
+          lead_department  : Boolean
+
+  
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1232</x>
+      <y>392</y>
+      <w>182</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+grades
+--
+  PFK login_id              : Integer
+  PFK module_code     : String[7]
+  PFK period_of_study : String[1]
+          initial_percent    : Decimal
+          resit_percent      : Decimal 
+
+
+    
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>581</x>
+      <y>238</y>
+      <w>182</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;table&gt;&gt;
+degree
+--
+  PK degree_code  : String[6]
+        degree_name : String[100]
+        masters          : Boolean
+        year_industry : Boolean
+
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>686</x>
+      <y>133</y>
+      <w>91</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=Degree
+m2=0..*
+r2=Modules</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>392</x>
+      <y>280</y>
+      <w>203</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1..*
+r1=Departments
+m2=0..*
+r2=Degrees
+</panel_attributes>
+    <additional_attributes>10.0;20.0;270.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>938</x>
+      <y>133</y>
+      <w>119</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=Module
+m2=1..*
+r2=Degrees</panel_attributes>
+    <additional_attributes>110.0;150.0;110.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>322</x>
+      <y>133</y>
+      <w>91</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=Department
+m2=0..*
+r2=Degrees</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>574</x>
+      <y>133</y>
+      <w>119</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=Degree
+m2=1..*
+r2=Departments</panel_attributes>
+    <additional_attributes>110.0;150.0;110.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>448</y>
+      <w>126</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=Student
+m2=0..*
+r2=Grades</panel_attributes>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>525</y>
+      <w>238</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=Period of study
+m2=0..*
+r2=Grades</panel_attributes>
+    <additional_attributes>10.0;190.0;280.0;190.0;280.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>658</x>
+      <y>336</y>
+      <w>301</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=Degree
+m2=0..*
+r2=Students</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0;410.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>280</y>
+      <w>238</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=Module
+m2=0..*
+r2=Grades</panel_attributes>
+    <additional_attributes>10.0;20.0;280.0;20.0;280.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>658</x>
+      <y>455</y>
+      <w>301</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=User
+m2=0..1
+r2=Student</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;20.0;410.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>658</x>
+      <y>602</y>
+      <w>301</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+r1=User
+m2=0..*
+r2=Periods of study</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;410.0;70.0</additional_attributes>
+  </element>
+</diagram>
