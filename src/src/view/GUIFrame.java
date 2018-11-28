@@ -13,7 +13,7 @@ public class GUIFrame extends JFrame {
         setContentPane(currentPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        setSize(1050,600);
+        setSize(1200,600);
         //TODO: Change the setSize to be relative to screen size?
         setLocationRelativeTo(null);
         setTitle("");

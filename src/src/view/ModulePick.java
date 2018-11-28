@@ -13,6 +13,13 @@ import javax.swing.table.DefaultTableModel;
 
 import src.controller.Controller;
 
+/**
+ * ModulePick.java
+ * Only accessible for Registrars (privilege level 3)
+ * Extension of Form, creates a functional GUI form which allows Registrar to assign/unassign modules
+ * to or from a student's current period of study.  * Assigning consists of adding a row in the Grades
+ * table, unassigning means deleting a row from the Grades table.
+ */
 public class ModulePick extends Form {
     private JPanel panel1;
     private JList studentList;
@@ -32,12 +39,12 @@ public class ModulePick extends Form {
     private ArrayList<String[]> modChoices = new ArrayList<String[]>();
     private ArrayList<String[]> modAssigned = new ArrayList<String[]>();
 
+    /**
+     * Set default JFrame sizes & add Event Listener
+     * @param frame - JFrame with properties set in the GUIFrame class.
+     */
     public ModulePick(GUIFrame frame) {
         super(frame);
-
-        //Set back button
-        setBackButton(backButton);
-        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
 
         setJPanel(panel1);
         studentModel = new DefaultListModel<>();
@@ -49,6 +56,7 @@ public class ModulePick extends Form {
         studentList.setModel(studentModel);
         studentList.setVisibleRowCount(8);
 
+        //Set column headers
         choiceModel.addColumn("Module Code");
         choiceModel.addColumn("Module Credits");
         choiceModel.addColumn("Core Status");
@@ -61,15 +69,25 @@ public class ModulePick extends Form {
 
         assignModuleButton.addActionListener(new AssignModuleHandler());
         unassignModuleButton.addActionListener(new UnassignModuleHandler());
+        backButton.addActionListener(new backHandler());
 
+        //Loads all students into the studentList
         for (Student student : Controller.getStudents()) {
             studentModel.addElement(student.getLogin());
         }
 
+        /*
+        When a student is selected in the studentList, all modules that student is eligible at their current
+        level of study are loaded into the choiceTable JTable, and all of the modules the student is currently
+        assigned are loaded into the chosenTable JTable.
+         */
         studentList.addListSelectionListener(evt -> {
             if (!evt.getValueIsAdjusting()) {
+                //Clear JTables
                 choiceModel.setRowCount(0);
                 chosenModel.setRowCount(0);
+
+                //Retrieves the selected student's period of study label, and level of study (which it places in a textbox).
                 for (Student student : Controller.getStudents()) {
                     if (student.getLogin().equals(studentList.getSelectedValue())) {
                         studentName.setText(student.getForename() + " " + student.getSurname());
@@ -79,6 +97,9 @@ public class ModulePick extends Form {
                                 studentLevel.setText(p.getLevelOfStudy());
                             }
                         }
+
+                        /**Retrieves a list of all modules the selected student is eligible for and adds the details of
+                        each as a row in the choice JTable.*/
                         for (ModuleDegree m : Controller.getModuleDegrees()) {
                             if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel.getText()))) {
                                 for (Module mod : Controller.getModules()) {
@@ -91,7 +112,11 @@ public class ModulePick extends Form {
                                 }
                             }
                         }
-                        for (Grade grade : Controller.getStudentsGradeAtPeriod(Integer.parseInt(studentList.getSelectedValue().toString()), periodOfStudyLabel)) {
+
+                        /**Retrieves a list of all modules the selected student is assigned and adds the details of
+                         each as a row in the chosen JTable.*/
+                        int studentID = Integer.parseInt(studentList.getSelectedValue().toString());
+                        for (Grade grade : Controller.getStudentsGradeAtPeriod(studentID, periodOfStudyLabel)) {
                             for (ModuleDegree modDeg : Controller.getModuleDegrees()) {
                                 if (grade.getModuleCode().equals(modDeg.getModuleCode())) {
                                     for (Module mod : Controller.getModules()) {
@@ -112,6 +137,9 @@ public class ModulePick extends Form {
         });
     }
 
+    /**
+     * Class which calculate the total credits of the modules a student has assigned.
+     */
     private void calculateCredits() {
         int total = 0;
         for (int i = 0; i < chosenModel.getRowCount(); i++) {
@@ -198,6 +226,9 @@ public class ModulePick extends Form {
         return panel1;
     }
 
+    /**
+     * ActionListener which assigns the module selected in the choiceTable JTable to the selected student.
+     */
     public class AssignModuleHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (choiceTable.getSelectedRow() != -1) {
@@ -212,6 +243,9 @@ public class ModulePick extends Form {
         }
     }
 
+    /**
+     * ActionListener which unassigns the module selected in the choiceTable JTable to the selected student.
+     */
     public class UnassignModuleHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (chosenTable.getSelectedRow() != -1) {
@@ -221,6 +255,15 @@ public class ModulePick extends Form {
                 chosenModel.removeRow(rowNumber);
             }
             calculateCredits();
+        }
+    }
+
+    /**
+     * ActionListener which takes the user back to the Welcome form.
+     */
+    public class backHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new Welcome(getFrame()).getJPanel());
         }
     }
 }
