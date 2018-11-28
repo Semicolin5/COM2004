@@ -32,10 +32,6 @@ public class ManageUsers extends Form {
     public ManageUsers(GUIFrame frame) {
         super(frame);
 
-        //Set back button
-        setBackButton(backButton);
-        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
-
         setJPanel(panel1);
         userModel = new DefaultListModel<>();
         frame.setTitle("Manage Users Screen");
@@ -47,6 +43,8 @@ public class ManageUsers extends Form {
         userList.setLayoutOrientation(JList.VERTICAL);
         userList.setModel(userModel);
         userList.setVisibleRowCount(10);
+        
+        backButton.addActionListener(new BackHandler());
         createUserButton.addActionListener(new UserHandler());
         deleteSelectedUsersButton.addActionListener(new RemoveUserHandler());
     }
@@ -128,6 +126,15 @@ public class ManageUsers extends Form {
                 }
             }
             changeJPanel(new ManageUsers(getFrame()).getJPanel());
+        }
+    }
+
+    /**
+     * ActionListener class which takes the user back to the Welcome form.
+     */
+    private class BackHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
         }
     }
 
