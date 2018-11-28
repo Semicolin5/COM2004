@@ -24,16 +24,14 @@ public class ViewRecord extends Form {
     private JButton backButton;
     private JButton loadRecordButton;
     private JTable displayOutcome;
-    private JList periodList;
     private JPanel panel1;
     private JList selectStudent;
     private JButton loadStudentButton;
     private DefaultTableModel outcomeModel;
-    private DefaultListModel<String> periodListModel;
     private DefaultListModel<String> studentListModel;
     private int username; // int for the current user record being viewed
-    private boolean isTeacher; //TODO possibly delete this
     private JScrollPane studentScrollPane;
+    private JComboBox periodComboBox;
 
     /**
      * Constructor sets up an empty JTable, and sets up a JList containing the periods of study, and levels for the
@@ -48,15 +46,11 @@ public class ViewRecord extends Form {
         super(frame);
 
         // setting up JLists and Tables depending on whether being viewed by teacher or student
-        isTeacher = false; // if the teacher is viewing the records, they can see all students records
-        periodListModel = new DefaultListModel<>();
         // displays the page differently depending if the
         if (Main.getPriv() == 2) { // running for a teacher
-            isTeacher = true;
             // if the user is a teacher, load the JList enabling different students to be selected
             studentListModel = new DefaultListModel<>();
             for (Student s : Controller.getStudents()) {
-                System.out.println("student: " + s.toString());
                 studentListModel.addElement(s.getLogin());
             }
             selectStudent.setModel(studentListModel);
@@ -66,10 +60,7 @@ public class ViewRecord extends Form {
             loadStudentButton.setVisible(false);
 
             username = Main.getLoginID();
-            // filling JList
-            for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
-                periodListModel.addElement(p.getLabel()); // selects students periods of study
-            }
+            setupPeriodCombo(username);
         }
 
         // setup the backbutton
@@ -84,9 +75,6 @@ public class ViewRecord extends Form {
         outcomeModel.addColumn("Module");
         outcomeModel.addColumn("Initial Percent Achieved");
         outcomeModel.addColumn("Resit Percent Achieved");
-        periodList.setLayoutOrientation(JList.VERTICAL);
-        periodList.setModel(periodListModel);
-        periodList.setVisibleRowCount(10);
         displayOutcome.setModel(outcomeModel);
 
         // setting up loadRecordButton and loadStudentButton
@@ -113,18 +101,14 @@ public class ViewRecord extends Form {
         panel1.setLayout(new GridLayoutManager(13, 2, new Insets(0, 0, 0, 0), -1, -1));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, new GridConstraints(0, 0, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        periodList = new JList();
-        final DefaultListModel defaultListModel1 = new DefaultListModel();
-        periodList.setModel(defaultListModel1);
-        scrollPane1.setViewportView(periodList);
         final JScrollPane scrollPane2 = new JScrollPane();
         panel1.add(scrollPane2, new GridConstraints(0, 1, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         displayOutcome = new JTable();
         scrollPane2.setViewportView(displayOutcome);
-        final JScrollPane scrollPane3 = new JScrollPane();
-        panel1.add(scrollPane3, new GridConstraints(6, 0, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        studentScrollPane = new JScrollPane();
+        panel1.add(studentScrollPane, new GridConstraints(6, 0, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         selectStudent = new JList();
-        scrollPane3.setViewportView(selectStudent);
+        studentScrollPane.setViewportView(selectStudent);
         backButton = new JButton();
         backButton.setText("Back");
         panel1.add(backButton, new GridConstraints(11, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -160,9 +144,8 @@ public class ViewRecord extends Form {
     private class LoadRecordHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             outcomeModel.setRowCount(0); // resets the table
-            String periodOfStudyLabel = periodList.getSelectedValue().toString(); // finds the period of study label
+            String periodOfStudyLabel = periodComboBox.getSelectedItem().toString(); // finds the period of study label
             for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
-                System.out.println("resit percent: " + g.getResitPercent());
                 //TODO just need to check that resit isn't displayed as 0.00
                 outcomeModel.addRow(new Object[]{g.getModuleCode(), g.getInitialPercent(), g.getResitPercent()});
             }
@@ -174,17 +157,19 @@ public class ViewRecord extends Form {
      */
     private class LoadStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            if (isTeacher)
-                System.out.println(selectStudent.getSelectedValue());
-            periodListModel.removeAllElements(); // resets the JList
             username = Integer.parseInt((String) selectStudent.getSelectedValue()); // targeted student's login code
-            System.out.println("username: " + username);
-            // filling JList
-            for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
-                periodListModel.addElement(p.getLabel()); // selects students periods of study
-                System.out.println(p.toString());
-            }
-            periodList.setModel(periodListModel);
+            setupPeriodCombo(username);
+
+            //Clear the results table
+            outcomeModel.setRowCount(0);
         }
     }
+
+    private void setupPeriodCombo(int loginID) {
+        periodComboBox.removeAllItems();
+        for(PeriodOfStudy pos : Controller.getPeriodsOfStudyForStudent(loginID)) {
+            periodComboBox.addItem(pos.getLabel());
+        }
+    }
+
 }
