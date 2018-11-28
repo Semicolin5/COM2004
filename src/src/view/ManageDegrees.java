@@ -35,12 +35,6 @@ public class ManageDegrees extends Form {
      */
     public ManageDegrees(GUIFrame frame) {
         super(frame);
-
-        //Setup back button
-        setBackButton(backButton);
-        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
-        //backButton.addActionListener(new testHandler());
-        //changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
         setJPanel(panel1);
         frame.setTitle("Manage Degrees");
 
@@ -52,18 +46,20 @@ public class ManageDegrees extends Form {
         associateModel.addColumn("Department Name");
         associateModel.addColumn("Lead Status");
 
+        //Add all existing degrees to the degreeList.
         for (Degree degree : Controller.getDegrees()) {
             degreeModel.addElement(degree.getDegreeCode());
         }
 
         degreeList.setLayoutOrientation(JList.VERTICAL);
-        degreeList.setModel(degreeModel);
         degreeList.setVisibleRowCount(10);
+        degreeList.setModel(degreeModel);
         associateTable.setModel(associateModel);
 
         createDegreeButton.addActionListener(new CreateDegreeHandler());
         deleteDegreeButton.addActionListener(new DeleteDegreesHandler());
         relatedDepartmentsButton.addActionListener(new AssociatedHandler());
+        backButton.addActionListener(new BackHandler());
     }
 
     {
@@ -118,6 +114,9 @@ public class ManageDegrees extends Form {
         return panel1;
     }
 
+    /**
+     * ActionListener class which takes the user back to the CreateDegree form.
+     */
     public class CreateDegreeHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateDegree(getFrame()).getJPanel());
@@ -142,12 +141,6 @@ public class ManageDegrees extends Form {
         }
     }
 
-    private class testHandler implements ActionListener {
-        public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new Welcome(getFrame()).getJPanel());
-        }
-    }
-
     /**
      * AssociateHandler calls methods from the controller which check the user's privilege level
      * and assuming it is suitable, will load the list of departments which the selected degree
@@ -164,7 +157,6 @@ public class ManageDegrees extends Form {
 	            for (Degree degree : Controller.getDegrees()) {
 	                if (degreeCode.equals(degree.getDegreeCode())) {
 	                    Department lead = degree.getLeadDepartment();
-	                    //System.out.println(lead.getCode() + " " + lead.getName() + " Lead");
 	                    associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
 	                    if (degree.getNonLeadDepartments() != null) {
 	                        for (Department d : degree.getNonLeadDepartments()) {
@@ -177,6 +169,15 @@ public class ManageDegrees extends Form {
             else {
             	JOptionPane.showMessageDialog(getFrame(), "Please select a degree to display.");
             }
+        }
+    }
+
+    /**
+     * ActionListener class which takes the user back to the Welcome form.
+     */
+    private class BackHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
         }
     }
 }
