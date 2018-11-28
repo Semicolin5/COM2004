@@ -4,23 +4,23 @@ import src.controller.Controller;
 import src.objects.Department;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class ManageDepartments extends Form {
     private JPanel panel1;
-    private JButton createDepartmentButton;
-    private JList list1;
-    private JButton deleteDepartmentButton;
+    private JButton createDepButton;
+    private JList departmentList;
+    private JButton deleteDepButton;
     private JButton backButton;
     private DefaultListModel<String> departmentsModel;
 
+    /**
+     * Constructor sets the columns of the empty JTable, and loads department codes into the department JList.
+     * Also adds ActionListeners to the different buttons on the form.
+     * @param frame - JFrame with properties defined in the GUIFrame class.
+     */
     public ManageDepartments(GUIFrame frame) {
         super(frame);
-
-        //Set back button
-        setBackButton(backButton);
-        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
         setJPanel(panel1);
         departmentsModel = new DefaultListModel<>();
         frame.setTitle("Manage Departments");
@@ -29,10 +29,12 @@ public class ManageDepartments extends Form {
             departmentsModel.addElement(department.getCode());
         }
 
-        list1.setModel(departmentsModel);
-        list1.setVisibleRowCount(10);
-        createDepartmentButton.addActionListener(new DepartmentHandler());
-        deleteDepartmentButton.addActionListener(new RemoveDepartmentHandler());
+        departmentList.setModel(departmentsModel);
+        departmentList.setVisibleRowCount(10);
+
+        backButton.addActionListener(new BackHandler());
+        createDepButton.addActionListener(new DepartmentHandler());
+        deleteDepButton.addActionListener(new RemoveDepartmentHandler());
     }
 
     {
@@ -59,8 +61,8 @@ public class ManageDepartments extends Form {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         panel1.add(scrollPane1, gbc);
-        list1 = new JList();
-        scrollPane1.setViewportView(list1);
+        departmentList = new JList();
+        scrollPane1.setViewportView(departmentList);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -73,26 +75,26 @@ public class ManageDepartments extends Form {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(spacer2, gbc);
-        deleteDepartmentButton = new JButton();
-        deleteDepartmentButton.setText("Delete Selected Departments");
+        deleteDepButton = new JButton();
+        deleteDepButton.setText("Delete Selected Departments");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(deleteDepartmentButton, gbc);
+        panel1.add(deleteDepButton, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(spacer3, gbc);
-        createDepartmentButton = new JButton();
-        createDepartmentButton.setText("Create Department");
+        createDepButton = new JButton();
+        createDepButton.setText("Create Department");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(createDepartmentButton, gbc);
+        panel1.add(createDepButton, gbc);
         final JLabel label1 = new JLabel();
         label1.setText("List of Departments");
         gbc = new GridBagConstraints();
@@ -121,7 +123,9 @@ public class ManageDepartments extends Form {
         return panel1;
     }
 
-
+    /**
+     * ActionListener class which takes the user  to the CreateDepartment form.
+     */
     public class DepartmentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateDepartment(getFrame()).getJPanel());
@@ -135,7 +139,7 @@ public class ManageDepartments extends Form {
      */
     private class RemoveDepartmentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            for (Object code : list1.getSelectedValuesList()) {
+            for (Object code : departmentList.getSelectedValuesList()) {
                 if (!Controller.removeDepartment((String) code)) {
                     JOptionPane.showMessageDialog(getFrame(), "The current department is not allowed to be deleted until " +
                             "there are no degrees affiliated with the department");
@@ -145,4 +149,12 @@ public class ManageDepartments extends Form {
         }
     }
 
+    /**
+     * ActionListener class which takes the user back to the Welcome form.
+     */
+    private class BackHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
+        }
+    }
 }
