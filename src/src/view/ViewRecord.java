@@ -184,24 +184,25 @@ public class ViewRecord extends Form {
 
     /**
      * LoadRecordHandler loads a students progress in a given period of study onto a JTable
-     * possible that username hasn't been defined (if the teacher is viewing and hasn't yet loaded
-     * a student.) //TODO possibly add check and do nothing rather than have unhandled nullpointerexception
      */
     private class LoadRecordHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            outcomeModel.setRowCount(0); // resets the table
-            String periodOfStudyLabel = periodComboBox.getSelectedItem().toString(); // finds the period of study label
-            for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
-                //TODO just need to check that resit isn't displayed as 0.00
-                outcomeModel.addRow(new Object[]{g.getModuleCode(), g.getInitialPercent(), g.getResitPercent()});
-            }
+            //If a user has been selected
+            if(username != 0) {
+                outcomeModel.setRowCount(0); // resets the table
+                String periodOfStudyLabel = periodComboBox.getSelectedItem().toString(); // finds the period of study label
+                for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
+                    //TODO just need to check that resit isn't displayed as 0.00
+                    outcomeModel.addRow(new Object[]{g.getModuleCode(), g.getInitialPercent(), g.getResitPercent()});
+                }
 
-            PeriodOfStudy periodOfStudy = Controller.getPeriodsOfStudyForStudent(username, periodOfStudyLabel);
-            //Fill period of study info fields
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            degreeLevelField.setText(periodOfStudy.getLevelOfStudy());
-            periodStartField.setText(dateFormat.format(periodOfStudy.getStartDate()));
-            periodEndField.setText(dateFormat.format(periodOfStudy.getEndDate()));
+                PeriodOfStudy periodOfStudy = Controller.getPeriodsOfStudyForStudent(username, periodOfStudyLabel);
+                //Fill period of study info fields
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                degreeLevelField.setText(periodOfStudy.getLevelOfStudy());
+                periodStartField.setText(dateFormat.format(periodOfStudy.getStartDate()));
+                periodEndField.setText(dateFormat.format(periodOfStudy.getEndDate()));
+            }
         }
     }
 
