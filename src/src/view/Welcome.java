@@ -62,7 +62,6 @@ public class Welcome extends Form {
             panel.add(viewStudentRecordButton);
             viewStudentRecordButton.addActionListener(new StudentHandler());
         }
-
         //Add logout button
         JButton backButton = new JButton("Logout");
         panel.add(backButton);
@@ -71,6 +70,10 @@ public class Welcome extends Form {
         return panel;
     }
 
+    /**
+     * ActionListener class that handles the Admin's navigation from the welcome page.
+     * Method actionPerformed allows the Admin to navigate to new pages.
+     * */
     private class AdminHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             String command = actionEvent.getActionCommand();
@@ -85,6 +88,10 @@ public class Welcome extends Form {
         }
     }
 
+    /**
+     * ActionListener class that handles the Registrar's navigation from the welcome page.
+     * Method actionPerformed allows the Registrar to navigate to new pages.
+     * */
     private class RegistrarHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             String command = actionEvent.getActionCommand();
@@ -96,7 +103,7 @@ public class Welcome extends Form {
     }
 
     /**
-     * Class that handles the student's navigation from the welcome page.
+     * ActionListener class that handles the student's navigation from the welcome page.
      * Method actionPerformed allows the student to navigate to new pages.
      * */
     private class StudentHandler implements ActionListener {
@@ -107,6 +114,10 @@ public class Welcome extends Form {
         }
     }
 
+    /**
+     * ActionListener that handles the user's logging out process.
+     * Method actionPerformed allows the student to logout.
+     * */
     private class logoutButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             //Main.getDB().closeConnection();
@@ -118,6 +129,10 @@ public class Welcome extends Form {
         }
     }
 
+    /**
+     * ActionListener class that allows a Teacher to navigate to the UpgradeGrades page.
+     * Method actionPerformed allows the Teacher to navigate to new pages.
+     * */
     public class updateGradesHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new src.view.UpdateGrades(getFrame()).getJPanel());
