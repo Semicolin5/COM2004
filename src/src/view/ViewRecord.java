@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 /**
  * ViewRecords.java
@@ -38,6 +39,10 @@ public class ViewRecord extends Form {
     private JTextField tutorField;
     private JTextField emailField;
     private JTextField degreeField;
+    private JTextField idField;
+    private JTextField degreeLevelField;
+    private JTextField periodStartField;
+    private JTextField periodEndField;
 
     /**
      * Constructor sets up an empty JTable, and sets up a JList containing the periods of study, and levels for the
@@ -190,6 +195,13 @@ public class ViewRecord extends Form {
                 //TODO just need to check that resit isn't displayed as 0.00
                 outcomeModel.addRow(new Object[]{g.getModuleCode(), g.getInitialPercent(), g.getResitPercent()});
             }
+
+            PeriodOfStudy periodOfStudy = Controller.getPeriodsOfStudyForStudent(username, periodOfStudyLabel);
+            //Fill period of study info fields
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            degreeLevelField.setText(periodOfStudy.getLevelOfStudy());
+            periodStartField.setText(dateFormat.format(periodOfStudy.getStartDate()));
+            periodEndField.setText(dateFormat.format(periodOfStudy.getEndDate()));
         }
     }
 
@@ -203,6 +215,11 @@ public class ViewRecord extends Form {
 
             //Clear the results table
             outcomeModel.setRowCount(0);
+
+            //Clear period of study information
+            degreeLevelField.setText("");
+            periodStartField.setText("");
+            periodEndField.setText("");
 
             addStudentInfo(username);
         }
@@ -225,6 +242,7 @@ public class ViewRecord extends Form {
     private void addStudentInfo(int loginID) {
         Student student = Controller.getStudent(loginID);
 
+        idField.setText(student.getLogin());
         titleField.setText(student.getTitle());
         forenameField.setText(student.getForename());
         surnameField.setText(student.getSurname());
