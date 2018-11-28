@@ -3,14 +3,12 @@ package src.view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import src.controller.Controller;
-import src.controller.Main;
+import src.controller.*;
 import src.model.RegexTests;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * CreateUser.java
@@ -28,7 +26,6 @@ public class CreateUser extends Form {
     private JButton createAccountButton;
     private JPasswordField initPass;
     private JButton cancelButton;
-    private int priv;
     private String errorMessage = "";
     
     
@@ -40,11 +37,9 @@ public class CreateUser extends Form {
         super(frame);
         frame.setTitle("Create Users Screen");
 
-        setBackButton(cancelButton);
-        setBackButtonPanel(new ManageUsers(getFrame()).getJPanel());
-
         setJPanel(panel1);
         createAccountButton.addActionListener(new CreateAccountHandler());
+        cancelButton.addActionListener(new cancelHandler());
     }
 
     {
@@ -162,10 +157,17 @@ public class CreateUser extends Form {
             	password = "";
             	confirmPassword = "";
             }
-
-
         }
     }
+    /**
+     * ActionListener class which takes the user back to the ManageUsers form.
+     */
+    private class cancelHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.ManageUsers(getFrame()).getJPanel());
+        }
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
