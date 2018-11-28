@@ -5,13 +5,10 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
-
 import src.objects.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
 
 import src.controller.Controller;
@@ -21,8 +18,8 @@ public class ModulePick extends Form {
     private JList studentList;
     private JLabel studentLevel;
     private JLabel studentName;
-    private JButton assignModuleToStudentButton;
-    private JButton unassignModuleFromStudentButton;
+    private JButton assignModuleButton;
+    private JButton unassignModuleButton;
     private JLabel totalCredits;
     private JButton backButton;
     private JTable choiceTable;
@@ -34,9 +31,7 @@ public class ModulePick extends Form {
 
     private ArrayList<String[]> modChoices = new ArrayList<String[]>();
     private ArrayList<String[]> modAssigned = new ArrayList<String[]>();
-    
-    
-    
+
     public ModulePick(GUIFrame frame) {
         super(frame);
 
@@ -64,57 +59,55 @@ public class ModulePick extends Form {
         choiceTable.setModel(choiceModel);
         chosenTable.setModel(chosenModel);
 
-        assignModuleToStudentButton.addActionListener(new assignModuleHandler());
-        unassignModuleFromStudentButton.addActionListener(new unassignModuleHandler());
+        assignModuleButton.addActionListener(new AssignModuleHandler());
+        unassignModuleButton.addActionListener(new UnassignModuleHandler());
 
         for (Student student : Controller.getStudents()) {
             studentModel.addElement(student.getLogin());
         }
 
-        studentList.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) {
-                
-            	
-            	
-            	
-            	
-            	
-            	
-            	
-            	if (!evt.getValueIsAdjusting()) {
-                    choiceModel.setRowCount(0);
-                    chosenModel.setRowCount(0);
-                    for (Student student : Controller.getStudents()) {
-                        if (student.getLogin().equals(studentList.getSelectedValue())) {
-                            studentName.setText(student.getForename() + " " + student.getSurname());
-                            for (PeriodOfStudy p : Controller.getPeriodsOfStudy()) {
-                                if (p.getLoginID().equals(studentList.getSelectedValue())) {
-                                    periodOfStudyLabel = p.getLabel();
-                                    studentLevel.setText(p.getLevelOfStudy());
+        studentList.addListSelectionListener(evt -> {
+            if (!evt.getValueIsAdjusting()) {
+                choiceModel.setRowCount(0);
+                chosenModel.setRowCount(0);
+                for (Student student : Controller.getStudents()) {
+                    if (student.getLogin().equals(studentList.getSelectedValue())) {
+                        studentName.setText(student.getForename() + " " + student.getSurname());
+                        for (PeriodOfStudy p : Controller.getPeriodsOfStudy()) {
+                            if (p.getLoginID().equals(studentList.getSelectedValue())) {
+                                periodOfStudyLabel = p.getLabel();
+                                studentLevel.setText(p.getLevelOfStudy());
+                            }
+                        }
+                        for (ModuleDegree m : Controller.getModuleDegrees()) {
+                            if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel.getText()))) {
+                                for (Module mod : Controller.getModules()) {
+                                    if (mod.getCode().equals(m.getModuleCode())) {
+                                        if (m.isCore())
+                                            choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Core"});
+                                        else
+                                            choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Not Core"});
+                                    }
                                 }
                             }
-                            for (ModuleDegree m : Controller.getModuleDegrees()) {
-                                if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel.getText()))) {
+                        }
+                        for (Grade grade : Controller.getStudentsGradeAtPeriod(Integer.parseInt(studentList.getSelectedValue().toString()), periodOfStudyLabel)) {
+                            for (ModuleDegree modDeg : Controller.getModuleDegrees()) {
+                                if (grade.getModuleCode().equals(modDeg.getModuleCode())) {
                                     for (Module mod : Controller.getModules()) {
-                                        if (mod.getCode().equals(m.getModuleCode())) {
-                                            if (m.isCore())
-                                                choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Core"});
+                                        if (mod.getCode().equals(modDeg.getModuleCode())) {
+                                            if (modDeg.isCore())
+                                                chosenModel.addRow(new Object[]{grade.getModuleCode(), mod.getCredits(), "Core"});
                                             else
-                                                choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Not Core"});
+                                                chosenModel.addRow(new Object[]{grade.getModuleCode(), mod.getCredits(), "Not Core"});
                                         }
                                     }
                                 }
                             }
-                           // for (Module module : Controller.getStudentModules(Integer.parseInt(studentList.getSelectedValue().toString()))) {
-                            System.out.println("Search Grades");
-                            for (Grade grade : Controller.getStudentsGradeAtPeriod(Integer.parseInt(studentList.getSelectedValue().toString()), periodOfStudyLabel)) {
-                                    chosenModel.addRow(new Object[]{grade.getModuleCode(), "FILLER1", "FILLER 2"});
-                                }
-                            //}
                         }
                     }
-                    calculateCredits();
                 }
+                calculateCredits();
             }
         });
     }
@@ -123,7 +116,7 @@ public class ModulePick extends Form {
         int total = 0;
         for (int i = 0; i < chosenModel.getRowCount(); i++) {
             int credits = Integer.parseInt(chosenModel.getValueAt(i, 1).toString());
-            total = total + credits;
+            total += credits;
         }
         totalCredits.setText(String.valueOf(total));
     }
@@ -167,12 +160,12 @@ public class ModulePick extends Form {
         final JLabel label3 = new JLabel();
         label3.setText("Selected Modules");
         panel1.add(label3, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        assignModuleToStudentButton = new JButton();
-        assignModuleToStudentButton.setText("Assign Module to Student");
-        panel1.add(assignModuleToStudentButton, new GridConstraints(5, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        unassignModuleFromStudentButton = new JButton();
-        unassignModuleFromStudentButton.setText("Unassign Module from Student");
-        panel1.add(unassignModuleFromStudentButton, new GridConstraints(5, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        assignModuleButton = new JButton();
+        assignModuleButton.setText("Assign Module to Student");
+        panel1.add(assignModuleButton, new GridConstraints(5, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        unassignModuleButton = new JButton();
+        unassignModuleButton.setText("Unassign Module from Student");
+        panel1.add(unassignModuleButton, new GridConstraints(5, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
         label4.setText("Total Credits Selected:");
         panel1.add(label4, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -205,7 +198,7 @@ public class ModulePick extends Form {
         return panel1;
     }
 
-    public class assignModuleHandler implements ActionListener {
+    public class AssignModuleHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (choiceTable.getSelectedRow() != -1) {
                 int rowNumber = choiceTable.getSelectedRow();
@@ -214,25 +207,20 @@ public class ModulePick extends Form {
                 String coreStatus = choiceTable.getValueAt(rowNumber, 2).toString();
                 Controller.saveBlankGrades(studentList.getSelectedValue().toString(), code, periodOfStudyLabel);
                 chosenModel.addRow(new Object[]{code, cred, coreStatus});
-                //choiceModel.removeRow(rowNumber);
             }
             calculateCredits();
         }
     }
 
-    public class unassignModuleHandler implements ActionListener {
+    public class UnassignModuleHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (chosenTable.getSelectedRow() != -1) {
                 int rowNumber = chosenTable.getSelectedRow();
                 String code = chosenTable.getValueAt(rowNumber, 0).toString();
-                String cred = chosenTable.getValueAt(rowNumber, 1).toString();
-                String coreStatus = chosenTable.getValueAt(rowNumber, 2).toString();
                 Controller.removeGrades(Integer.parseInt(studentList.getSelectedValue().toString()), code, periodOfStudyLabel);
-                //choiceModel.addRow(new Object[]{code, cred, coreStatus});
                 chosenModel.removeRow(rowNumber);
             }
             calculateCredits();
         }
     }
-
 }

@@ -73,7 +73,7 @@
           <text value="Selected Modules"/>
         </properties>
       </component>
-      <component id="bcc4c" class="javax.swing.JButton" binding="assignModuleToStudentButton" default-binding="true">
+      <component id="bcc4c" class="javax.swing.JButton" binding="assignModuleButton" default-binding="true">
         <constraints>
           <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -81,7 +81,7 @@
           <text value="Assign Module to Student"/>
         </properties>
       </component>
-      <component id="ef19d" class="javax.swing.JButton" binding="unassignModuleFromStudentButton" default-binding="true">
+      <component id="ef19d" class="javax.swing.JButton" binding="unassignModuleButton" default-binding="true">
         <constraints>
           <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
