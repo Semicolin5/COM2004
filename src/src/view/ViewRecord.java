@@ -51,6 +51,8 @@ public class ViewRecord extends Form {
     public ViewRecord(GUIFrame frame) {
         super(frame);
 
+        backButton.addActionListener(new BackButtonHandler());
+
         // setting up JLists and Tables depending on whether being viewed by teacher or student
         // displays the page differently depending if the
         if (Main.getPriv() == 2) { // running for a teacher
@@ -70,12 +72,8 @@ public class ViewRecord extends Form {
             addStudentInfo(username);
         }
 
-        // setup the backbutton
-        setBackButton(backButton);
-        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
         setJPanel(panel1);
         frame.setTitle("View Record");
-
 
         // setting up the columns in the table
         outcomeModel = new DefaultTableModel();
@@ -207,6 +205,12 @@ public class ViewRecord extends Form {
             outcomeModel.setRowCount(0);
 
             addStudentInfo(username);
+        }
+    }
+
+    private class BackButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new Welcome(getFrame()).getJPanel());
         }
     }
 

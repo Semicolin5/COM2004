@@ -34,8 +34,7 @@ public class UpdateGrades extends Form {
     public UpdateGrades(GUIFrame frame) {
         super(frame);
 
-        setBackButton(backButton);
-        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
+        backButton.addActionListener(new BackButtonHandler());
 
         setJPanel(panel1);
 
@@ -186,6 +185,12 @@ public class UpdateGrades extends Form {
             Controller.updateGrades(loginID, selectedGrades.getModuleCode(),
                     String.valueOf(selectedGrades.getLabel()), Float.valueOf(initialGrade.getText()),
                     Float.valueOf(resitGrade.getText()), Float.valueOf(repeatGrade.getText()));
+        }
+    }
+
+    private class BackButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new Welcome(getFrame()).getJPanel());
         }
     }
 
