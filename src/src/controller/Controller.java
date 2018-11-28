@@ -154,6 +154,17 @@ public class Controller {
         return retrieveQ.retrievePeriodOfStudyForStudent(studentID);
     }
 
+	/**
+	 * Overloaded version of above function, filters and only returns POS with specified label
+	 * @param studentID student login ID
+	 * @param label period of study to fetch
+	 * @return PeriodOfStudy object
+	 */
+    public static PeriodOfStudy getPeriodsOfStudyForStudent(int studentID, String label) {
+    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+    	return retrieveQ.retrievePeriodOfStudyForStudent(studentID, label);
+	}
+
     /**
      * getStudentsGradeAtPeriod given a period of study, and a student, returns their grades in an ArrayList.
      * @param studentID int, the login id for the student

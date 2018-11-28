@@ -233,6 +233,33 @@ public class RetrieveQueries extends Queries {
     }
 
     /**
+     * Overloaded version of above function, filters and returns POS specified by label
+     * @param studentID student login ID
+     * @param label period of study to fetch
+     * @return PeriodOfStudy object
+     */
+    public PeriodOfStudy retrievePeriodOfStudyForStudent(int studentID, String label) {
+        PeriodOfStudy periodOfStudy = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id=? AND label=?");
+            pstmt.setInt(1, studentID);
+            pstmt.setString(2, label);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                periodOfStudy = new PeriodOfStudy(rs.getString(1), rs.getString(2),
+                        rs.getDate(3), rs.getDate(4), rs.getString(5));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, rs);
+        }
+        return periodOfStudy;
+    }
+
+    /**
      * retrievePeriodOfStudyTable obtains all the periods from the database.
      * @return List<PeriodOfStudy> all the period of study objects
      * */
