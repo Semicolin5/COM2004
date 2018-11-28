@@ -1,43 +1,67 @@
 package src.view;
 
 import src.controller.Controller;
-import src.objects.Module;
+import src.objects.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 public class ManageModules extends Form {
-    private JList moduleList;
-    private JButton deleteSelectedModulesButton;
+    private JButton deleteModuleButton;
     private JButton createAModuleButton;
-    private DefaultListModel<String> moduleModel;
+    private DefaultTableModel relatedModel;
+    private DefaultTableModel moduleModel;
     private JPanel panel1;
     private JButton backButton;
+    private JTable relatedTable;
+    private JTable moduleTable;
+    private JButton viewRelatedDegreesButton;
 
     public ManageModules(GUIFrame frame) {
         super(frame);
-
-        //Set back button
-        setBackButton(backButton);
-        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
-
         setJPanel(panel1);
-        moduleModel = new DefaultListModel<>();
+        moduleModel = new DefaultTableModel();
+        relatedModel = new DefaultTableModel();
         frame.setTitle("Manage Modules");
 
-        //loops through users in database and adds all of their loginIDs to the JList.
+        //Add columns to JTables
+        moduleModel.addColumn("Module Code");
+        moduleModel.addColumn("Name");
+        moduleModel.addColumn("Credits");
+        moduleModel.addColumn("Semester");
+        relatedModel.addColumn("Degree Code");
+        relatedModel.addColumn("Degree Level");
+        relatedModel.addColumn("Core Status");
+
+        //loops through Modules in database and adds all of their attributes to the JTable.
         for (Module module : Controller.getModules()) {
-            moduleModel.addElement(module.getCode());
+            int semester = module.getSemester();
+            switch (semester) {
+                case 0:
+                    moduleModel.addRow(new Object[]{module.getCode(), module.getName(), module.getCredits(), "Autumn"});
+                    break;
+                case 1:
+                    moduleModel.addRow(new Object[]{module.getCode(), module.getName(), module.getCredits(), "Spring"});
+                    break;
+                case 2:
+                    moduleModel.addRow(new Object[]{module.getCode(), module.getName(), module.getCredits(), "Summer"});
+                    break;
+                default:
+                    moduleModel.addRow(new Object[]{module.getCode(), module.getName(), module.getCredits(), "All-Year"});
+                    break;
+            }
         }
-        moduleList.setLayoutOrientation(JList.VERTICAL);
-        moduleList.setModel(moduleModel);
-        moduleList.setVisibleRowCount(10);
+        moduleTable.setModel(moduleModel);
+        relatedTable.setModel(relatedModel);
+
+        backButton.addActionListener(new BackHandler());
         createAModuleButton.addActionListener(new CreateModuleHandler());
-        deleteSelectedModulesButton.addActionListener(new DeleteModulesHandler());
+        deleteModuleButton.addActionListener(new DeleteModulesHandler());
+        viewRelatedDegreesButton.addActionListener(new LinkHandler());
     }
 
     {
@@ -56,18 +80,20 @@ public class ManageModules extends Form {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(9, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(9, 2, new Insets(0, 0, 0, 0), -1, -1));
         final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setRequestFocusEnabled(false);
+        scrollPane1.setVerifyInputWhenFocusTarget(false);
         panel1.add(scrollPane1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        moduleList = new JList();
-        scrollPane1.setViewportView(moduleList);
+        moduleTable = new JTable();
+        scrollPane1.setViewportView(moduleTable);
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         panel1.add(spacer2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        deleteSelectedModulesButton = new JButton();
-        deleteSelectedModulesButton.setText("Delete Selected Modules");
-        panel1.add(deleteSelectedModulesButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        deleteModuleButton = new JButton();
+        deleteModuleButton.setText("Delete Selected Module");
+        panel1.add(deleteModuleButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
         panel1.add(spacer3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         createAModuleButton = new JButton();
@@ -81,6 +107,13 @@ public class ManageModules extends Form {
         backButton = new JButton();
         backButton.setText("Back");
         panel1.add(backButton, new GridConstraints(8, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JScrollPane scrollPane2 = new JScrollPane();
+        panel1.add(scrollPane2, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        relatedTable = new JTable();
+        scrollPane2.setViewportView(relatedTable);
+        viewRelatedDegreesButton = new JButton();
+        viewRelatedDegreesButton.setText("View Related Degrees");
+        panel1.add(viewRelatedDegreesButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -90,18 +123,57 @@ public class ManageModules extends Form {
         return panel1;
     }
 
+    /**
+     * ActionListener class which takes the user  to the Create Module form.
+     */
     public class CreateModuleHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             changeJPanel(new CreateModule(getFrame()).getJPanel());
         }
     }
 
+    /**
+     * ActionListener class which loops through the ModuleDegree table, matching on the selected Module code (from the
+     * Module JTable). Adds the details of any degrees related to that module to the associate JTable.
+     */
+    public class LinkHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            relatedModel.setRowCount(0);
+            int selectedRow = moduleTable.getSelectedRow();
+            if (selectedRow != -1) {
+                String selectedModule = moduleTable.getValueAt(selectedRow, 0).toString();
+                for (ModuleDegree modDeg : Controller.getModuleDegrees()) {
+                    if (modDeg.getModuleCode().equals(selectedModule)){
+                        if (modDeg.isCore())
+                            relatedModel.addRow(new Object[]{modDeg.getDegreeCode(), modDeg.getDegreeLevel(), "Core"});
+                        else
+                            relatedModel.addRow(new Object[]{modDeg.getDegreeCode(), modDeg.getDegreeLevel(), "Not Core"});
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Takes the selected value in the module JTable, and deletes the row with that PK from the module table.
+     */
     private class DeleteModulesHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            for (Object code : moduleList.getSelectedValuesList()) {
-                Controller.removeModule((String) code);
+            int selectedRow = moduleTable.getSelectedRow();
+            if (selectedRow != -1) {
+                String selectedModule = moduleTable.getValueAt(selectedRow, 0).toString();
+                Controller.removeModule(selectedModule);
             }
             changeJPanel(new ManageModules(getFrame()).getJPanel());
+        }
+    }
+
+    /**
+     * ActionListener class which takes the user back to the Welcome form.
+     */
+    private class BackHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
         }
     }
 }
