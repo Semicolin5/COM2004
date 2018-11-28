@@ -19,7 +19,6 @@ public class AdditionQueries extends Queries{
      * @param desc is String describing the degree (maxlength 100).
      * */
     public void addDepartment(String code, String desc) {
-        System.out.println("yes");
         PreparedStatement pstmt = null;
         try {
             db.enableACID();

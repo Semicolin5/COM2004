@@ -253,7 +253,6 @@ public class Controller {
         boolean deletionAllowed = checkQ.checkDeleteDepartment(code);
         // if there aren't any associated degrees, delete the department
         if(deletionAllowed){
-           System.out.println("deleting the department");
            removalQ.removeDepartment(code);
         }
         return deletionAllowed;

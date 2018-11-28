@@ -12,8 +12,6 @@ public class CryptoModule {
 	public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		//This is just used for testing the functions
 		String salt = generateSalt();
-		System.out.println(salt);
-		System.out.println(hashPassword("password",salt));		
 	}
 	
     /**

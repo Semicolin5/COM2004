@@ -86,7 +86,6 @@ public class RemovalQueries extends Queries {
      * */
     public void removeUser(String loginID) {
         PreparedStatement pstmt = null;
-        System.out.println("try to delete: " + loginID);
         try {
             db.enableACID();
             pstmt = super.conn.prepareStatement("DELETE FROM users WHERE login_id=?");
