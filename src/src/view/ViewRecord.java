@@ -41,6 +41,7 @@ public class ViewRecord extends Form {
      * The privilege is checked to determine if it is a student or a teacher viewing the record. If it is a teacher,
      * then another JList is loaded containing all the students. The teacher can load this student and view their progress.
      * If a student is looking at their record, this list is not loaded, and they can only see their own record.
+     *
      * @param frame - JFrame with properties defined in the GUIFrame class.
      */
     public ViewRecord(GUIFrame frame) {
@@ -120,10 +121,10 @@ public class ViewRecord extends Form {
         panel1.add(scrollPane2, new GridConstraints(0, 1, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         displayOutcome = new JTable();
         scrollPane2.setViewportView(displayOutcome);
-        studentScrollPane = new JScrollPane();
-        panel1.add(studentScrollPane, new GridConstraints(6, 0, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane3 = new JScrollPane();
+        panel1.add(scrollPane3, new GridConstraints(6, 0, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         selectStudent = new JList();
-        studentScrollPane.setViewportView(selectStudent);
+        scrollPane3.setViewportView(selectStudent);
         backButton = new JButton();
         backButton.setText("Back");
         panel1.add(backButton, new GridConstraints(11, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -170,20 +171,20 @@ public class ViewRecord extends Form {
 
     /**
      * LoadStudentHandler targets a student. Only teachers will be able to call upon this method.
-     * */
+     */
     private class LoadStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (isTeacher)
                 System.out.println(selectStudent.getSelectedValue());
-                periodListModel.removeAllElements(); // resets the JList
-                username = Integer.parseInt((String) selectStudent.getSelectedValue()); // targeted student's login code
-                System.out.println("username: " + username);
-                // filling JList
-                for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
-                    periodListModel.addElement(p.getLabel()); // selects students periods of study
-                    System.out.println(p.toString());
-                }
-                periodList.setModel(periodListModel);
+            periodListModel.removeAllElements(); // resets the JList
+            username = Integer.parseInt((String) selectStudent.getSelectedValue()); // targeted student's login code
+            System.out.println("username: " + username);
+            // filling JList
+            for (PeriodOfStudy p : Controller.getPeriodsOfStudyForStudent(username)) {
+                periodListModel.addElement(p.getLabel()); // selects students periods of study
+                System.out.println(p.toString());
+            }
+            periodList.setModel(periodListModel);
         }
     }
 }
