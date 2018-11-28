@@ -5,23 +5,20 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import src.objects.Degree;
-import src.controller.Controller;
-import src.controller.Main;
+import src.controller.*;
 import src.model.RegexTests;
 
 /**
  * CreateModdule.java
  * Only accessible for Administrators (privilege level 4)
- * Extension of form, creates a functional GUI form which allows
- * user to create a new Module as an entry in the module table, and also
- * to add any degrees/levels which the module is approved for and its core status,
- * which are added as rows in the core table.
+ * Extension of form, creates a functional GUI form which allows  * user to create a new Module
+ * as an entry in the module table, and also  * to add any degrees/levels which the module is
+ * approved for and its core status, which are added as rows in the core table.
  */
 public class CreateModule extends Form {
     private JPanel myPanel;
@@ -37,9 +34,8 @@ public class CreateModule extends Form {
     private JComboBox semesterCombo;
     private JButton cancelButton;
     private DefaultListModel<String> departmentsModel;
-    private ArrayList<String[]> degreeLinker = new ArrayList<String[]>();
+    private ArrayList<String[]> degreeLinker = new ArrayList<>();
     private String errorMessage = "";
-    
 
     /**
      * Set default JFrame sizes & add Event Listeners & Item Listener.
@@ -49,9 +45,6 @@ public class CreateModule extends Form {
      */
     public CreateModule(GUIFrame frame) {
         super(frame);
-
-        setBackButton(cancelButton);
-        setBackButtonPanel(new ManageModules(getFrame()).getJPanel());
 
         setJPanel(myPanel);
         frame.setTitle("Create Module Screen");
@@ -93,11 +86,10 @@ public class CreateModule extends Form {
                 }
             }
         });
-        //TODO: Modify the above code so that it takes into account yeas in industry.
-        //TODO: Can we call the item listener in the constructor, so that the...
-        //TODO: Continued: ...second comboBox automatically loads based on the value of the first?
+
         linkButton.addActionListener(new LinkHandler());
         createModuleButton.addActionListener(new CreateModuleHandler());
+        cancelButton.addActionListener(new cancelHandler());
     }
 
     {
@@ -209,7 +201,7 @@ public class CreateModule extends Form {
      * Before adding the info to the JList.
      */
     public class LinkHandler implements ActionListener {
-    	private ArrayList<String> storedDegs = new ArrayList<String>();
+    	private ArrayList<String> storedDegs = new ArrayList<>();
     	
     	@Override
         public void actionPerformed(ActionEvent e) {
@@ -256,9 +248,9 @@ public class CreateModule extends Form {
     	
     	@Override
         public void actionPerformed(ActionEvent e) {
-            String modCode = moduleCode.getText().toString();
-            String modName = moduleName.getText().toString();
-            String modCredits = moduleCredits.getText().toString();
+            String modCode = moduleCode.getText();
+            String modName = moduleName.getText();
+            String modCredits = moduleCredits.getText();
             String semesterString = semesterCombo.getSelectedItem().toString();
             int semester;
             //Case statement for semester
@@ -271,12 +263,13 @@ public class CreateModule extends Form {
                 break;
             case "Summer":
             	semester = 2;
+            	break;
             default:
             	semester = 3;
                 break;
         	}
         	
-            //Lets call our big boy checking function           
+            //Lets call our checking function
             errorMessage = Controller.checkInputModule(modCode, modName, modCredits, Main.getPriv());
             if (errorMessage.equals("Accepted")) {
             	Controller.saveModule(modCode, modName, Integer.parseInt(modCredits), semester);
@@ -290,6 +283,15 @@ public class CreateModule extends Form {
             else {
                 JOptionPane.showMessageDialog(getFrame(), errorMessage);
             }           
+        }
+    }
+
+    /**
+     * ActionListener class which takes the user back to the ManageModules form.
+     */
+    private class cancelHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.ManageModules(getFrame()).getJPanel());
         }
     }
 }
