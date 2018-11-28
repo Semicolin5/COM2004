@@ -8,8 +8,7 @@ import src.objects.Student;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * This class generates a GUI from which an registrar can view all students which are currently in the database.
@@ -19,7 +18,7 @@ import java.awt.event.ActionListener;
 public class ManageStudents extends Form {
     private JPanel panel1;
     private JList studentList;
-    private JButton deleteSelectedStudentsButton;
+    private JButton deleteStudentsButton;
     private JButton createStudentButton;
     private DefaultListModel<String> studentModel;
     private JButton backButton;
@@ -31,23 +30,22 @@ public class ManageStudents extends Form {
      */
     public ManageStudents(GUIFrame frame) {
         super(frame);
-
-        //Set back button
-        setBackButton(backButton);
-        setBackButtonPanel(new Welcome(getFrame()).getJPanel());
-
         setJPanel(panel1);
+        frame.setTitle("Manage Students Screen");
         studentModel = new DefaultListModel<>();
 
         //loops through users in database and adds all of their loginIDs to the JList.
         for (Student student : Controller.getStudents()) {
             studentModel.addElement(String.valueOf(student.getLogin()));
         }
+
         studentList.setLayoutOrientation(JList.VERTICAL);
         studentList.setModel(studentModel);
         studentList.setVisibleRowCount(10);
+
+        backButton.addActionListener(new BackHandler());
         createStudentButton.addActionListener(new CreateStudentHandler());
-        deleteSelectedStudentsButton.addActionListener(new RemoveStudentHandler());
+        deleteStudentsButton.addActionListener(new RemoveStudentHandler());
     }
 
     {
@@ -77,9 +75,9 @@ public class ManageStudents extends Form {
         panel1.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         panel1.add(spacer2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        deleteSelectedStudentsButton = new JButton();
-        deleteSelectedStudentsButton.setText("Delete Selected Students");
-        panel1.add(deleteSelectedStudentsButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        deleteStudentsButton = new JButton();
+        deleteStudentsButton.setText("Delete Selected Students");
+        panel1.add(deleteStudentsButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
         panel1.add(spacer3, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         createStudentButton = new JButton();
@@ -124,6 +122,15 @@ public class ManageStudents extends Form {
                 Controller.removeStudent(codeAsInt);
             }
             changeJPanel(new ManageStudents(getFrame()).getJPanel());
+        }
+    }
+
+    /**
+     * ActionListener class which takes the user back to the Welcome form.
+     */
+    private class BackHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
         }
     }
 }
