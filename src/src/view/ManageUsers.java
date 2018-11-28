@@ -43,7 +43,7 @@ public class ManageUsers extends Form {
         userList.setLayoutOrientation(JList.VERTICAL);
         userList.setModel(userModel);
         userList.setVisibleRowCount(10);
-        
+
         backButton.addActionListener(new BackHandler());
         createUserButton.addActionListener(new UserHandler());
         deleteSelectedUsersButton.addActionListener(new RemoveUserHandler());
