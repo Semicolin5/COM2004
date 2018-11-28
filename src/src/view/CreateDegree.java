@@ -7,13 +7,11 @@ import com.intellij.uiDesigner.core.Spacer;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 import src.objects.Department;
-import src.controller.Controller;
-import src.controller.Main;
+import src.controller.*;
 
 /**
  * CreateDegree.java
@@ -30,13 +28,12 @@ public class CreateDegree extends Form {
     private JComboBox yearIndustryCombo;
     private JComboBox departmentCombo;
     private JComboBox leadCombo;
-    private JButton linkDepartmentButton;
+    private JButton linkDepButton;
     private JButton cancelButton;
     private JTable departmentTable;
     private DefaultTableModel departmentsModel;
-    private ArrayList<String[]> departmentLinker = new ArrayList<String[]>();
+    private ArrayList<String[]> departmentLinker = new ArrayList<>();
     private String errorMessage = "";
-
 
     /**
      * Set default JFrame sizes & add Event Listener
@@ -45,8 +42,6 @@ public class CreateDegree extends Form {
      */
     public CreateDegree(GUIFrame frame) {
         super(frame);
-        setBackButton(cancelButton);
-        setBackButtonPanel(new ManageDegrees(getFrame()).getJPanel());
         setJPanel(panel1);
         frame.setTitle("Create Degree Screen");
 
@@ -60,8 +55,9 @@ public class CreateDegree extends Form {
             departmentCombo.addItem(department.getCode());
         }
 
-        linkDepartmentButton.addActionListener(new LinkHandler());
+        linkDepButton.addActionListener(new LinkHandler());
         createDegree.addActionListener(new CreateDegreeHandler());
+        cancelButton.addActionListener(new cancelHandler());
     }
 
     {
@@ -131,9 +127,9 @@ public class CreateDegree extends Form {
         defaultComboBoxModel3.addElement("Not Lead");
         leadCombo.setModel(defaultComboBoxModel3);
         panel1.add(leadCombo, new GridConstraints(8, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        linkDepartmentButton = new JButton();
-        linkDepartmentButton.setText("Link Department");
-        panel1.add(linkDepartmentButton, new GridConstraints(8, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        linkDepButton = new JButton();
+        linkDepButton.setText("Link Department");
+        panel1.add(linkDepButton, new GridConstraints(8, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label6 = new JLabel();
         label6.setText("Department Code");
         panel1.add(label6, new GridConstraints(7, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -164,9 +160,14 @@ public class CreateDegree extends Form {
     /**
      * This ActionListener adds the selected JCombo values to the JTable - if the checks are passed.
      */
+
+    /**
+     * This ActionListener will add related departments to the linker table, but only after running checks.
+     * Only one lead department can be assigned to each degree, and each department can be assigned only once to a given degree.
+     */
     public class LinkHandler implements ActionListener {
         private boolean hasLead = false;
-        private ArrayList<String> storedDeps = new ArrayList<String>();
+        private ArrayList<String> storedDeps = new ArrayList<>();
 
         //TODO Have error messages return
         @Override
@@ -223,6 +224,15 @@ public class CreateDegree extends Form {
             } else {
                 JOptionPane.showMessageDialog(getFrame(), errorMessage);
             }
+        }
+    }
+
+    /**
+     * ActionListener which takes the user back to the ManageDegrees form.
+     */
+    private class cancelHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            changeJPanel(new src.view.ManageDegrees(getFrame()).getJPanel());
         }
     }
 }
