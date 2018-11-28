@@ -32,6 +32,12 @@ public class ViewRecord extends Form {
     private int username; // int for the current user record being viewed
     private JScrollPane studentScrollPane;
     private JComboBox periodComboBox;
+    private JTextField titleField;
+    private JTextField forenameField;
+    private JTextField surnameField;
+    private JTextField tutorField;
+    private JTextField emailField;
+    private JTextField degreeField;
 
     /**
      * Constructor sets up an empty JTable, and sets up a JList containing the periods of study, and levels for the
@@ -61,6 +67,7 @@ public class ViewRecord extends Form {
 
             username = Main.getLoginID();
             setupPeriodCombo(username);
+            addStudentInfo(username);
         }
 
         // setup the backbutton
@@ -162,6 +169,8 @@ public class ViewRecord extends Form {
 
             //Clear the results table
             outcomeModel.setRowCount(0);
+
+            addStudentInfo(username);
         }
     }
 
@@ -170,6 +179,17 @@ public class ViewRecord extends Form {
         for(PeriodOfStudy pos : Controller.getPeriodsOfStudyForStudent(loginID)) {
             periodComboBox.addItem(pos.getLabel());
         }
+    }
+
+    private void addStudentInfo(int loginID) {
+        Student student = Controller.getStudent(loginID);
+
+        titleField.setText(student.getTitle());
+        forenameField.setText(student.getForename());
+        surnameField.setText(student.getSurname());
+        tutorField.setText(student.getPersonalTutor());
+        emailField.setText(student.getEmail());
+        degreeField.setText(student.getDegreeCode());
     }
 
 }

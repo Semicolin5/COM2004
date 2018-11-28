@@ -1,8 +1,9 @@
 package src.model.db_handler;
+
 import java.sql.*;
 import src.objects.*;
-import java.util.*;
 
+import java.util.*;
 
 /**
  * RetrieveQueries.java
@@ -326,6 +327,30 @@ public class RetrieveQueries extends Queries {
 	   }
 	   return studentTable;
 	}
+
+	public Student retrieveStudent(int loginID) {
+	    Student student = null;
+	    PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM student WHERE login_id = ?");
+            pstmt.setInt(1, loginID);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()) {
+                student = new Student(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeResources(pstmt, rs);
+        }
+        return student;
+    }
 
    /**
     * retrieveUser, given a login ID retrieves the users object including their privilege
