@@ -193,9 +193,9 @@ public class ViewRecord extends Form {
                 String periodOfStudyLabel = periodComboBox.getSelectedItem().toString(); // finds the period of study label
                 for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
                     //Set appropriate message if grade is null in database
-                    String initalGrade = "Not taken";
+                    String initialGrade = "Not taken";
                     if(g.getInitialPercent() != -1) {
-                        initalGrade = String.valueOf(g.getInitialPercent());
+                        initialGrade = String.valueOf(g.getInitialPercent());
                     }
 
                     String resitGrade = "Not taken";
@@ -203,7 +203,7 @@ public class ViewRecord extends Form {
                         resitGrade = String.valueOf(g.getResitPercent());
                     }
 
-                    outcomeModel.addRow(new Object[]{g.getModuleCode(), initalGrade, resitGrade});
+                    outcomeModel.addRow(new Object[]{g.getModuleCode(), initialGrade, resitGrade});
                 }
 
                 PeriodOfStudy periodOfStudy = Controller.getPeriodsOfStudyForStudent(username, periodOfStudyLabel);
@@ -221,18 +221,20 @@ public class ViewRecord extends Form {
      */
     private class LoadStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            username = Integer.parseInt((String) selectStudent.getSelectedValue()); // targeted student's login code
-            setupPeriodCombo(username);
+            if(selectStudent.getSelectedValue() != null) {
+                username = Integer.parseInt((String) selectStudent.getSelectedValue()); // targeted student's login code
+                setupPeriodCombo(username);
 
-            //Clear the results table
-            outcomeModel.setRowCount(0);
+                //Clear the results table
+                outcomeModel.setRowCount(0);
 
-            //Clear period of study information
-            degreeLevelField.setText("");
-            periodStartField.setText("");
-            periodEndField.setText("");
+                //Clear period of study information
+                degreeLevelField.setText("");
+                periodStartField.setText("");
+                periodEndField.setText("");
 
-            addStudentInfo(username);
+                addStudentInfo(username);
+            }
         }
     }
 
@@ -243,7 +245,6 @@ public class ViewRecord extends Form {
     }
 
     private void setupPeriodCombo(int loginID) {
-        //if (periodComboBox.getModel().getSize() != 0)
         periodComboBox.removeAllItems();
         for (PeriodOfStudy pos : Controller.getPeriodsOfStudyForStudent(loginID)) {
             periodComboBox.addItem(pos.getLabel());
