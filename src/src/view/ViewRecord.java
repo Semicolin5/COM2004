@@ -192,8 +192,18 @@ public class ViewRecord extends Form {
                 outcomeModel.setRowCount(0); // resets the table
                 String periodOfStudyLabel = periodComboBox.getSelectedItem().toString(); // finds the period of study label
                 for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
-                    //TODO just need to check that resit isn't displayed as 0.00
-                    outcomeModel.addRow(new Object[]{g.getModuleCode(), g.getInitialPercent(), g.getResitPercent()});
+                    //Set appropriate message if grade is null in database
+                    String initalGrade = "Not taken";
+                    if(g.getInitialPercent() != -1) {
+                        initalGrade = String.valueOf(g.getInitialPercent());
+                    }
+
+                    String resitGrade = "Not taken";
+                    if(g.getResitPercent() != -1) {
+                        resitGrade = String.valueOf(g.getResitPercent());
+                    }
+
+                    outcomeModel.addRow(new Object[]{g.getModuleCode(), initalGrade, resitGrade});
                 }
 
                 PeriodOfStudy periodOfStudy = Controller.getPeriodsOfStudyForStudent(username, periodOfStudyLabel);
