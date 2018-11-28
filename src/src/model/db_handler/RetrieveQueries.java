@@ -458,11 +458,28 @@ public class RetrieveQueries extends Queries {
            rs = pstmt.executeQuery();
 
            rs.next();
+
+           //Check for nulls in database
+           float initialGrade = rs.getFloat(4);
+           if(rs.wasNull()) {
+               initialGrade = -1;
+           }
+
+           float resitGrade = rs.getFloat(5);
+           if(rs.wasNull()) {
+               resitGrade = -1;
+           }
+
            grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                   rs.getFloat(4), rs.getFloat(5), -1);
+                   initialGrade, resitGrade, -1);
 
            if(rs.next()) {
-               grades.setRepeatPercent(rs.getFloat(4));
+               //Check for null
+               float repeatGrade = rs.getFloat(4);
+               if(rs.wasNull()) {
+                   repeatGrade = -1;
+               }
+               grades.setRepeatPercent(repeatGrade);
            }
 
         } catch (SQLException e) {
@@ -490,8 +507,20 @@ public class RetrieveQueries extends Queries {
            pstmt.setString(2, label);
            rs = pstmt.executeQuery();
            while(rs.next()) { // construct a grade object for each module taken at that period
+               //Check for nulls in database
+               float initialGrade = rs.getFloat(4);
+               if(rs.wasNull()) {
+                   initialGrade = -1;
+               }
+
+               float resitGrade = rs.getFloat(5);
+               if(rs.wasNull()) {
+                   resitGrade = -1;
+               }
+
+               //TODO: check for repeat grade
                table.add(new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                       rs.getFloat(4), rs.getFloat(5), -1));
+                       initialGrade, resitGrade, -1));
            }
         } catch (SQLException e) {
             e.printStackTrace();
