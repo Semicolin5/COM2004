@@ -88,9 +88,9 @@ CREATE TABLE grades (
     module_code CHAR (7),
     label CHAR (1),
     initial_percent DECIMAL(8, 5), -- marks achieved
-    resit_percent DECIMAL(8, 5), 
-    PRIMARY KEY (login_id, module_code, label),
+    resit_percent DECIMAL(8, 5),
+    repeat_percent DECIMAL(8, 5), -- belongs to successor period of label
+    PRIMARY KEY (login_id, module_code),
     FOREIGN KEY (login_id) REFERENCES student (login_id),
-    FOREIGN KEY (module_code) REFERENCES module (module_code),
-    FOREIGN KEY (label) REFERENCES period_of_study (label)
+    FOREIGN KEY (module_code) REFERENCES module (module_code)
 );
