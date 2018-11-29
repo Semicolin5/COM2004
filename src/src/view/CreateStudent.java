@@ -136,11 +136,14 @@ public class CreateStudent extends Form {
         label7.setText("Initial Password");
         panel1.add(label7, new GridConstraints(12, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         initPassword = new JPasswordField();
+        initPassword.setText("");
+        initPassword.setToolTipText("Psswords must be between 8-16 characters long. \nThey must contain at least: 1 Capital letter, \n1 Lower case letter, 1 Number, 1 Special Character");
         panel1.add(initPassword, new GridConstraints(12, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label8 = new JLabel();
         label8.setText("Confirm Password");
         panel1.add(label8, new GridConstraints(13, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         confirmPassword = new JPasswordField();
+        confirmPassword.setToolTipText("Psswords must be between 8-16 characters long. \nThey must contain at least: 1 Capital letter, \n1 Lower case letter, 1 Number, 1 Special Character");
         panel1.add(confirmPassword, new GridConstraints(13, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         addStudentButton = new JButton();
         addStudentButton.setText("Add Student");
@@ -214,7 +217,7 @@ public class CreateStudent extends Form {
                     //Save everything! - email is auto generated and degree level always starts at A
                     //Also not hashing passwords.  this needs a fix asap
                     Controller.saveStudent(Integer.parseInt(studNo), password, title, forename, surname, pTutor, Controller.generateEmail(forename, surname), degCode, degLevel, "A", startDate, endDate);
-                    changeJPanel(new ManageStudents(getFrame()).getJPanel());
+                    changeJPanel(new src.view.ManageStudents(getFrame()).getJPanel());
                 } else {
                     JOptionPane.showMessageDialog(getFrame(), errorMessage);
                 }

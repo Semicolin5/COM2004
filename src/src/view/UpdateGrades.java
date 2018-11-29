@@ -33,6 +33,7 @@ public class UpdateGrades extends Form {
 
     public UpdateGrades(GUIFrame frame) {
         super(frame);
+        frame.setTitle("Update Grades Screen");
 
         backButton.addActionListener(new BackButtonHandler());
 
