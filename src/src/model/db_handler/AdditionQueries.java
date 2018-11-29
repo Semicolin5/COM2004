@@ -311,11 +311,11 @@ public class AdditionQueries extends Queries{
         boolean repeatNotNull = (repeatGrade > 0) && (repeatGrade != null);
         try {
             db.enableACID();
-            pstmt = super.conn.prepareStatement("UPDATE grades SET initial_percent=?, resit_percent=? WHERE "
-                    + "login_id=? AND module_code=? AND label=?");
-            pstmt.setInt(3, login);
-            pstmt.setString(4, moduleCode);
-            pstmt.setString(5, label);
+            pstmt = super.conn.prepareStatement("UPDATE grades SET initial_percent=?, resit_percent=? repeat_percentage=?" +
+                    "WHERE login_id=? AND module_code=? AND label=?");
+            pstmt.setInt(4, login);
+            pstmt.setString(5, moduleCode);
+            pstmt.setString(6, label);
             // check that the floats aren't null, if they are null set using .setNull()
             if (initialNotNull) { // allows for negative one to act as sentinel
                 pstmt.setFloat(1, initialGrade);
@@ -327,20 +327,13 @@ public class AdditionQueries extends Queries{
             } else {
                 pstmt.setNull(2, Types.DECIMAL);
             }
-            pstmt.executeUpdate();
-
-            if(repeatNotNull) {
-                //Increment label to next character of the alphabet
-                int nextLabel = label.charAt(0) + 1;
-                pstmt.setString(5, String.valueOf((char) nextLabel));
-
-                //Set initial grade of new record to repeat grade
-                pstmt.setFloat(1, repeatGrade);
-                //Set resit grade to null
-                pstmt.setNull(2, Types.DECIMAL);
-
-                pstmt.executeUpdate();
+            if (repeatNotNull) {
+                pstmt.setFloat(3, repeatGrade);
             }
+            else {
+                pstmt.setNull(3, Types.DECIMAL);
+            }
+            pstmt.executeUpdate();
 
             super.conn.commit();
             db.disableACID();
