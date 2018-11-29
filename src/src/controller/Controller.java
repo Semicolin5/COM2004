@@ -332,13 +332,23 @@ public class Controller {
 	/**
 	 * assignCoreModules, automatically assigns the core modules to the student when they are signed up to a new degree
 	 */
-	public static void assignCoreModules(int studentID, String degreeCode) {
-		//First pull out all the core modules associated with said degree
-		ArrayList<Module> coreMoules = new ArrayList<Module>();
+	public static void assignCoreModules(int studentID, int studentLevel) {
 		PeriodOfStudy pos = getLatestPeriodOfStudy(studentID);
-		
-		
-		
+		for (Student student : Controller.getStudents()) {
+			if (student.getLogin().equals(String.valueOf(studentID))) {
+				//Retrieves a list of all modules the selected student is eligible for and assigns core modules to student.
+				for (ModuleDegree m : Controller.getModuleDegrees()) {
+					if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(String.valueOf(studentLevel)))) {
+						for (Module mod : Controller.getModules()) {
+							if (mod.getCode().equals(m.getModuleCode())) {
+								if (m.isCore())
+									Controller.saveBlankGrades(String.valueOf(studentID), mod.getCode(), pos.getLabel());
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		//Then assign those core modules to the student (maybe wipe the table of module associations first? or check)
 		
