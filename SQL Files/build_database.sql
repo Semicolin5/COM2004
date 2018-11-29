@@ -51,7 +51,7 @@ CREATE TABLE period_of_study (
     FOREIGN KEY (login_id) REFERENCES student (login_id)
 );
 
-ALTER TABLE period_of_study ADD KEY (label);
+#ALTER TABLE period_of_study ADD KEY (label);
 
 -- linker table to store how the departments associated with each degrees,
 -- and whether a department is the lead department
@@ -92,5 +92,5 @@ CREATE TABLE grades (
     PRIMARY KEY (login_id, module_code, label),
     FOREIGN KEY (login_id) REFERENCES student (login_id),
     FOREIGN KEY (module_code) REFERENCES module (module_code),
-    FOREIGN KEY (label) REFERENCES period_of_study (label)
+    FOREIGN KEY (login_ID, label) REFERENCES period_of_study (login_ID, label)
 );
