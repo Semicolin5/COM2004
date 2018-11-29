@@ -4,6 +4,9 @@ import javax.swing.*;
 
 import src.controller.Main;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class GUIFrame extends JFrame {
 
     private JPanel currentPanel;
@@ -17,6 +20,14 @@ public class GUIFrame extends JFrame {
         //TODO: Change the setSize to be relative to screen size?
         setLocationRelativeTo(null);
         setTitle("");
+
+        //When the window is closed, cleanly shutdown the DB connection
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent) {
+                super.windowClosing(windowEvent);
+                Main.getDB().closeConnection();
+            }
+        });
     }
 
     public void changeJPanel(JPanel panel) {
