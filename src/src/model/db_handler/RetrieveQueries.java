@@ -470,17 +470,22 @@ public class RetrieveQueries extends Queries {
                resitGrade = -1;
            }
 
-           grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                   initialGrade, resitGrade, -1);
+           float repeatGrade = rs.getFloat(6);
+           if(rs.wasNull()) {
+               resitGrade = -1;
+           }
 
-           if(rs.next()) {
+           grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
+                   initialGrade, resitGrade,  repeatGrade);
+
+           /*if(rs.next()) {
                //Check for null
                float repeatGrade = rs.getFloat(4);
                if(rs.wasNull()) {
                    repeatGrade = -1;
                }
                grades.setRepeatPercent(repeatGrade);
-           }
+           }*/
 
         } catch (SQLException e) {
            e.printStackTrace();
@@ -518,9 +523,13 @@ public class RetrieveQueries extends Queries {
                    resitGrade = -1;
                }
 
-               //TODO: check for repeat grade
+               float repeatGrade = rs.getFloat(6);
+               if(rs.wasNull()) {
+                   repeatGrade = -1;
+               }
+
                table.add(new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                       initialGrade, resitGrade, -1));
+                       initialGrade, resitGrade, repeatGrade));
            }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -560,7 +569,7 @@ public class RetrieveQueries extends Queries {
    
    /**
     * retrieveEmails, retrieves a list of all stored emails
-    * @param List<String>, the list of emails as strings
+    * @return List<String>, the list of emails as strings
     */
    public List<String> retrieveEmails() {
        List<String> emails = new ArrayList<String>();

@@ -73,6 +73,7 @@ public class Grade {
      * toString() method for grades
      * */
     public String toString() {
-        return ("Student: " + loginID + ", module: " + moduleCode + ", initial mark: " + initialPercent + ", resit mark: " + resitPercent);
+        return ("Student: " + loginID + ", module: " + moduleCode + ", initial mark: " + initialPercent + ", resit mark: " + resitPercent
+        + ", repeat mark: " + repeatPercent);
     }
 }

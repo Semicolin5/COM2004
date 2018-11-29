@@ -27,8 +27,8 @@ public class CreateUser extends Form {
     private JPasswordField initPass;
     private JButton cancelButton;
     private String errorMessage = "";
-    
-    
+
+
     /**
      * Constructor sets the frame and draws up the GUI.
      * Also creates an actionListener on the button.
@@ -116,55 +116,53 @@ public class CreateUser extends Form {
             String userPrivString = userType.getSelectedItem().toString();
             int logID;
             String password;
-            String confirmPassword;  
+            String confirmPassword;
             int userPriv;
-            
+
             //Run some checks on the form
             if (!RegexTests.checkLoginID(logIDString)) {
-            	errorMessage = "Login ID should be a four digit number.";
-            	JOptionPane.showMessageDialog(getFrame(), errorMessage);
-            }
-            else if (userPrivString.equals("")) {
-            	errorMessage = "Please select a user privilege.";
-            	JOptionPane.showMessageDialog(getFrame(), errorMessage);
-            }
-            else {
-            	logID = Integer.parseInt(logIDString);
-            	password = new String(initPass.getPassword());
-            	confirmPassword = new String(confirmPass.getPassword());           	
-            	switch (userPrivString) {
-                case "Administrator":
-                    userPriv = 4;
-                    break;
-                case "Registrar":
-                    userPriv = 3;
-                    break;
-                default:
-                    userPriv = 2;
-                    break;
-            	}
-            	
-            	//Run our controller checks (uniqueness password matching etc.
-            	errorMessage = Controller.checkInputUser(logID, password, confirmPassword, Main.getPriv());
-            	if (errorMessage.equals("Accepted")) {
+                errorMessage = "Login ID should be a four digit number.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            } else if (userPrivString.equals("")) {
+                errorMessage = "Please select a user privilege.";
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            } else {
+                logID = Integer.parseInt(logIDString);
+                password = new String(initPass.getPassword());
+                confirmPassword = new String(confirmPass.getPassword());
+                switch (userPrivString) {
+                    case "Administrator":
+                        userPriv = 4;
+                        break;
+                    case "Registrar":
+                        userPriv = 3;
+                        break;
+                    default:
+                        userPriv = 2;
+                        break;
+                }
+
+                //Run our controller checks (uniqueness password matching etc.
+                errorMessage = Controller.checkInputUser(logID, password, confirmPassword, Main.getPriv());
+                if (errorMessage.equals("Accepted")) {
                     Controller.saveUser(logID, password, userPriv);
-                    changeJPanel(new ManageUsers(getFrame()).getJPanel());     		
-            	}
-            	else {
-                	JOptionPane.showMessageDialog(getFrame(), errorMessage);
-            	}
-            	//Allow password to be deleted by the garbage collector.
-            	password = "";
-            	confirmPassword = "";
+                    changeJPanel(new ManageUsers(getFrame()).getJPanel());
+                } else {
+                    JOptionPane.showMessageDialog(getFrame(), errorMessage);
+                }
+                //Allow password to be deleted by the garbage collector.
+                password = "";
+                confirmPassword = "";
             }
         }
     }
+
     /**
      * ActionListener class which takes the user back to the ManageUsers form.
      */
     private class cancelHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageUsers(getFrame()).getJPanel());
+            changeJPanel(new ManageUsers(getFrame()).getJPanel());
         }
     }
 

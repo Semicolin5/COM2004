@@ -18,8 +18,8 @@ public class TestMethods {
         testdb = new DatabaseHandler();
 
         //testingRemovalQueries();
-        testingAdditionQueries();
-        //testingRetrieveQueries();
+        //testingAdditionQueries();
+        testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -28,15 +28,17 @@ public class TestMethods {
 
         RetrieveQueries tester = new RetrieveQueries(testdb);
 
-        System.out.println("testing retrieveStudentsModules");
-        List<Module> modulesStudentTakes = tester.retrieveStudentsModules(1001);
-        for (Module m : modulesStudentTakes) {
-            System.out.println(m.toString());
-        }
+        //System.out.println("testing retrieveStudentsModules");
+        //List<Module> modulesStudentTakes = tester.retrieveStudentsModules(1001);
+        //for (Module m : modulesStudentTakes) {
+        //    System.out.println(m.toString());
+        //}
 
-        //System.out.println("testing retrieveStudentsModulesGrades");
-        //Grade g = tester.retrieveStudentsModuleGrade(1001, "COM1005");
-        //System.out.println(g.toString());
+        System.out.println("testing retrieveStudentsModulesGrades");
+        List<Grade> gs = tester.retrieveGradeAtPeriodOfStudy(1001, "A");
+        for (Grade g : gs) {
+            System.out.println(g.toString());
+        }
 
         //System.out.println("1002" + tester.allowedToDeleteUser("1002"));
         //System.out.println("1001" + tester.allowedToDeleteUser("1001"));

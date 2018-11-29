@@ -201,36 +201,32 @@ public class CreateModule extends Form {
      * Before adding the info to the JList.
      */
     public class LinkHandler implements ActionListener {
-    	private ArrayList<String> storedDegs = new ArrayList<>();
-    	
-    	@Override
+        private ArrayList<String> storedDegs = new ArrayList<>();
+
+        @Override
         public void actionPerformed(ActionEvent e) {
-        	String deg = degreeCombo.getSelectedItem().toString();
-        	String level;
-        	//Got to make sure levelCombo isn't null
-        	if (levelCombo.getSelectedItem() == null) {
-        		level = "";
-        	}
-        	else {
-        		level = levelCombo.getSelectedItem().toString();
-        	}
-        	String core = coreCombo.getSelectedItem().toString();
+            String deg = degreeCombo.getSelectedItem().toString();
+            String level;
+            //Got to make sure levelCombo isn't null
+            if (levelCombo.getSelectedItem() == null) {
+                level = "";
+            } else {
+                level = levelCombo.getSelectedItem().toString();
+            }
+            String core = coreCombo.getSelectedItem().toString();
             String[] degLevelCore = {deg, level, core};
-            
+
             //Now we can do our other checks
             if (deg.equals("")) {
-            	errorMessage = "Please select a degree to link to.";
+                errorMessage = "Please select a degree to link to.";
                 JOptionPane.showMessageDialog(getFrame(), errorMessage);
-            }
-            else if (levelCombo.getSelectedItem() == null) {
-            	errorMessage = "Please select a level of study.";
+            } else if (levelCombo.getSelectedItem() == null) {
+                errorMessage = "Please select a level of study.";
                 JOptionPane.showMessageDialog(getFrame(), errorMessage);
-            }
-            else if (storedDegs.contains(deg)) {
+            } else if (storedDegs.contains(deg)) {
                 errorMessage = "This degree is already linked to this module.";
                 JOptionPane.showMessageDialog(getFrame(), errorMessage);
-            } 
-            else {
+            } else {
                 degreeLinker.add(degLevelCore);
                 storedDegs.add(deg);
                 departmentsModel.addElement(degreeCombo.getSelectedItem().toString() + " " + levelCombo.getSelectedItem().toString() + " " + coreCombo.getSelectedItem().toString());
@@ -245,8 +241,8 @@ public class CreateModule extends Form {
      */
     public class CreateModuleHandler implements ActionListener {
         private ArrayList<String> storedDegs = new ArrayList<String>();
-    	
-    	@Override
+
+        @Override
         public void actionPerformed(ActionEvent e) {
             String modCode = moduleCode.getText();
             String modName = moduleName.getText();
@@ -254,35 +250,34 @@ public class CreateModule extends Form {
             String semesterString = semesterCombo.getSelectedItem().toString();
             int semester;
             //Case statement for semester
-        	switch (semesterString) {
-            case "Autumn":
-                semester = 0;
-                break;
-            case "Spring":
-            	semester = 1;
-                break;
-            case "Summer":
-            	semester = 2;
-            	break;
-            default:
-            	semester = 3;
-                break;
-        	}
-        	
+            switch (semesterString) {
+                case "Autumn":
+                    semester = 0;
+                    break;
+                case "Spring":
+                    semester = 1;
+                    break;
+                case "Summer":
+                    semester = 2;
+                    break;
+                default:
+                    semester = 3;
+                    break;
+            }
+
             //Lets call our checking function
             errorMessage = Controller.checkInputModule(modCode, modName, modCredits, Main.getPriv());
             if (errorMessage.equals("Accepted")) {
-            	Controller.saveModule(modCode, modName, Integer.parseInt(modCredits), semester);
-            	
-            	//Save the module department linker
+                Controller.saveModule(modCode, modName, Integer.parseInt(modCredits), semester);
+
+                //Save the module department linker
                 for (int i = 0; i < degreeLinker.size(); i++) {
                     Controller.saveModuleAssociation(modCode, degreeLinker.get(i)[0], degreeLinker.get(i)[1], degreeLinker.get(i)[2].equals("Core"));
                 }
-            	changeJPanel(new ManageModules(getFrame()).getJPanel());
-            }
-            else {
+                changeJPanel(new ManageModules(getFrame()).getJPanel());
+            } else {
                 JOptionPane.showMessageDialog(getFrame(), errorMessage);
-            }           
+            }
         }
     }
 
@@ -291,7 +286,7 @@ public class CreateModule extends Form {
      */
     private class cancelHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageModules(getFrame()).getJPanel());
+            changeJPanel(new ManageModules(getFrame()).getJPanel());
         }
     }
 }
