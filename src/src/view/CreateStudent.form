@@ -120,7 +120,10 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+          <toolTipText value="Psswords must be between 8-16 characters long. &#10;They must contain at least: 1 Capital letter, &#10;1 Lower case letter, 1 Number, 1 Special Character"/>
+        </properties>
       </component>
       <component id="39ef7" class="javax.swing.JLabel">
         <constraints>
@@ -136,7 +139,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <toolTipText value="Psswords must be between 8-16 characters long. &#10;They must contain at least: 1 Capital letter, &#10;1 Lower case letter, 1 Number, 1 Special Character"/>
+        </properties>
       </component>
       <component id="a25fe" class="javax.swing.JButton" binding="addStudentButton" default-binding="true">
         <constraints>

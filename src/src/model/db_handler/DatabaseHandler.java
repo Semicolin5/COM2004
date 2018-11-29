@@ -16,7 +16,7 @@ public class DatabaseHandler{
 
     //  Database credentials
     final String USER = "root";
-    final String PASS = ""; // default password for mysql is empty
+    final String PASS = "frank"; // default password for mysql is empty
     private int privLevel = 0;
 
     private Connection conn;
@@ -106,9 +106,6 @@ public class DatabaseHandler{
      * This function checks that the driver is loaded.
      * */
     public void checkDriverExists(){
-        System.out.println("\n Drivers loaded as properties: ");
-        System.out.println(System.getProperty("jdbc.drivers"));
-        System.out.println("\n Drivers loaded by DriverManager: ");
         Enumeration<Driver> list = DriverManager.getDrivers();
         while (list.hasMoreElements())
             System.out.println(list.nextElement());
