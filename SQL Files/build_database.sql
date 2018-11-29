@@ -47,6 +47,7 @@ CREATE TABLE period_of_study (
     start_date DATE,
     end_date DATE,
     level_of_study CHAR (1),
+    grades_confirmed BOOLEAN,
     PRIMARY KEY (login_id, label),
     FOREIGN KEY (login_id) REFERENCES student (login_id)
 );
@@ -65,8 +66,6 @@ CREATE TABLE degree_department (
     FOREIGN KEY (degree_code) REFERENCES degree (degree_code),
     FOREIGN KEY (department_code) REFERENCES department (department_code)
 );
-
-
 
 -- linker table to store how the module is associated with each degree,
 -- whether it is a core module for each degree that allows the module to be taken
