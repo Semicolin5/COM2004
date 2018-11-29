@@ -191,18 +191,20 @@ public class AdditionQueries extends Queries{
      * @param startDate: Date tells us when the period of study began.
      * @param endDate: Date tells us when the period of study ended.
      * @param level: Char representing the level of the degree the student took in this period of study.
+     * @param gradesConfirmed : boolean of whether or not the grades have been finalised by the teacher.
      */
-    public void addPeriodOfStudy(int loginId, String label, String startDate, String endDate, String level) {
+    public void addPeriodOfStudy(int loginId, String label, String startDate, String endDate, String level, boolean gradesConfirmed) {
         PreparedStatement pstmt = null;
         try {
             db.enableACID();
 
-            pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?)");
+            pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?,?)");
             pstmt.setInt(1, loginId);
             pstmt.setString(2, label);
             pstmt.setDate(3, java.sql.Date.valueOf(startDate));
             pstmt.setDate(4, java.sql.Date.valueOf(endDate));
             pstmt.setString(5, level);
+            pstmt.setBoolean(6, gradesConfirmed);
             pstmt.executeUpdate();
 
             // commit connection, then close resources

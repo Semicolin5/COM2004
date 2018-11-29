@@ -265,6 +265,7 @@ public class Controller {
         additionQ.addUser(login, salt, hashedPassword, priv);
     }
 
+    // TODO what method calls saveStudent is it appropriate that gradesConfirmed is autoset to false?
     public static void saveStudent(int loginID, String password, String title,
 								   String forename, String surname, String tutor,
 								   String email, String degreeCode, String degreeLevel,
@@ -276,7 +277,7 @@ public class Controller {
 
 		additionQ.addStudent(loginID, hashedPassword, salt, title, forename, surname,
 				tutor, email, degreeCode);
-		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel);
+		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel, false);
 	}
 
 	public static void updateGrades(int loginID, String moduleCode, String label,

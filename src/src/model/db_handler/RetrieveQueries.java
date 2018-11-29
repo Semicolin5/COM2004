@@ -223,7 +223,7 @@ public class RetrieveQueries extends Queries {
             rs = pstmt.executeQuery();
             while(rs.next()){
                table.add(new PeriodOfStudy(rs.getString(1), rs.getString(2),
-                       rs.getDate(3), rs.getDate(4), rs.getString(5)));
+                       rs.getDate(3), rs.getDate(4), rs.getString(5), rs.getBoolean(6)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -250,7 +250,7 @@ public class RetrieveQueries extends Queries {
             rs = pstmt.executeQuery();
             if(rs.next()){
                 periodOfStudy = new PeriodOfStudy(rs.getString(1), rs.getString(2),
-                        rs.getDate(3), rs.getDate(4), rs.getString(5));
+                        rs.getDate(3), rs.getDate(4), rs.getString(5), rs.getBoolean(6));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -273,7 +273,7 @@ public class RetrieveQueries extends Queries {
            res = pstmt.executeQuery();
            while (res.next()) {
                table.add(new PeriodOfStudy(res.getString(1), res.getString(2),
-                       res.getDate(3), res.getDate(4), res.getString(5)));
+                       res.getDate(3), res.getDate(4), res.getString(5), res.getBoolean(6)));
             }
         }
         catch (SQLException e) {
@@ -293,10 +293,9 @@ public class RetrieveQueries extends Queries {
      	   pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id = ? ORDER BY label DESC");
      	   pstmt.setInt(1, loginID);
            res = pstmt.executeQuery();
-
            if(res.next()) {
                periodOfStudy = new PeriodOfStudy(res.getString(1), res.getString(2),
-                       res.getDate(3), res.getDate(4), res.getString(5));
+                       res.getDate(3), res.getDate(4), res.getString(5), res.getBoolean(6));
            }
         }
         catch (SQLException e) {

@@ -18,8 +18,8 @@ public class TestMethods {
         testdb = new DatabaseHandler();
 
         //testingRemovalQueries();
-        //testingAdditionQueries();
-        testingRetrieveQueries();
+        testingAdditionQueries();
+        //testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -39,17 +39,8 @@ public class TestMethods {
 
         AdditionQueries tester = new AdditionQueries(testdb);
 
-        System.out.println("testing a");
-        Float init = new Float((float) 7.64);
-        Float resit = new Float((float) 49.55);
-        //tester.updateGrade(1001, "COM1005", "B", init, resit);
-
-        //System.out.println("testing createStudentModuleAssociation() method");
-        //tester.createStudentModuleAssociation(1001, "B", "RSS2109");
-
-        //tester.addDepartment("LIT", "English Literature");
-        //tester.addModule("COM2008", "super cool module", 120, 2);
-        //tester.addDegree("LITU04", "Nineteenth Century French Poetry", false, false);
+        System.out.println("testing addPeriodOfStudy");
+        tester.addPeriodOfStudy(2001, "C", "2018-09-03", "2019-07-01", "2", false);
 
     }
 
@@ -79,12 +70,5 @@ public class TestMethods {
         //System.out.println("trying out removeDegree");
         //tester.removeDegree("COMU03");
 
-    }
-
-    // object tests
-    private static void testingDegreeObject() {
-        // instantiate a Degree
-        Degree test = new Degree("COMU01", "Computer Science", false, false, null, null);
-        System.out.println(test.toString());
     }
 }

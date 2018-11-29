@@ -9,6 +9,7 @@ public class PeriodOfStudy {
     private Date startDate;
     private Date endDate;
     private String levelOfStudy;
+    private boolean gradesConfirmed;
 
     /**
      * Builds a PeriodOfStudy object, holding POS information
@@ -19,12 +20,13 @@ public class PeriodOfStudy {
      * @param levelOfStudy String level of study of degree
      */
     public PeriodOfStudy(String loginID, String label, Date startDate,
-                         Date endDate, String levelOfStudy) {
+                         Date endDate, String levelOfStudy, boolean gradesConfirmed) {
         this.loginID = loginID;
         this.label = label;
         this.startDate = startDate;
         this.endDate = endDate;
         this.levelOfStudy = levelOfStudy;
+        this.gradesConfirmed = gradesConfirmed;
     }
 
     public String getLoginID() {
@@ -41,6 +43,10 @@ public class PeriodOfStudy {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public boolean isGradesConfirmed() {
+        return gradesConfirmed;
     }
 
     public String getLevelOfStudy() {
