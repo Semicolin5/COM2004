@@ -51,7 +51,6 @@ CREATE TABLE period_of_study (
     FOREIGN KEY (login_id) REFERENCES student (login_id)
 );
 
-#ALTER TABLE period_of_study ADD KEY (label);
 
 -- linker table to store how the departments associated with each degrees,
 -- and whether a department is the lead department
@@ -67,7 +66,6 @@ CREATE TABLE degree_department (
 );
 
 
-
 -- linker table to store how the module is associated with each degree,
 -- whether it is a core module for each degree that allows the module to be taken
 
@@ -81,8 +79,10 @@ CREATE TABLE module_degree (
     FOREIGN KEY (degree_code) REFERENCES degree (degree_code)    
 );
 
+
 -- linker table to represent the modules a student is taking at each period of
 -- study  and to store their grades for the module.
+
 CREATE TABLE grades (
     login_id int,
     module_code CHAR (7),
