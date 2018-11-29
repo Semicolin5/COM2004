@@ -28,38 +28,10 @@ public class TestMethods {
 
         RetrieveQueries tester = new RetrieveQueries(testdb);
 
-        //System.out.println("testing retrieveStudentsModules");
-        //List<Module> modulesStudentTakes = tester.retrieveStudentsModules(1001);
-        //for (Module m : modulesStudentTakes) {
-        //    System.out.println(m.toString());
-        //}
+        System.out.println("testing retrieveStudentsModuleGrade");
 
-        System.out.println("testing retrieveStudentsModulesGrades");
-        List<Grade> gs = tester.retrieveGradeAtPeriodOfStudy(1001, "A");
-        for (Grade g : gs) {
-            System.out.println(g.toString());
-        }
-
-        //System.out.println("1002" + tester.allowedToDeleteUser("1002"));
-        //System.out.println("1001" + tester.allowedToDeleteUser("1001"));
-        //System.out.println(tester.allowedToDeleteDepartment("COM"));
-        //System.out.println(tester.allowedToDeleteDegree("COMU49"));
-        //List<Department> lsDep = tester.retrieveDepartmentTable();
-        //for (Department d : lsDep) {
-        //    System.out.println(d.toString());
-        //}
-        //List<Department> nonLead = tester.retrieveAffiliatedNonLeadDep("COMU49"); //
-        //for (Department d : nonLead) {
-        //    System.out.println(d.toString());
-        //}
-        //Department lead = tester.retrieveAffiliatedLeadDep("COMU49");
-        //System.out.println(lead.toString());
-        //List<Degree> lsDeg = tester.retrieveDegreesTable();
-        //for (Degree d : lsDeg) {
-        //    System.out.println(d.toString());
-        //}
-
-
+        Grade g = tester.retrieveStudentsModuleGrade(1001, "COM1005");
+        System.out.println(g.toString());
     }
 
     // testing the AdditionQuery class methods

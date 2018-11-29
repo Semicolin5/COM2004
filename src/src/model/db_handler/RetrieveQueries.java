@@ -143,7 +143,8 @@ public class RetrieveQueries extends Queries {
         }
         return table;
     }
-    
+
+    // TODO what should the documentation be
     public List<String> retrieveDepartmentsModules(String depCode) {
         List<String> modules = new ArrayList<>();
         PreparedStatement pstmt = null;
@@ -163,7 +164,8 @@ public class RetrieveQueries extends Queries {
         
         return modules;
     }
-    
+
+    // TODO what does this do? What should the documentation be
     public List<String> retrieveDepartmentCoreModulesForLOS(String depCode, String pos) {
         List<String> modules = new ArrayList<>();
         PreparedStatement pstmt = null;
@@ -184,8 +186,7 @@ public class RetrieveQueries extends Queries {
         return modules;
     }
     
-    
-    
+
     public List<ModuleDegree> retrieveModuleLinkDegreeTable() {
         List<ModuleDegree> moduleDegreeTable = new ArrayList<>();
         PreparedStatement pstmt = null;
@@ -457,35 +458,24 @@ public class RetrieveQueries extends Queries {
            pstmt.setString(2, module);
            rs = pstmt.executeQuery();
 
-           rs.next();
-
-           //Check for nulls in database
-           float initialGrade = rs.getFloat(4);
-           if(rs.wasNull()) {
-               initialGrade = -1;
-           }
-
-           float resitGrade = rs.getFloat(5);
-           if(rs.wasNull()) {
-               resitGrade = -1;
-           }
-
-           float repeatGrade = rs.getFloat(6);
-           if(rs.wasNull()) {
-               resitGrade = -1;
-           }
-
-           grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                   initialGrade, resitGrade,  repeatGrade);
-
-           /*if(rs.next()) {
-               //Check for null
-               float repeatGrade = rs.getFloat(4);
-               if(rs.wasNull()) {
+           // if student too module, this will establish a Grade object. If student didn't take the module, Grade is null
+           if(rs.next()) {
+               //Check for nulls in database
+               float initialGrade = rs.getFloat(4);
+               if (rs.wasNull()) {
+                   initialGrade = -1;
+               }
+               float resitGrade = rs.getFloat(5);
+               if (rs.wasNull()) {
+                   resitGrade = -1;
+               }
+               float repeatGrade = rs.getFloat(6);
+               if (rs.wasNull()) {
                    repeatGrade = -1;
                }
-               grades.setRepeatPercent(repeatGrade);
-           }*/
+               grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
+                       initialGrade, resitGrade, repeatGrade);
+           }
 
         } catch (SQLException e) {
            e.printStackTrace();
@@ -531,6 +521,7 @@ public class RetrieveQueries extends Queries {
                table.add(new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
                        initialGrade, resitGrade, repeatGrade));
            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -565,8 +556,7 @@ public class RetrieveQueries extends Queries {
 	   }
 	   return passSalt;
 	}
-	
-   
+
    /**
     * retrieveEmails, retrieves a list of all stored emails
     * @return List<String>, the list of emails as strings
@@ -589,17 +579,5 @@ public class RetrieveQueries extends Queries {
        }
        return emails; 
    }
-   
-   
-   /*
-   public List<Module> retrieveTakenModules() {
-	   
-	   
-	   
-	   
-   }
-   */
-   
-   
    
 }
