@@ -336,12 +336,13 @@ public class Controller {
 		PeriodOfStudy pos = getLatestPeriodOfStudy(studentID);
 		for (Student student : Controller.getStudents()) {
 			if (student.getLogin().equals(String.valueOf(studentID))) {
-				//Retrieves a list of all modules the selected student is eligible for, and registers the student for core modules.
+				//Retrieves a list of all modules the selected student is eligible for and assigns core modules to student.
+				for (ModuleDegree m : Controller.getModuleDegrees()) {
 					if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(String.valueOf(studentLevel)))) {
 						for (Module mod : Controller.getModules()) {
 							if (mod.getCode().equals(m.getModuleCode())) {
 								if (m.isCore())
-									Controller.saveBlankGrades(studentID, mod.getCode(), pos.getLabel());
+									Controller.saveBlankGrades(String.valueOf(studentID), mod.getCode(), pos.getLabel());
 							}
 						}
 					}
