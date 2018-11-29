@@ -541,15 +541,18 @@ public class RetrieveQueries extends Queries {
      * @param
      * @return boolean if a student is/has taken a module across two different periods of study
      * */
-    public Boolean isModuleRepeated(int loginID) {
+    public Boolean isModuleRepeated(int loginID, String moduleCode) {
        boolean isModuleRepeated = false;
        PreparedStatement pstmt = null;
        ResultSet res = null;
        try {
-           pstmt = conn.prepareStatement("SELECT COUNT (*) FROM grades WHERE login_id=? AND module_code=?");
+           pstmt = conn.prepareStatement("SELECT COUNT(*) FROM grades WHERE login_id=? AND module_code=?");
+           pstmt.setInt(1, loginID);
+           pstmt.setString(2, moduleCode);
            res = pstmt.executeQuery();
-           if (res.getInt(1) > 1)
-              isModuleRepeated = true;
+           if (res.next())
+               if (res.getInt(1) > 1)
+                   isModuleRepeated = true;
            System.out.println(isModuleRepeated);
        } catch (SQLException e) {
             e.printStackTrace();
@@ -589,7 +592,7 @@ public class RetrieveQueries extends Queries {
    
    /**
     * retrieveEmails, retrieves a list of all stored emails
-    * @param emails List<String>, the list of emails as strings
+    * @return emails List<String>, the list of emails as strings
     */
    public List<String> retrieveEmails() {
        List<String> emails = new ArrayList<String>();
