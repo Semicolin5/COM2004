@@ -507,6 +507,9 @@ public class RetrieveQueries extends Queries {
            pstmt.setString(2, label);
            rs = pstmt.executeQuery();
            while(rs.next()) { // construct a grade object for each module taken at that period
+
+               //
+
                //Check for nulls in database
                float initialGrade = rs.getFloat(4);
                if(rs.wasNull()) {
@@ -528,6 +531,32 @@ public class RetrieveQueries extends Queries {
             closeResources(pstmt, rs);
         }
         return table;
+    }
+
+    /**
+     * isModuleRepeated returns true if a module has two entries in the Grades table in the database
+     * for a .
+     * From this we infer that the user must be repeating (or did repeat) the module under question.
+     * @param loginID, int, the users loginID
+     * @param
+     * @return boolean if a student is/has taken a module across two different periods of study
+     * */
+    public Boolean isModuleRepeated(int loginID) {
+       boolean isModuleRepeated = false;
+       PreparedStatement pstmt = null;
+       ResultSet res = null;
+       try {
+           pstmt = conn.prepareStatement("SELECT COUNT (*) FROM grades WHERE login_id=? AND module_code=?");
+           res = pstmt.executeQuery();
+           if (res.getInt(1) > 1)
+              isModuleRepeated = true;
+           System.out.println(isModuleRepeated);
+       } catch (SQLException e) {
+            e.printStackTrace();
+       } finally {
+            closeResources(pstmt, res);
+       }
+       return isModuleRepeated;
     }
 
 	/**
@@ -560,7 +589,7 @@ public class RetrieveQueries extends Queries {
    
    /**
     * retrieveEmails, retrieves a list of all stored emails
-    * @param List<String>, the list of emails as strings
+    * @param emails List<String>, the list of emails as strings
     */
    public List<String> retrieveEmails() {
        List<String> emails = new ArrayList<String>();

@@ -219,7 +219,7 @@ public class CreateStudent extends Form {
                     Controller.saveStudent(Integer.parseInt(studNo), password, title, forename, surname, pTutor, Controller.generateEmail(forename, surname), degCode, degLevel, "A", startDate, endDate);
                     System.out.println("assigning core modules");
                     Controller.assignCoreModules(Integer.parseInt(studNo), 1);
-                    changeJPanel(new src.view.ManageStudents(getFrame()).getJPanel());
+                    changeJPanel(new ManageStudents(getFrame()).getJPanel());
                 } else {
                     JOptionPane.showMessageDialog(getFrame(), errorMessage);
                 }
@@ -235,7 +235,7 @@ public class CreateStudent extends Form {
      */
     private class cancelHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageStudents(getFrame()).getJPanel());
+            changeJPanel(new ManageStudents(getFrame()).getJPanel());
         }
     }
 }

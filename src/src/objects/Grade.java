@@ -13,6 +13,7 @@ public class Grade {
     private float initialPercent;
     private float resitPercent;
     private float repeatPercent;
+    private boolean repeated;
 
     /**
      * A Grade object differs from how grades are stored in the database as it can also to encapsulate a students grades
@@ -31,6 +32,15 @@ public class Grade {
         this.initialPercent = initialPercent;
         this.resitPercent = resitPercent;
         this.repeatPercent = repeatPercent;
+        this.repeated = false;
+    }
+
+    /**
+     * Overloading the Grade constructor for when this grade is a repeated grade.
+     * */
+    public Grade(String loginID, String moduleCode, char label, float initialPercent, float resitPercent, float repeatPercent, boolean repeated) {
+        this(loginID, moduleCode, label, initialPercent, resitPercent, repeatPercent);
+        this.repeated = true;
     }
 
     /**

@@ -221,7 +221,7 @@ public class CreateDegree extends Form {
                 for (int i = 0; i < departmentLinker.size(); i++) {
                     Controller.saveDepartmentAssociation(degCode, departmentLinker.get(i)[0], departmentLinker.get(i)[1].equals("Lead"));
                 }
-                changeJPanel(new src.view.ManageDegrees(getFrame()).getJPanel());
+                changeJPanel(new ManageDegrees(getFrame()).getJPanel());
             } else {
                 JOptionPane.showMessageDialog(getFrame(), errorMessage);
             }
@@ -233,7 +233,7 @@ public class CreateDegree extends Form {
      */
     private class cancelHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageDegrees(getFrame()).getJPanel());
+            changeJPanel(new ManageDegrees(getFrame()).getJPanel());
         }
     }
 }

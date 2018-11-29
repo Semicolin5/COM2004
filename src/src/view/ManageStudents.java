@@ -130,7 +130,7 @@ public class ManageStudents extends Form {
      */
     private class BackHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
+            changeJPanel(new Welcome(getFrame()).getJPanel());
         }
     }
 }

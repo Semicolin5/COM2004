@@ -17,6 +17,7 @@ public class ManageDepartments extends Form {
     /**
      * Constructor sets the columns of the empty JTable, and loads department codes into the department JList.
      * Also adds ActionListeners to the different buttons on the form.
+     *
      * @param frame - JFrame with properties defined in the GUIFrame class.
      */
     public ManageDepartments(GUIFrame frame) {
@@ -154,7 +155,7 @@ public class ManageDepartments extends Form {
      */
     private class BackHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
+            changeJPanel(new Welcome(getFrame()).getJPanel());
         }
     }
 }

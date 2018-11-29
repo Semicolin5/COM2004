@@ -93,18 +93,17 @@ public class CreateDepartment extends Form {
     public class CreateDepartmentHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-        	String depCode = departmentCode.getText();
-        	String depName = departmentName.getText();
-        	
-        	//Do error checking
-        	errorMessage = Controller.checkInputDepartment(depCode, depName, Main.getPriv());
-        	if (errorMessage.equals("Accepted")) {
-        		Controller.saveDepartment(departmentCode.getText(), departmentName.getText());
-        		changeJPanel(new ManageDepartments(getFrame()).getJPanel());
-        	}
-        	else {
-        		JOptionPane.showMessageDialog(getFrame(), errorMessage);
-        	}
+            String depCode = departmentCode.getText();
+            String depName = departmentName.getText();
+
+            //Do error checking
+            errorMessage = Controller.checkInputDepartment(depCode, depName, Main.getPriv());
+            if (errorMessage.equals("Accepted")) {
+                Controller.saveDepartment(departmentCode.getText(), departmentName.getText());
+                changeJPanel(new ManageDepartments(getFrame()).getJPanel());
+            } else {
+                JOptionPane.showMessageDialog(getFrame(), errorMessage);
+            }
         }
     }
 
@@ -113,7 +112,7 @@ public class CreateDepartment extends Form {
      */
     private class cancelHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.ManageDepartments(getFrame()).getJPanel());
+            changeJPanel(new ManageDepartments(getFrame()).getJPanel());
         }
     }
 }

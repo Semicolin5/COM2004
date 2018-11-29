@@ -143,7 +143,7 @@ public class ManageModules extends Form {
             if (selectedRow != -1) {
                 String selectedModule = moduleTable.getValueAt(selectedRow, 0).toString();
                 for (ModuleDegree modDeg : Controller.getModuleDegrees()) {
-                    if (modDeg.getModuleCode().equals(selectedModule)){
+                    if (modDeg.getModuleCode().equals(selectedModule)) {
                         if (modDeg.isCore())
                             relatedModel.addRow(new Object[]{modDeg.getDegreeCode(), modDeg.getDegreeLevel(), "Core"});
                         else
@@ -173,7 +173,7 @@ public class ManageModules extends Form {
      */
     private class BackHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
+            changeJPanel(new Welcome(getFrame()).getJPanel());
         }
     }
 }

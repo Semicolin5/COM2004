@@ -31,6 +31,7 @@ public class ManageDegrees extends Form {
     /**
      * Constructor sets the columns of the empty JTable, and loads degree codes into the degreeList JList.
      * Also adds ActionListeners to the different buttons on the form.
+     *
      * @param frame - JFrame with properties defined in the GUIFrame class.
      */
     public ManageDegrees(GUIFrame frame) {
@@ -150,24 +151,23 @@ public class ManageDegrees extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             //Reset JTable
             associateModel.setRowCount(0);
-            
+
             //Check its not null
             if (degreeList.getSelectedValue() != null) {
-            	String degreeCode = degreeList.getSelectedValue().toString();
-	            for (Degree degree : Controller.getDegrees()) {
-	                if (degreeCode.equals(degree.getDegreeCode())) {
-	                    Department lead = degree.getLeadDepartment();
-	                    associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
-	                    if (degree.getNonLeadDepartments() != null) {
-	                        for (Department d : degree.getNonLeadDepartments()) {
-	                        	associateModel.addRow(new Object[]{d.getCode(), d.getName(), "Non-Lead"});
-	                        }
-	                   	}
-	               	}
-	            }
-            }
-            else {
-            	JOptionPane.showMessageDialog(getFrame(), "Please select a degree to display.");
+                String degreeCode = degreeList.getSelectedValue().toString();
+                for (Degree degree : Controller.getDegrees()) {
+                    if (degreeCode.equals(degree.getDegreeCode())) {
+                        Department lead = degree.getLeadDepartment();
+                        associateModel.addRow(new Object[]{lead.getCode(), lead.getName(), "Lead"});
+                        if (degree.getNonLeadDepartments() != null) {
+                            for (Department d : degree.getNonLeadDepartments()) {
+                                associateModel.addRow(new Object[]{d.getCode(), d.getName(), "Non-Lead"});
+                            }
+                        }
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(getFrame(), "Please select a degree to display.");
             }
         }
     }
@@ -177,7 +177,7 @@ public class ManageDegrees extends Form {
      */
     private class BackHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.Welcome(getFrame()).getJPanel());
+            changeJPanel(new Welcome(getFrame()).getJPanel());
         }
     }
 }
