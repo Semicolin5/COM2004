@@ -321,6 +321,12 @@ public class Controller {
 	    AdditionQueries additionQ = new AdditionQueries(Main.getDB());
 	    additionQ.updatePeriodOfStudy(loginID, label, mean);
     }
+	
+	public static void addPeriodOfStudy(int loginId, String label, String startDate, String endDate, String level) {
+	    AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+		additionQ.addPeriodOfStudy(loginId, label, startDate, endDate, level);
+	}
+	
     
     //********************************************************
     //Methods to auto generate input
@@ -658,14 +664,34 @@ public class Controller {
 		Degree degObj = getDegree(studObj.getDegreeCode());
 		
 		//Now we test if it's their final year and control flow appropriatly
-		if (degObj.isMasters() && periodStudyObj.getLabel().equals("4")) {
+		if (degObj.isMasters() && periodStudyObj.getLevelOfStudy().equals("4")) {
 			//Final year grad masters
 		}
-		else if (!degObj.isMasters() && periodStudyObj.getLabel().equals("3")) {
+		else if (!degObj.isMasters() && periodStudyObj.getLevelOfStudy().equals("3")) {
 			//Final year grad under
 		}
 		else {
-			//progress to next level
+			//Progress for all levels here we go
+			if (periodStudyObj.getLevelOfStudy().equals("1")) {
+			   	addPeriodOfStudy(studentID, label, startDate, endDate, "2");
+			}
+			else if (periodStudyObj.getLevelOfStudy().equals("2")) {
+				//Check if we have a placement year to decide how to progress
+				if(degObj.hasPlacementYear()) {
+					
+				}
+				else {
+					
+				}
+			}
+			else if (periodStudyObj.getLabel().equals("P")) {
+				
+			}
+			else if (periodStudyObj.getLabel().equals("3")) {
+				
+			}
+			
+			
 		}
 		
 		
