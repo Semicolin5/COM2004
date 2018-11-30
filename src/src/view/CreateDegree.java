@@ -210,7 +210,10 @@ public class CreateDegree extends Form {
             String degName = degreeName.getText();
             boolean masters = mastersCombo.getSelectedItem().toString().equals("Masters");
             boolean yearInd = yearIndustryCombo.getSelectedItem().toString().equals("Includes Year In Industry");
-
+            if (yearInd) {
+            	degName = degName + " - With a year in industry.";
+            }
+            
             //Check the inputs
             errorMessage = Controller.checkInputDegree(degCode, degName, masters, Main.getPriv());
 
