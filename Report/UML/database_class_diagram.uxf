@@ -208,22 +208,6 @@ r2=Modules</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>225</x>
-      <y>243</y>
-      <w>261</w>
-      <h>45</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1..*
-r1=Departments
-m2=0..*
-r2=Degrees
-</panel_attributes>
-    <additional_attributes>10.0;20.0;270.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
       <x>927</x>
       <y>54</y>
       <w>153</w>
@@ -344,16 +328,16 @@ r2=Student</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>567</x>
-      <y>657</y>
-      <w>387</w>
-      <h>90</h>
+      <x>810</x>
+      <y>513</y>
+      <w>144</w>
+      <h>234</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
-r1=User
-m2=0..*
+r1=Student
+m2=1..*
 r2=Periods of study</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0;410.0;70.0</additional_attributes>
+    <additional_attributes>140.0;20.0;10.0;20.0;10.0;230.0;140.0;230.0</additional_attributes>
   </element>
 </diagram>
