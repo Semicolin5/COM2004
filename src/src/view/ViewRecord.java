@@ -363,6 +363,9 @@ public class ViewRecord extends Form {
         }
     }
 
+    /**
+     * FailStudent method handles GUI when the student fails.
+     * */
     private void failStudent() {
         List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
         if (gs.get(0).getRepeated()) {
@@ -370,7 +373,7 @@ public class ViewRecord extends Form {
         } else {
             if (latestPOS.getLevelOfStudy().equals(4))
                 System.out.println("Graduate with equivalent bachelors with credits already obtained");
-                // TODO graduation mehtod
+                // TODO graduation method.
             else {
                 JOptionPane.showMessageDialog(getFrame(), "Fail student");
             }
