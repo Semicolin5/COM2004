@@ -640,4 +640,19 @@ public class Controller {
 		}
 		return cred;
 	}
+	
+	
+	
+	/**
+	 * progressPassedStudent, takes .... and decides how a student should be progressed
+	 * @param int studentID, the ID of the student we want to progress
+	 */
+	public void progressPassedStudent(int studentID, PeriodOfStudy periodStudyObj) {
+		//Pull out the students related degree so we can see if they are masters or not
+		//Student studObj = 
+		//Degree degObj = 
+		
+		
+	}
+	
 }
