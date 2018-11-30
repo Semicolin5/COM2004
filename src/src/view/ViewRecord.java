@@ -303,14 +303,13 @@ public class ViewRecord extends Form {
                 float average = sumOfGrades / expectedTotalCredits;
 
                 // adds average to the period_of_study
-
+                Controller.updatePeriodOfStudy(username, latestPOS.getLabel(), average);
 
                 System.out.println("average score from all modules: " + average);
                 if (average < min) {
                     System.out.println("User has failed this year system finds out what to do."); //
                     // TODO make a fail function
                 }
-
 
             } else {
                 // TODO make a popup

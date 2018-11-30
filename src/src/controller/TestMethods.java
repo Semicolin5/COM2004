@@ -18,8 +18,8 @@ public class TestMethods {
         testdb = new DatabaseHandler();
 
         //testingRemovalQueries();
-        //testingAdditionQueries();
-        testingRetrieveQueries();
+        testingAdditionQueries();
+        //testingRetrieveQueries();
         //testingDegreeObject();
     }
 
@@ -28,11 +28,18 @@ public class TestMethods {
 
         RetrieveQueries tester = new RetrieveQueries(testdb);
 
+        //System.out.println("testing retrieveGradeAtPeriodOfStudy");
+        //List<Grade> gs = tester.retrieveGradeAtPeriodOfStudy(2001, "A");
+        //for (Grade g : gs) {
+        //    g.toString();
+        //}
+
+
         //System.out.println("retrieving grades list");
-        List<Grade> gs = tester.retrieveStudentsModuleGrade(1001, "COM1005");
-        for (Grade g : gs) {
-            System.out.println(g.toString());
-        }
+        //List<Grade> gs = tester.retrieveStudentsModuleGrade(1001, "COM1005");
+        //for (Grade g : gs) {
+        //    System.out.println(g.toString());
+        //}
 
         //System.out.println("is module repeated");
         //boolean result = tester.isGradeRepeat(1001, "COM1005", "B");
@@ -55,9 +62,13 @@ public class TestMethods {
 
         AdditionQueries tester = new AdditionQueries(testdb);
 
-        System.out.println("testing a");
-        Float init = new Float((float) 7.64);
-        Float resit = new Float((float) 49.55);
+        System.out.println("testing updatePOS");
+        tester.updatePeriodOfStudy(2001, "B", (float) 44.88);
+
+
+        //System.out.println("testing a");
+        //Float init = new Float((float) 7.64);
+        //Float resit = new Float((float) 49.55);
         //tester.updateGrade(1001, "COM1005", "B", init, resit);
 
         //System.out.println("testing createStudentModuleAssociation() method");
