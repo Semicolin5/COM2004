@@ -27,8 +27,8 @@ public class UpdateGrades extends Form {
     private JTextField repeatGrade;
     private JButton updateButton;
     private JButton backButton;
-    private final JLabel label2 = new JLabel();    
-    
+    private final JLabel label2 = new JLabel();
+
     private List<Grade> modList;
     private List<Grade> selectedGrades;
     private int loginID;
@@ -36,11 +36,7 @@ public class UpdateGrades extends Form {
     private String latestPeriod;
     private String selectedModuleCode;
     private boolean repeatedLevel;
-    
-    
-    
 
-    
 
     public UpdateGrades(GUIFrame frame) {
         super(frame);
@@ -97,30 +93,30 @@ public class UpdateGrades extends Form {
         final JLabel label1 = new JLabel();
         label1.setText("Students");
         panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        //final JLabel label2 = new JLabel();
-        label2.setText("Modules at period of study:");
-        panel1.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
-        label3.setText("Repeat %");
-        //panel1.add(label3, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
+        label3.setText("Modules");
+        panel1.add(label3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
-        label4.setText("Resit %");
-        panel1.add(label4, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
+        label4.setText("Repeat %");
+        panel1.add(label4, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         final JLabel label5 = new JLabel();
-        label5.setText("Initial %");
-        panel1.add(label5, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
+        label5.setText("Resit %");
+        panel1.add(label5, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
+        final JLabel label6 = new JLabel();
+        label6.setText("Initial %");
+        panel1.add(label6, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         resitGrade = new JTextField();
         panel1.add(resitGrade, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         repeatGrade = new JTextField();
-        //panel1.add(repeatGrade, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel1.add(repeatGrade, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         initialGrade = new JTextField();
         panel1.add(initialGrade, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         updateButton = new JButton();
         updateButton.setText("Update");
         panel1.add(updateButton, new GridConstraints(4, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label6 = new JLabel();
-        label6.setText("Grades");
-        panel1.add(label6, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label7 = new JLabel();
+        label7.setText("Grades");
+        panel1.add(label7, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         backButton = new JButton();
         backButton.setText("Back");
         panel1.add(backButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -133,38 +129,37 @@ public class UpdateGrades extends Form {
         return panel1;
     }
 
-    
+
     private class studentListHandler implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
             //Init our variables
-    		loginID = Integer.parseInt(studentList.getSelectedValue().toString());
-    		latestLevel  = Controller.getLatestPeriodOfStudy(loginID).getLevelOfStudy();
-    		latestPeriod = Controller.getLatestPeriodOfStudy(loginID).getLabel();
-        	
-    		modList = Controller.getStudentsGradeAtPeriod(loginID, latestPeriod);
-        	
-    		//If one module is a repeat, all of them will be  TODO test this bad boy when the databse scheme is full
-    		if (modList.size() > 0) {
-    			repeatedLevel = modList.get(0).getRepeated();
-    		}
-    		
-    		
-    		moduleModel.removeAllElements();
-        	for (Grade grade : modList) {
-        		moduleModel.addElement(grade.getModuleCode());
-        	}
-        	
-        	//Now lets assign the modules to the list
-        	clearGrades();
-        	moduleList.setModel(moduleModel);
-        	
-        	//Change the name to show if the period is repeated or not
-        	if (repeatedLevel) {
-        		label2.setText("Modules at level " + latestLevel + " for period of study: " + latestPeriod + " (repeated year).");       		
-        	}
-        	else {
-        		label2.setText("Modules at level " + latestLevel + " for period of study: " + latestPeriod + ".");  
-        	}
+            loginID = Integer.parseInt(studentList.getSelectedValue().toString());
+            latestLevel = Controller.getLatestPeriodOfStudy(loginID).getLevelOfStudy();
+            latestPeriod = Controller.getLatestPeriodOfStudy(loginID).getLabel();
+
+            modList = Controller.getStudentsGradeAtPeriod(loginID, latestPeriod);
+
+            //If one module is a repeat, all of them will be  TODO test this bad boy when the databse scheme is full
+            if (modList.size() > 0) {
+                repeatedLevel = modList.get(0).getRepeated();
+            }
+
+
+            moduleModel.removeAllElements();
+            for (Grade grade : modList) {
+                moduleModel.addElement(grade.getModuleCode());
+            }
+
+            //Now lets assign the modules to the list
+            clearGrades();
+            moduleList.setModel(moduleModel);
+
+            //Change the name to show if the period is repeated or not
+            if (repeatedLevel) {
+                label2.setText("Modules at level " + latestLevel + " for period of study: " + latestPeriod + " (repeated year).");
+            } else {
+                label2.setText("Modules at level " + latestLevel + " for period of study: " + latestPeriod + ".");
+            }
 
         }
     }
@@ -176,24 +171,24 @@ public class UpdateGrades extends Form {
     private class ModuleListHandler implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
             //Get our module code
-        	selectedModuleCode = moduleList.getSelectedValue().toString();
-        	
-        	//Boilerplate, just so selectedMOduleGrade is not null, should never be called without being changed prior
-        	Grade selectedModuleGrade = modList.get(0); 
-        	
-        	for (Grade grade : modList) {
-        		if (grade.getModuleCode().equals(selectedModuleCode)) {
-        			selectedModuleGrade = grade;
-        		}
-        	}
-        	
-        	
-        	//Assign Grades
-        	clearGrades();
-        	initialGrade.setText(String.valueOf(selectedModuleGrade.getInitialPercent()));
-        	resitGrade.setText(String.valueOf(selectedModuleGrade.getResitPercent()));
-        	
-        	
+            selectedModuleCode = moduleList.getSelectedValue().toString();
+
+            //Boilerplate, just so selectedMOduleGrade is not null, should never be called without being changed prior
+            Grade selectedModuleGrade = modList.get(0);
+
+            for (Grade grade : modList) {
+                if (grade.getModuleCode().equals(selectedModuleCode)) {
+                    selectedModuleGrade = grade;
+                }
+            }
+
+
+            //Assign Grades
+            clearGrades();
+            initialGrade.setText(String.valueOf(selectedModuleGrade.getInitialPercent()));
+            resitGrade.setText(String.valueOf(selectedModuleGrade.getResitPercent()));
+
+
         }
     }
 
@@ -203,51 +198,41 @@ public class UpdateGrades extends Form {
      */
     private class UpdateButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-        	
-        	//Make sure we have something selected        	
-        	if (studentList.getSelectedValue() == null) {
+
+            //Make sure we have something selected
+            if (studentList.getSelectedValue() == null) {
                 JOptionPane.showMessageDialog(getFrame(), "Please select a student.");
-        	}
-        	else if (moduleList.getSelectedValue() == null)  {
-                JOptionPane.showMessageDialog(getFrame(), "Please select a module.");        		
-        	}
-        	else {
-        		loginID = Integer.parseInt(studentList.getSelectedValue().toString());
-        		String modCode = moduleList.getSelectedValue().toString();
-        		
-        		String initialGradeText = initialGrade.getText();
-        		String resitGradeText = resitGrade.getText();
-        		//String repeatGradeText = repeatGrade.getText();
-        		
-        		//Call a controller method to check these inputs
-        		int a = 1;
-        		if (a == 1) {
-        			//Take the values of our grades as floats
-        			Float resitGradeFloat = Float.valueOf(initialGradeText);
+            } else if (moduleList.getSelectedValue() == null) {
+                JOptionPane.showMessageDialog(getFrame(), "Please select a module.");
+            } else {
+                loginID = Integer.parseInt(studentList.getSelectedValue().toString());
+                String modCode = moduleList.getSelectedValue().toString();
+
+                String initialGradeText = initialGrade.getText();
+                String resitGradeText = resitGrade.getText();
+                //String repeatGradeText = repeatGrade.getText();
+
+                //Call a controller method to check these inputs
+                int a = 1;
+                if (a == 1) {
+                    //Take the values of our grades as floats
+                    Float resitGradeFloat = Float.valueOf(initialGradeText);
                     Float initialGradeFloat = Float.valueOf(resitGradeText);
                     //Float repeatGradeFloat = Float.valueOf(repeatGradeText);
-        		
-                    
-                    //Update the grades
-                    
-                    //Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
-                    //Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
-                    
-                    
-                    
-                    
-                    
-                    
-        		}
-        		else {
-                    JOptionPane.showMessageDialog(getFrame(), "Please input correct numbers");
-        		}
-        	}			
-        			
-        			
 
-        		
-        	
+
+                    //Update the grades
+
+                    //Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
+                    //Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
+
+
+                } else {
+                    JOptionPane.showMessageDialog(getFrame(), "Please input correct numbers");
+                }
+            }
+
+
             Grade firstInList = selectedGrades.get(0); // the
             int loginID = Integer.parseInt(firstInList.getLoginID());
             String module = firstInList.getModuleCode();
@@ -269,7 +254,7 @@ public class UpdateGrades extends Form {
             if (firstInList.getRepeated() && (repeatGrade.getText() != "")) {
                 Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
             } else {
-            	Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
+                Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
             }
         }
     }

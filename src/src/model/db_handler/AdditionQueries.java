@@ -217,6 +217,33 @@ public class AdditionQueries extends Queries{
     }
 
     /**
+     * updatePeriodOfStudy method enables a the weighted mean grade for a period of study to be stored in the database.
+     * This method will not be able to set the weighted_mean column to null (since this case should never come up).
+     * @param loginID int represents the Student
+     * @param label String represents the period of study
+     * @param weightedMean float representing the
+     * */
+    public void updatePeriodOfStudy(int loginID, String label, float weightedMean) {
+        PreparedStatement pstmt = null;
+        try {
+
+           db.enableACID();
+           pstmt = super.conn.prepareStatement("UPDATE period_of_study SET weighted_mean=? WHERE " +
+                   "login_id=? AND label=?");
+           pstmt.setFloat(1, weightedMean);
+           pstmt.setInt(2, loginID);
+           pstmt.setString(3, label);
+           pstmt.executeUpdate();
+           super.conn.commit();
+           db.disableACID();
+
+        } catch (SQLException e) {
+            db.rollBack();
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Add UserAssociation Query - only accessible for Administrators (privilege level 4)
      * This SQL query adds a row to the user table.
      * @param loginId String of the user's identification code.
@@ -307,6 +334,7 @@ public class AdditionQueries extends Queries{
     public void updateGrade(int login, String moduleCode, String label, Float initialGrade, Float resitGrade) {
         PreparedStatement pstmt = null;
         boolean initialNotNull = (initialGrade > 0) || initialGrade == null;
+
         boolean resitNotNull = (resitGrade > 0) || resitGrade == null;
         try {
 

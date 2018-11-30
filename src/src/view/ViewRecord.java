@@ -226,7 +226,6 @@ public class ViewRecord extends Form {
                 for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
                     //Set appropriate message if grade is null in database
                     String initialGrade = "Not taken";
-                    System.out.println(g.getInitialPercent());
                     if (g.getInitialPercent() != -1) {
                         initialGrade = String.valueOf(g.getInitialPercent());
                     }
@@ -307,7 +306,7 @@ public class ViewRecord extends Form {
                 float average = sumOfGrades / expectedTotalCredits;
 
                 // adds average to the period_of_study
-
+                Controller.updatePeriodOfStudy(username, latestPOS.getLabel(), average);
 
                 System.out.println("average score from all modules: " + average);
                 if (average < min) {
@@ -318,6 +317,7 @@ public class ViewRecord extends Form {
                 }else if (count >1){
                     failStudent();
                 }
+
             } else {
                 // TODO make a popup
                 System.out.println("Error, User Doesn't Take Enough Modules");

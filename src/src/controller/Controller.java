@@ -301,14 +301,21 @@ public class Controller {
 	}
 
 	/**
-	 * updateGrades uses additionQueries.java method updateGrade to store
+	 * updateGrades uses additionQueries.java method updateGrade to store new grades.
 	 * */
 	public static void updateGrades(int loginID, String moduleCode, String label,
 									Float initialGrade, Float resitGrade) {
 		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-		System.out.println("updating grade for: " + loginID + ", " + moduleCode +  ", " +  initialGrade + ", " + resitGrade);
 		additionQ.updateGrade(loginID, moduleCode, label, initialGrade, resitGrade);
 	}
+
+	/**
+     * updatePOS uses additionQueries.java method updatePeriodOfStudy to insert a weighted mean score for a period.
+     * */
+	public static void updatePeriodOfStudy(int loginID, String label, float mean) {
+	    AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+	    additionQ.updatePeriodOfStudy(loginID, label, mean);
+    }
     
     //********************************************************
     //Methods to auto generate input
