@@ -583,7 +583,8 @@ public class Controller {
      * calculate the best
      * @param //TODO
      * */
-    public static float getMaximumModuleScore(Grade g, float m) {
+    public static float getMaximumWeightedScore(Grade g, float m) {
+        float highestScore;
         float initialScore = g.getInitialPercent();
         float resitScore = g.getResitPercent();
         if (resitScore > m) {
@@ -594,9 +595,17 @@ public class Controller {
         }
         // return the greatest score from resit and initial
         if (initialScore >= resitScore) {
-            return initialScore;
+            highestScore = initialScore;
         } else {
-            return resitScore;
+            highestScore = resitScore;
         }
+
+        int cred = 0;
+        for (Module mod : Controller.getModules()) {
+            if(mod.getCode().equals(g.getModuleCode())){
+                cred = mod.getCredits();
+            }
+        }
+        return highestScore * (float) cred;
     }
 }

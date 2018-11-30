@@ -47,6 +47,7 @@ CREATE TABLE period_of_study (
     start_date DATE,
     end_date DATE,
     level_of_study CHAR (1),
+    weighted_mean DECIMAL(8,5),
     PRIMARY KEY (login_id, label),
     FOREIGN KEY (login_id) REFERENCES student (login_id)
 );

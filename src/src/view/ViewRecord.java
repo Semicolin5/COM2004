@@ -273,6 +273,9 @@ public class ViewRecord extends Form {
         }
     }
 
+    /**
+     * Button
+     * */
     private class ProgressHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             int expectedTotalCredits; // the expected credits a student should be taking
@@ -288,12 +291,27 @@ public class ViewRecord extends Form {
             if (expectedTotalCredits == Controller.latestTotalCredits(username)) {
                 java.util.List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
 
+                float sumOfGrades = 0; // add the best score from each module
                 /**
                  * For each grade in the latestPOS taken, calculate if the student passe
                  * */
                 for (Grade g : gs) {
-                    System.out.println(Controller.getMaximumModuleScore(g, min));
+                    sumOfGrades = sumOfGrades + Controller.getMaximumWeightedScore(g, min);
+                    System.out.println(Controller.getMaximumWeightedScore(g, min));
                 }
+                System.out.println("score should be: " + sumOfGrades + "/" + expectedTotalCredits);
+                float average = sumOfGrades / expectedTotalCredits;
+
+                // adds average to the period_of_study
+
+
+                System.out.println("average score from all modules: " + average);
+                if (average < min) {
+                    System.out.println("User has failed this year system finds out what to do."); //
+                    // TODO make a fail function
+                }
+
+
             } else {
                 // TODO make a popup
                 System.out.println("Error, User Doesn't Take Enough Modules");

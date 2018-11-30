@@ -197,7 +197,7 @@ public class AdditionQueries extends Queries{
         try {
             db.enableACID();
 
-            pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?)");
+            pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?,NULL)");
             pstmt.setInt(1, loginId);
             pstmt.setString(2, label);
             pstmt.setDate(3, java.sql.Date.valueOf(startDate));
