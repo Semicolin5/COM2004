@@ -64,6 +64,37 @@ public class RetrieveQueries extends Queries {
         }
         return degreeTable;
     }
+    
+    
+    /**
+     * retrieve the degree, by the given code 
+     * @return degree, the degree object that was requested
+     * */
+    public Degree retrieveDegree() {
+        Degree degree;
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM degree WHERE degree_code = ?");
+            res = pstmt.executeQuery();
+            while (res.next()) {
+                String degCode = res.getString(1);
+                // for each degree, find the associated departments
+                degreeTable.add(new Degree(degCode, res.getString(2),
+                        res.getBoolean(3), res.getBoolean(4),
+                        retrieveAffiliatedLeadDep(degCode), retrieveAffiliatedNonLeadDep(degCode)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
+        }
+        return degreeTable;
+    }
+    
+    
+    
+    
 
     /**
      * Helper function used by retrieveDegreeTable to find affiliated non-lead departments for each degree

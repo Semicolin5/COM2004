@@ -93,6 +93,11 @@ public class Controller {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
         return retrieveQ.retrieveDegreesTable();
     }
+    
+    public static Degree getDegree(String degCode) {
+        RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+        return null
+    }
 
     public static List<Department> getDepartments() {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
@@ -649,8 +654,8 @@ public class Controller {
 	 */
 	public void progressPassedStudent(int studentID, PeriodOfStudy periodStudyObj) {
 		//Pull out the students related degree so we can see if they are masters or not
-		//Student studObj = 
-		//Degree degObj = 
+		Student studObj = getStudent(studentID);
+		Degree degObj = 
 		
 		
 	}
