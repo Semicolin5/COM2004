@@ -31,6 +31,7 @@ public class ViewRecord extends Form {
     private DefaultTableModel outcomeModel;
     private DefaultListModel<String> studentListModel;
     private int username; // int for the current user record being viewed
+    private PeriodOfStudy latestPOS;
     private JScrollPane studentScrollPane;
     private JComboBox periodComboBox;
     private JTextField titleField;
@@ -58,6 +59,7 @@ public class ViewRecord extends Form {
         super(frame);
 
         backButton.addActionListener(new BackButtonHandler());
+        progressStudentButton.addActionListener(new ProgressHandler());
 
         // setting up JLists and Tables depending on whether being viewed by teacher or student
         // displays the page differently depending if the
@@ -252,7 +254,10 @@ public class ViewRecord extends Form {
     private class LoadStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (selectStudent.getSelectedValue() != null) {
+
+
                 username = Integer.parseInt((String) selectStudent.getSelectedValue()); // targeted student's login code
+                latestPOS = Controller.getLatestPeriodOfStudy(username);
                 setupPeriodCombo(username);
 
                 //Clear the results table
@@ -264,6 +269,34 @@ public class ViewRecord extends Form {
                 periodEndField.setText("");
 
                 addStudentInfo(username);
+            }
+        }
+    }
+
+    private class ProgressHandler implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            int expectedTotalCredits; // the expected credits a student should be taking
+            float min; // the minimum pass grade on a module
+            if (latestPOS.getLevelOfStudy() != "4") {
+                expectedTotalCredits = 120;
+                min = 40;
+            } else { // if student isn't doing a masters
+                expectedTotalCredits = 180;
+                min = 50;
+            }
+            System.out.println("credits that they take: " + Controller.latestTotalCredits(username) + ", expected is: " + expectedTotalCredits);
+            if (expectedTotalCredits == Controller.latestTotalCredits(username)) {
+                java.util.List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
+
+                /**
+                 * For each grade in the latestPOS taken, calculate if the student passe
+                 * */
+                for (Grade g : gs) {
+                    System.out.println(Controller.getMaximumModuleScore(g, min));
+                }
+            } else {
+                // TODO make a popup
+                System.out.println("Error, User Doesn't Take Enough Modules");
             }
         }
     }
