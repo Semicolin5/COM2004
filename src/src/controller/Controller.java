@@ -3,6 +3,7 @@ package src.controller;
 import src.model.db_handler.*;
 import src.objects.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import src.model.*;
@@ -672,8 +673,14 @@ public class Controller {
 		}
 		else {
 			//Progress for all levels here we go
+			char newLabel = periodStudyObj.getLabel().charAt(0);
+			newLabel++;
+			//TODO - update to new dates by 1 year
+			String newStartDate = periodStudyObj.getStartDate().toString(); //+1 year
+			String newEndDate = periodStudyObj.getStartDate().toString(); //+1 year
+			
 			if (periodStudyObj.getLevelOfStudy().equals("1")) {
-			   	addPeriodOfStudy(studentID, label, startDate, endDate, "2");
+			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "2");
 			}
 			else if (periodStudyObj.getLevelOfStudy().equals("2")) {
 				//Check if we have a placement year to decide how to progress
