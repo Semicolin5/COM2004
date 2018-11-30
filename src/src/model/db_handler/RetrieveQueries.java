@@ -441,53 +441,52 @@ public class RetrieveQueries extends Queries {
     }
 
     /**
-     * retrieveStudentsModuleGrade, given a student, and a module that they take, this method returns
-     * their grade as a Grade object
-     * retrieveStudentsModuleGrade, given a student, and a module that they take, this method
-     * returns their grades as a Grade object.
+     * retrieveStudentsModuleGrade is given a login and module and returns information
+     * such as what the user scored as their initial percent, resit percent, and percent
+     * for repeating a year. This is encapsulated as a List<Grade> object.
      * @param login, int, the users loginID
      * @param module, String, the module that the student takes/has taken
-     * @return Grade object
+     * @return List<Grade> allGradesForModule stores up to 2 grades, first grade being the repeat
      * */
-    public Grade retrieveStudentsModuleGrade(int login, String module){
-        Grade grades = null;
+    public List<Grade> retrieveStudentsModuleGrade(int login, String module){
+        List<Grade> allGradesForModule = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=? ORDER BY label ASC");
+           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=? ORDER BY label DESC");
            pstmt.setInt(1, login);
            pstmt.setString(2, module);
            rs = pstmt.executeQuery();
-
-           rs.next();
-
-           //Check for nulls in database
-           float initialGrade = rs.getFloat(4);
-           if(rs.wasNull()) {
-               initialGrade = -1;
-           }
-
-           float resitGrade = rs.getFloat(5);
-           if(rs.wasNull()) {
-               resitGrade = -1;
-           }
-
-           grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                   initialGrade, resitGrade);
            if(rs.next()) {
-               //Check for null
-               float repeatGrade = rs.getFloat(4);
-               if(rs.wasNull()) {
-                   repeatGrade = -1;
+               // works out if the first item is a repeated year
+               String label = rs.getString(3);
+               boolean repeated = isGradeRepeat(login, module, label);
+               float initialGrade = rs.getFloat(4);
+               if(rs.wasNull())
+                   initialGrade = -1;
+               float resitGrade = rs.getFloat(5);
+               if (rs.wasNull())
+                   resitGrade = -1;
+               allGradesForModule.add(new Grade(String.valueOf(login), module, label.charAt(0), initialGrade, resitGrade, repeated));
+               // this is when the grade is a repeated year, assumed that then there must be another grade to be added.
+               if(repeated) {
+                   rs.next();
+                   initialGrade = rs.getFloat(4);
+                   if(rs.wasNull())
+                       initialGrade = -1;
+                   resitGrade = rs.getFloat(5);
+                   if(rs.wasNull())
+                       resitGrade = -1;
+                   allGradesForModule.add(new Grade(String.valueOf(login), module, rs.getString(3).charAt(0),
+                           initialGrade, resitGrade, repeated));
                }
            }
-
         } catch (SQLException e) {
            e.printStackTrace();
         } finally {
             closeResources(pstmt, rs);
         }
-        return grades;
+        return allGradesForModule;
     }
 
     /**
@@ -546,6 +545,7 @@ public class RetrieveQueries extends Queries {
             e.printStackTrace();
         } finally {
             closeResources(pstmt, rs);
+            closeResources(pstmt2, rs2);
         }
         return table;
     }

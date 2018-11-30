@@ -135,11 +135,16 @@ public class Controller {
 	}
 
 	/**
-     * getStudentModuleGrades calculates the
+     * getStudentModuleGrades is used by the Teacher to obtain the initial, resit, and repeat percents for a
+     * module a student took. This information is encapsulated in a List that contains Grade objects for a student
+     * and the module.
+     * @param loginID, int representing the targeted user
+     * @param moduleCode, String representing the module
+     * @return List<Grade>, maximum size of two items, repeat Grade and initial Grade, in that order.
      * */
-	public static Grade getStudentModuleGrades(int loginID, String moduleCode) {
-		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-		return retrieveQ.retrieveStudentsModuleGrade(loginID, moduleCode);
+	public static List<Grade> getStudentModuleGrades(int loginID, String moduleCode) {
+	    RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+	    return retrieveQ.retrieveStudentsModuleGrade(loginID, moduleCode);
 	}
 
 	/**
@@ -358,15 +363,8 @@ public class Controller {
 		}
 		
 		//Then assign those core modules to the student (maybe wipe the table of module associations first? or check)
-		
-		
-		
-		
-		
 	}
-    
-    
-    
+
     
     //********************************************************
     //Methods to check user input
