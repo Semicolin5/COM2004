@@ -552,5 +552,51 @@ public class Controller {
 		}
 	}
 
-    
+    /**
+     * latestTotalCredits returns the total Credits assigned to a student in their latest period of study.
+     * @param loginID, int representing the selected student
+     * @return int of the sum of all the credits in the modules that they take
+     * //TODO what to do with a null user
+     */
+	public static int latestTotalCredits(int loginID) {
+	    int creditSum = 0;
+	    System.out.println("loginID: " + loginID);
+        PeriodOfStudy pos = Controller.getLatestPeriodOfStudy(loginID);
+        String periodOfStudyLabel = pos.getLabel();
+        System.out.println("label: " + periodOfStudyLabel);
+        List<Grade> gs = Controller.getStudentsGradeAtPeriod(loginID, periodOfStudyLabel);
+        for (Grade g : gs) {
+            System.out.println(g);
+            String moduleTaken = g.getModuleCode();
+            for (Module m : Controller.getModules()) {
+                if (m.getCode().equals(moduleTaken)) {
+                    System.out.println("code: " + m.getCode());
+                    creditSum = creditSum + m.getCredits(); // if the student is currently taking this module, add this
+                }
+            }
+        }
+        System.out.println("total sum is: " + creditSum);
+	    return creditSum;
+    }
+
+    /**
+     * calculate the best
+     * @param //TODO
+     * */
+    public static float getMaximumModuleScore(Grade g, float m) {
+        float initialScore = g.getInitialPercent();
+        float resitScore = g.getResitPercent();
+        if (resitScore > m) {
+            resitScore = m; // if a grade is resit, then it is capped
+        }
+        if (g.getRepeated() && (initialScore > m)) {
+            initialScore = m; // if a grade is repeated, then it is capped
+        }
+        // return the greatest score from resit and initial
+        if (initialScore >= resitScore) {
+            return initialScore;
+        } else {
+            return resitScore;
+        }
+    }
 }
