@@ -37,7 +37,7 @@ public class Grade {
      * */
     public Grade(String loginID, String moduleCode, char label, float initialPercent, float resitPercent, boolean repeated) {
         this(loginID, moduleCode, label, initialPercent, resitPercent);
-        this.repeated = true;
+        this.repeated = repeated;
     }
 
     /**

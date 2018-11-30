@@ -524,7 +524,6 @@ public class RetrieveQueries extends Queries {
                    rs2 = pstmt2.executeQuery();
                    rs2.next();
                    initialGrade = rs2.getFloat(4);
-                   System.out.println("repeatGrade is: " + initialGrade);
                } else {
                     //Check for nulls in database
                     initialGrade = rs.getFloat(4);
@@ -537,7 +536,6 @@ public class RetrieveQueries extends Queries {
                         resitGrade = -1;
                     }
                }
-               System.out.println("repeated; " + repeated);
                System.out.println(rs.getString(1) + ", moduleOf " + moduleOfGrade + ", init: " + initialGrade + ", "
                        + resitGrade + ", " + ", " + repeated);
                table.add(new Grade(rs.getString(1), moduleOfGrade, rs.getString(3).charAt(0),
