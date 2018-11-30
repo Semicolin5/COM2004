@@ -4,11 +4,7 @@ import java.util.regex.*;
 
 public class RegexTests {
 
-	//Regex strings for input validation
-	//TODO discuss what a year in industry code will look like
-	
-	
-	
+	//Regex strings for input validation	
 	private static String regLoginID = "[0-9]{4}";
 	private static String regDepartment = "[A-Z]{3}";
 	private static String regDegree = "[A-Z]{3}[UP][0-9]{2}";
@@ -17,6 +13,7 @@ public class RegexTests {
 	private static String regTitle = "[a-zA-Z .,()&]*";
 	private static String regName = "[a-zA-Z]+";
 	private static String regFullName = "[a-zA-Z ]+";
+	private static String regGrade = "[0-9]{1,3}[.]{1}[0-9]{2}";
 	
 
 	//These are the special chars we allow !#$%&'()*+,-./:;<=>?@^_`{|}~+
@@ -26,10 +23,14 @@ public class RegexTests {
 	public static void main(String[] args) {
 		//This is just used for testing		
 		System.out.println(checkName("Isacc"));
-
+		System.out.println(checkGrade("100.00"));
 	}
 
 	//Regex checking functions.  Hopefully this is a start and can come in useful.
+	
+	public static boolean checkGrade (String grade) {
+		return Pattern.matches(regGrade, grade);
+	}
 	
 	public static boolean checkPassword (String password) {
 		return Pattern.matches(regPassword, password);
