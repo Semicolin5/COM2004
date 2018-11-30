@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java .util.List;
 
 public class UpdateGrades extends Form {
     private JPanel panel1;
@@ -26,8 +27,11 @@ public class UpdateGrades extends Form {
     private JTextField repeatGrade;
     private JButton updateButton;
     private JButton backButton;
-    private java.util.List<Grade> selectedGrades;
+    private List<Grade> selectedGrades;
     private int loginID;
+    private String latestLevel;
+    private String latestPeriod;
+    
 
     public UpdateGrades(GUIFrame frame) {
         super(frame);
@@ -85,7 +89,7 @@ public class UpdateGrades extends Form {
         label1.setText("Students");
         panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        label2.setText("Modules");
+        label2.setText("Modules at period of study: ");
         panel1.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
         label3.setText("Repeat %");
@@ -120,29 +124,25 @@ public class UpdateGrades extends Form {
         return panel1;
     }
 
+    
     private class studentListHandler implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
-            ListSelectionModel model = (ListSelectionModel) listSelectionEvent.getSource();
-
-            //Get list of student's modules
-            int index = model.getLeadSelectionIndex();
-            loginID = Integer.valueOf((String) studentList.getModel().getElementAt(index));
-            if (model.getValueIsAdjusting()) {
-                clearGrades();
-
-                //Clear module list
-                moduleModel.removeAllElements();
-
-                //Hold already processed module codes to detect any duplicates
-                ArrayList<String> duplicateCodes = new ArrayList<>();
-                for (Module module : Controller.getStudentModules(loginID)) {
-                    //If we haven't seen this form before, add to duplicates list and form
-                    if (!duplicateCodes.contains(module.getCode())) {
-                        duplicateCodes.add(module.getCode());
-                        moduleModel.addElement(module.getCode());
-                    }
-                }
-            }
+            //Init our variables
+    		loginID = Integer.parseInt(studentList.getSelectedValue().toString());
+    		latestLevel  = Controller.getLatestPeriodOfStudy(loginID).getLevelOfStudy();
+    		latestPeriod = Controller.getLatestPeriodOfStudy(loginID).getLabel();
+        	
+    		List<Grade> modList = Controller.getStudentsGradeAtPeriod(loginID, latestPeriod);
+        	
+    		
+    		moduleModel.removeAllElements();
+        	for (Grade grade : modList) {
+        		moduleModel.addElement(grade.getModuleCode());
+        	}
+        	
+        	//Now lets assign the modules to the list
+        	clearGrades();
+        	moduleList.setModel(moduleModel);
         }
     }
 
@@ -199,7 +199,51 @@ public class UpdateGrades extends Form {
      */
     private class UpdateButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
+        	
+        	//Make sure we have something selected        	
+        	if (studentList.getSelectedValue() == null) {
+                JOptionPane.showMessageDialog(getFrame(), "Please select a student.");
+        	}
+        	else if (moduleList.getSelectedValue() == null)  {
+                JOptionPane.showMessageDialog(getFrame(), "Please select a module.");        		
+        	}
+        	else {
+        		loginID = Integer.parseInt(studentList.getSelectedValue().toString());
+        		String modCode = moduleList.getSelectedValue().toString();
+        		
+        		String initialGradeText = initialGrade.getText();
+        		String resitGradeText = resitGrade.getText();
+        		String repeatGradeText = repeatGrade.getText();
+        		
+        		//Call a controller method to check these inputs
+        		int a = 1;
+        		if (a == 1) {
+        			//Take the values of our grades as floats
+        			Float resitGradeFloat = Float.valueOf(initialGradeText);
+                    Float initialGradeFloat = Float.valueOf(resitGradeText);
+                    Float repeatGradeFloat = Float.valueOf(repeatGradeText);
+        		
+                    
+                    //Update the grades
+                    
+                    //Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
+                    //Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
+                    
+                    
+                    
+                    
+                    
+                    
+        		}
+        		else {
+                    JOptionPane.showMessageDialog(getFrame(), "Please input correct numbers");
+        		}
+        	}			
+        			
+        			
 
+        		
+        	
             Grade firstInList = selectedGrades.get(0); // the
             int loginID = Integer.parseInt(firstInList.getLoginID());
             String module = firstInList.getModuleCode();
@@ -221,7 +265,7 @@ public class UpdateGrades extends Form {
             if (firstInList.getRepeated() && (repeatGrade.getText() != "")) {
                 Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
             } else {
-                Controller.updateGrades(loginID, module, posLabel, initialGradeFloat, resitGradeFloat);
+            	Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
             }
         }
     }

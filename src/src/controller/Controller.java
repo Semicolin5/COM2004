@@ -109,10 +109,10 @@ public class Controller {
 		return retrieveQ.retrieveModuleLinkDegreeTable();
 	}
 	
-	public static List<ModuleDegree> getModulesDegreeLevel(String degCode, String levelOfStudy ) {
+	/*public static List<ModuleDegree> getModulesDegreeLevel(String degCode, String levelOfStudy ) {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 		return retrieveQ.retrieveModuleLinkDegreeTable();
-	}
+	}*/
 
     public static List<User> getUsers() {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
@@ -162,23 +162,6 @@ public class Controller {
         removalQ.removeModule(code);
     }
 
-    
-    /**
-     * getModuleOptions, takes a students user ID and returns a list of modules which they can take
-     * @param studentID int, the student ID we want to search on
-     * 
-     * @return List<Module>, the list of modules the selected student can take
-     */
-    public static List<Module> getModuleOptions(int studentID) {
-    	String levelOfStudy = getLatestPeriodOfStudy(studentID).getLevelOfStudy();
-    	
-    	
-    	
-    	
-    	
-    	
-    	return null;
-    }
     
     
     
