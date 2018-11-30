@@ -96,7 +96,7 @@ public class Controller {
     
     public static Degree getDegree(String degCode) {
         RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-        return null
+        return retrieveQ.retrieveDegree(degCode);
     }
 
     public static List<Department> getDepartments() {
@@ -652,10 +652,21 @@ public class Controller {
 	 * progressPassedStudent, takes .... and decides how a student should be progressed
 	 * @param int studentID, the ID of the student we want to progress
 	 */
-	public void progressPassedStudent(int studentID, PeriodOfStudy periodStudyObj) {
+	public void progressPassedStudent(int studentID, PeriodOfStudy periodStudyObj, int weightedMean) {
 		//Pull out the students related degree so we can see if they are masters or not
 		Student studObj = getStudent(studentID);
-		Degree degObj = 
+		Degree degObj = getDegree(studObj.getDegreeCode());
+		
+		//Now we test if it's their final year and control flow appropriatly
+		if (degObj.isMasters() && periodStudyObj.getLabel().equals("4")) {
+			//Final year grad masters
+		}
+		else if (!degObj.isMasters() && periodStudyObj.getLabel().equals("3")) {
+			//Final year grad under
+		}
+		else {
+			//progress to next level
+		}
 		
 		
 	}

@@ -70,26 +70,26 @@ public class RetrieveQueries extends Queries {
      * retrieve the degree, by the given code 
      * @return degree, the degree object that was requested
      * */
-    public Degree retrieveDegree() {
-        Degree degree;
+    public Degree retrieveDegree(String degCode) {
+        Degree degree = null;
         PreparedStatement pstmt = null;
         ResultSet res = null;
         try {
             pstmt = conn.prepareStatement("SELECT * FROM degree WHERE degree_code = ?");
+            pstmt.setString(1, degCode);
             res = pstmt.executeQuery();
-            while (res.next()) {
-                String degCode = res.getString(1);
+            if (res.next()) {
                 // for each degree, find the associated departments
-                degreeTable.add(new Degree(degCode, res.getString(2),
+                degree = new Degree(res.getString(1), res.getString(2),
                         res.getBoolean(3), res.getBoolean(4),
-                        retrieveAffiliatedLeadDep(degCode), retrieveAffiliatedNonLeadDep(degCode)));
+                        retrieveAffiliatedLeadDep(degCode), retrieveAffiliatedNonLeadDep(degCode));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeResources(pstmt, res);
         }
-        return degreeTable;
+        return degree;
     }
     
     
