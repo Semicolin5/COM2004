@@ -195,15 +195,34 @@ public class UpdateGrades extends Form {
 
     /**
      * UpdateButtonHandler deals with when the Teacher wants to edit a students Grade.
+     * TODO Edward seems strange that Teacher would be able to edit the initial and resit grade results for a module in a previous period?!!
      */
     private class UpdateButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            //Grade firstInList = selectedGrades.get(0);
-            //String moduleCode = selectedGrades.get(0).getModuleCode(); // extracting the module code from first grade
-            //Character mostRecentPOSLabel = firstInList.getLabel(); // will always be the most recent pos, regardless of label
-            //Controller.updateGrades(loginID, selectedGrade.getModuleCode(),
-            //        String.valueOf(selectedGrade.getLabel()), Float.valueOf(initialGrade.getText()),
-            //        Float.valueOf(resitGrade.getText()), Float.valueOf(repeatGrade.getText()));
+
+            Grade firstInList = selectedGrades.get(0); // the
+            int loginID = Integer.parseInt(firstInList.getLoginID());
+            String module = firstInList.getModuleCode();
+            String posLabel = String.valueOf(firstInList.getLabel());
+
+            Float resitGradeFloat = Float.valueOf(resitGrade.getText());
+            Float initialGradeFloat = Float.valueOf(initialGrade.getText());
+            Float repeatGradeFloat = Float.valueOf(repeatGrade.getText());
+
+            // in case of null grades
+            if (resitGrade.getText() == "")
+                resitGradeFloat = (float) -1;
+            if (initialGrade.getText() == "")
+                initialGradeFloat = (float) -1;
+
+            if (repeatGrade.getText() == "")
+                repeatGradeFloat = (float) -1;
+
+            if (firstInList.getRepeated() && (repeatGrade.getText() != "")) {
+                Controller.updateGrades(loginID, module, posLabel, repeatGradeFloat, (float) -1);
+            } else {
+                Controller.updateGrades(loginID, module, posLabel, initialGradeFloat, resitGradeFloat);
+            }
         }
     }
 

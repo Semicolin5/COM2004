@@ -31,8 +31,8 @@ public class Controller {
     
 	/**
 	 * checkLogin, takes a login ID and a password and returns a String saying Accepted if they can login and an error message else
-	 * @param String loginID, the login ID of the user we want to log in as 
-	 * @param String password, the password of the user of we want to log in as
+	 * @param loginID String, the login ID of the user we want to log in as
+	 * @param password String, the password of the user of we want to log in as
 	 * @return String, Accepted if correct username and password combo else error message 
 	 */
     public static String checkLogin(String loginID, String password) {
@@ -165,7 +165,7 @@ public class Controller {
     
     /**
      * getModuleOptions, takes a students user ID and returns a list of modules which they can take
-     * @param int studentID, the student ID we want to search on 
+     * @param studentID int, the student ID we want to search on
      * 
      * @return List<Module>, the list of modules the selected student can take
      */
@@ -321,9 +321,10 @@ public class Controller {
 	 * updateGrades uses additionQueries.java method updateGrade to store
 	 * */
 	public static void updateGrades(int loginID, String moduleCode, String label,
-									Float initialGrade, Float resitGrade, Float repeatGrade) {
+									Float initialGrade, Float resitGrade) {
 		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-		additionQ.updateGrade(loginID, moduleCode, label, initialGrade, resitGrade, repeatGrade);
+		System.out.println("updating grade for: " + loginID + ", " + moduleCode +  ", " +  initialGrade + ", " + resitGrade);
+		additionQ.updateGrade(loginID, moduleCode, label, initialGrade, resitGrade);
 	}
     
     //********************************************************
@@ -336,8 +337,7 @@ public class Controller {
 		//Now we must check all values	
 		
 		String moduleCode = "";
-		
-		
+
 		return moduleCode;
 	}
 	

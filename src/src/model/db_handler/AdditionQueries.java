@@ -153,7 +153,7 @@ public class AdditionQueries extends Queries{
             super.db.rollBack();
         } finally {
             closePreparedStatement(pstmt);
-            closePreparedStatement(pstmt2); //TODO would this work as just one pstmt?
+            closePreparedStatement(pstmt2);
         }
     }
 
@@ -304,12 +304,12 @@ public class AdditionQueries extends Queries{
      * @param initialGrade Float representing the initial student grade
      * @param resitGrade Float representing the initial student grade
      * */
-    public void updateGrade(int login, String moduleCode, String label, Float initialGrade, Float resitGrade, Float repeatGrade) {
+    public void updateGrade(int login, String moduleCode, String label, Float initialGrade, Float resitGrade) {
         PreparedStatement pstmt = null;
-        boolean initialNotNull = (initialGrade > 0) && (initialGrade != null);
-        boolean resitNotNull = (resitGrade > 0) && (resitGrade != null);
-        boolean repeatNotNull = (repeatGrade > 0) && (repeatGrade != null);
+        boolean initialNotNull = (initialGrade > 0) || initialGrade == null;
+        boolean resitNotNull = (resitGrade > 0) || resitGrade == null;
         try {
+
             db.enableACID();
             pstmt = super.conn.prepareStatement("UPDATE grades SET initial_percent=?, resit_percent=? WHERE "
                     + "login_id=? AND module_code=? AND label=?");
@@ -320,7 +320,7 @@ public class AdditionQueries extends Queries{
             if (initialNotNull) { // allows for negative one to act as sentinel
                 pstmt.setFloat(1, initialGrade);
             } else {
-                pstmt.setNull(1, Types.FLOAT);
+                pstmt.setNull(1, Types.DECIMAL);
             }
             if (resitNotNull) { // allows for negative one to act as sentinel
                 pstmt.setFloat(2, resitGrade);
@@ -329,21 +329,9 @@ public class AdditionQueries extends Queries{
             }
             pstmt.executeUpdate();
 
-            if(repeatNotNull) {
-                //Increment label to next character of the alphabet
-                int nextLabel = label.charAt(0) + 1;
-                pstmt.setString(5, String.valueOf((char) nextLabel));
-
-                //Set initial grade of new record to repeat grade
-                pstmt.setFloat(1, repeatGrade);
-                //Set resit grade to null
-                pstmt.setNull(2, Types.DECIMAL);
-
-                pstmt.executeUpdate();
-            }
-
             super.conn.commit();
             db.disableACID();
+
         } catch (SQLException e) {
             db.rollBack();
             e.printStackTrace();

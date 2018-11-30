@@ -38,11 +38,12 @@ public class ModulePick extends Form {
     private DefaultTableModel chosenModel;
     private String periodOfStudyLabel;
     private JLabel studentLevel;
-    
+
     private List<Student> students = Controller.getStudents();
 
     /**
      * Set default JFrame sizes & add Event Listener
+     *
      * @param frame - JFrame with properties set in the GUIFrame class.
      */
     public ModulePick(GUIFrame frame) {
@@ -84,10 +85,10 @@ public class ModulePick extends Form {
         assigned are loaded into the chosenTable JTable.
          */
         studentList.addListSelectionListener(evt -> {
-        	int studID  = Integer.parseInt(studentList.getSelectedValue().toString());
-        	PeriodOfStudy pos;
+            int studID = Integer.parseInt(studentList.getSelectedValue().toString());
+            PeriodOfStudy pos;
 
-        	if (!evt.getValueIsAdjusting()) {
+            if (!evt.getValueIsAdjusting()) {
                 //Clear JTables
                 choiceModel.setRowCount(0);
                 chosenModel.setRowCount(0);
@@ -101,19 +102,19 @@ public class ModulePick extends Form {
                 studentsLevel = pos.getLevelOfStudy();
                 periodOfStudyLabel = pos.getLabel();
                 studentLevel.setText(periodOfStudyLabel);
-                
+
                 for (Student student : Controller.getStudents()) {
                     if (student.getLogin().equals(studentList.getSelectedValue())) {
                         studentName.setText(student.getForename() + " " + student.getSurname());
 
                         /**Retrieves a list of all modules the selected student is eligible for and adds the details of
-                        each as a row in the choice JTable.*/
+                         each as a row in the choice JTable.*/
                         for (ModuleDegree m : Controller.getModuleDegrees()) {
                             if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentsLevel))) {
                                 for (Module mod : Controller.getModules()) {
                                     if (mod.getCode().equals(m.getModuleCode())) {
                                         modChoices.add(mod.getCode());
-                                    	//if (m.isCore())
+                                        //if (m.isCore())
                                         //    choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Core"});
                                         //else
                                         //    choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Not Core"});
@@ -125,7 +126,7 @@ public class ModulePick extends Form {
                         /**Retrieves a list of all modules the selected student is assigned and adds the details of
                          each as a row in the chosen JTable.*/
 
-                        for (Grade grade : Controller.getStudentsGradeAtPeriod(studID, periodOfStudyLabel)){
+                        for (Grade grade : Controller.getStudentsGradeAtPeriod(studID, periodOfStudyLabel)) {
                             for (ModuleDegree modDeg : Controller.getModuleDegrees()) {
                                 if (grade.getModuleCode().equals(modDeg.getModuleCode())) {
                                     for (Module mod : Controller.getModules()) {
@@ -140,7 +141,7 @@ public class ModulePick extends Form {
                                 }
                             }
                         }
-                        
+
                         modChoices.removeAll(modAssigned);
                         for (String modChoice : modChoices) {
                             for (ModuleDegree modDeg : Controller.getModuleDegrees()) {
@@ -279,17 +280,16 @@ public class ModulePick extends Form {
                 String code = chosenTable.getValueAt(rowNumber, 0).toString();
                 String cred = chosenTable.getValueAt(rowNumber, 1).toString();
                 String coreStatus = chosenTable.getValueAt(rowNumber, 2).toString();
-                
+
                 //We shouldn't be able to unassign core modules
                 if (coreStatus.equals("Core")) {
                     JOptionPane.showMessageDialog(getFrame(), "Cannot unassign core modules.");
+                } else {
+                    Controller.removeGrades(Integer.parseInt(studentList.getSelectedValue().toString()), code, periodOfStudyLabel);
+                    chosenModel.removeRow(rowNumber);
+
                 }
-                else {
-                	Controller.removeGrades(Integer.parseInt(studentList.getSelectedValue().toString()), code, periodOfStudyLabel);
-                	chosenModel.removeRow(rowNumber);
-                	
-                }
-                                
+
             }
             calculateCredits();
         }
