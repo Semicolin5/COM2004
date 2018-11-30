@@ -545,7 +545,26 @@ public class Controller {
     	return returnMessage;
     }
     
-      
+    //Level 2 inputs
+
+    public static String checkInputGrades(String init, String resit, int priv) {
+    	String returnMessage = "";
+		if (priv < 2) {
+			returnMessage = "Insufficient privilege for this opperation.";
+		}
+		else if (!RegexTests.checkGrade(init) && !init.equals("empty")) {
+			returnMessage = "Incorrect initial grade format, please give a valid percentage to two decimal places.";
+		}
+		else if (!RegexTests.checkGrade(resit) && !resit.equals("empty")) {
+			returnMessage = "Incorrect resit grade format, please give a valid percentage to two decimal places.";
+		}
+		else {
+			return "Accepted";
+		}
+    	return returnMessage;
+    }
+
+
     //A private checking method
 	private static boolean passwordMatch(int loginID, String password) {
     	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
