@@ -322,7 +322,7 @@ public class ViewRecord extends Form {
                     System.out.println("Colin's");
                 } else if (average < min || (failedModules.size() > 1)) {
                     // check to see if they have failed the year
-                    if(failedModules.get(0).getRepeated()) {
+                    if (failedModules.get(0).getRepeated()) {
                         // cannot resit if they have already repeated this level
                     } else {
                         System.out.println("progresing student to repeat year");
@@ -370,8 +370,9 @@ public class ViewRecord extends Form {
         } else {
             if (latestPOS.getLevelOfStudy().equals(4))
                 System.out.println("Graduate with equivalent bachelors with credits already obtained");
+                // TODO graduation mehtod
             else {
-                System.out.println("Automatically sign student up for a resit");
+                JOptionPane.showMessageDialog(getFrame(), "Fail student");
             }
         }
     }
