@@ -134,10 +134,17 @@ public class Controller {
 		return retrieveQ.retrieveStudentsModules(loginID);
 	}
 
+	/**
+     * getStudentModuleGrades calculates the
+     * */
 	public static Grade getStudentModuleGrades(int loginID, String moduleCode) {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 		return retrieveQ.retrieveStudentsModuleGrade(loginID, moduleCode);
 	}
+
+	/**
+     *
+     * */
 
     public static void removeModule(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());

@@ -29,7 +29,7 @@ public class UpdateGrades extends Form {
     private JButton backButton;
 
     private int loginID;
-    private Grade selectedGrades;
+    private Grade selectedGrade;
 
     public UpdateGrades(GUIFrame frame) {
         super(frame);
@@ -49,7 +49,7 @@ public class UpdateGrades extends Form {
         moduleList.setModel(moduleModel);
         studentList.getSelectionModel().addListSelectionListener(new studentListHandler());
 
-        moduleList.getSelectionModel().addListSelectionListener(new moduleListHandler());
+        moduleList.getSelectionModel().addListSelectionListener(new ModuleListHandler());
 
         updateButton.addActionListener(new updateButtonHandler());
     }
@@ -148,7 +148,10 @@ public class UpdateGrades extends Form {
         }
     }
 
-    private class moduleListHandler implements ListSelectionListener {
+    /**
+     * ModuleListHandler obtains a list of
+     * */
+    private class ModuleListHandler implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
             ListSelectionModel model = (ListSelectionModel) listSelectionEvent.getSource();
 
@@ -157,19 +160,21 @@ public class UpdateGrades extends Form {
                 clearGrades();
 
                 String moduleCode = moduleModel.getElementAt(model.getLeadSelectionIndex());
-                selectedGrades = Controller.getStudentModuleGrades(loginID, moduleCode);
+
+                selectedGrade = Controller.getStudentModuleGrades(loginID, moduleCode);
+                selectedGrade.getRepeated();
 
                 //Check if grades have been set before setting text fields
-                if (selectedGrades.getInitialPercent() == -1) {
+                if (selectedGrade.getInitialPercent() == -1) {
                     initialGrade.setText("");
                 } else {
-                    initialGrade.setText(String.valueOf(selectedGrades.getInitialPercent()));
+                    initialGrade.setText(String.valueOf(selectedGrade.getInitialPercent()));
                 }
 
-                if (selectedGrades.getResitPercent() == -1) {
+                if (selectedGrade.getResitPercent() == -1) {
                     resitGrade.setText("");
                 } else {
-                    resitGrade.setText(String.valueOf(selectedGrades.getResitPercent()));
+                    resitGrade.setText(String.valueOf(selectedGrade.getResitPercent()));
                 }
 
                 //if (selectedGrades.getRepeatPercent() == -1) {
@@ -183,8 +188,8 @@ public class UpdateGrades extends Form {
 
     private class updateButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            Controller.updateGrades(loginID, selectedGrades.getModuleCode(),
-                    String.valueOf(selectedGrades.getLabel()), Float.valueOf(initialGrade.getText()),
+            Controller.updateGrades(loginID, selectedGrade.getModuleCode(),
+                    String.valueOf(selectedGrade.getLabel()), Float.valueOf(initialGrade.getText()),
                     Float.valueOf(resitGrade.getText()), Float.valueOf(repeatGrade.getText()));
         }
     }

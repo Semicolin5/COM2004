@@ -441,6 +441,8 @@ public class RetrieveQueries extends Queries {
     }
 
     /**
+     * retrieveStudentsModuleGrade, given a student, and a module that they take, this method returns
+     * their grade as a Grade object
      * retrieveStudentsModuleGrade, given a student, and a module that they take, this method
      * returns their grades as a Grade object.
      * @param login, int, the users loginID
@@ -478,7 +480,6 @@ public class RetrieveQueries extends Queries {
                if(rs.wasNull()) {
                    repeatGrade = -1;
                }
-               //grades.setRepeatPercent(repeatGrade);
            }
 
         } catch (SQLException e) {
@@ -550,11 +551,10 @@ public class RetrieveQueries extends Queries {
     }
 
     /**
-     * isModuleRepeated returns true if a module has two entries in the Grades table in the database
-     * for a .
-     * From this we infer that the user must be repeating (or did repeat) the module under question.
+     * isGradeRepeat returns true if the grade under question is a repeated grade. The parameters are the primary key
+     * of the targeted Grade.
      * @param loginID, int, the users loginID
-     * @param
+     * @param moduleCode, String, the module code
      * @return boolean true if a student is/has taken a module across two different periods of study
      * */
     public Boolean isGradeRepeat(int loginID, String moduleCode, String label) {
@@ -609,8 +609,7 @@ public class RetrieveQueries extends Queries {
 	   }
 	   return passSalt;
 	}
-	
-   
+
    /**
     * retrieveEmails, retrieves a list of all stored emails
     * @return emails List<String>, the list of emails as strings
@@ -633,17 +632,5 @@ public class RetrieveQueries extends Queries {
        }
        return emails; 
    }
-   
-   
-   /*
-   public List<Module> retrieveTakenModules() {
-	   
-	   
-	   
-	   
-   }
-   */
-   
-   
-   
+
 }
