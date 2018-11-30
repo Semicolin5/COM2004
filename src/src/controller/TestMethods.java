@@ -28,9 +28,15 @@ public class TestMethods {
 
         RetrieveQueries tester = new RetrieveQueries(testdb);
 
-        System.out.println("is module repeated");
-        tester.isModuleRepeated(1001, "COM1005");
+        //System.out.println("retrieving grades list");
+        List<Grade> gs = tester.retrieveGradeAtPeriodOfStudy(1001, "A");
+        for (Grade g : gs) {
+            System.out.println(g.toString());
+        }
 
+        //System.out.println("is module repeated");
+        //boolean result = tester.isGradeRepeat(1001, "COM1005", "B");
+        //System.out.println(result);
         //System.out.println("testing retrieveStudentsModules");
         //List<Module> modulesStudentTakes = tester.retrieveStudentsModules(1001);
         //for (Module m : modulesStudentTakes) {
@@ -40,25 +46,6 @@ public class TestMethods {
         //System.out.println("testing retrieveStudentsModulesGrades");
         //Grade g = tester.retrieveStudentsModuleGrade(1001, "COM1005");
         //System.out.println(g.toString());
-
-        //System.out.println("1002" + tester.allowedToDeleteUser("1002"));
-        //System.out.println("1001" + tester.allowedToDeleteUser("1001"));
-        //System.out.println(tester.allowedToDeleteDepartment("COM"));
-        //System.out.println(tester.allowedToDeleteDegree("COMU49"));
-        //List<Department> lsDep = tester.retrieveDepartmentTable();
-        //for (Department d : lsDep) {
-        //    System.out.println(d.toString());
-        //}
-        //List<Department> nonLead = tester.retrieveAffiliatedNonLeadDep("COMU49"); //
-        //for (Department d : nonLead) {
-        //    System.out.println(d.toString());
-        //}
-        //Department lead = tester.retrieveAffiliatedLeadDep("COMU49");
-        //System.out.println(lead.toString());
-        //List<Degree> lsDeg = tester.retrieveDegreesTable();
-        //for (Degree d : lsDeg) {
-        //    System.out.println(d.toString());
-        //}
 
 
     }

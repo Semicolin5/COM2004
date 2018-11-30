@@ -172,11 +172,11 @@ public class UpdateGrades extends Form {
                     resitGrade.setText(String.valueOf(selectedGrades.getResitPercent()));
                 }
 
-                if (selectedGrades.getRepeatPercent() == -1) {
-                    repeatGrade.setText("");
-                } else {
-                    repeatGrade.setText(String.valueOf(selectedGrades.getRepeatPercent()));
-                }
+                //if (selectedGrades.getRepeatPercent() == -1) {
+                //    repeatGrade.setText("");
+                //} else {
+                //    repeatGrade.setText(String.valueOf(selectedGrades.getRepeatPercent()));
+                //}
             }
         }
     }

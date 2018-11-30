@@ -471,15 +471,14 @@ public class RetrieveQueries extends Queries {
            }
 
            grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                   initialGrade, resitGrade, -1);
-
+                   initialGrade, resitGrade);
            if(rs.next()) {
                //Check for null
                float repeatGrade = rs.getFloat(4);
                if(rs.wasNull()) {
                    repeatGrade = -1;
                }
-               grades.setRepeatPercent(repeatGrade);
+               //grades.setRepeatPercent(repeatGrade);
            }
 
         } catch (SQLException e) {
@@ -501,29 +500,48 @@ public class RetrieveQueries extends Queries {
         List<Grade> table = new ArrayList<Grade>();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+        PreparedStatement pstmt2 = null;
+        ResultSet rs2 = null;
         try {
            pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND label=?");
            pstmt.setInt(1, login);
            pstmt.setString(2, label);
            rs = pstmt.executeQuery();
            while(rs.next()) { // construct a grade object for each module taken at that period
+               boolean repeated = false;
+               float initialGrade = -1; // -1 represents null in the Grade object
+               float resitGrade = -1; // sentinel is needed since float cannot point to null
+               String moduleOfGrade = rs.getString(2);
 
-               //
+               // True if the Grade is repeated. Case 1) Grade is the first initial attempt Case 2) Grade is the
+               // repeated year.
+               if (isGradeRepeat(login, moduleOfGrade, label)) {
+                   repeated = true;
+                   pstmt2 = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND label=? AND module_code=?");
+                   pstmt2.setInt(1, login);
+                   pstmt2.setString(2, String.valueOf(label));
+                   pstmt2.setString(3, moduleOfGrade);
+                   rs2 = pstmt2.executeQuery();
+                   rs2.next();
+                   initialGrade = rs2.getFloat(4);
+                   System.out.println("repeatGrade is: " + initialGrade);
+               } else {
+                    //Check for nulls in database
+                    initialGrade = rs.getFloat(4);
+                    if(rs.wasNull()) {
+                        initialGrade = -1;
+                    }
 
-               //Check for nulls in database
-               float initialGrade = rs.getFloat(4);
-               if(rs.wasNull()) {
-                   initialGrade = -1;
+                    resitGrade = rs.getFloat(5);
+                    if(rs.wasNull()) {
+                        resitGrade = -1;
+                    }
                }
-
-               float resitGrade = rs.getFloat(5);
-               if(rs.wasNull()) {
-                   resitGrade = -1;
-               }
-
-               //TODO: check for repeat grade
-               table.add(new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                       initialGrade, resitGrade, -1));
+               System.out.println("repeated; " + repeated);
+               System.out.println(rs.getString(1) + ", moduleOf " + moduleOfGrade + ", init: " + initialGrade + ", "
+                       + resitGrade + ", " + ", " + repeated);
+               table.add(new Grade(rs.getString(1), moduleOfGrade, rs.getString(3).charAt(0),
+                       initialGrade, resitGrade, repeated));
            }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -539,19 +557,24 @@ public class RetrieveQueries extends Queries {
      * From this we infer that the user must be repeating (or did repeat) the module under question.
      * @param loginID, int, the users loginID
      * @param
-     * @return boolean if a student is/has taken a module across two different periods of study
+     * @return boolean true if a student is/has taken a module across two different periods of study
      * */
-    public Boolean isModuleRepeated(int loginID, String moduleCode) {
+    public Boolean isGradeRepeat(int loginID, String moduleCode, String label) {
        boolean isModuleRepeated = false;
+       if (label == "A")
+           return false;
        PreparedStatement pstmt = null;
        ResultSet res = null;
        try {
-           pstmt = conn.prepareStatement("SELECT COUNT(*) FROM grades WHERE login_id=? AND module_code=?");
+           Character previous = label.charAt(0);
+           previous--;
+           pstmt = conn.prepareStatement("SELECT COUNT(*) FROM grades WHERE login_id=? AND module_code=? AND label=?");
            pstmt.setInt(1, loginID);
            pstmt.setString(2, moduleCode);
+           pstmt.setString(3, String.valueOf(previous));
            res = pstmt.executeQuery();
            if (res.next())
-               if (res.getInt(1) > 1)
+               if (res.getInt(1) > 0)
                    isModuleRepeated = true;
            System.out.println(isModuleRepeated);
        } catch (SQLException e) {
