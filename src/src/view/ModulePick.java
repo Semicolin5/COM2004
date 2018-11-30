@@ -263,8 +263,23 @@ public class ModulePick extends Form {
                 String code = choiceTable.getValueAt(rowNumber, 0).toString();
                 String cred = choiceTable.getValueAt(rowNumber, 1).toString();
                 String coreStatus = choiceTable.getValueAt(rowNumber, 2).toString();
-                Controller.saveBlankGrades(studentList.getSelectedValue().toString(), code, periodOfStudyLabel);
-                chosenModel.addRow(new Object[]{code, cred, coreStatus});
+                
+                if (studentsLevel.equals("4") && ((Integer.parseInt(totalCredits.getText()) + Integer.parseInt(cred)) > 180)) {
+                	//A level 4 student cannot have more than 180 credits
+                	JOptionPane.showMessageDialog(getFrame(), "A masters student cannot have more than 180 credits assigned."); 
+                }
+                else if ((Integer.parseInt(totalCredits.getText()) + Integer.parseInt(cred)) > 120) {
+                	//A non level 4 student cannot have more than 120 credits
+                	JOptionPane.showMessageDialog(getFrame(), "An undergraduate student cannot have more than 120 credits assigned.");                	
+                }
+                else {
+                	//We add the assign the degree to the student
+                    Controller.saveBlankGrades(studentList.getSelectedValue().toString(), code, periodOfStudyLabel);
+                    choiceModel.removeRow(rowNumber);
+                    chosenModel.addRow(new Object[]{code, cred, coreStatus});
+                }
+                
+
             }
             calculateCredits();
         }
@@ -286,6 +301,7 @@ public class ModulePick extends Form {
                     JOptionPane.showMessageDialog(getFrame(), "Cannot unassign core modules.");
                 } else {
                     Controller.removeGrades(Integer.parseInt(studentList.getSelectedValue().toString()), code, periodOfStudyLabel);
+                    choiceModel.addRow(new Object[]{code, cred, coreStatus});
                     chosenModel.removeRow(rowNumber);
 
                 }

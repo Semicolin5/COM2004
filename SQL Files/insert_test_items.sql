@@ -49,7 +49,7 @@ INSERT INTO module VALUES
     ("COM1070", "Ruby Ruby Ruby Ruby Ruby", 20, 3),
     ("COM1008", "Intro to Web Programming", 20, 2),
     ("COM2110", "Functional Programming", 20, 4),
-    ("MAS1014", "Introduction to Probability & Statistics", 20, 3),
+    ("MAS1014", "Introduction to Probability & Statistics", 40, 3),
     ("MAS1008", "Game Theory", 20, 2),
     ("MAS1011", "Algebra Intro", 20, 4);
 
@@ -60,9 +60,9 @@ INSERT INTO module_degree VALUES
     ("RSS2109", "COMU49", 2, 0),
     ("COM1003", "COMU20", 1, 1),
     ("COM1070", "COMU20", 1, 1),
-    ("COM1008", "COMU20", 1, 1),
+    ("COM1008", "COMU20", 1, 0),
     ("MAS1014", "COMU20", 1, 1),
-    ("MAS1008", "COMU20", 1, 1),
+    ("MAS1008", "COMU20", 1, 0),
     ("MAS1011", "COMU20", 1, 1),
     ("COM2110", "COMU20", 2, 1);
 
