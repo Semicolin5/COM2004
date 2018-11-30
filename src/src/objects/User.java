@@ -29,7 +29,6 @@ public class User {
      * Accessor methods
      * */
     public int getLogin() { return login_id; }
-    public String getPassword() { return password; }
     public int getPriv() { return priv; }
 
     //TODO remove this later, currently just for testing
