@@ -9,7 +9,7 @@ public class Grade {
 
     private String loginID;
     private String moduleCode;
-    private char initialLabel;
+    private char label;
     private float initialPercent;
     private float resitPercent;
     private boolean repeated;
@@ -26,7 +26,7 @@ public class Grade {
     public Grade(String loginID, String moduleCode, char label, float initialPercent, float resitPercent) {
         this.loginID = loginID;
         this.moduleCode = moduleCode;
-        this.initialLabel = label;
+        this.label = label;
         this.initialPercent = initialPercent;
         this.resitPercent = resitPercent;
         this.repeated = false;
@@ -57,7 +57,7 @@ public class Grade {
     }
 
     public char getLabel() {
-        return initialLabel;
+        return label;
     }
 
     public float getResitPercent() {
@@ -68,6 +68,9 @@ public class Grade {
         return initialPercent;
     }
 
+    public boolean getRepeated() {
+        return repeated;
+    }
 
     /**
      * toString() method for grades
