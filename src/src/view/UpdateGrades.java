@@ -25,7 +25,7 @@ public class UpdateGrades extends Form {
     private DefaultListModel<String> moduleModel;
     private JTextField initialGrade;
     private JTextField resitGrade;
-    //private JTextField repeatGrade;
+    private JTextField repeatGrade;
     private JButton updateButton;
     private JButton backButton;
     private final JLabel label2 = new JLabel();
@@ -37,9 +37,9 @@ public class UpdateGrades extends Form {
     private String latestPeriod;
     private String selectedModuleCode;
     private boolean repeatedLevel;
-    
-    private float lastInitial = (float)100.01; //These are compared against, we will never equal this.  Just to initialise
-    private float lastResit = (float)100.01;
+
+    private float lastInitial = (float) 100.01; //These are compared against, we will never equal this.  Just to initialise
+    private float lastResit = (float) 100.01;
 
 
     public UpdateGrades(GUIFrame frame) {
@@ -98,11 +98,11 @@ public class UpdateGrades extends Form {
         label1.setText("Students");
         panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
-        label2.setText("Modules at level:  For period of study: ");
-        panel1.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label3.setText("Modules");
+        panel1.add(label3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
-        //label4.setText("Repeat %");
-        //panel1.add(label4, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
+        label4.setText("Repeat %");
+        panel1.add(label4, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         final JLabel label5 = new JLabel();
         label5.setText("Resit %");
         panel1.add(label5, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
@@ -111,8 +111,8 @@ public class UpdateGrades extends Form {
         panel1.add(label6, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         resitGrade = new JTextField();
         panel1.add(resitGrade, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        //repeatGrade = new JTextField();
-        //panel1.add(repeatGrade, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        repeatGrade = new JTextField();
+        panel1.add(repeatGrade, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         initialGrade = new JTextField();
         panel1.add(initialGrade, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         updateButton = new JButton();
@@ -161,8 +161,7 @@ public class UpdateGrades extends Form {
             //Change the name to show if the period is repeated or not
             if (repeatedLevel) {
                 label2.setText("Modules at level: " + latestLevel + " For period of study: " + latestPeriod + " (repeated year).");
-            } 
-            else {
+            } else {
                 label2.setText("Modules at level: " + latestLevel + " For period of study: " + latestPeriod + ".");
             }
 
@@ -176,40 +175,37 @@ public class UpdateGrades extends Form {
     private class ModuleListHandler implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
             //Test that the module selected isn't null, if it is we ignore and don't run this method
-        	if (moduleList.getSelectedValue() != null) {
-	        	//Get our module code
-	        	selectedModuleCode = moduleList.getSelectedValue().toString();
-	        	
-	        	//Boilerplate, just so selectedMOduleGrade is not null, should never be called without being changed prior
-	        	Grade selectedModuleGrade = modList.get(0); 
-	        	
-	        	for (Grade grade : modList) {
-	        		if (grade.getModuleCode().equals(selectedModuleCode)) {
-	        			selectedModuleGrade = grade;
-	        		}
-	        	}
-	        	
-	        	//Set our last pulled resit percentages
-	        	lastInitial = selectedModuleGrade.getInitialPercent();
-	        	lastResit = selectedModuleGrade.getResitPercent();
-	        	
-	        	
-	        	
-	        	//Display grades
-	        	clearGrades();
-	        	if (String.valueOf(selectedModuleGrade.getInitialPercent()).equals("-1.0")) {
-	        		initialGrade.setText("");
-	        	}
-	        	else {
-	        		initialGrade.setText(String.valueOf(selectedModuleGrade.getInitialPercent()));
-	        	}
-	        	if (String.valueOf(selectedModuleGrade.getResitPercent()).equals("-1.0")) {
-	        		resitGrade.setText("");
-	        	}
-	        	else {
-	        		resitGrade.setText(String.valueOf(selectedModuleGrade.getResitPercent()));
-	        	}
-        	}
+            if (moduleList.getSelectedValue() != null) {
+                //Get our module code
+                selectedModuleCode = moduleList.getSelectedValue().toString();
+
+                //Boilerplate, just so selectedMOduleGrade is not null, should never be called without being changed prior
+                Grade selectedModuleGrade = modList.get(0);
+
+                for (Grade grade : modList) {
+                    if (grade.getModuleCode().equals(selectedModuleCode)) {
+                        selectedModuleGrade = grade;
+                    }
+                }
+
+                //Set our last pulled resit percentages
+                lastInitial = selectedModuleGrade.getInitialPercent();
+                lastResit = selectedModuleGrade.getResitPercent();
+
+
+                //Display grades
+                clearGrades();
+                if (String.valueOf(selectedModuleGrade.getInitialPercent()).equals("-1.0")) {
+                    initialGrade.setText("");
+                } else {
+                    initialGrade.setText(String.valueOf(selectedModuleGrade.getInitialPercent()));
+                }
+                if (String.valueOf(selectedModuleGrade.getResitPercent()).equals("-1.0")) {
+                    resitGrade.setText("");
+                } else {
+                    resitGrade.setText(String.valueOf(selectedModuleGrade.getResitPercent()));
+                }
+            }
         }
     }
 
@@ -223,99 +219,89 @@ public class UpdateGrades extends Form {
             //Make sure we have something selected
             if (studentList.getSelectedValue() == null) {
                 JOptionPane.showMessageDialog(getFrame(), "Please select a student.");
-        	}
-        	else if (moduleList.getSelectedValue() == null)  {
-                JOptionPane.showMessageDialog(getFrame(), "Please select a module.");        		
-        	}
-        	else {
-        		loginID = Integer.parseInt(studentList.getSelectedValue().toString());
-        		String modCode = moduleList.getSelectedValue().toString();
-        		
-        		String initialGradeText = initialGrade.getText();
-        		String resitGradeText = resitGrade.getText();
-        		//Set them so they can pass through our checking function
-        		if (initialGradeText.equals("")) {
-        			initialGradeText = "empty";
-        		}
-        		if (resitGradeText.equals("")) {
-        			resitGradeText = "empty";
-        		}
-        		
-        		
-        		//Check that the inputs are correct
-        		String errorMessage = Controller.checkInputGrades(initialGradeText, resitGradeText, Main.getPriv());
-        		if (errorMessage.equals("Accepted")) {
-        			//Take the values of our grades as floats - set to -1 if they should be empty
-                    Float initialGradeFloat;       
+            } else if (moduleList.getSelectedValue() == null) {
+                JOptionPane.showMessageDialog(getFrame(), "Please select a module.");
+            } else {
+                loginID = Integer.parseInt(studentList.getSelectedValue().toString());
+                String modCode = moduleList.getSelectedValue().toString();
+
+                String initialGradeText = initialGrade.getText();
+                String resitGradeText = resitGrade.getText();
+                //Set them so they can pass through our checking function
+                if (initialGradeText.equals("")) {
+                    initialGradeText = "empty";
+                }
+                if (resitGradeText.equals("")) {
+                    resitGradeText = "empty";
+                }
+
+
+                //Check that the inputs are correct
+                String errorMessage = Controller.checkInputGrades(initialGradeText, resitGradeText, Main.getPriv());
+                if (errorMessage.equals("Accepted")) {
+                    //Take the values of our grades as floats - set to -1 if they should be empty
+                    Float initialGradeFloat;
                     Float resitGradeFloat;
-         			
-        			if (initialGradeText.equals("empty")) {
-        				initialGradeFloat = (float)-1;
-        			}
-        			else {
-        				initialGradeFloat = Float.valueOf(initialGradeText);
-        			}
-        			if (resitGradeText.equals("empty")) {
-        				resitGradeFloat = (float)-1;
-        			}
-        			else {
-        				resitGradeFloat = Float.valueOf(resitGradeText);
-        			}
-        			
-        			if (initialGradeFloat > 100 || resitGradeFloat > 100) {
-                        JOptionPane.showMessageDialog(getFrame(), "Grades cannot be greater than 100%.");    
-        			}
-        			else {
-        				//Check if its a repeat year or not (we handel things differently then                  
-        				if (repeatedLevel) {
-        					//Check that they havent updated the resiting grade
-        					if (lastInitial != initialGradeFloat ) {
-        						JOptionPane.showMessageDialog(getFrame(), "Cannot update first grade for resiting student.");    
-        					}
-	        				else {
-	        				//Check to see if any resits are above the pass percentage
-	        					if (latestLevel.equals("4")) {
-	        						if (resitGradeFloat > 50) {
-	                					JOptionPane.showMessageDialog(getFrame(), "Masters resists are capped at 50%.");
-	        							resitGradeFloat = (float)50.00;
-	        						}
-	        					}
-	        					else {
-	        						if (resitGradeFloat > 40) {
-	                					JOptionPane.showMessageDialog(getFrame(), "Undergraduate resists are capped at 40%.");
-	        							resitGradeFloat = (float)40.00;
-	        						}
-	        					}
-	        					
-	        					//Save grades
-	        					Controller.updateGrades(loginID, modCode, latestPeriod, initialGradeFloat, resitGradeFloat);
-	        				}
-        				}
-        				else {
-        					//Just update the grades normally
-        					//Check to see if any resits are above the pass percentage
-        					if (latestLevel.equals("4")) {
-        						if (resitGradeFloat > 50) {
-                					JOptionPane.showMessageDialog(getFrame(), "Masters resists are capped at 50%.");
-        							resitGradeFloat = (float)50.00;
-        						}
-        					}
-        					else {
-        						if (resitGradeFloat > 40) {
-                					JOptionPane.showMessageDialog(getFrame(), "Undergraduate resists are capped at 40%.");
-        							resitGradeFloat = (float)40.00;
-        						}
-        					}
-        					
-        					//Save grades
-        					Controller.updateGrades(loginID, modCode, latestPeriod, initialGradeFloat, resitGradeFloat);
-        				}   
-        			}
-        		}
-        		else {
+
+                    if (initialGradeText.equals("empty")) {
+                        initialGradeFloat = (float) -1;
+                    } else {
+                        initialGradeFloat = Float.valueOf(initialGradeText);
+                    }
+                    if (resitGradeText.equals("empty")) {
+                        resitGradeFloat = (float) -1;
+                    } else {
+                        resitGradeFloat = Float.valueOf(resitGradeText);
+                    }
+
+                    if (initialGradeFloat > 100 || resitGradeFloat > 100) {
+                        JOptionPane.showMessageDialog(getFrame(), "Grades cannot be greater than 100%.");
+                    } else {
+                        //Check if its a repeat year or not (we handel things differently then
+                        if (repeatedLevel) {
+                            //Check that they havent updated the resiting grade
+                            if (lastInitial != initialGradeFloat) {
+                                JOptionPane.showMessageDialog(getFrame(), "Cannot update first grade for resiting student.");
+                            } else {
+                                //Check to see if any resits are above the pass percentage
+                                if (latestLevel.equals("4")) {
+                                    if (resitGradeFloat > 50) {
+                                        JOptionPane.showMessageDialog(getFrame(), "Masters resists are capped at 50%.");
+                                        resitGradeFloat = (float) 50.00;
+                                    }
+                                } else {
+                                    if (resitGradeFloat > 40) {
+                                        JOptionPane.showMessageDialog(getFrame(), "Undergraduate resists are capped at 40%.");
+                                        resitGradeFloat = (float) 40.00;
+                                    }
+                                }
+
+                                //Save grades
+                                Controller.updateGrades(loginID, modCode, latestPeriod, initialGradeFloat, resitGradeFloat);
+                            }
+                        } else {
+                            //Just update the grades normally
+                            //Check to see if any resits are above the pass percentage
+                            if (latestLevel.equals("4")) {
+                                if (resitGradeFloat > 50) {
+                                    JOptionPane.showMessageDialog(getFrame(), "Masters resists are capped at 50%.");
+                                    resitGradeFloat = (float) 50.00;
+                                }
+                            } else {
+                                if (resitGradeFloat > 40) {
+                                    JOptionPane.showMessageDialog(getFrame(), "Undergraduate resists are capped at 40%.");
+                                    resitGradeFloat = (float) 40.00;
+                                }
+                            }
+
+                            //Save grades
+                            Controller.updateGrades(loginID, modCode, latestPeriod, initialGradeFloat, resitGradeFloat);
+                        }
+                    }
+                } else {
                     JOptionPane.showMessageDialog(getFrame(), errorMessage);
-        		}
-        	}			 
+                }
+            }
         }
     }
 

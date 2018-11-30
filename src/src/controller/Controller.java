@@ -609,7 +609,7 @@ public class Controller {
      * calculate the best
      * @param //TODO
      * */
-    public static float getMaximumWeightedScore(Grade g, float m) {
+    public static float getMaximumScore(Grade g, float m) {
         float initialScore = g.getInitialPercent();
         float resitScore = g.getResitPercent();
         if (resitScore > m) {
