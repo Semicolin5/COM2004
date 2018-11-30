@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static java.lang.System.exit;
-
 public class Welcome extends Form {
     private JPanel panel;
 
@@ -28,6 +26,7 @@ public class Welcome extends Form {
         JButton pickModuleButton = new JButton("Add/Drop Student Modules");
         JButton updateGradesButton = new JButton("Update Grades");
         JButton viewStudentRecordButton = new JButton("View Record");
+        JButton viewStudentRecordAsTeacherButton = new JButton("View Record & Progress Students");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         int privilege = Main.getPriv();
@@ -53,9 +52,9 @@ public class Welcome extends Form {
         //Teacher
         else if(privilege == 2) {
             panel.add(updateGradesButton);
-            panel.add(viewStudentRecordButton);
-            viewStudentRecordButton.addActionListener(new StudentHandler()); // both teacher and student can view academic progress
-            updateGradesButton.addActionListener(new updateGradesHandler());
+            panel.add(viewStudentRecordAsTeacherButton);
+            viewStudentRecordAsTeacherButton.addActionListener(new TeacherHandler()); // both teacher and student can view academic progress
+            updateGradesButton.addActionListener(new TeacherHandler());
         }
         //Student
         else {
@@ -133,9 +132,15 @@ public class Welcome extends Form {
      * ActionListener class that allows a Teacher to navigate to the UpgradeGrades page.
      * Method actionPerformed allows the Teacher to navigate to new pages.
      * */
-    public class updateGradesHandler implements ActionListener {
+    public class TeacherHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            changeJPanel(new src.view.UpdateGrades(getFrame()).getJPanel());
+
+            String command = actionEvent.getActionCommand();
+            System.out.println(command);
+            if(command.equals("View Record & Progress Students"))
+                changeJPanel(new src.view.ViewRecord(getFrame()).getJPanel());
+            if(command.equals("Update Grades"))
+                changeJPanel(new src.view.UpdateGrades(getFrame()).getJPanel());
         }
     }
 }
