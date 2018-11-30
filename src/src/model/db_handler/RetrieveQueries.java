@@ -206,6 +206,41 @@ public class RetrieveQueries extends Queries {
         }
     	return moduleDegreeTable;
     }
+    
+    
+    /**
+     * retrieveModulesForDegreeLevel, takes a degree code and a level of study and returns a list of associated modules
+     * @param String degCode, the degree code of the modules we want to return
+     * @param String level, the level of study we want to select modules on
+     * @return List<ModuleDegree>, the list of modules linked to the given degree at the given level
+     */
+    public List<ModuleDegree> retrieveModulesForDegreeLevel(String degCode, String level) {
+        List<ModuleDegree> moduleDegreeTable = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet res = null;
+        try {
+     	   pstmt = conn.prepareStatement("SELECT * FROM module_degree");
+            res = pstmt.executeQuery();
+            while (res.next()) {
+         	   moduleDegreeTable.add(new ModuleDegree(res.getString(1), res.getString(2),
+                res.getString(3), res.getBoolean(4)));
+            }
+        }
+        catch (SQLException e) {
+     	   e.printStackTrace();
+        }
+        finally {
+     	   closeResources(pstmt, res);
+        }
+    	return moduleDegreeTable;
+    }
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * retrievePeriodOfStudyForStudent finds all the periods that a targeted student has experienced.
