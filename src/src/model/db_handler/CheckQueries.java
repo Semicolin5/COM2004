@@ -399,6 +399,7 @@ public class CheckQueries extends Queries {
         return (!hasAffiliatedModules && !hasAffiliatedStudents);
    }
 
+
 	/**
 	* Returns true if the Department is allowed to be deleted.
 	* Departments are allowed to be deleted if there are no degrees affiliated with the department.

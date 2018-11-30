@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
+
 import src.objects.*;
 import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +25,7 @@ import src.controller.Controller;
 public class ModulePick extends Form {
     private JPanel panel1;
     private JList studentList;
-    private JLabel studentLevel;
+    private String studentsLevel;
     private JLabel studentName;
     private JButton assignModuleButton;
     private JButton unassignModuleButton;
@@ -35,9 +37,9 @@ public class ModulePick extends Form {
     private DefaultTableModel choiceModel;
     private DefaultTableModel chosenModel;
     private String periodOfStudyLabel;
-
-    private ArrayList<String[]> modChoices = new ArrayList<String[]>();
-    private ArrayList<String[]> modAssigned = new ArrayList<String[]>();
+    private JLabel studentLevel;
+    
+    private List<Student> students = Controller.getStudents();
 
     /**
      * Set default JFrame sizes & add Event Listener
@@ -71,8 +73,8 @@ public class ModulePick extends Form {
         unassignModuleButton.addActionListener(new UnassignModuleHandler());
         backButton.addActionListener(new backHandler());
 
-        //Loads all students into the studentList
-        for (Student student : Controller.getStudents()) {
+        //Loads all the students (Just IDs) into the studentList
+        for (Student student : students) {
             studentModel.addElement(student.getLogin());
         }
 
@@ -82,32 +84,39 @@ public class ModulePick extends Form {
         assigned are loaded into the chosenTable JTable.
          */
         studentList.addListSelectionListener(evt -> {
-            if (!evt.getValueIsAdjusting()) {
+        	int studID  = Integer.parseInt(studentList.getSelectedValue().toString());
+        	PeriodOfStudy pos;
+
+        	if (!evt.getValueIsAdjusting()) {
                 //Clear JTables
                 choiceModel.setRowCount(0);
                 chosenModel.setRowCount(0);
 
+                ArrayList<String> modChoices = new ArrayList<>();
+                ArrayList<String> modAssigned = new ArrayList<>();
+                //private ArrayList<String> modRemain = new ArrayList<String>();
+
                 //Retrieves the selected student's period of study label, and level of study (which it places in a textbox).
+                pos = Controller.getLatestPeriodOfStudy(studID);
+                studentsLevel = pos.getLevelOfStudy();
+                periodOfStudyLabel = pos.getLabel();
+                studentLevel.setText(periodOfStudyLabel);
+                
                 for (Student student : Controller.getStudents()) {
                     if (student.getLogin().equals(studentList.getSelectedValue())) {
                         studentName.setText(student.getForename() + " " + student.getSurname());
-                        for (PeriodOfStudy p : Controller.getPeriodsOfStudy()) {
-                            if (p.getLoginID().equals(studentList.getSelectedValue())) {
-                                periodOfStudyLabel = p.getLabel();
-                                studentLevel.setText(p.getLevelOfStudy());
-                            }
-                        }
 
                         /**Retrieves a list of all modules the selected student is eligible for and adds the details of
                         each as a row in the choice JTable.*/
                         for (ModuleDegree m : Controller.getModuleDegrees()) {
-                            if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel.getText()))) {
+                            if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentsLevel))) {
                                 for (Module mod : Controller.getModules()) {
                                     if (mod.getCode().equals(m.getModuleCode())) {
-                                        if (m.isCore())
-                                            choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Core"});
-                                        else
-                                            choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Not Core"});
+                                        modChoices.add(mod.getCode());
+                                    	//if (m.isCore())
+                                        //    choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Core"});
+                                        //else
+                                        //    choiceModel.addRow(new Object[]{m.getModuleCode(), mod.getCredits(), "Not Core"});
                                     }
                                 }
                             }
@@ -115,16 +124,33 @@ public class ModulePick extends Form {
 
                         /**Retrieves a list of all modules the selected student is assigned and adds the details of
                          each as a row in the chosen JTable.*/
-                        int studentID = Integer.parseInt(studentList.getSelectedValue().toString());
-                        for (Grade grade : Controller.getStudentsGradeAtPeriod(studentID, periodOfStudyLabel)) {
+
+                        for (Grade grade : Controller.getStudentsGradeAtPeriod(studID, periodOfStudyLabel)){
                             for (ModuleDegree modDeg : Controller.getModuleDegrees()) {
                                 if (grade.getModuleCode().equals(modDeg.getModuleCode())) {
                                     for (Module mod : Controller.getModules()) {
                                         if (mod.getCode().equals(modDeg.getModuleCode())) {
+                                            modAssigned.add(mod.getCode());
                                             if (modDeg.isCore())
-                                                chosenModel.addRow(new Object[]{grade.getModuleCode(), mod.getCredits(), "Core"});
+                                                chosenModel.addRow(new Object[]{mod.getCode(), mod.getCredits(), "Core"});
                                             else
-                                                chosenModel.addRow(new Object[]{grade.getModuleCode(), mod.getCredits(), "Not Core"});
+                                                chosenModel.addRow(new Object[]{mod.getCode(), mod.getCredits(), "Not Core"});
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        modChoices.removeAll(modAssigned);
+                        for (String modChoice : modChoices) {
+                            for (ModuleDegree modDeg : Controller.getModuleDegrees()) {
+                                if (modChoice.equals(modDeg.getModuleCode())) {
+                                    for (Module mod : Controller.getModules()) {
+                                        if (mod.getCode().equals(modChoice)) {
+                                            if (modDeg.isCore())
+                                                choiceModel.addRow(new Object[]{modChoice, mod.getCredits(), "Core"});
+                                            else
+                                                choiceModel.addRow(new Object[]{modChoice, mod.getCredits(), "Not Core"});
                                         }
                                     }
                                 }
@@ -261,6 +287,7 @@ public class ModulePick extends Form {
                 else {
                 	Controller.removeGrades(Integer.parseInt(studentList.getSelectedValue().toString()), code, periodOfStudyLabel);
                 	chosenModel.removeRow(rowNumber);
+                	
                 }
                                 
             }

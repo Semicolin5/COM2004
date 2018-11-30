@@ -29,6 +29,12 @@ public class Controller {
 		Main.setUser(user);
 	}
     
+	/**
+	 * checkLogin, takes a login ID and a password and returns a String saying Accepted if they can login and an error message else
+	 * @param String loginID, the login ID of the user we want to log in as 
+	 * @param String password, the password of the user of we want to log in as
+	 * @return String, Accepted if correct username and password combo else error message 
+	 */
     public static String checkLogin(String loginID, String password) {
     	CheckQueries checkQ = new CheckQueries(Main.getDB());
     	//Check that we can turn login ID to an int
@@ -54,7 +60,6 @@ public class Controller {
     }
 
     public  static  void saveBlankGrades(String studentId, String moduleCode, String label){
-
 		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
 		additionQ.addStudentModuleAssociation(studentId, moduleCode, label);
 	}
@@ -100,6 +105,11 @@ public class Controller {
     }
 
 	public static List<ModuleDegree> getModuleDegrees() {
+		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
+		return retrieveQ.retrieveModuleLinkDegreeTable();
+	}
+	
+	public static List<ModuleDegree> getModulesDegreeLevel(String degCode, String levelOfStudy ) {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 		return retrieveQ.retrieveModuleLinkDegreeTable();
 	}
@@ -152,6 +162,26 @@ public class Controller {
         removalQ.removeModule(code);
     }
 
+    
+    /**
+     * getModuleOptions, takes a students user ID and returns a list of modules which they can take
+     * @param int studentID, the student ID we want to search on 
+     * 
+     * @return List<Module>, the list of modules the selected student can take
+     */
+    public static List<Module> getModuleOptions(int studentID) {
+    	String levelOfStudy = getLatestPeriodOfStudy(studentID).getLevelOfStudy();
+    	
+    	
+    	
+    	
+    	
+    	
+    	return null;
+    }
+    
+    
+    
     /**
      * getPeriodsOfStudent
      * @param studentID int, the login id for a student
