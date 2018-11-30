@@ -296,7 +296,8 @@ public class ViewRecord extends Form {
                 List<Grade> failedModules = new ArrayList<Grade>();
                 /**
                  * For each grade in the latestPOS taken, calculate if the student passe
-                 * */
+                 e */
+                System.out.println("Conceded Pass Check");
                 for (Grade g : gs) {
                     sumOfGrades = sumOfGrades + (Controller.getMaximumScore(g, min) * (Controller.getGradeWeighting(g)));
 
@@ -305,7 +306,6 @@ public class ViewRecord extends Form {
                         failedModules.add(g);
                     }
                 }
-                System.out.println("score should be: " + sumOfGrades + "/" + expectedTotalCredits);
                 float average = sumOfGrades / expectedTotalCredits;
 
                 // adds average to the period_of_study
@@ -313,14 +313,28 @@ public class ViewRecord extends Form {
 
                 System.out.println("average score from all modules: " + average);
 
-                if (average >= min && (failedModules.size()==0)) {
-                   // pass normally
+                System.out.println("\n~~controlflow~~");
+                System.out.println("average: " + average + ", failedModules size: " + failedModules.size());
+
+                // control flow to work out students progression to next period of study
+                if (average >= min && (failedModules.size() == 0)) {
+                    // pass normally
+                    System.out.println("Colin's");
                 } else if (average < min || (failedModules.size() > 1)) {
+                    // check to see if they have failed the year
+                    if(failedModules.get(0).getRepeated()) {
+                        // cannot resit if they have already repeated this level
+                    } else {
+                        System.out.println("progresing student to repeat year");
+                    }
                     System.out.println("User has failed this year system finds out what to do."); //
                     failStudent();
                 } else if (failedModules.size() == 1) {
-                    conceededPassCheck(failedModules.get(0), min);
                     System.out.println("Conceded Pass Check");
+                    if (conceededPassCheck(failedModules.get(0), min)) {
+                        System.out.println("collin's function");
+                        // collins functions
+                    }
                 }
 
             } else {
@@ -359,12 +373,20 @@ public class ViewRecord extends Form {
     /**
      * conceededPassCheck checks whether a student who failed one modules is eligible for a conceded pass,
      * or should be failed.
+     *
      * @param failedModule
      * @param min
      */
-    private void conceededPassCheck(Grade failedModule, float min) {
-        Controller.getMaximumScore(failedModule, min);
-
+    private boolean conceededPassCheck(Grade failedModule, float min) {
+        float maxScore = Controller.getMaximumScore(failedModule, min);
+        boolean concededPass = false;
+        if (min == 40 && (maxScore >= 36)) {
+            concededPass = true;
+        }
+        if (min == 50 && (maxScore >= 45)) {
+            concededPass = true;
+        }
+        return concededPass;
     }
 
     private void addStudentInfo(int loginID) {
