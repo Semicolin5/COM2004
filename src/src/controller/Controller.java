@@ -591,7 +591,6 @@ public class Controller {
      * @param //TODO
      * */
     public static float getMaximumWeightedScore(Grade g, float m) {
-        float highestScore;
         float initialScore = g.getInitialPercent();
         float resitScore = g.getResitPercent();
         if (resitScore > m) {
@@ -602,17 +601,24 @@ public class Controller {
         }
         // return the greatest score from resit and initial
         if (initialScore >= resitScore) {
-            highestScore = initialScore;
+            return initialScore;
         } else {
-            highestScore = resitScore;
+            return resitScore;
         }
-
-        int cred = 0;
-        for (Module mod : Controller.getModules()) {
-            if(mod.getCode().equals(g.getModuleCode())){
-                cred = mod.getCredits();
-            }
-        }
-        return highestScore * (float) cred;
     }
+
+	/**
+	 * getGradeWeighting takes a grade and gets the credit grade it is worth
+	 * @param g
+	 * @return
+	 */
+	public static int getGradeWeighting (Grade g){
+		int cred = 0;
+		for (Module mod : Controller.getModules()) {
+			if(mod.getCode().equals(g.getModuleCode())){
+				cred = mod.getCredits();
+			}
+		}
+		return cred;
+	}
 }

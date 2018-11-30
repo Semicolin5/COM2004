@@ -278,8 +278,6 @@ public class ModulePick extends Form {
                     choiceModel.removeRow(rowNumber);
                     chosenModel.addRow(new Object[]{code, cred, coreStatus});
                 }
-                
-
             }
             calculateCredits();
         }

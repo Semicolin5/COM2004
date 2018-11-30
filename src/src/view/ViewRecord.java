@@ -15,6 +15,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ViewRecords.java
@@ -292,15 +294,18 @@ public class ViewRecord extends Form {
                 java.util.List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
                 int count = 0;
                 float sumOfGrades = 0; // add the best score from each module
+                java.util.List<Grade> failedModules = new ArrayList<Grade>();
                 /**
                  * For each grade in the latestPOS taken, calculate if the student passe
                  * */
                 for (Grade g : gs) {
-                    sumOfGrades = sumOfGrades + Controller.getMaximumWeightedScore(g, min);
+                    sumOfGrades = sumOfGrades + (Controller.getMaximumWeightedScore(g, min)*(Controller.getGradeWeighting(g)));
                     System.out.println(Controller.getMaximumWeightedScore(g, min));
 
-                    if((Controller.getMaximumWeightedScore(g, min)/expectedTotalCredits)<min)
+                    if((Controller.getMaximumWeightedScore(g, min)/expectedTotalCredits)<min) {
+                        failedModules.add(g);
                         count = count + 1;
+                    }
                 }
                 System.out.println("score should be: " + sumOfGrades + "/" + expectedTotalCredits);
                 float average = sumOfGrades / expectedTotalCredits;
@@ -313,6 +318,7 @@ public class ViewRecord extends Form {
                     System.out.println("User has failed this year system finds out what to do."); //
                     failStudent();
                 } else if(count==1){
+                    conceededPassCheck(failedModules.get(0), min);
                     System.out.println("Conceded Pass Check");
                 }else if (count >1){
                     failStudent();
@@ -352,7 +358,14 @@ public class ViewRecord extends Form {
         }
     }
 
-    private void conceededPassCheck() {
+    /**
+     * conceededPassCheck checks whether a student who failed one modules is eligible for a conceded pass,
+     * or should be failed.
+     * @param failedModules
+     * @param min
+     */
+    private void conceededPassCheck(Grade failedModule, float min) {
+        Controller.getMaximumWeightedScore(failedModule, min);
 
     }
 
