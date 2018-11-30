@@ -25,7 +25,7 @@ public class UpdateGrades extends Form {
     private DefaultListModel<String> moduleModel;
     private JTextField initialGrade;
     private JTextField resitGrade;
-    private JTextField repeatGrade;
+    //private JTextField repeatGrade;
     private JButton updateButton;
     private JButton backButton;
     private final JLabel label2 = new JLabel();
@@ -98,11 +98,11 @@ public class UpdateGrades extends Form {
         label1.setText("Students");
         panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
-        label3.setText("Modules");
-        panel1.add(label3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label2.setText("Modules at level:  For period of study: ");
+        panel1.add(label2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
-        label4.setText("Repeat %");
-        panel1.add(label4, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
+        //label4.setText("Repeat %");
+        //panel1.add(label4, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         final JLabel label5 = new JLabel();
         label5.setText("Resit %");
         panel1.add(label5, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
@@ -111,8 +111,8 @@ public class UpdateGrades extends Form {
         panel1.add(label6, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         resitGrade = new JTextField();
         panel1.add(resitGrade, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        repeatGrade = new JTextField();
-        panel1.add(repeatGrade, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        //repeatGrade = new JTextField();
+        //panel1.add(repeatGrade, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         initialGrade = new JTextField();
         panel1.add(initialGrade, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         updateButton = new JButton();
@@ -160,9 +160,10 @@ public class UpdateGrades extends Form {
 
             //Change the name to show if the period is repeated or not
             if (repeatedLevel) {
-                label2.setText("Modules at level " + latestLevel + " for period of study: " + latestPeriod + " (repeated year).");
-            } else {
-                label2.setText("Modules at level " + latestLevel + " for period of study: " + latestPeriod + ".");
+                label2.setText("Modules at level: " + latestLevel + " For period of study: " + latestPeriod + " (repeated year).");
+            } 
+            else {
+                label2.setText("Modules at level: " + latestLevel + " For period of study: " + latestPeriod + ".");
             }
 
         }
@@ -327,7 +328,7 @@ public class UpdateGrades extends Form {
     private void clearGrades() {
         initialGrade.setText("");
         resitGrade.setText("");
-        repeatGrade.setText("");
+        //repeatGrade.setText("");
     }
 
 }
