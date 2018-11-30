@@ -49,31 +49,6 @@ public class DatabaseHandler{
     }
 
     /**
-     * obtainPriviledge, given a login name, returns that users priviledge level.
-     * @param login is the String of the users login
-     * @return Integer ranging from 1 to 4, where 4 is highest priviledge level.
-     * */
-    //TODO - move to retrival queries
-    public Integer obtainPrivilege(String login) {
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("SELECT privilege FROM users WHERE login_id=?");
-            pstmt.setString(1,login);
-            ResultSet res = pstmt.executeQuery();
-            ResultSetMetaData rsmd = res.getMetaData();
-            while (res.next()) {
-                privLevel = res.getInt("privilege");
-            }
-            // close resources
-            pstmt.close();
-            res.close();
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return privLevel;
-    }
-
-    /**
      * Accessor method for Connection object
      * */
     public Connection getConn() {

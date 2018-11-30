@@ -476,52 +476,52 @@ public class RetrieveQueries extends Queries {
     }
 
     /**
-     * retrieveStudentsModuleGrade, given a student, and a module that they take, this method
-     * returns their grades as a Grade object.
+     * retrieveStudentsModuleGrade is given a login and module and returns information
+     * such as what the user scored as their initial percent, resit percent, and percent
+     * for repeating a year. This is encapsulated as a List<Grade> object.
      * @param login, int, the users loginID
      * @param module, String, the module that the student takes/has taken
-     * @return Grade object
+     * @return List<Grade> allGradesForModule stores up to 2 grades, first grade being the repeat
      * */
-    public Grade retrieveStudentsModuleGrade(int login, String module){
-        Grade grades = null;
+    public List<Grade> retrieveStudentsModuleGrade(int login, String module){
+        List<Grade> allGradesForModule = new ArrayList<Grade>();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=? ORDER BY label ASC");
+           pstmt = super.conn.prepareStatement("SELECT * FROM grades WHERE login_id=? AND module_code=? ORDER BY label DESC");
            pstmt.setInt(1, login);
            pstmt.setString(2, module);
            rs = pstmt.executeQuery();
-
-           rs.next();
-
-           //Check for nulls in database
-           float initialGrade = rs.getFloat(4);
-           if(rs.wasNull()) {
-               initialGrade = -1;
-           }
-
-           float resitGrade = rs.getFloat(5);
-           if(rs.wasNull()) {
-               resitGrade = -1;
-           }
-
-           grades = new Grade(rs.getString(1), rs.getString(2), rs.getString(3).charAt(0),
-                   initialGrade, resitGrade);
            if(rs.next()) {
-               //Check for null
-               float repeatGrade = rs.getFloat(4);
-               if(rs.wasNull()) {
-                   repeatGrade = -1;
+               // works out if the first item is a repeated year
+               String label = rs.getString(3);
+               boolean repeated = isGradeRepeat(login, module, label);
+               float initialGrade = rs.getFloat(4);
+               if(rs.wasNull())
+                   initialGrade = -1;
+               float resitGrade = rs.getFloat(5);
+               if (rs.wasNull())
+                   resitGrade = -1;
+               allGradesForModule.add(new Grade(String.valueOf(login), module, label.charAt(0), initialGrade, resitGrade, repeated));
+               // this is when the grade is a repeated year, assumed that then there must be another grade to be added.
+               if(repeated) {
+                   rs.next();
+                   initialGrade = rs.getFloat(4);
+                   if(rs.wasNull())
+                       initialGrade = -1;
+                   resitGrade = rs.getFloat(5);
+                   if(rs.wasNull())
+                       resitGrade = -1;
+                   allGradesForModule.add(new Grade(String.valueOf(login), module, rs.getString(3).charAt(0),
+                           initialGrade, resitGrade));
                }
-               //grades.setRepeatPercent(repeatGrade);
            }
-
         } catch (SQLException e) {
            e.printStackTrace();
         } finally {
             closeResources(pstmt, rs);
         }
-        return grades;
+        return allGradesForModule;
     }
 
     /**
@@ -580,16 +580,16 @@ public class RetrieveQueries extends Queries {
             e.printStackTrace();
         } finally {
             closeResources(pstmt, rs);
+            closeResources(pstmt2, rs2);
         }
         return table;
     }
 
     /**
-     * isModuleRepeated returns true if a module has two entries in the Grades table in the database
-     * for a .
-     * From this we infer that the user must be repeating (or did repeat) the module under question.
+     * isGradeRepeat returns true if the grade under question is a repeated grade. The parameters are the primary key
+     * of the targeted Grade.
      * @param loginID, int, the users loginID
-     * @param
+     * @param moduleCode, String, the module code
      * @return boolean true if a student is/has taken a module across two different periods of study
      * */
     public Boolean isGradeRepeat(int loginID, String moduleCode, String label) {
@@ -609,7 +609,6 @@ public class RetrieveQueries extends Queries {
            if (res.next())
                if (res.getInt(1) > 0)
                    isModuleRepeated = true;
-           System.out.println(isModuleRepeated);
        } catch (SQLException e) {
             e.printStackTrace();
        } finally {
@@ -644,8 +643,7 @@ public class RetrieveQueries extends Queries {
 	   }
 	   return passSalt;
 	}
-	
-   
+
    /**
     * retrieveEmails, retrieves a list of all stored emails
     * @return emails List<String>, the list of emails as strings
@@ -668,17 +666,5 @@ public class RetrieveQueries extends Queries {
        }
        return emails; 
    }
-   
-   
-   /*
-   public List<Module> retrieveTakenModules() {
-	   
-	   
-	   
-	   
-   }
-   */
-   
-   
-   
+
 }
