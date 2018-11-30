@@ -147,10 +147,6 @@ public class Controller {
 	    return retrieveQ.retrieveStudentsModuleGrade(loginID, moduleCode);
 	}
 
-	/**
-     *
-     * */
-
     public static void removeModule(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeModule(code);
@@ -291,6 +287,9 @@ public class Controller {
 		additionQ.addPeriodOfStudy(loginID, posLabel, startDate, endDate, degreeLevel);
 	}
 
+	/**
+	 * updateGrades uses additionQueries.java method updateGrade to store
+	 * */
 	public static void updateGrades(int loginID, String moduleCode, String label,
 									Float initialGrade, Float resitGrade, Float repeatGrade) {
 		AdditionQueries additionQ = new AdditionQueries(Main.getDB());

@@ -2,7 +2,6 @@ package src.view;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import src.controller.Controller;
 import src.objects.Grade;
 import src.objects.Module;
@@ -27,9 +26,8 @@ public class UpdateGrades extends Form {
     private JTextField repeatGrade;
     private JButton updateButton;
     private JButton backButton;
-
+    private java.util.List<Grade> selectedGrades;
     private int loginID;
-    private Grade selectedGrade;
 
     public UpdateGrades(GUIFrame frame) {
         super(frame);
@@ -51,7 +49,7 @@ public class UpdateGrades extends Form {
 
         moduleList.getSelectionModel().addListSelectionListener(new ModuleListHandler());
 
-        updateButton.addActionListener(new updateButtonHandler());
+        updateButton.addActionListener(new UpdateButtonHandler());
     }
 
     {
@@ -149,48 +147,63 @@ public class UpdateGrades extends Form {
     }
 
     /**
-     * ModuleListHandler obtains a list of
-     * */
+     * ModuleListHandler contains handler for displaying the initial, resit and repeat scores for a
+     * module that a student took. Displays null grades as blank
+     */
     private class ModuleListHandler implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
             ListSelectionModel model = (ListSelectionModel) listSelectionEvent.getSource();
 
-            //Get student's module grades
+            //Get all module grades for selected module.
             if (model.getValueIsAdjusting()) {
-                /*clearGrades();
+                clearGrades();
 
                 String moduleCode = moduleModel.getElementAt(model.getLeadSelectionIndex());
+                selectedGrades = Controller.getStudentModuleGrades(loginID, moduleCode);
+                Grade firstInList = selectedGrades.get(0);
+                Grade containsInitialAndResit = null; // points to the Grade object that stores initial and resit scores
 
-                //selectedGrade = Controller.getStudentModuleGrades(loginID, moduleCode);
-                selectedGrade.getRepeated();
+                // find out if the module was/has been resat by the student
+                if (firstInList.getRepeated()) {
+                    containsInitialAndResit = selectedGrades.get(1); //repeat Grade is 0th element, initil & resit is in the 1st
+                    if (firstInList.getInitialPercent() == -1) {
+                        repeatGrade.setText(""); // when the repeat grade score isn't in database yet.
+                    } else {
+                        repeatGrade.setText(String.valueOf(firstInList.getInitialPercent()));
+                    }
+
+                } else {
+                    repeatGrade.setText(""); // when a repeat grade wasn't taken
+                    containsInitialAndResit = firstInList;
+                }
 
                 //Check if grades have been set before setting text fields
-                if (selectedGrade.getInitialPercent() == -1) {
+                if (containsInitialAndResit.getInitialPercent() == -1) {
                     initialGrade.setText("");
                 } else {
-                    initialGrade.setText(String.valueOf(selectedGrade.getInitialPercent()));
+                    initialGrade.setText(String.valueOf(containsInitialAndResit.getInitialPercent()));
                 }
 
-                if (selectedGrade.getResitPercent() == -1) {
+                if (containsInitialAndResit.getResitPercent() == -1) {
                     resitGrade.setText("");
                 } else {
-                    resitGrade.setText(String.valueOf(selectedGrade.getResitPercent()));
+                    resitGrade.setText(String.valueOf(containsInitialAndResit.getResitPercent()));
                 }
-
-                //if (selectedGrades.getRepeatPercent() == -1) {
-                //    repeatGrade.setText("");
-                //} else {
-                //    repeatGrade.setText(String.valueOf(selectedGrades.getRepeatPercent()));
-                //}*/
             }
         }
     }
 
-    private class updateButtonHandler implements ActionListener {
+    /**
+     * UpdateButtonHandler deals with when the Teacher wants to edit a students Grade.
+     */
+    private class UpdateButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            Controller.updateGrades(loginID, selectedGrade.getModuleCode(),
-                    String.valueOf(selectedGrade.getLabel()), Float.valueOf(initialGrade.getText()),
-                    Float.valueOf(resitGrade.getText()), Float.valueOf(repeatGrade.getText()));
+            //Grade firstInList = selectedGrades.get(0);
+            //String moduleCode = selectedGrades.get(0).getModuleCode(); // extracting the module code from first grade
+            //Character mostRecentPOSLabel = firstInList.getLabel(); // will always be the most recent pos, regardless of label
+            //Controller.updateGrades(loginID, selectedGrade.getModuleCode(),
+            //        String.valueOf(selectedGrade.getLabel()), Float.valueOf(initialGrade.getText()),
+            //        Float.valueOf(resitGrade.getText()), Float.valueOf(repeatGrade.getText()));
         }
     }
 
