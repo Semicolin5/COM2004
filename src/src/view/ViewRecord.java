@@ -273,6 +273,9 @@ public class ViewRecord extends Form {
         }
     }
 
+    /**
+     * Button
+     * */
     private class ProgressHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             int expectedTotalCredits; // the expected credits a student should be taking
@@ -287,13 +290,34 @@ public class ViewRecord extends Form {
             System.out.println("credits that they take: " + Controller.latestTotalCredits(username) + ", expected is: " + expectedTotalCredits);
             if (expectedTotalCredits == Controller.latestTotalCredits(username)) {
                 java.util.List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
-
+                int count = 0;
+                float sumOfGrades = 0; // add the best score from each module
                 /**
                  * For each grade in the latestPOS taken, calculate if the student passe
                  * */
                 for (Grade g : gs) {
-                    System.out.println(Controller.getMaximumModuleScore(g, min));
+                    sumOfGrades = sumOfGrades + Controller.getMaximumWeightedScore(g, min);
+                    System.out.println(Controller.getMaximumWeightedScore(g, min));
+
+                    if((Controller.getMaximumWeightedScore(g, min)/expectedTotalCredits)<min)
+                        count = count + 1;
                 }
+                System.out.println("score should be: " + sumOfGrades + "/" + expectedTotalCredits);
+                float average = sumOfGrades / expectedTotalCredits;
+
+                // adds average to the period_of_study
+                Controller.updatePeriodOfStudy(username, latestPOS.getLabel(), average);
+
+                System.out.println("average score from all modules: " + average);
+                if (average < min) {
+                    System.out.println("User has failed this year system finds out what to do."); //
+                    failStudent();
+                } else if(count==1){
+                    System.out.println("Conceded Pass Check");
+                }else if (count >1){
+                    failStudent();
+                }
+
             } else {
                 // TODO make a popup
                 System.out.println("Error, User Doesn't Take Enough Modules");
@@ -312,6 +336,24 @@ public class ViewRecord extends Form {
         for (PeriodOfStudy pos : Controller.getPeriodsOfStudyForStudent(loginID)) {
             periodComboBox.addItem(pos.getLabel());
         }
+    }
+
+    private void failStudent() {
+        java.util.List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
+        if (gs.get(0).getRepeated()) {
+            System.out.println("FAIL");
+        }
+        else {
+            if (latestPOS.getLevelOfStudy().equals(4))
+                System.out.println("Graduate with equivalent bachelors with credits already obtained");
+            else {
+                System.out.println("Automatically sign student up for a resit");
+            }
+        }
+    }
+
+    private void conceededPassCheck() {
+
     }
 
     private void addStudentInfo(int loginID) {

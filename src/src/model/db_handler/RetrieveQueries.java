@@ -210,8 +210,8 @@ public class RetrieveQueries extends Queries {
     
     /**
      * retrieveModulesForDegreeLevel, takes a degree code and a level of study and returns a list of associated modules
-     * @param String degCode, the degree code of the modules we want to return
-     * @param String level, the level of study we want to select modules on
+     * @param degCode String, the degree code of the modules we want to return
+     * @param level String, the level of study we want to select modules on
      * @return List<ModuleDegree>, the list of modules linked to the given degree at the given level
      */
     public List<ModuleDegree> retrieveModulesForDegreeLevel(String degCode, String level) {
@@ -256,8 +256,12 @@ public class RetrieveQueries extends Queries {
             pstmt.setInt(1, studentID);
             rs = pstmt.executeQuery();
             while(rs.next()){
-               table.add(new PeriodOfStudy(rs.getString(1), rs.getString(2),
-                       rs.getDate(3), rs.getDate(4), rs.getString(5)));
+                float weightedMean = rs.getFloat(6);
+                if(rs.wasNull()) {
+                    weightedMean = -1;
+                }
+                table.add(new PeriodOfStudy(rs.getString(1), rs.getString(2),
+                       rs.getDate(3), rs.getDate(4), rs.getString(5), weightedMean));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -283,8 +287,12 @@ public class RetrieveQueries extends Queries {
             pstmt.setString(2, label);
             rs = pstmt.executeQuery();
             if(rs.next()){
+                float weightedMean = rs.getFloat(6);
+                if(rs.wasNull()) {
+                    weightedMean = -1;
+                }
                 periodOfStudy = new PeriodOfStudy(rs.getString(1), rs.getString(2),
-                        rs.getDate(3), rs.getDate(4), rs.getString(5));
+                        rs.getDate(3), rs.getDate(4), rs.getString(5), weightedMean);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -306,8 +314,12 @@ public class RetrieveQueries extends Queries {
      	   pstmt = conn.prepareStatement("SELECT * FROM period_of_study");
            res = pstmt.executeQuery();
            while (res.next()) {
+               float weightedMean = res.getFloat(6);
+               if(res.wasNull()) {
+                   weightedMean = -1;
+               }
                table.add(new PeriodOfStudy(res.getString(1), res.getString(2),
-                       res.getDate(3), res.getDate(4), res.getString(5)));
+                       res.getDate(3), res.getDate(4), res.getString(5), weightedMean));
             }
         }
         catch (SQLException e) {
@@ -329,8 +341,12 @@ public class RetrieveQueries extends Queries {
            res = pstmt.executeQuery();
 
            if(res.next()) {
+               float weightedMean = res.getFloat(6);
+               if(res.wasNull()) {
+                   weightedMean = -1;
+               }
                periodOfStudy = new PeriodOfStudy(res.getString(1), res.getString(2),
-                       res.getDate(3), res.getDate(4), res.getString(5));
+                       res.getDate(3), res.getDate(4), res.getString(5), weightedMean);
            }
         }
         catch (SQLException e) {

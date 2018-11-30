@@ -301,14 +301,21 @@ public class Controller {
 	}
 
 	/**
-	 * updateGrades uses additionQueries.java method updateGrade to store
+	 * updateGrades uses additionQueries.java method updateGrade to store new grades.
 	 * */
 	public static void updateGrades(int loginID, String moduleCode, String label,
 									Float initialGrade, Float resitGrade) {
 		AdditionQueries additionQ = new AdditionQueries(Main.getDB());
-		System.out.println("updating grade for: " + loginID + ", " + moduleCode +  ", " +  initialGrade + ", " + resitGrade);
 		additionQ.updateGrade(loginID, moduleCode, label, initialGrade, resitGrade);
 	}
+
+	/**
+     * updatePOS uses additionQueries.java method updatePeriodOfStudy to insert a weighted mean score for a period.
+     * */
+	public static void updatePeriodOfStudy(int loginID, String label, float mean) {
+	    AdditionQueries additionQ = new AdditionQueries(Main.getDB());
+	    additionQ.updatePeriodOfStudy(loginID, label, mean);
+    }
     
     //********************************************************
     //Methods to auto generate input
@@ -602,7 +609,8 @@ public class Controller {
      * calculate the best
      * @param //TODO
      * */
-    public static float getMaximumModuleScore(Grade g, float m) {
+    public static float getMaximumWeightedScore(Grade g, float m) {
+        float highestScore;
         float initialScore = g.getInitialPercent();
         float resitScore = g.getResitPercent();
         if (resitScore > m) {
@@ -613,10 +621,18 @@ public class Controller {
         }
         // return the greatest score from resit and initial
         if (initialScore >= resitScore) {
-            return initialScore;
+            highestScore = initialScore;
         } else {
-            return resitScore;
+            highestScore = resitScore;
         }
+
+        int cred = 0;
+        for (Module mod : Controller.getModules()) {
+            if(mod.getCode().equals(g.getModuleCode())){
+                cred = mod.getCredits();
+            }
+        }
+        return highestScore * (float) cred;
     }
     
 }

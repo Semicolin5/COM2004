@@ -9,6 +9,7 @@ public class PeriodOfStudy {
     private Date startDate;
     private Date endDate;
     private String levelOfStudy;
+    private float weightedMean;
 
     /**
      * Builds a PeriodOfStudy object, holding POS information
@@ -17,14 +18,16 @@ public class PeriodOfStudy {
      * @param startDate Date starting date of POS
      * @param endDate Date ending date of POS
      * @param levelOfStudy String level of study of degree
+     * @param weightedMean float representing the weighted mean in the period of study.
      */
     public PeriodOfStudy(String loginID, String label, Date startDate,
-                         Date endDate, String levelOfStudy) {
+                         Date endDate, String levelOfStudy, float weightedMean) {
         this.loginID = loginID;
         this.label = label;
         this.startDate = startDate;
         this.endDate = endDate;
         this.levelOfStudy = levelOfStudy;
+        this.weightedMean = weightedMean;
     }
 
     public String getLoginID() {
@@ -42,6 +45,8 @@ public class PeriodOfStudy {
     public Date getEndDate() {
         return endDate;
     }
+
+    public float getWeightedMean() { return weightedMean; }
 
     public String getLevelOfStudy() {
         return levelOfStudy;
