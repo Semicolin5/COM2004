@@ -3,6 +3,7 @@ package src.controller;
 import src.model.db_handler.*;
 import src.objects.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import src.model.*;
@@ -672,23 +673,30 @@ public class Controller {
 		}
 		else {
 			//Progress for all levels here we go
+			char newLabel = periodStudyObj.getLabel().charAt(0);
+			newLabel++;
+			//TODO - update to new dates by 1 year
+			String newStartDate = periodStudyObj.getStartDate().toString(); //+1 year
+			String newEndDate = periodStudyObj.getStartDate().toString(); //+1 year
+			
+			//We check which period of study we should update to
 			if (periodStudyObj.getLevelOfStudy().equals("1")) {
-			   	addPeriodOfStudy(studentID, label, startDate, endDate, "2");
+			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "2");
 			}
 			else if (periodStudyObj.getLevelOfStudy().equals("2")) {
 				//Check if we have a placement year to decide how to progress
 				if(degObj.hasPlacementYear()) {
-					
+				   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "P");
 				}
 				else {
-					
+				   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "3");
 				}
 			}
 			else if (periodStudyObj.getLabel().equals("P")) {
-				
+			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "3");
 			}
 			else if (periodStudyObj.getLabel().equals("3")) {
-				
+			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "4");
 			}
 			
 			
