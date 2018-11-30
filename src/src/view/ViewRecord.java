@@ -277,7 +277,7 @@ public class ViewRecord extends Form {
 
     /**
      * Button
-     * */
+     */
     private class ProgressHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             int expectedTotalCredits; // the expected credits a student should be taking
@@ -291,20 +291,18 @@ public class ViewRecord extends Form {
             }
             System.out.println("credits that they take: " + Controller.latestTotalCredits(username) + ", expected is: " + expectedTotalCredits);
             if (expectedTotalCredits == Controller.latestTotalCredits(username)) {
-                java.util.List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
-                int count = 0;
+                List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
                 float sumOfGrades = 0; // add the best score from each module
-                java.util.List<Grade> failedModules = new ArrayList<Grade>();
+                List<Grade> failedModules = new ArrayList<Grade>();
                 /**
                  * For each grade in the latestPOS taken, calculate if the student passe
                  * */
                 for (Grade g : gs) {
-                    sumOfGrades = sumOfGrades + (Controller.getMaximumWeightedScore(g, min)*(Controller.getGradeWeighting(g)));
-                    System.out.println(Controller.getMaximumWeightedScore(g, min));
+                    sumOfGrades = sumOfGrades + (Controller.getMaximumScore(g, min) * (Controller.getGradeWeighting(g)));
 
-                    if((Controller.getMaximumWeightedScore(g, min)/expectedTotalCredits)<min) {
+                    // this calculates number of fa
+                    if ((Controller.getMaximumScore(g, min) < min)) {
                         failedModules.add(g);
-                        count = count + 1;
                     }
                 }
                 System.out.println("score should be: " + sumOfGrades + "/" + expectedTotalCredits);
@@ -314,14 +312,15 @@ public class ViewRecord extends Form {
                 Controller.updatePeriodOfStudy(username, latestPOS.getLabel(), average);
 
                 System.out.println("average score from all modules: " + average);
-                if (average < min) {
+
+                if (average >= min && (failedModules.size()==0)) {
+                   // pass normally
+                } else if (average < min || (failedModules.size() > 1)) {
                     System.out.println("User has failed this year system finds out what to do."); //
                     failStudent();
-                } else if(count==1){
+                } else if (failedModules.size() == 1) {
                     conceededPassCheck(failedModules.get(0), min);
                     System.out.println("Conceded Pass Check");
-                }else if (count >1){
-                    failStudent();
                 }
 
             } else {
@@ -345,11 +344,10 @@ public class ViewRecord extends Form {
     }
 
     private void failStudent() {
-        java.util.List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
+        List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
         if (gs.get(0).getRepeated()) {
             System.out.println("FAIL");
-        }
-        else {
+        } else {
             if (latestPOS.getLevelOfStudy().equals(4))
                 System.out.println("Graduate with equivalent bachelors with credits already obtained");
             else {
@@ -361,11 +359,11 @@ public class ViewRecord extends Form {
     /**
      * conceededPassCheck checks whether a student who failed one modules is eligible for a conceded pass,
      * or should be failed.
-     * @param failedModules
+     * @param failedModule
      * @param min
      */
     private void conceededPassCheck(Grade failedModule, float min) {
-        Controller.getMaximumWeightedScore(failedModule, min);
+        Controller.getMaximumScore(failedModule, min);
 
     }
 
