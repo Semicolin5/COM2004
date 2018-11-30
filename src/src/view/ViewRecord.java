@@ -326,6 +326,12 @@ public class ViewRecord extends Form {
                         // cannot resit if they have already repeated this level
                     } else {
                         System.out.println("progresing student to repeat year");
+                        char newLabel = latestPOS.getLabel().charAt(0);
+                        newLabel++;
+                        // TODO hardcoding date
+                        String initDate = latestPOS.getStartDate().toString();
+                        String endDate = latestPOS.getEndDate().toString();
+                        Controller.addPeriodOfStudy(username, String.valueOf(newLabel), initDate, endDate, latestPOS.getLevelOfStudy());
                     }
                     System.out.println("User has failed this year system finds out what to do."); //
                     failStudent();
