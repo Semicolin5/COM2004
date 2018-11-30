@@ -375,13 +375,13 @@ public class Controller {
 	/**
 	 * assignCoreModules, automatically assigns the core modules to the student when they are signed up to a new degree
 	 */
-	public static void assignCoreModules(int studentID, int studentLevel) {
+	public static void assignCoreModules(int studentID, String studentLevel) {
 		PeriodOfStudy pos = getLatestPeriodOfStudy(studentID);
 		for (Student student : Controller.getStudents()) {
 			if (student.getLogin().equals(String.valueOf(studentID))) {
 				//Retrieves a list of all modules the selected student is eligible for and assigns core modules to student.
 				for (ModuleDegree m : Controller.getModuleDegrees()) {
-					if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(String.valueOf(studentLevel)))) {
+					if (m.getDegreeCode().equals(student.getDegreeCode()) && (m.getDegreeLevel().equals(studentLevel))) {
 						for (Module mod : Controller.getModules()) {
 							if (mod.getCode().equals(m.getModuleCode())) {
 								if (m.isCore())
@@ -682,22 +682,39 @@ public class Controller {
 			//We check which period of study we should update to
 			if (periodStudyObj.getLevelOfStudy().equals("1")) {
 			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "2");
+			   	assignCoreModules(studentID, "2");
 			}
+			//Level 2, not masters and placement
+			else if (periodStudyObj.getLevelOfStudy().equals("2") && !degObj.isMasters() && degObj.hasPlacementYear()) {
+			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "P");
+			   	assignCoreModules(studentID, "P");
+			}
+			//If not we just progress normally
 			else if (periodStudyObj.getLevelOfStudy().equals("2")) {
-				//Check if we have a placement year to decide how to progress
-				if(degObj.hasPlacementYear()) {
-				   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "P");
-				}
-				else {
-				   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "3");
-				}
-			}
-			else if (periodStudyObj.getLabel().equals("P")) {
 			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "3");
+			   	assignCoreModules(studentID, "3");
 			}
+			//Level 3, is masters and placement
+			else if (periodStudyObj.getLabel().equals("3") && degObj.isMasters() && degObj.hasPlacementYear()) {
+			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "P");
+			   	assignCoreModules(studentID, "P");
+			}
+			//If not progress normally
 			else if (periodStudyObj.getLabel().equals("3")) {
 			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "4");
+			   	assignCoreModules(studentID, "4");
 			}
+			//Check if we are an undergrad and on placement
+			else if (periodStudyObj.getLabel().equals("P") && !degObj.isMasters()) {
+			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "3");
+			   	assignCoreModules(studentID, "3");
+			}
+			//Check if we are a masters and on placement
+			else if (periodStudyObj.getLabel().equals("P") && degObj.isMasters()) {
+			   	addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "4");
+			   	assignCoreModules(studentID, "4");
+			}
+	
 			
 			
 		}
