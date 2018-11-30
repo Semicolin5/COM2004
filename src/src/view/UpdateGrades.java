@@ -157,11 +157,11 @@ public class UpdateGrades extends Form {
 
             //Get student's module grades
             if (model.getValueIsAdjusting()) {
-                clearGrades();
+                /*clearGrades();
 
                 String moduleCode = moduleModel.getElementAt(model.getLeadSelectionIndex());
 
-                selectedGrade = Controller.getStudentModuleGrades(loginID, moduleCode);
+                //selectedGrade = Controller.getStudentModuleGrades(loginID, moduleCode);
                 selectedGrade.getRepeated();
 
                 //Check if grades have been set before setting text fields
@@ -181,7 +181,7 @@ public class UpdateGrades extends Form {
                 //    repeatGrade.setText("");
                 //} else {
                 //    repeatGrade.setText(String.valueOf(selectedGrades.getRepeatPercent()));
-                //}
+                //}*/
             }
         }
     }

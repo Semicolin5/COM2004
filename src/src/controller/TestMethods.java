@@ -29,7 +29,7 @@ public class TestMethods {
         RetrieveQueries tester = new RetrieveQueries(testdb);
 
         //System.out.println("retrieving grades list");
-        List<Grade> gs = tester.retrieveGradeAtPeriodOfStudy(1001, "B");
+        List<Grade> gs = tester.retrieveStudentsModuleGrade(1001, "COM1005");
         for (Grade g : gs) {
             System.out.println(g.toString());
         }

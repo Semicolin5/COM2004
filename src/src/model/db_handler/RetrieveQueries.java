@@ -449,7 +449,7 @@ public class RetrieveQueries extends Queries {
      * @return List<Grade> allGradesForModule stores up to 2 grades, first grade being the repeat
      * */
     public List<Grade> retrieveStudentsModuleGrade(int login, String module){
-        List<Grade> allGradesForModule = null;
+        List<Grade> allGradesForModule = new ArrayList<Grade>();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
@@ -478,7 +478,7 @@ public class RetrieveQueries extends Queries {
                    if(rs.wasNull())
                        resitGrade = -1;
                    allGradesForModule.add(new Grade(String.valueOf(login), module, rs.getString(3).charAt(0),
-                           initialGrade, resitGrade, repeated));
+                           initialGrade, resitGrade));
                }
            }
         } catch (SQLException e) {
@@ -574,7 +574,6 @@ public class RetrieveQueries extends Queries {
            if (res.next())
                if (res.getInt(1) > 0)
                    isModuleRepeated = true;
-           System.out.println(isModuleRepeated);
        } catch (SQLException e) {
             e.printStackTrace();
        } finally {
