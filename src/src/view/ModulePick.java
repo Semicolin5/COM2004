@@ -251,8 +251,18 @@ public class ModulePick extends Form {
             if (chosenTable.getSelectedRow() != -1) {
                 int rowNumber = chosenTable.getSelectedRow();
                 String code = chosenTable.getValueAt(rowNumber, 0).toString();
-                Controller.removeGrades(Integer.parseInt(studentList.getSelectedValue().toString()), code, periodOfStudyLabel);
-                chosenModel.removeRow(rowNumber);
+                String cred = chosenTable.getValueAt(rowNumber, 1).toString();
+                String coreStatus = chosenTable.getValueAt(rowNumber, 2).toString();
+                
+                //We shouldn't be able to unassign core modules
+                if (coreStatus.equals("Core")) {
+                    JOptionPane.showMessageDialog(getFrame(), "Cannot unassign core modules.");
+                }
+                else {
+                	Controller.removeGrades(Integer.parseInt(studentList.getSelectedValue().toString()), code, periodOfStudyLabel);
+                	chosenModel.removeRow(rowNumber);
+                }
+                                
             }
             calculateCredits();
         }
