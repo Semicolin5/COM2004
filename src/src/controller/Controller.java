@@ -617,18 +617,20 @@ public class Controller {
 	    return creditSum;
     }
 
-    /**
-     * calculate the best
-     * @param //TODO
-     * */
-    public static float getMaximumScore(Grade g, float m) {
-        float initialScore = g.getInitialPercent();
-        float resitScore = g.getResitPercent();
-        if (resitScore > m) {
-            resitScore = m; // if a grade is resit, then it is capped
+	/**
+	 * Find the highest grade achieved in a module, capping if necessary
+	 * @param grade grade object containing module grades
+	 * @param gradeCap cap on maximum score achievable by a repeat for this student
+	 * @return highest module grade
+	 */
+    public static float getMaximumScore(Grade grade, int gradeCap) {
+        float initialScore = grade.getInitialPercent();
+        float resitScore = grade.getResitPercent();
+        if (resitScore > gradeCap) {
+            resitScore = gradeCap; // if a grade is resit, then it is capped
         }
-        if (g.getRepeated() && (initialScore > m)) {
-            initialScore = m; // if a grade is repeated, then it is capped
+        if (grade.getRepeated() && (initialScore > gradeCap)) {
+            initialScore = gradeCap; // if a grade is repeated, then it is capped
         }
         // return the greatest score from resit and initial
         if (initialScore >= resitScore) {
