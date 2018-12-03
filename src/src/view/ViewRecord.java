@@ -61,7 +61,6 @@ public class ViewRecord extends Form {
         super(frame);
 
         backButton.addActionListener(new BackButtonHandler());
-        progressStudentButton.addActionListener(new ProgressHandler());
 
         // setting up JLists and Tables depending on whether being viewed by teacher or student
         // displays the page differently depending if the
@@ -96,6 +95,7 @@ public class ViewRecord extends Form {
         // setting up loadRecordButton and loadStudentButton
         loadRecordButton.addActionListener(new LoadRecordHandler());
         loadStudentButton.addActionListener(new LoadStudentHandler());
+        progressStudentButton.addActionListener(new ProgressStudentHandler());
     }
 
     {
@@ -257,8 +257,6 @@ public class ViewRecord extends Form {
     private class LoadStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (selectStudent.getSelectedValue() != null) {
-
-
                 username = Integer.parseInt((String) selectStudent.getSelectedValue()); // targeted student's login code
                 latestPOS = Controller.getLatestPeriodOfStudy(username);
                 setupPeriodCombo(username);
@@ -279,20 +277,20 @@ public class ViewRecord extends Form {
     /**
      * Button
      */
-    private class ProgressHandler implements ActionListener {
+    private class ProgressStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             if (latestPOS != null) {
                 int expectedTotalCredits; // the expected credits a student should be taking
-                float min; // the minimum pass grade on a module
+                float minPassGrade; // the minimum pass grade on a module
                 if (latestPOS.getLevelOfStudy() != "4") {
                     expectedTotalCredits = 120;
-                    min = 40;
+                    minPassGrade = 40;
                 } else { // if student isn't doing a masters
                     expectedTotalCredits = 180;
-                    min = 50;
+                    minPassGrade = 50;
                 }
-                System.out.println("credits that they take: " + Controller.latestTotalCredits(username) + ", expected is: " + expectedTotalCredits);
-                if (expectedTotalCredits == Controller.latestTotalCredits(username)) {
+                System.out.println("credits that they take: " + Controller.getCreditsAssignedToLatestPOS(username) + ", expected is: " + expectedTotalCredits);
+                if (expectedTotalCredits == Controller.getCreditsAssignedToLatestPOS(username)) {
                     List<Grade> gs = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
                     float sumOfGrades = 0; // add the best score from each module
                     List<Grade> failedModules = new ArrayList<Grade>();
@@ -301,10 +299,10 @@ public class ViewRecord extends Form {
                      e */
                     System.out.println("Conceded Pass Check");
                     for (Grade g : gs) {
-                        sumOfGrades = sumOfGrades + (Controller.getMaximumScore(g, min) * (Controller.getGradeWeighting(g)));
+                        sumOfGrades = sumOfGrades + (Controller.getMaximumScore(g, minPassGrade) * (Controller.getGradeWeighting(g)));
 
                         // this calculates number of fa
-                        if ((Controller.getMaximumScore(g, min) < min)) {
+                        if ((Controller.getMaximumScore(g, minPassGrade) < minPassGrade)) {
                             failedModules.add(g);
                         }
                     }
@@ -319,10 +317,10 @@ public class ViewRecord extends Form {
                     System.out.println("average: " + average + ", failedModules size: " + failedModules.size());
 
                     // control flow to work out students progression to next period of study
-                    if (average >= min && (failedModules.size() == 0)) {
+                    if (average >= minPassGrade && (failedModules.size() == 0)) {
                         // pass normally
                         System.out.println("Colin's");
-                    } else if (average < min || (failedModules.size() > 1)) {
+                    } else if (average < minPassGrade || (failedModules.size() > 1)) {
                         // check to see if they have failed the year
                         if (failedModules.get(0).getRepeated()) {
                             // cannot resit if they have already repeated this level
@@ -339,7 +337,7 @@ public class ViewRecord extends Form {
                         failStudent();
                     } else if (failedModules.size() == 1) {
                         System.out.println("Conceded Pass Check");
-                        if (conceededPassCheck(failedModules.get(0), min)) {
+                        if (concededPassCheck(failedModules.get(0), minPassGrade)) {
                             System.out.println("collin's function");
                             // collins functions
                         }
@@ -384,13 +382,13 @@ public class ViewRecord extends Form {
     }
 
     /**
-     * conceededPassCheck checks whether a student who failed one modules is eligible for a conceded pass,
+     * concededPassCheck checks whether a student who failed one module is eligible for a conceded pass,
      * or should be failed.
      *
      * @param failedModule
      * @param min
      */
-    private boolean conceededPassCheck(Grade failedModule, float min) {
+    private boolean concededPassCheck(Grade failedModule, float min) {
         float maxScore = Controller.getMaximumScore(failedModule, min);
         boolean concededPass = false;
         if (min == 40 && (maxScore >= 36)) {

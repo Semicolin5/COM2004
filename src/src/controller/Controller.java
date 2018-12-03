@@ -591,12 +591,12 @@ public class Controller {
 	}
 
     /**
-     * latestTotalCredits returns the total Credits assigned to a student in their latest period of study.
+     * Get the sum of credits of all modules a student is taking during the latest POS
      * @param loginID, int representing the selected student
      * @return int of the sum of all the credits in the modules that they take
      * //TODO what to do with a null user
      */
-	public static int latestTotalCredits(int loginID) {
+	public static int getCreditsAssignedToLatestPOS(int loginID) {
 	    int creditSum = 0;
 	    System.out.println("loginID: " + loginID);
         PeriodOfStudy pos = Controller.getLatestPeriodOfStudy(loginID);
