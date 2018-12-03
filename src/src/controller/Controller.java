@@ -638,6 +638,15 @@ public class Controller {
         }
     }
 
+    /**
+	 * getDegreeClass method is used to
+	 * */
+    public static String getDegreeClass(ArrayList<PeriodOfStudy> grades, Degree degreeObject) {
+        boolean hounours = false; // TODO work out if they are an honours
+        // work out whether the student
+        return "to do this"; // TODO finish this
+    }
+
 	/**
 	 * getGradeWeighting takes a grade and gets the credit grade it is worth
 	 * @param g

@@ -383,9 +383,8 @@ public class ViewRecord extends Form {
     /**
      * conceededPassCheck checks whether a student who failed one modules is eligible for a conceded pass,
      * or should be failed.
-     *
      * @param failedModule
-     * @param min
+     * @param min, float represents the threshold boundary
      */
     private boolean conceededPassCheck(Grade failedModule, float min) {
         float maxScore = Controller.getMaximumScore(failedModule, min);
