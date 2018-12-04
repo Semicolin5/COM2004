@@ -1,5 +1,6 @@
 package src.view;
 
+import src.controller.Controller;
 import src.controller.Main;
 
 import javax.swing.*;
@@ -119,12 +120,8 @@ public class Welcome extends Form {
      * */
     private class logoutButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            //Main.getDB().closeConnection();
-            //exit(0);
-            //new GUIFrame();
-            //db = new DatabaseHandler();
+            Controller.setCurrentUser(0);
             changeJPanel(new src.view.Login(getFrame()).getJPanel());
-            //TODO: Can someone get this working please?
         }
     }
 

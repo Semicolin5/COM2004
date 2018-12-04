@@ -12,7 +12,7 @@ public class CryptoModule {
 	public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		//This is just used for testing the functions
 		String salt = generateSalt();
-		String hashPass = hashPassword("frog",salt);
+		String hashPass = hashPassword("cat",salt);
 		
 		System.out.println(salt);
 		System.out.println(hashPass);
