@@ -1,20 +1,17 @@
 package src.view;
 
 import src.controller.Controller;
-/*import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-*/
-import src.controller.Main;
-import src.objects.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class representing the login form - the first form seen by the user, used
+ * to login. Checks username and password, and sets user object as appropriate
+ * for the rest of the program.
+ */
 public class Login extends Form {
     private JPanel panel1;
     private JTextField textField1;
@@ -104,25 +101,23 @@ public class Login extends Form {
         return panel1;
     }
 
+    /**
+     * Handler for the login button on the form
+     */
     public class LoginHandler implements ActionListener {
-
-        /**
-         * actionPerformed //TODO write nice desc
-         * // TODO will need to change this so it actually checks pw
-         */
         public void actionPerformed(ActionEvent actionEvent) {
             String loginID = textField1.getText();
             //TODO operate directly on char arrays, converting to string is insecure
             String password = new String(passwordField1.getPassword());
             loginMessage = Controller.checkLogin(loginID, password);
             password = ""; //Clears up old the password so it can be garbage collected
-            //TODO
+
             if (loginMessage.equals("Accepted")) {
             	//Set up our user and advance to the next panel
             	Controller.setCurrentUser(Integer.parseInt(loginID)); //We can do this without checking because we have already checked
                 changeJPanel(new Welcome(getFrame()).getJPanel());
             } else {
-                //TODO - display error message (loginMessage)
+                JOptionPane.showMessageDialog(getFrame(), "Unknown user or password");
             }
         }
     }
