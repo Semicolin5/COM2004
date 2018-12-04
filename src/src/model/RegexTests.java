@@ -10,7 +10,7 @@ public class RegexTests {
 	private static String regDegree = "[A-Z]{3}[UP][0-9]{2}";
 	private static String regModule = "[A-Z]{3}[0-9]{4}";
 	private static String regCredits = "[0-9]{1,3}";
-	private static String regTitle = "[a-zA-Z .,()&]*";
+	private static String regTitle = "[a-zA-Z .,()&-]*";
 	private static String regName = "[a-zA-Z]+";
 	private static String regFullName = "[a-zA-Z ]+";
 	private static String regGrade = "[0-9]{1,3}[.]{1}[0-9]{2}";
@@ -24,6 +24,7 @@ public class RegexTests {
 		//This is just used for testing		
 		System.out.println(checkName("Isacc"));
 		System.out.println(checkGrade("100.00"));
+		System.out.println(checkTitle("Test"));
 	}
 
 	//Regex checking functions.  Hopefully this is a start and can come in useful.
