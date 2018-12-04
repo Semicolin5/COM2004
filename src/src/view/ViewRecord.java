@@ -41,12 +41,13 @@ public class ViewRecord extends Form {
     private JTextField surnameField;
     private JTextField tutorField;
     private JTextField emailField;
-    private JTextField degreeField;
+    private JTextField degreeCodeField;
     private JTextField idField;
     private JTextField degreeLevelField;
     private JTextField periodStartField;
     private JTextField periodEndField;
     private JButton progressStudentButton;
+    private JTextField degreeNameField;
 
     /**
      * Constructor sets up an empty JTable, and sets up a JList containing the periods of study, and levels for the
@@ -176,9 +177,9 @@ public class ViewRecord extends Form {
         emailField = new JTextField();
         emailField.setEditable(false);
         panel1.add(emailField, new GridConstraints(5, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        degreeField = new JTextField();
-        degreeField.setEditable(false);
-        panel1.add(degreeField, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        degreeCodeField = new JTextField();
+        degreeCodeField.setEditable(false);
+        panel1.add(degreeCodeField, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label7 = new JLabel();
         label7.setText("User ID");
         panel1.add(label7, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -208,6 +209,12 @@ public class ViewRecord extends Form {
         panel1.add(progressStudentButton, new GridConstraints(12, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
         panel1.add(spacer5, new GridConstraints(13, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JLabel label11 = new JLabel();
+        label11.setText("Degree Name");
+        panel1.add(label11, new GridConstraints(7, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        degreeNameField = new JTextField();
+        degreeNameField.setEditable(false);
+        panel1.add(degreeNameField, new GridConstraints(7, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**
@@ -328,9 +335,8 @@ public class ViewRecord extends Form {
                         // check to see if they have failed the year
                         if (failedModules.get(0).getRepeated()) {
                             // cannot resit if they have already repeated this level
-                        //Put the student on a repeat year
-                        }
-                        else {
+                            //Put the student on a repeat year
+                        } else {
                             RepeatDatesDialog rdd = new RepeatDatesDialog(latestPOS);
                             rdd.pack();
                             rdd.setVisible(true);
@@ -369,7 +375,7 @@ public class ViewRecord extends Form {
 
     /**
      * FailStudent method handles GUI when the student fails.
-     * */
+     */
     private void failStudent() {
         List<Grade> grades = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
         if (grades.get(0).getRepeated()) {
@@ -388,8 +394,9 @@ public class ViewRecord extends Form {
     /**
      * concededPassCheck checks whether a student who failed one module is eligible for a conceded pass,
      * or should be failed.
+     *
      * @param failedModule
-     * @param min, float represents the threshold boundary
+     * @param min,         float represents the threshold boundary
      */
     private boolean concededPassCheck(Grade failedModule, int min) {
         float maxScore = Controller.getMaximumScore(failedModule, min);
@@ -412,7 +419,10 @@ public class ViewRecord extends Form {
         surnameField.setText(student.getSurname());
         tutorField.setText(student.getPersonalTutor());
         emailField.setText(student.getEmail());
-        degreeField.setText(student.getDegreeCode());
+
+        String degreeCode = student.getDegreeCode();
+        degreeCodeField.setText(degreeCode);
+        degreeNameField.setText(Controller.getDegree(degreeCode).getDegreeName());
     }
 
 }
