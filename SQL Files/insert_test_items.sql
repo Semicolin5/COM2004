@@ -41,7 +41,8 @@ INSERT INTO degree_department VALUES
     ("COMU03", "COM", 1),
     ("COMU20", "COM", 1),
     ("DANP72", "DAN", 1),
-    ("COMU20", "MAS", 0);
+    ("COMU20", "MAS", 0),
+    ("PHYP01", "PHI", 1);
 
 -- INSERT INTO MODULE AND GRADES TABLE --
 
