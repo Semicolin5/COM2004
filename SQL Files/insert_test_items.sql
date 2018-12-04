@@ -17,8 +17,7 @@ INSERT INTO degree VALUES
 
 INSERT INTO student VALUES
     (1001, "Mr", "John", "Smith", "Professor Oak", "jsmith1@sheffieldringroad.ac.uk", "COMU49"),
-    (2001, "Mr", "Bass", "Hunter", "Dr Dre", "bhunter1@sheffieldringroad.ac.uk", "COMU20"),
-    (2010, "Ms", "Emmy", "Nem", "Slim Shady", "enem1:sheffieldringroad.ac.uk", "DANP72");
+    (2001, "Mr", "Bass", "Hunter", "Dr Dre", "bhunter1@sheffieldringroad.ac.uk", "COMU20");
 
 INSERT INTO users VALUES
     (800765, "qwertyuiopasdfghjkl;1234567890", "JIHFDSKJFMSHSK145", 4),
