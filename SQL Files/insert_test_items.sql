@@ -81,6 +81,7 @@ INSERT INTO period_of_study VALUES
     (1001, 'C', '2016-09-03', '2017-07-01', 2, 88.99),
     (1001, 'D', '2017-09-03', '2018-07-01', 3, NULL);
 
+    
 INSERT INTO grades VALUES
     (1001, "COM1005", 'A', 20.50, 21.00),
     (1001, "COM1005", 'B', 50.72, NULL),

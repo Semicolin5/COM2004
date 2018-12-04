@@ -275,7 +275,7 @@ public class ViewRecord extends Form {
     }
 
     /**
-     * Button
+     * Handler class that responds to the progression button.
      */
     private class ProgressStudentHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
@@ -323,15 +323,23 @@ public class ViewRecord extends Form {
                     // control flow to work out students progression to next period of study
                     if (average >= minPassGrade && (failedModules.size() == 0)) {
                         // pass normally
-                        System.out.println("Colin's");
-                    } else if (average < minPassGrade || (failedModules.size() > 1)) {
-                        // check to see if they have failed the year
-                        if (failedModules.get(0).getRepeated()) {
-                            // cannot resit if they have already repeated this level
-                        //Put the student on a repeat year
+                        if (Controller.checkFinalYear(username, latestPOS)) {
+                            System.out.println("graduated :)");
+                        } else {
+                            ProgressionDialog rdd = new ProgressionDialog(latestPOS, false);
                         }
-                        else {
-                            RepeatDatesDialog rdd = new RepeatDatesDialog(latestPOS);
+                    } else if (average < minPassGrade || (failedModules.size() > 1)) {
+
+                        // check that they are not in fourth year. If they are they are not allowed to repeat
+                        if (latestPOS.getLevelOfStudy().equals("4")){
+                            // String graduateMessage = Controller.getGrduatioatio TODO
+                            JOptionPane.showMessageDialog(getFrame(), "Achieved a: ");
+                        } else if (failedModules.get(0).getRepeated()) {
+                            //Put the student on a repeat year
+                            JOptionPane.showMessageDialog(getFrame(), "Student fails and cannot repeat because " +
+                                    "have already repeated this level.");
+                        } else {
+                            ProgressionDialog rdd = new ProgressionDialog(latestPOS,true);
                             rdd.pack();
                             rdd.setVisible(true);
                         }
