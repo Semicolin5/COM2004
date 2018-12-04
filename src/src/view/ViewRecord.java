@@ -328,15 +328,14 @@ public class ViewRecord extends Form {
                         // check to see if they have failed the year
                         if (failedModules.get(0).getRepeated()) {
                             // cannot resit if they have already repeated this level
-                        } else {
-                            System.out.println("progresing student to repeat year");
-                            char newLabel = latestPOS.getLabel().charAt(0);
-                            newLabel++;
-                            // TODO hardcoding date
-                            String initDate = latestPOS.getStartDate().toString();
-                            String endDate = latestPOS.getEndDate().toString();
-                            Controller.addPeriodOfStudy(username, String.valueOf(newLabel), initDate, endDate, latestPOS.getLevelOfStudy());
+                        //Put the student on a repeat year
                         }
+                        else {
+                            RepeatDatesDialog rdd = new RepeatDatesDialog(latestPOS);
+                            rdd.pack();
+                            rdd.setVisible(true);
+                        }
+
                         System.out.println("User has failed this year system finds out what to do."); //
                         failStudent();
                     } else if (failedModules.size() == 1) {
