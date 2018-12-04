@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.3.0">
-  <zoom_level>9</zoom_level>
+  <zoom_level>7</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>936</x>
-      <y>189</y>
-      <w>234</w>
-      <h>135</h>
+      <x>728</x>
+      <y>301</y>
+      <w>182</w>
+      <h>105</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 module
@@ -15,7 +15,7 @@ module
   PK module_code : String[7]
        module_name : String[100]
        credits             : String[3]
-       year_industry  : Boolean
+       semester         : int semester 
 
 --
 </panel_attributes>
@@ -24,10 +24,10 @@ module
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>468</x>
-      <y>531</y>
-      <w>234</w>
-      <h>135</h>
+      <x>364</x>
+      <y>567</y>
+      <w>182</w>
+      <h>105</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 users
@@ -45,9 +45,9 @@ users
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>189</y>
-      <w>234</w>
-      <h>135</h>
+      <y>301</y>
+      <w>182</w>
+      <h>105</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 department
@@ -64,10 +64,10 @@ department
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>702</x>
-      <y>0</y>
-      <w>234</w>
-      <h>135</h>
+      <x>546</x>
+      <y>154</y>
+      <w>182</w>
+      <h>105</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 module_degree
@@ -84,10 +84,10 @@ module_degree
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>936</x>
-      <y>387</y>
-      <w>234</w>
-      <h>180</h>
+      <x>728</x>
+      <y>455</y>
+      <w>182</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 student
@@ -107,19 +107,20 @@ student
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>936</x>
-      <y>630</y>
-      <w>234</w>
-      <h>180</h>
+      <x>728</x>
+      <y>644</y>
+      <w>182</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 period_of_study
 --
-    PFK login_id              : Integer
-    PK   period_of_study : String[1]
-            start_date           : date
-            end_date            : date
-            level_of_study    : String[1]
+    PFK login_id               : Integer
+    PK   period_of_study  : String[1]
+            start_date            : date
+            end_date             : date
+            level_of_study     : String[1]
+            weighted_mean  : Decimal
 
 
             
@@ -130,10 +131,10 @@ period_of_study
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>234</x>
-      <y>0</y>
-      <w>234</w>
-      <h>135</h>
+      <x>182</x>
+      <y>154</y>
+      <w>182</w>
+      <h>105</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 degree_department
@@ -150,10 +151,10 @@ degree_department
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1305</x>
-      <y>387</y>
-      <w>234</w>
-      <h>180</h>
+      <x>1015</x>
+      <y>455</y>
+      <w>182</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 grades
@@ -173,10 +174,10 @@ grades
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>468</x>
-      <y>189</y>
-      <w>234</w>
-      <h>135</h>
+      <x>364</x>
+      <y>301</y>
+      <w>182</w>
+      <h>105</h>
     </coordinates>
     <panel_attributes>&lt;&lt;table&gt;&gt;
 degree
@@ -193,10 +194,10 @@ degree
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>603</x>
-      <y>54</y>
-      <w>117</w>
-      <h>153</h>
+      <x>469</x>
+      <y>196</y>
+      <w>91</w>
+      <h>119</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -208,10 +209,10 @@ r2=Modules</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>927</x>
-      <y>54</y>
-      <w>153</w>
-      <h>153</h>
+      <x>721</x>
+      <y>196</y>
+      <w>119</w>
+      <h>119</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -223,10 +224,10 @@ r2=Degrees</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>135</x>
-      <y>54</y>
-      <w>117</w>
-      <h>153</h>
+      <x>105</x>
+      <y>196</y>
+      <w>91</w>
+      <h>119</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -238,10 +239,10 @@ r2=Degrees</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>459</x>
-      <y>54</y>
-      <w>153</w>
-      <h>153</h>
+      <x>357</x>
+      <y>196</y>
+      <w>119</w>
+      <h>119</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -253,10 +254,10 @@ r2=Departments</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1161</x>
-      <y>459</y>
-      <w>162</w>
-      <h>45</h>
+      <x>903</x>
+      <y>511</y>
+      <w>126</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -268,10 +269,10 @@ r2=Grades</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1161</x>
-      <y>558</y>
-      <w>306</w>
-      <h>198</h>
+      <x>903</x>
+      <y>588</y>
+      <w>238</w>
+      <h>154</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -283,10 +284,10 @@ r2=Grades</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>567</x>
-      <y>315</y>
-      <w>387</w>
-      <h>153</h>
+      <x>441</x>
+      <y>399</y>
+      <w>301</w>
+      <h>119</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -298,10 +299,10 @@ r2=Students</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1161</x>
-      <y>243</y>
-      <w>306</w>
-      <h>162</h>
+      <x>903</x>
+      <y>343</y>
+      <w>238</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -313,10 +314,10 @@ r2=Grades</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>567</x>
-      <y>468</y>
-      <w>387</w>
-      <h>81</h>
+      <x>441</x>
+      <y>518</y>
+      <w>301</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
@@ -328,10 +329,10 @@ r2=Student</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>513</y>
-      <w>144</w>
-      <h>234</h>
+      <x>630</x>
+      <y>553</y>
+      <w>112</w>
+      <h>182</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=1
