@@ -1,5 +1,6 @@
 package src.controller;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ResultTreeType;
 import src.model.db_handler.*;
 import src.objects.*;
 
@@ -663,18 +664,44 @@ public class Controller {
 		}
 		return cred;
 	}
-	
+
+	/**
+	 * assignRepeatModules
+	 */
+	public static void assignRepeatModules(int loginID){
+	    PeriodOfStudy newPeriodOfStudy = getLatestPeriodOfStudy(loginID);
+	    // first create a new period of study which is in the next period of study
+        char repeatLabel = newPeriodOfStudy.getLabel().charAt(0);
+        char firstBeforeLabel = repeatLabel--;
+        String studentID = newPeriodOfStudy.getLoginID();
+
+        int threshold;
+        if (newPeriodOfStudy.getLevelOfStudy().charAt(0) == '4') {
+            threshold = 50;
+        } else {
+            threshold = 40;
+        }
+
+		for (Grade g : getStudentsGradeAtPeriod(Integer.parseInt(studentID), String.valueOf(firstBeforeLabel))) {
+		    // add the grade as a blank grade
+            saveBlankGrades(studentID, g.getModuleCode(), String.valueOf(repeatLabel));
+		    // if the student passed the module, then it is carried to the repeat year
+            if ( (g.getInitialPercent() > threshold) || (g.getResitPercent() > threshold) ) {
+                updateGrades(Integer.parseInt(studentID), g.getModuleCode(), String.valueOf(repeatLabel), g.getInitialPercent(), g.getResitPercent());
+            }
+        }
+	}
 	
 	
 	/**
 	 * progressPassedStudent, takes .... and decides how a student should be progressed
 	 * @param int studentID, the ID of the student we want to progress
 	 */
-	public void progressPassedStudent(int studentID, PeriodOfStudy periodStudyObj, int weightedMean) {
+	public static void progressPassedStudent(int studentID, PeriodOfStudy periodStudyObj, int weightedMean) {
 		//Pull out the students related degree so we can see if they are masters or not
 		Student studObj = getStudent(studentID);
 		Degree degObj = getDegree(studObj.getDegreeCode());
-		
+
 		//Now we test if it's their final year and control flow appropriatly
 		if (degObj.isMasters() && periodStudyObj.getLevelOfStudy().equals("4")) {
 			//Final year grad masters
