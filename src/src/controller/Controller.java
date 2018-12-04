@@ -672,7 +672,9 @@ public class Controller {
 	    PeriodOfStudy newPeriodOfStudy = getLatestPeriodOfStudy(loginID);
 	    // first create a new period of study which is in the next period of study
         char repeatLabel = newPeriodOfStudy.getLabel().charAt(0);
-        char firstBeforeLabel = repeatLabel--;
+        int charValue = repeatLabel - 1;
+        char firstBeforeLabel = (char) charValue;
+
         String studentID = newPeriodOfStudy.getLoginID();
 
         int threshold;

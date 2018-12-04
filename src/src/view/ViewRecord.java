@@ -375,11 +375,12 @@ public class ViewRecord extends Form {
         if (grades.get(0).getRepeated()) {
             System.out.println("FAIL");
         } else {
+            // works out what happens if the student has not already repeated a year.
             if (latestPOS.getLevelOfStudy().equals(4))
                 System.out.println("Graduate with equivalent bachelors with credits already obtained");
                 // TODO graduation method.
             else {
-                JOptionPane.showMessageDialog(getFrame(), "Fail student");
+                JOptionPane.showMessageDialog(getFrame(), "Student registered for resit year.");
             }
         }
     }
