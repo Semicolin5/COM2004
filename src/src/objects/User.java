@@ -12,7 +12,6 @@ public class User {
     private String password;
     private int priv;
 
-
     /**
      * Forms the User object given parameters
      * @param login_id String, the Users name code
@@ -30,8 +29,5 @@ public class User {
      * */
     public int getLogin() { return login_id; }
     public int getPriv() { return priv; }
-
-    //TODO remove this later, currently just for testing
-    public String toString() {return (login_id + ", " + priv + ", pw: " + password);}
 
 }
