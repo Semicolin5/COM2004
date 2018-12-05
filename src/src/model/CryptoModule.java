@@ -7,14 +7,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 
+/**
+ * CryptoModule.java encapsulates methods used by the system for cryptography; e.g. hashing the password, or generating
+ * the salt.
+ * */
 public class CryptoModule {
 
-	public static void main(String[] args) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		//This is just used for testing the functions
-		String salt = generateSalt();
-		String hashPass = hashPassword("cat",salt);
-	}
-	
     /**
      * hashPassword, given a password and a salt, returns a hashed password.
      * @param password is the String of the users password.
