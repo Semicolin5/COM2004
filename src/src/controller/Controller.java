@@ -1,6 +1,7 @@
 package src.controller;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ResultTreeType;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import src.model.db_handler.*;
 import src.objects.*;
 
@@ -630,13 +631,87 @@ public class Controller {
         }
     }
 
-    /**
-	 * getDegreeClass method is used to
-	 * */
-    public static String getDegreeClass(ArrayList<PeriodOfStudy> grades, Degree degreeObject) {
-        boolean hounours = false; // TODO work out if they are an honours
-        // work out whether the student
-        return "to do this"; // TODO finish this
+	/**
+	 * Calculate a student's degree classification
+	 * @param list of student's periods of study
+	 * @return String containing degree classification
+	 */
+	public static String getDegreeClass(List<PeriodOfStudy> periods) {
+        float level2 = 0;
+        float level3 = 0;
+        float level4 = 0;
+        for(PeriodOfStudy period : periods) {
+            if(period.getLevelOfStudy() != "1") {
+            	if(period.getLevelOfStudy().equals("2")) {
+            	    level2 = period.getWeightedMean();
+				}
+				else if(period.getLevelOfStudy().equals("3")) {
+					level3 = period.getWeightedMean();
+				}
+				else if(period.getLevelOfStudy().equals("4")) {
+					level4 = period.getWeightedMean();
+				}
+			}
+		}
+
+		if(level2 != 0 && level3 != 0) {
+			List<Grade> grades = null;
+			float sum = 0;
+			if (level4 == 0) {
+				sum = level2 * 0.3333333f + level3 * 0.666666f;
+			} else {
+				sum = level2 * 0.2f + level3 * 0.4f + level4 * 0.4f;
+				PeriodOfStudy latestPeriod = periods.get(periods.size());
+				grades = Controller.getStudentsGradeAtPeriod(Integer.parseInt(latestPeriod.getLoginID()),
+						latestPeriod.getLabel());
+
+				ArrayList<String> passedModuleCodes = new ArrayList<>();
+				for (Grade grade : grades) {
+					if (grade.getInitialPercent() > 50 || grade.getResitPercent() > 50) {
+						passedModuleCodes.add(grade.getModuleCode());
+					}
+				}
+
+				float creditSum = 0;
+				boolean hasPassedDissertation = false;
+				for (Module module : Controller.getStudentModules(Integer.parseInt(latestPeriod.getLoginID()))) {
+					if (passedModuleCodes.contains(module.getCode())) {
+						creditSum += module.getCredits();
+
+						if (module.getCredits() == 60 && passedModuleCodes.contains(module.getCode())) {
+							hasPassedDissertation = true;
+						}
+					}
+				}
+
+				if (!hasPassedDissertation && creditSum == 180) {
+					return "Postgraduate Diploma";
+				}
+
+				if (!hasPassedDissertation && creditSum >= 60) {
+					return "Postgraduate Certificate";
+				}
+			}
+
+			if(sum > 39.5) {
+				if (sum < 44.4 && level4 == 0) {
+					return "Pass (non-honours)";
+				} else if (sum < 49.4 && level4 == 0) {
+					return "Third Class";
+				} else if (sum < 59.4) {
+					return "Lower Second";
+				} else if (sum < 69.4) {
+					return "Upper Second";
+				} else if (sum >= 69.5) {
+					return "First Class";
+				} else if (sum < 44.4 && level4 != 0) {
+					return "Graduate with Bachelor's equivalent";
+				}
+			} else {
+				return "Failed";
+			}
+		}
+		return "Not graduating";
     }
 
 	/**
@@ -737,22 +812,22 @@ public class Controller {
             assignCoreModules(studentID, "3");
         }
         //Level 3, is masters and placement
-        else if (periodStudyObj.getLabel().equals("3") && degObj.isMasters() && degObj.hasPlacementYear()) {
+        else if (periodStudyObj.getLevelOfStudy().equals("3") && degObj.isMasters() && degObj.hasPlacementYear()) {
             addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "P");
             assignCoreModules(studentID, "P");
         }
         //If not progress normally
-        else if (periodStudyObj.getLabel().equals("3")) {
+        else if (periodStudyObj.getLevelOfStudy().equals("3")) {
             addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "4");
             assignCoreModules(studentID, "4");
         }
         //Check if we are an undergrad and on placement
-        else if (periodStudyObj.getLabel().equals("P") && !degObj.isMasters()) {
+        else if (periodStudyObj.getLevelOfStudy().equals("P") && !degObj.isMasters()) {
             addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "3");
             assignCoreModules(studentID, "3");
         }
         //Check if we are a masters and on placement
-        else if (periodStudyObj.getLabel().equals("P") && degObj.isMasters()) {
+        else if (periodStudyObj.getLevelOfStudy().equals("P") && degObj.isMasters()) {
             addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "4");
             assignCoreModules(studentID, "4");
         }

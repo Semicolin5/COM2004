@@ -283,7 +283,7 @@ public class RetrieveQueries extends Queries {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id=?");
+            pstmt = conn.prepareStatement("SELECT * FROM period_of_study WHERE login_id=? ORDER BY label ASC");
             pstmt.setInt(1, studentID);
             rs = pstmt.executeQuery();
             while(rs.next()){
