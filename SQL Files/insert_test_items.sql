@@ -256,6 +256,7 @@ INSERT INTO period_of_study VALUES
     (3009, 'D', '2017-09-03', '2018-07-01', 4, null);
     
 
+    
 INSERT INTO grades VALUES
 
 	(3009, "PHY1001", 'A', 60.00, NULL),
