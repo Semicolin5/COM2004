@@ -10,6 +10,10 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
+/**
+ * ManageModules.java
+ * Contains the GUI used by Administrators when adding or deleting Modules.
+ * */
 public class ManageModules extends Form {
     private JButton deleteModuleButton;
     private JButton createAModuleButton;

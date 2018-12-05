@@ -15,6 +15,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java .util.List;
 
+/**
+ * UpdateGrades.java
+ * Form allows Teachers to edit the grades of a student. Encapsulates the GUI, and calls the appropriate Controller
+ * methods to reflect these changes in the database. 
+ * */
 public class UpdateGrades extends Form {
     private JPanel panel1;
     private JList studentList;

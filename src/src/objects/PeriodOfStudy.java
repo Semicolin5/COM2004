@@ -2,6 +2,11 @@ package src.objects;
 
 import java.util.Date;
 
+/**
+ * PeriodOfStudy.java
+ * Class represents an instance of a users PeriodOfStudy. Encapsulates information such as the users loginID, the
+ * label of the period of study, and the start and end dates of the period.
+ * */
 public class PeriodOfStudy {
 
     private String loginID;
@@ -29,6 +34,8 @@ public class PeriodOfStudy {
         this.levelOfStudy = levelOfStudy;
         this.weightedMean = weightedMean;
     }
+
+    // Accessor Methods
 
     public String getLoginID() {
         return loginID;

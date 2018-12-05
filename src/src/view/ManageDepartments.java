@@ -6,6 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * ManageDepartments.java
+ * Only accessible to the Administrators, this form contains the GUI enabling the Admin to add or delete departments.
+ * */
 public class ManageDepartments extends Form {
     private JPanel panel1;
     private JButton createDepButton;
