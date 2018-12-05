@@ -232,7 +232,6 @@ public class ViewRecord extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             //If a user has been selected
             if (username != 0) {
-                System.out.println(Controller.getDegreeClass(Controller.getPeriodsOfStudyForStudent(username)));
                 outcomeModel.setRowCount(0); // resets the table
                 String periodOfStudyLabel = periodComboBox.getSelectedItem().toString(); // finds the period of study label
                 for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
@@ -300,7 +299,6 @@ public class ViewRecord extends Form {
                     minPassGrade = 50;
                 }
 
-                System.out.println("credits that they take: " + Controller.getCreditsAssignedToLatestPOS(username) + ", expected is: " + expectedTotalCredits);
                 if (expectedTotalCredits == Controller.getCreditsAssignedToLatestPOS(username)) {
                     List<Grade> takenGrades = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
                     float sumOfGrades = 0; // add the best score from each module
@@ -309,7 +307,6 @@ public class ViewRecord extends Form {
                     /**
                      * For each grade in the latestPOS taken, calculate if the student passed
                      */
-                    System.out.println("Conceded Pass Check");
                     for (Grade grade : takenGrades) {
                         sumOfGrades = sumOfGrades + (Controller.getMaximumScore(grade, minPassGrade) * (Controller.getGradeWeighting(grade)));
 
@@ -323,11 +320,6 @@ public class ViewRecord extends Form {
 
                     // adds average to the period_of_study
                     Controller.updatePeriodOfStudy(username, latestPOS.getLabel(), average);
-
-                    System.out.println("average score from all modules: " + average);
-
-                    System.out.println("\n~~controlflow~~");
-                    System.out.println("average: " + average + ", failedModules size: " + failedModules.size());
 
                     //Normal pass
                     if (average >= minPassGrade && (failedModules.size() == 0)) {
