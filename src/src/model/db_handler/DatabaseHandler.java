@@ -5,7 +5,6 @@ import java.util.*;
 
 /**
  *  DatabaseHandler.java
- *
  *  Class is used to create the Connection object, and is a associated
  *  with a user, and their respective privilege level.
  * */

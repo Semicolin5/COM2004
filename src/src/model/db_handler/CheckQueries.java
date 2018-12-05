@@ -2,7 +2,11 @@ package src.model.db_handler;
 import java.sql.*;
 import java.util.*;
 
-
+/**
+ * CheckQueries.java extends Queries. It contains methods that are used to validate user input, ensuring that
+ * incorrect data is put into the database, and that queries that could potentially cause an SQL exception are
+ * not executed.
+ * */
 public class CheckQueries extends Queries {
 
 	// constructor is passed a DatabaseHandler object from which it obtains the Connection object

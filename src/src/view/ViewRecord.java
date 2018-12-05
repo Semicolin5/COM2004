@@ -22,6 +22,8 @@ import java.util.List;
 /**
  * ViewRecords.java
  * Only accessible to Students and Teachers
+ * Allows Students to view their own record, and for teachers to view the record of all students. Teachers also have
+ * access to progress a student using this form.
  */
 public class ViewRecord extends Form {
 
@@ -382,8 +384,8 @@ public class ViewRecord extends Form {
      * concededPassCheck checks whether a student who failed one module is eligible for a conceded pass,
      * or should be failed.
      *
-     * @param failedModule
-     * @param min,         float represents the threshold boundary
+     * @param failedModule Grade object representing a grade the student failed.
+     * @param min float represents the threshold boundary
      */
     private boolean concededPassCheck(Grade failedModule, int min) {
         float maxScore = Controller.getMaximumScore(failedModule, min);
