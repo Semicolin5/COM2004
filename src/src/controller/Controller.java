@@ -317,31 +317,25 @@ public class Controller {
 	}
 
 	/**
-     * updatePOS uses additionQueries.java method updatePeriodOfStudy to insert a weighted mean score for a period.
+     * updatePOS uses additionQueries method updatePeriodOfStudy to insert a weighted mean score for a period.
+     * @param loginID,
      * */
 	public static void updatePeriodOfStudy(int loginID, String label, float mean) {
 	    AdditionQueries additionQ = new AdditionQueries(Main.getDB());
 	    additionQ.updatePeriodOfStudy(loginID, label, mean);
     }
-	
+
+    /**
+     * addPeriodOfStudy is used to create a new period of study
+     * @param loginId, int representing
+     * @param label, String representing the period of the new period of study to be added
+     * @param startDate, String, in the format
+     * @param endDate
+     * @param level
+     */
 	public static void addPeriodOfStudy(int loginId, String label, String startDate, String endDate, String level) {
 	    AdditionQueries additionQ = new AdditionQueries(Main.getDB());
 		additionQ.addPeriodOfStudy(loginId, label, startDate, endDate, level);
-	}
-	
-    
-    //********************************************************
-    //Methods to auto generate input
-    //********************************************************
-	//TODO - auto generate module codes to minimise attack surface
-	public static String generateModuleCode(String depCode) {
-    	RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-		List<String> listModulesCodes = retrieveQ.retrieveDepartmentsModules(depCode);		
-		//Now we must check all values	
-		
-		String moduleCode = "";
-
-		return moduleCode;
 	}
 	
 	/**
@@ -355,23 +349,18 @@ public class Controller {
 		String email = "";
 		String emailStart = forename.substring(0, 1) + surname;
 		List<String> storedEM = retrieveQ.retrieveEmails();		
-		
 		boolean loopInv = true;
 		int i = 1;
 		while (loopInv) {
 			email = (emailStart + String.valueOf(i) + "@sheffieldringroad.ac.uk").toLowerCase();
-			
 			if (!storedEM.contains(email)) {
 				//We do not have that email stored => we can use it!
 				loopInv = false;
 			}
-			
 			i ++;
 		}
-
 		return email;
 	}
-	
 	
 	/**
 	 * assignCoreModules, automatically assigns the core modules to the student when they are signed up to a new degree

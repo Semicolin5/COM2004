@@ -50,7 +50,9 @@ public class Student {
     public String getDegreeCode() { return degreeCode; }
     public String getEmail() { return email; }
 
-    //TODO remove this later, currently just for testing
+    /**
+     * toString returns a String that neatly represents an instance of the Student object. 
+     * */
     public String toString() {
         String details = "loginId: " + loginId + ", title: " + title
                 + ", forename: " + forename + ", surname: " + surname

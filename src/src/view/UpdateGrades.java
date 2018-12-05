@@ -5,7 +5,6 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import src.controller.Controller;
 import src.controller.Main;
 import src.objects.Grade;
-import src.objects.Module;
 import src.objects.Student;
 
 import javax.swing.*;
@@ -14,7 +13,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java .util.List;
 
 public class UpdateGrades extends Form {
@@ -25,13 +23,11 @@ public class UpdateGrades extends Form {
     private DefaultListModel<String> moduleModel;
     private JTextField initialGrade;
     private JTextField resitGrade;
-    private JTextField repeatGrade;
     private JButton updateButton;
     private JButton backButton;
     private final JLabel label2 = new JLabel();
 
     private List<Grade> modList;
-    private List<Grade> selectedGrades;
     private int loginID;
     private String latestLevel;
     private String latestPeriod;
@@ -81,14 +77,14 @@ public class UpdateGrades extends Form {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(5, 4, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(4, 4, new Insets(0, 0, 0, 0), -1, -1));
         final JScrollPane scrollPane1 = new JScrollPane();
-        panel1.add(scrollPane1, new GridConstraints(1, 0, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel1.add(scrollPane1, new GridConstraints(1, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         studentList = new JList();
         studentList.setSelectionMode(0);
         scrollPane1.setViewportView(studentList);
         final JScrollPane scrollPane2 = new JScrollPane();
-        panel1.add(scrollPane2, new GridConstraints(1, 1, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel1.add(scrollPane2, new GridConstraints(1, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         moduleList = new JList();
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         moduleList.setModel(defaultListModel1);
@@ -101,29 +97,24 @@ public class UpdateGrades extends Form {
         label3.setText("Modules");
         panel1.add(label3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
-        label4.setText("Repeat %");
-        panel1.add(label4, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
+        label4.setText("Resit %");
+        panel1.add(label4, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         final JLabel label5 = new JLabel();
-        label5.setText("Resit %");
-        panel1.add(label5, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
-        final JLabel label6 = new JLabel();
-        label6.setText("Initial %");
-        panel1.add(label6, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
+        label5.setText("Initial %");
+        panel1.add(label5, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(68, 15), null, 0, false));
         resitGrade = new JTextField();
         panel1.add(resitGrade, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        repeatGrade = new JTextField();
-        panel1.add(repeatGrade, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         initialGrade = new JTextField();
         panel1.add(initialGrade, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         updateButton = new JButton();
         updateButton.setText("Update");
-        panel1.add(updateButton, new GridConstraints(4, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label7 = new JLabel();
-        label7.setText("Grades");
-        panel1.add(label7, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(updateButton, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label6 = new JLabel();
+        label6.setText("Grades");
+        panel1.add(label6, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         backButton = new JButton();
         backButton.setText("Back");
-        panel1.add(backButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(backButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -132,7 +123,6 @@ public class UpdateGrades extends Form {
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
-
 
     private class studentListHandler implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
@@ -147,7 +137,6 @@ public class UpdateGrades extends Form {
             if (modList.size() > 0) {
                 repeatedLevel = modList.get(0).getRepeated();
             }
-
 
             moduleModel.removeAllElements();
             for (Grade grade : modList) {
@@ -192,7 +181,6 @@ public class UpdateGrades extends Form {
                 lastInitial = selectedModuleGrade.getInitialPercent();
                 lastResit = selectedModuleGrade.getResitPercent();
 
-
                 //Display grades
                 clearGrades();
                 if (String.valueOf(selectedModuleGrade.getInitialPercent()).equals("-1.0")) {
@@ -215,7 +203,6 @@ public class UpdateGrades extends Form {
      */
     private class UpdateButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-
             //Make sure we have something selected
             if (studentList.getSelectedValue() == null) {
                 JOptionPane.showMessageDialog(getFrame(), "Please select a student.");
@@ -234,7 +221,6 @@ public class UpdateGrades extends Form {
                 if (resitGradeText.equals("")) {
                     resitGradeText = "empty";
                 }
-
 
                 //Check that the inputs are correct
                 String errorMessage = Controller.checkInputGrades(initialGradeText, resitGradeText, Main.getPriv());
@@ -314,7 +300,5 @@ public class UpdateGrades extends Form {
     private void clearGrades() {
         initialGrade.setText("");
         resitGrade.setText("");
-        //repeatGrade.setText("");
     }
-
 }

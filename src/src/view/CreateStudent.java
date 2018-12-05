@@ -9,7 +9,6 @@ import src.objects.Degree;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -25,7 +24,6 @@ public class CreateStudent extends Form {
     private JButton addStudentButton;
     private JPanel panel1;
     private JButton cancelButton;
-    private JComboBox degreeLevelCombo;
     private JSpinner posStart;
     private JSpinner posEnd;
     private String errorMessage;
@@ -39,33 +37,6 @@ public class CreateStudent extends Form {
         for (Degree degree : Controller.getDegrees()) {
             degreeCombo.addItem(degree.getDegreeCode());
         }
-
-        degreeCombo.addItemListener(e -> {
-            degreeLevelCombo.removeAllItems();
-            for (Degree degree : Controller.getDegrees()) {
-                if (degree.getDegreeCode().equals(e.getItem()) && degree.hasPlacementYear()) {
-                    if (degree.isMasters()) {
-                        for (int i = 1; i < 4; i++) {
-                            degreeLevelCombo.addItem(i);
-                        }
-                        degreeLevelCombo.addItem("Placement Year");
-                        degreeLevelCombo.addItem("4");
-                    } else {
-                        for (int i = 1; i < 3; i++) {
-                            degreeLevelCombo.addItem(i);
-                        }
-                        degreeLevelCombo.addItem("Placement Year");
-                        degreeLevelCombo.addItem("3");
-                    }
-                } else if (degree.getDegreeCode().equals(e.getItem()) && degree.isMasters()) {
-                    for (int i = 1; i < 5; i++)
-                        degreeLevelCombo.addItem(i);
-                } else if (degree.getDegreeCode().equals(e.getItem())) {
-                    for (int i = 1; i < 4; i++)
-                        degreeLevelCombo.addItem(i);
-                }
-            }
-        });
 
         posStart.setModel(new SpinnerDateModel(Calendar.getInstance().getTime(),
                 null, null, Calendar.DAY_OF_WEEK));
@@ -96,7 +67,7 @@ public class CreateStudent extends Form {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(15, 5, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(14, 5, new Insets(0, 0, 0, 0), -1, -1));
         final JLabel label1 = new JLabel();
         label1.setText("Student No.");
         panel1.add(label1, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -134,34 +105,31 @@ public class CreateStudent extends Form {
         panel1.add(degreeCombo, new GridConstraints(8, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label7 = new JLabel();
         label7.setText("Initial Password");
-        panel1.add(label7, new GridConstraints(12, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(label7, new GridConstraints(11, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         initPassword = new JPasswordField();
         initPassword.setText("");
         initPassword.setToolTipText("Psswords must be between 8-16 characters long. \nThey must contain at least: 1 Capital letter, \n1 Lower case letter, 1 Number, 1 Special Character");
-        panel1.add(initPassword, new GridConstraints(12, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel1.add(initPassword, new GridConstraints(11, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label8 = new JLabel();
         label8.setText("Confirm Password");
-        panel1.add(label8, new GridConstraints(13, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(label8, new GridConstraints(12, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         confirmPassword = new JPasswordField();
         confirmPassword.setToolTipText("Psswords must be between 8-16 characters long. \nThey must contain at least: 1 Capital letter, \n1 Lower case letter, 1 Number, 1 Special Character");
-        panel1.add(confirmPassword, new GridConstraints(13, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel1.add(confirmPassword, new GridConstraints(12, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         addStudentButton = new JButton();
         addStudentButton.setText("Add Student");
-        panel1.add(addStudentButton, new GridConstraints(14, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(addStudentButton, new GridConstraints(13, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label9 = new JLabel();
-        label9.setText("Degree Level");
+        label9.setText("Period of Study Start Date");
         panel1.add(label9, new GridConstraints(9, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label10 = new JLabel();
-        label10.setText("Period of Study Start Date");
+        label10.setText("Period of Study End Date");
         panel1.add(label10, new GridConstraints(10, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label11 = new JLabel();
-        label11.setText("Period of Study End Date");
-        panel1.add(label11, new GridConstraints(11, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final JLabel label12 = new JLabel();
-        label12.setText("Add a Student");
-        panel1.add(label12, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label11 = new JLabel();
+        label11.setText("Add a Student");
+        panel1.add(label11, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         panel1.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
@@ -170,13 +138,11 @@ public class CreateStudent extends Form {
         panel1.add(spacer4, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         cancelButton = new JButton();
         cancelButton.setText("Cancel");
-        panel1.add(cancelButton, new GridConstraints(14, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        degreeLevelCombo = new JComboBox();
-        panel1.add(degreeLevelCombo, new GridConstraints(9, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(cancelButton, new GridConstraints(13, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         posStart = new JSpinner();
-        panel1.add(posStart, new GridConstraints(10, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(posStart, new GridConstraints(9, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         posEnd = new JSpinner();
-        panel1.add(posEnd, new GridConstraints(11, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(posEnd, new GridConstraints(10, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -196,7 +162,6 @@ public class CreateStudent extends Form {
             String surname = studentSurname.getText();
             String pTutor = studentTutor.getText();
             String degCode = "";
-            String degLevel = "";
             String startDate = dateFormat.format(posStart.getValue());
             String endDate = dateFormat.format(posEnd.getValue());
             String password = new String(initPassword.getPassword());
@@ -205,18 +170,14 @@ public class CreateStudent extends Form {
             if (degreeCombo.getSelectedItem() == null) {
                 errorMessage = "Please select degree.";
                 JOptionPane.showMessageDialog(getFrame(), errorMessage);
-            } else if (degreeLevelCombo.getSelectedItem() == null) {
-                errorMessage = "Please select a degree level.";
-                JOptionPane.showMessageDialog(getFrame(), errorMessage);
             } else {
                 degCode = degreeCombo.getSelectedItem().toString();
-                degLevel = degreeLevelCombo.getSelectedItem().toString();
                 //Run our controller testing function
                 errorMessage = Controller.checkInputStudent(studNo, forename, surname, pTutor, password, passwordConfirm, Main.getPriv());
                 if (errorMessage.equals("Accepted")) {
                     //Save everything! - email is auto generated and degree level always starts at A
                     //Also not hashing passwords.  this needs a fix asap
-                    Controller.saveStudent(Integer.parseInt(studNo), password, title, forename, surname, pTutor, Controller.generateEmail(forename, surname), degCode, degLevel, "A", startDate, endDate);
+                    Controller.saveStudent(Integer.parseInt(studNo), password, title, forename, surname, pTutor, Controller.generateEmail(forename, surname), degCode, "1", "A", startDate, endDate);
                     System.out.println("assigning core modules");
                     Controller.assignCoreModules(Integer.parseInt(studNo), "1");
                     changeJPanel(new ManageStudents(getFrame()).getJPanel());
