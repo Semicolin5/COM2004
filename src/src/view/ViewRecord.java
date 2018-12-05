@@ -3,6 +3,7 @@ package src.view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import jdk.nashorn.internal.scripts.JO;
 import src.controller.Controller;
 import src.controller.Main;
 import src.objects.Grade;
@@ -328,43 +329,45 @@ public class ViewRecord extends Form {
                     System.out.println("\n~~controlflow~~");
                     System.out.println("average: " + average + ", failedModules size: " + failedModules.size());
 
-                    // control flow to work out students progression to next period of study
+                    //Normal pass
                     if (average >= minPassGrade && (failedModules.size() == 0)) {
-                        // pass normally
+                        //If they are graduating
                         if (Controller.checkFinalYear(username, latestPOS)) {
-                            System.out.println("graduated :)");
+                            String graduateMessage = Controller.getDegreeClass(Controller.getPeriodsOfStudyForStudent(username));
+                            JOptionPane.showMessageDialog(getFrame(), "Student graduates with a " + graduateMessage);
+                        //Otherwise, move them on to the next year
                         } else {
                             ProgressionDialog rdd = new ProgressionDialog(latestPOS, false);
-                        }
-                    } else if (average < minPassGrade || (failedModules.size() > 1)) {
-
-                        // check that they are not in fourth year. If they are they are not allowed to repeat
-                        if (latestPOS.getLevelOfStudy().equals("4")){
-                            // String graduateMessage = Controller.getGrduatioatio TODO
-                            JOptionPane.showMessageDialog(getFrame(), "Achieved a: ");
-                        } else if (failedModules.get(0).getRepeated()) {
-                            //Put the student on a repeat year
-                            JOptionPane.showMessageDialog(getFrame(), "Student fails and cannot repeat because " +
-                                    "have already repeated this level.");
-                        } else {
-                            ProgressionDialog rdd = new ProgressionDialog(latestPOS,true);
                             rdd.pack();
                             rdd.setVisible(true);
                         }
-
-                        System.out.println("User has failed this year system finds out what to do."); //
-                        failStudent();
+                    //Failed the year
+                    } else if (average < minPassGrade || (failedModules.size() > 1)) {
+                        //If they are in the 4th year, they immediately graduate
+                        if (latestPOS.getLevelOfStudy().equals("4")) {
+                            String graduateMessage = Controller.getDegreeClass(Controller.getPeriodsOfStudyForStudent(username));
+                            JOptionPane.showMessageDialog(getFrame(), "Achieved a: " + graduateMessage);
+                        //If they've failed a repeat year
+                        } else if (failedModules.get(0).getRepeated()) {
+                            JOptionPane.showMessageDialog(getFrame(), "Student fails and cannot repeat because " +
+                                    "they have already repeated this level.");
+                        //Otherwise, create a repeat year
+                        } else {
+                            ProgressionDialog rdd = new ProgressionDialog(latestPOS, true);
+                            rdd.pack();
+                            rdd.setVisible(true);
+                        }
+                    //Conceded pass
                     } else if (failedModules.size() == 1) {
-                        System.out.println("Conceded Pass Check");
                         if (concededPassCheck(failedModules.get(0), minPassGrade)) {
-                            System.out.println("collin's function");
-                            // collins functions
+                            ProgressionDialog rdd = new ProgressionDialog(latestPOS, false);
+                            rdd.pack();
+                            rdd.setVisible(true);
                         }
                     }
 
                 } else {
-                    // TODO make a popup
-                    System.out.println("Error, User Doesn't Take Enough Modules");
+                    JOptionPane.showMessageDialog(getFrame(), "User not taking enough modules");
                 }
             }
         }
@@ -380,24 +383,6 @@ public class ViewRecord extends Form {
         periodComboBox.removeAllItems();
         for (PeriodOfStudy pos : Controller.getPeriodsOfStudyForStudent(loginID)) {
             periodComboBox.addItem(pos.getLabel());
-        }
-    }
-
-    /**
-     * FailStudent method handles GUI when the student fails.
-     */
-    private void failStudent() {
-        List<Grade> grades = Controller.getStudentsGradeAtPeriod(username, latestPOS.getLabel());
-        if (grades.get(0).getRepeated()) {
-            System.out.println("FAIL");
-        } else {
-            // works out what happens if the student has not already repeated a year.
-            if (latestPOS.getLevelOfStudy().equals(4))
-                System.out.println("Graduate with equivalent bachelors with credits already obtained");
-                // TODO graduation method.
-            else {
-                JOptionPane.showMessageDialog(getFrame(), "Student registered for resit year.");
-            }
         }
     }
 
