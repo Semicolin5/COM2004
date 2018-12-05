@@ -76,17 +76,6 @@ public class DatabaseHandler{
     }
 
     /**
-     * findDrivers method from lecture 9
-     * All JDBC drivers are automatically loaded at startup if on classpath.buildpath
-     * This function checks that the driver is loaded.
-     * */
-    public void checkDriverExists(){
-        Enumeration<Driver> list = DriverManager.getDrivers();
-        while (list.hasMoreElements())
-            System.out.println(list.nextElement());
-    }
-
-    /**
      * Utility method that releases JDBC resource by closing a Connection
      * object.
      * */
