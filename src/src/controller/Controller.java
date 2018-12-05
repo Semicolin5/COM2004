@@ -661,7 +661,7 @@ public class Controller {
 				sum = level2 * 0.3333333f + level3 * 0.666666f;
 			} else {
 				sum = level2 * 0.2f + level3 * 0.4f + level4 * 0.4f;
-				PeriodOfStudy latestPeriod = periods.get(periods.size());
+				PeriodOfStudy latestPeriod = periods.get(periods.size() - 1);
 				grades = Controller.getStudentsGradeAtPeriod(Integer.parseInt(latestPeriod.getLoginID()),
 						latestPeriod.getLabel());
 
