@@ -172,49 +172,7 @@ public class RetrieveQueries extends Queries {
         }
         return table;
     }
-    
-    public List<String> retrieveDepartmentsModules(String depCode) {
-        List<String> modules = new ArrayList<>();
-        PreparedStatement pstmt = null;
-        ResultSet res = null;
-        try {
-            pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ?");
-            pstmt.setString(1, depCode);
-            res = pstmt.executeQuery();
-            while (res.next()) {
-                modules.add(res.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeResources(pstmt, res);
-        }
-        
-        return modules;
-    }
-    
-    public List<String> retrieveDepartmentCoreModulesForLOS(String depCode, String pos) {
-        List<String> modules = new ArrayList<>();
-        PreparedStatement pstmt = null;
-        ResultSet res = null;
-        try {
-            pstmt = conn.prepareStatement("SELECT module_code FROM module_degree WHERE degree_code = ? AND core = true AND  ");
-            pstmt.setString(1, depCode);
-            res = pstmt.executeQuery();
-            while (res.next()) {
-                modules.add(res.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeResources(pstmt, res);
-        }
-        
-        return modules;
-    }
-    
-    
-    
+
     public List<ModuleDegree> retrieveModuleLinkDegreeTable() {
         List<ModuleDegree> moduleDegreeTable = new ArrayList<>();
         PreparedStatement pstmt = null;
@@ -235,41 +193,6 @@ public class RetrieveQueries extends Queries {
         }
     	return moduleDegreeTable;
     }
-    
-    
-    /**
-     * retrieveModulesForDegreeLevel, takes a degree code and a level of study and returns a list of associated modules
-     * @param degCode String, the degree code of the modules we want to return
-     * @param level String, the level of study we want to select modules on
-     * @return List<ModuleDegree>, the list of modules linked to the given degree at the given level
-     */
-    public List<ModuleDegree> retrieveModulesForDegreeLevel(String degCode, String level) {
-        List<ModuleDegree> moduleDegreeTable = new ArrayList<>();
-        PreparedStatement pstmt = null;
-        ResultSet res = null;
-        try {
-     	   pstmt = conn.prepareStatement("SELECT * FROM module_degree");
-            res = pstmt.executeQuery();
-            while (res.next()) {
-         	   moduleDegreeTable.add(new ModuleDegree(res.getString(1), res.getString(2),
-                res.getString(3), res.getBoolean(4)));
-            }
-        }
-        catch (SQLException e) {
-     	   e.printStackTrace();
-        }
-        finally {
-     	   closeResources(pstmt, res);
-        }
-    	return moduleDegreeTable;
-    }
-    
-    
-    
-    
-    
-    
-    
 
     /**
      * retrievePeriodOfStudyForStudent finds all the periods that a targeted student has experienced.

@@ -240,9 +240,6 @@ public class CreateModule extends Form {
      * Also adds a row to the core table for each degree level which this module is approved for.
      */
     public class CreateModuleHandler implements ActionListener {
-        private ArrayList<String> storedDegs = new ArrayList<String>();
-
-        @Override
         public void actionPerformed(ActionEvent e) {
             String modCode = moduleCode.getText();
             String modName = moduleName.getText();
