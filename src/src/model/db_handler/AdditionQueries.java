@@ -74,7 +74,6 @@ public class AdditionQueries extends Queries {
     public void addDegree(String code, String name, boolean masters, boolean yearIndustry) {
         PreparedStatement pstmt = null;
         try {
-            System.out.println(name + masters + code + yearIndustry);
             db.enableACID();
             pstmt = super.conn.prepareStatement("INSERT INTO degree VALUES (?,?,?,?)");
             pstmt.setString(1, code);
