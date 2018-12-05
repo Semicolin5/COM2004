@@ -40,7 +40,6 @@ public class RemovalQueries extends Queries {
      * @param code String that represents the degrees code, used to identify what degree to delete.
      * */
     public void removeDegree(String code) {
-       PreparedStatement pstmt = null;
        try {
            db.enableACID();
            removeRowWhere("degree_department", "degree_code", code);

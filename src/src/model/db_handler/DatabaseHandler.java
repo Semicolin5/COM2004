@@ -11,11 +11,10 @@ import java.util.*;
 public class DatabaseHandler{
 
     // JDBC driver name and database URL
-    final String DB_URL = "jdbc:mysql://localhost:3306/db";
-
+    final String DB_URL = "jdbc:mysql://stusql.dcs.shef.ac.uk/team018";
     //  Database credentials
-    final String USER = "root";
-    final String PASS = ""; // default password for mysql is empty
+    final String USER = "team018";
+    final String PASS = "bc71d109"; // default password for mysql is empty
     private int privLevel = 0;
 
     private Connection conn;
@@ -55,11 +54,10 @@ public class DatabaseHandler{
     }
 
     /**
-     * Accessor method for priviledge level
+     * Accessor method for privilege level
      * */
     public int getPrivLevel() { return privLevel;}
 
-    public void setPrivLevel(int priv) { privLevel = priv; }
     /**
      * Method is called when a transaction may have failed. First checks connection, then rolls back
      * if database must revert.
@@ -72,17 +70,6 @@ public class DatabaseHandler{
         catch  (SQLException e){
             e.printStackTrace();
         }
-    }
-
-    /**
-     * findDrivers method from lecture 9
-     * All JDBC drivers are automatically loaded at startup if on classpath.buildpath
-     * This function checks that the driver is loaded.
-     * */
-    public void checkDriverExists(){
-        Enumeration<Driver> list = DriverManager.getDrivers();
-        while (list.hasMoreElements())
-            System.out.println(list.nextElement());
     }
 
     /**

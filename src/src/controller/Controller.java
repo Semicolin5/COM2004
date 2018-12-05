@@ -134,11 +134,6 @@ public class Controller {
 		return retrieveQ.retrieveStudent(loginID);
 	}
 
-    public static List<PeriodOfStudy> getPeriodsOfStudy() {
-		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-		return retrieveQ.retrievePeriodOfStudyTable();
-	}
-
 	public static PeriodOfStudy getLatestPeriodOfStudy(int loginID) {
 		RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
 		return retrieveQ.retrieveLatestPeriodOfStudy(loginID);
@@ -149,27 +144,11 @@ public class Controller {
 		return retrieveQ.retrieveStudentsModules(loginID);
 	}
 
-	/**
-     * getStudentModuleGrades is used by the Teacher to obtain the initial, resit, and repeat percents for a
-     * module a student took. This information is encapsulated in a List that contains Grade objects for a student
-     * and the module.
-     * @param loginID, int representing the targeted user
-     * @param moduleCode, String representing the module
-     * @return List<Grade>, maximum size of two items, repeat Grade and initial Grade, in that order.
-     * */
-	public static List<Grade> getStudentModuleGrades(int loginID, String moduleCode) {
-	    RetrieveQueries retrieveQ = new RetrieveQueries(Main.getDB());
-	    return retrieveQ.retrieveStudentsModuleGrade(loginID, moduleCode);
-	}
-
     public static void removeModule(String code) {
         RemovalQueries removalQ = new RemovalQueries(Main.getDB());
         removalQ.removeModule(code);
     }
 
-    
-    
-    
     /**
      * getPeriodsOfStudent
      * @param studentID int, the login id for a student
