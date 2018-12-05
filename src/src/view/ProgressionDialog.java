@@ -90,7 +90,7 @@ public class ProgressionDialog extends JDialog {
                     currentPOS.getLevelOfStudy());
             Controller.assignRepeatModules(studentID);
         } else {
-            Controller.progressPassedStudent(studentID, currentPOS);
+            Controller.progressPassedStudent(studentID, currentPOS, startDate, endDate);
         }
 
 

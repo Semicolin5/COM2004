@@ -1,11 +1,8 @@
 package src.controller;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ResultTreeType;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import src.model.db_handler.*;
 import src.objects.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import src.model.*;
@@ -585,7 +582,6 @@ public class Controller {
      * Get the sum of credits of all modules a student is taking during the latest POS
      * @param loginID, int representing the selected student
      * @return int of the sum of all the credits in the modules that they take
-     * //TODO what to do with a null user
      */
 	public static int getCreditsAssignedToLatestPOS(int loginID) {
 	    int creditSum = 0;
@@ -779,7 +775,7 @@ public class Controller {
 	 * progressPassedStudent, takes .... and decides how a student should be progressed
 	 * @param studentID int, the ID of the student we want to progress
 	 */
-	public static void progressPassedStudent(int studentID, PeriodOfStudy periodStudyObj) {
+	public static void progressPassedStudent(int studentID, PeriodOfStudy periodStudyObj, String newStartDate, String newEndDate) {
 		//Pull out the students related degree so we can see if they are masters or not
 		Student studObj = getStudent(studentID);
 		Degree degObj = getDegree(studObj.getDegreeCode());
@@ -787,9 +783,6 @@ public class Controller {
         //Progress for all levels here we go
         char newLabel = periodStudyObj.getLabel().charAt(0);
         newLabel++;
-        //TODO - update to new dates by 1 year
-        String newStartDate = periodStudyObj.getStartDate().toString(); //+1 year
-        String newEndDate = periodStudyObj.getStartDate().toString(); //+1 year
 
         //We check which period of study we should update to
         if (periodStudyObj.getLevelOfStudy().equals("1")) {
