@@ -658,9 +658,9 @@ public class Controller {
 			List<Grade> grades = null;
 			float sum = 0;
 			if (level4 == 0) {
-				sum = level2 * (1 / 3) + level3 * (2 / 3);
+				sum = level2 * 0.3333333f + level3 * 0.666666f;
 			} else {
-				sum = level2 * (1 / 5) + level3 * (2 / 5) + level4 * (2 / 5);
+				sum = level2 * 0.2f + level3 * 0.4f + level4 * 0.4f;
 				PeriodOfStudy latestPeriod = periods.get(periods.size());
 				grades = Controller.getStudentsGradeAtPeriod(Integer.parseInt(latestPeriod.getLoginID()),
 						latestPeriod.getLabel());
@@ -812,22 +812,22 @@ public class Controller {
             assignCoreModules(studentID, "3");
         }
         //Level 3, is masters and placement
-        else if (periodStudyObj.getLabel().equals("3") && degObj.isMasters() && degObj.hasPlacementYear()) {
+        else if (periodStudyObj.getLevelOfStudy().equals("3") && degObj.isMasters() && degObj.hasPlacementYear()) {
             addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "P");
             assignCoreModules(studentID, "P");
         }
         //If not progress normally
-        else if (periodStudyObj.getLabel().equals("3")) {
+        else if (periodStudyObj.getLevelOfStudy().equals("3")) {
             addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "4");
             assignCoreModules(studentID, "4");
         }
         //Check if we are an undergrad and on placement
-        else if (periodStudyObj.getLabel().equals("P") && !degObj.isMasters()) {
+        else if (periodStudyObj.getLevelOfStudy().equals("P") && !degObj.isMasters()) {
             addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "3");
             assignCoreModules(studentID, "3");
         }
         //Check if we are a masters and on placement
-        else if (periodStudyObj.getLabel().equals("P") && degObj.isMasters()) {
+        else if (periodStudyObj.getLevelOfStudy().equals("P") && degObj.isMasters()) {
             addPeriodOfStudy(studentID, Character.toString(newLabel), newStartDate, newEndDate, "4");
             assignCoreModules(studentID, "4");
         }
