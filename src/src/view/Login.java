@@ -107,7 +107,6 @@ public class Login extends Form {
     public class LoginHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             String loginID = textField1.getText();
-            //TODO operate directly on char arrays, converting to string is insecure
             String password = new String(passwordField1.getPassword());
             loginMessage = Controller.checkLogin(loginID, password);
             password = ""; //Clears up old the password so it can be garbage collected

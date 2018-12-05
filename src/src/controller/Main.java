@@ -48,7 +48,7 @@ public class Main {
     
     public static int getLoginID() {
     	if (user == null) {
-    		return 0;//TODO maybe fix this so it throws an Exception
+    		return 0;
     	}
     	else {
     		return user.getLogin();

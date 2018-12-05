@@ -24,11 +24,4 @@ public class Department {
      * */
     public String getCode() {return code;}
     public String getName() {return name;}
-
-    // TODO remove this after testing is done
-    public String toString() {
-        String s = name;
-        return s;
-    }
-
 }

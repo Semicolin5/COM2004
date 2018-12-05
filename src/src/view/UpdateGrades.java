@@ -133,7 +133,7 @@ public class UpdateGrades extends Form {
 
             modList = Controller.getStudentsGradeAtPeriod(loginID, latestPeriod);
 
-            //If one module is a repeat, all of them will be  TODO test this bad boy when the databse scheme is full
+            //If one module is a repeat, all of them will be
             if (modList.size() > 0) {
                 repeatedLevel = modList.get(0).getRepeated();
             }
@@ -199,7 +199,6 @@ public class UpdateGrades extends Form {
 
     /**
      * UpdateButtonHandler deals with when the Teacher wants to edit a students Grade.
-     * TODO Edward seems strange that Teacher would be able to edit the initial and resit grade results for a module in a previous period?!!
      */
     private class UpdateButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {

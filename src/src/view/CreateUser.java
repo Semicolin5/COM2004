@@ -165,8 +165,4 @@ public class CreateUser extends Form {
             changeJPanel(new ManageUsers(getFrame()).getJPanel());
         }
     }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 }

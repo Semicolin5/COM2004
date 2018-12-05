@@ -159,18 +159,16 @@ public class RetrieveQueries extends Queries {
         List<Module> table = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet res = null;
-        if (!super.isTableEmpty("module")) {
-            try {
-                pstmt = conn.prepareStatement("SELECT * FROM module");
-                res = pstmt.executeQuery();
-                while (res.next()) {
-                    table.add(new Module(res.getString(1), res.getString(2), res.getInt(3), res.getInt(4)));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                closeResources(pstmt, res);
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM module");
+            res = pstmt.executeQuery();
+            while (res.next()) {
+                table.add(new Module(res.getString(1), res.getString(2), res.getInt(3), res.getInt(4)));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(pstmt, res);
         }
         return table;
     }

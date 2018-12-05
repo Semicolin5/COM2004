@@ -132,7 +132,7 @@ public class ManageDegrees extends Form {
      */
     private class DeleteDegreesHandler implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            for (Object code : degreeList.getSelectedValuesList()) { //TODO change this
+            for (Object code : degreeList.getSelectedValuesList()) {
                 if (!Controller.removeDegree((String) code)) {
                     JOptionPane.showMessageDialog(getFrame(), "The current degree is not allowed to be deleted until " +
                             "there are no students or modules affiliated with the degree");

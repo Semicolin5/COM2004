@@ -48,13 +48,4 @@ public class Degree {
     public Department getLeadDepartment(){
        return lead;
     }
-   // TODO make ones for department too
-
-    /**
-     * toString method //TODO remove aafter testing
-     * */
-    public String toString() {
-        String s = "Code: " + degreeCode + ", Name: " + degreeName + ", Lead Dep: " + lead.toString();
-        return s;
-    }
 }

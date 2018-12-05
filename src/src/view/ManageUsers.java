@@ -38,7 +38,7 @@ public class ManageUsers extends Form {
 
         //loops through users in database and adds all of their loginIDs to the JList.
         for (User user : Controller.getUsers()) {
-            userModel.addElement(String.valueOf(user.getLogin()));//TODO FIX THIS: +user.getPriv() + " " + String.valueOf(user.getLogin()));
+            userModel.addElement(String.valueOf(user.getLogin()));
         }
         userList.setLayoutOrientation(JList.VERTICAL);
         userList.setModel(userModel);
