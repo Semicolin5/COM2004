@@ -12,18 +12,27 @@ import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class RepeatDatesDialog extends JDialog {
+/**
+ * ProgressionDialog.java is responsible for the popup form where the teacher adds the new Dates for a student's new
+ * period of study. It also progresses the student in the database, moving when repeating a year to the next
+ * period of study
+ * */
+public class ProgressionDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JSpinner startDateSpinner;
     private JSpinner endDateSpinner;
-
+    private boolean repeated;
     private PeriodOfStudy currentPOS;
 
-    public RepeatDatesDialog(PeriodOfStudy currentPOS) {
-        this.currentPOS = currentPOS;
+    /**
+     * ProgressionDialog is a constructor method that builds the pop up box.
+     * */
+    public ProgressionDialog(PeriodOfStudy currentPOS, boolean repeated) {
 
+        this.currentPOS = currentPOS;
+        this.repeated = repeated;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -71,15 +80,19 @@ public class RepeatDatesDialog extends JDialog {
         char newLabel = currentPOS.getLabel().charAt(0);
         newLabel++;
 
+        int studentID = Integer.parseInt(currentPOS.getLoginID());
         String startDate = dateFormat.format(startDateSpinner.getValue());
         String endDate = dateFormat.format(endDateSpinner.getValue());
 
-        Controller.addPeriodOfStudy(Integer.valueOf(currentPOS.getLoginID()),
-                String.valueOf(newLabel), startDate, endDate,
-                currentPOS.getLevelOfStudy());
+        if (repeated) {
+            Controller.addPeriodOfStudy(Integer.valueOf(currentPOS.getLoginID()),
+                    String.valueOf(newLabel), startDate, endDate,
+                    currentPOS.getLevelOfStudy());
+            Controller.assignRepeatModules(studentID);
+        } else {
+            Controller.progressPassedStudent(studentID, currentPOS);
+        }
 
-        int studentID = Integer.parseInt(currentPOS.getLoginID());
-        Controller.assignRepeatModules(studentID);
 
 
         dispose();
