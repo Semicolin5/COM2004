@@ -28,16 +28,6 @@ abstract class Queries {
     }
 
     /**
-     * Finds out if a table is empty, returning boolean of the result
-     * @param name String of the table name to search
-     * @return bool of whether empty  or not
-     * */
-    public boolean isTableEmpty(String name) {
-        // TODO make this method
-        return false; // for now assume no empty tables
-    }
-
-    /**
      * Utility method that releases JDBC resources
      * Closes resources in order of pstmt first, followed by result set.
      * @param pstmt is a PreparedStatement object that is to be closed

@@ -32,8 +32,4 @@ public class Module {
     public String getName() { return name; }
     public int getCredits() { return credits; }
     public int getSemester() { return semester;}
-
-    //TODO remove this later, currently just for testing
-    public String toString() {return (code + ", " + name + "," + credits);}
-
 }

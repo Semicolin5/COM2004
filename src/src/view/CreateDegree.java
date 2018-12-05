@@ -169,8 +169,6 @@ public class CreateDegree extends Form {
         private boolean hasLead = false;
         private ArrayList<String> storedDeps = new ArrayList<>();
 
-        //TODO Have error messages return
-        @Override
         public void actionPerformed(ActionEvent e) {
             String depCode = departmentCombo.getSelectedItem().toString();
             String leadStatus = leadCombo.getSelectedItem().toString();
@@ -205,7 +203,6 @@ public class CreateDegree extends Form {
     public class CreateDegreeHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO check which button has actually been pressed
             String degCode = degreeCode.getText();
             String degName = degreeName.getText();
             boolean masters = mastersCombo.getSelectedItem().toString().equals("Masters");

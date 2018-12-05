@@ -17,7 +17,6 @@ public class GUIFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setSize(1200,600);
-        //TODO: Change the setSize to be relative to screen size?
         setLocationRelativeTo(null);
         setTitle("");
 
@@ -38,9 +37,4 @@ public class GUIFrame extends JFrame {
         getContentPane().add(currentPanel);
         getContentPane().setVisible(true);
     }
-    
-    public void privCheck() {
-    	//TODO get it to check if you're actually logged in or not
-    }
-
 }
