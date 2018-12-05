@@ -60,23 +60,21 @@ public class RemovalQueries extends Queries {
      * @param code String that represents the modules code, used to identify the row to delete
      * */
     public void removeModule(String code) {
-        if (true) { // TODO implement privilege check
-            try {
+        try {
 
-                db.enableACID();
-                // first delete all rows from grades table that refers to the module
-                removeRowWhere("grades", "module_code", code);
-                // secondly, delete all rows from the core table that refers to the module
-                removeRowWhere("module_degree", "module_code", code);
-                // then delete the row from the module table
-                removeRowWhere("module", "module_code", code);
-                super.conn.commit();
-                db.disableACID();
+            db.enableACID();
+            // first delete all rows from grades table that refers to the module
+            removeRowWhere("grades", "module_code", code);
+            // secondly, delete all rows from the core table that refers to the module
+            removeRowWhere("module_degree", "module_code", code);
+            // then delete the row from the module table
+            removeRowWhere("module", "module_code", code);
+            super.conn.commit();
+            db.disableACID();
 
-            } catch (SQLException e) {
-                super.db.rollBack();
-                e.printStackTrace();
-            }
+        } catch (SQLException e) {
+            super.db.rollBack();
+            e.printStackTrace();
         }
     }
 
@@ -112,76 +110,65 @@ public class RemovalQueries extends Queries {
      *      4) deletes the student's row in the user table.
      * */
     public void removeStudent(int loginID) {
-        if (true) { // TODO implement the privilege check so only privilege 3/4 can access this method
-            PreparedStatement pstmtRemoveGrades = null;
-            PreparedStatement pstmtRemovePoS = null;
-            PreparedStatement pstmtRemoveStudent = null;
-            PreparedStatement pstmtRemoveUser =null;
-            try {
-
-                db.enableACID();
-                pstmtRemoveGrades = super.conn.prepareStatement("DELETE FROM grades WHERE login_id = ?");
-                pstmtRemoveGrades.setInt(1, loginID);
-                pstmtRemoveGrades.executeUpdate();
-                pstmtRemovePoS = super.conn.prepareStatement("DELETE FROM period_of_study WHERE login_id = ?");
-                pstmtRemovePoS.setInt(1, loginID);
-                pstmtRemovePoS.executeUpdate();
-                pstmtRemoveStudent = super.conn.prepareStatement("DELETE FROM student WHERE login_id = ?");
-                pstmtRemoveStudent.setInt(1, loginID);
-                pstmtRemoveStudent.executeUpdate();
-                pstmtRemoveUser = super.conn.prepareStatement("DELETE FROM users WHERE login_id = ?");
-                pstmtRemoveUser.setInt(1, loginID);
-                pstmtRemoveUser.executeUpdate();
-                super.conn.commit();
-                db.disableACID();
-
-                pstmtRemoveGrades.close(); // releasing resource
-                pstmtRemovePoS.close();
-            } catch (SQLException e) {
-                super.db.rollBack(); // maintains ACID if failure in query
-                e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmtRemoveGrades);
-                closePreparedStatement(pstmtRemovePoS);
-                closePreparedStatement(pstmtRemoveStudent);
-                closePreparedStatement(pstmtRemoveUser);
-            }
+        PreparedStatement pstmtRemoveGrades = null;
+        PreparedStatement pstmtRemovePoS = null;
+        PreparedStatement pstmtRemoveStudent = null;
+        PreparedStatement pstmtRemoveUser =null;
+        try {
+            db.enableACID();
+            pstmtRemoveGrades = super.conn.prepareStatement("DELETE FROM grades WHERE login_id = ?");
+            pstmtRemoveGrades.setInt(1, loginID);
+            pstmtRemoveGrades.executeUpdate();
+            pstmtRemovePoS = super.conn.prepareStatement("DELETE FROM period_of_study WHERE login_id = ?");
+            pstmtRemovePoS.setInt(1, loginID);
+            pstmtRemovePoS.executeUpdate();
+            pstmtRemoveStudent = super.conn.prepareStatement("DELETE FROM student WHERE login_id = ?");
+            pstmtRemoveStudent.setInt(1, loginID);
+            pstmtRemoveStudent.executeUpdate();
+            pstmtRemoveUser = super.conn.prepareStatement("DELETE FROM users WHERE login_id = ?");
+            pstmtRemoveUser.setInt(1, loginID);
+            pstmtRemoveUser.executeUpdate();
+            super.conn.commit();
+            db.disableACID();
+            pstmtRemoveGrades.close(); // releasing resource
+            pstmtRemovePoS.close();
+        } catch (SQLException e) {
+            super.db.rollBack(); // maintains ACID if failure in query
+            e.printStackTrace();
+        } finally {
+            closePreparedStatement(pstmtRemoveGrades);
+            closePreparedStatement(pstmtRemovePoS);
+            closePreparedStatement(pstmtRemoveStudent);
+            closePreparedStatement(pstmtRemoveUser);
         }
     }
 
     /**
-     * removeStudentsModuleChoice takes two parameters, a student, and the module they need to drop.
+     * removeGrades takes two parameters, a student, and the module they need to drop.
      * This is to be used by registrars so that they can drop modules on behalf of the student. Is also accessible
      * for the student whose grade will be dropped.
      * @param login_id int representing the student whose module choice is being dropped
      * @param module_code String representing the module that the student will drop.
      * */
-    public void removeStudentsModuleChoice(int login_id, String module_code) {
-        if (true) { //TODO sort out the privilege check for this (bearing in mind that students can also do this if it is their module)
-
+    public void removeGrades(int login_id, String module_code, String label) {
             PreparedStatement pstmt = null;
             try{
-
                 db.enableACID();
-                pstmt = super.conn.prepareStatement("DELETE FROM grades WHERE login_id=? AND module_code=?");
+                pstmt = super.conn.prepareStatement("DELETE FROM grades WHERE login_id=? AND module_code=? AND label=?");
                 pstmt.setInt(1, login_id);
                 pstmt.setString(2, module_code);
+                pstmt.setString(3, label);
                 pstmt.executeUpdate();
                 db.disableACID();
-
             } catch (SQLException e) {
-               db.rollBack(); // rolls back if there is a problem
-               e.printStackTrace();
+                db.rollBack(); // rolls back if there is a problem
+                e.printStackTrace();
             } finally {
                 closePreparedStatement(pstmt); // release resources
             }
-
-        }
     }
 
-    // helper methods
-
-     /**
+    /**
      * Removes rows from table where condition is met. Shouldn't be called directly.
      * Removes grade row completely from the database given a column and variable
      * @param table String describing the table containing the row(s) to delete
@@ -204,30 +191,4 @@ public class RemovalQueries extends Queries {
         }
     }
 
-    /**
-     * removeStudentsModuleChoice takes two parameters, a student, and the module they need to drop.
-     * This is to be used by registrars so that they can drop modules on behalf of the student. Is also accessible
-     * for the student whose grade will be dropped.
-     * @param login_id int representing the student whose module choice is being dropped
-     * @param module_code String representing the module that the student will drop.
-     * */
-    public void removeGrades(int login_id, String module_code, String label) {
-
-            PreparedStatement pstmt = null;
-            try{
-                db.enableACID();
-                pstmt = super.conn.prepareStatement("DELETE FROM grades WHERE login_id=? AND module_code=? AND label=?");
-                pstmt.setInt(1, login_id);
-                pstmt.setString(2, module_code);
-                pstmt.setString(3, label);
-                pstmt.executeUpdate();
-                db.disableACID();
-            } catch (SQLException e) {
-                db.rollBack(); // rolls back if there is a problem
-                e.printStackTrace();
-            } finally {
-                closePreparedStatement(pstmt); // release resources
-            }
-
-    }
 }

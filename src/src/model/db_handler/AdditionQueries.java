@@ -3,17 +3,20 @@ package src.model.db_handler;
 import java.sql.*;
 
 /**
- * AdditionQueries class stores methods that make addition queries with the SQL server.
+ * AdditionQueries.java class stores methods that make addition queries with the SQL server.
+ * Extends Queries.java class
  * */
-public class AdditionQueries extends Queries{
+public class AdditionQueries extends Queries {
 
-    // Requires conn to execute SQL queries with the database
-    // constructor is passed a DatabaseHandler object from which it obtains the Connection object
+    /**
+     * Requires conn to execute SQL queries with the database
+     * constructor is passed a DatabaseHandler object from which it obtains the Connection object
+     * */
     public AdditionQueries (src.model.db_handler.DatabaseHandler db) {
         super(db);
     }
 
-    /* *
+    /**
      * Add Department Query - only accessible for Administrators (privilege level 4)
      * @param code is String of 3 characters representing the degree
      * @param desc is String describing the degree (maxlength 100).
@@ -119,7 +122,16 @@ public class AdditionQueries extends Queries{
      * Add Students Query - only accessible for Registrars (privilege level 3)
      * Adds first to the users database table, then to the student table
      * using ACID to ensure that there is no possibility of inconsistency.
-     * */
+     * @param loginId, int representing the student
+     * @param password, String of the students password
+     * @param salt, String of the salt used in hashing the students password
+     * @param title, String of the student's title, either Mr/Ms
+     * @param forename, String of the student's forename
+     * @param surname, String of the student's surname
+     * @param personalTutor, String representing the student's personal tutor
+     * @param email, String of the student's email.
+     * @param degreeCode, String representing the degree that the student is registered to
+     */
     public void addStudent(int loginId, String password, String salt, String title, String forename, String surname,
                            String personalTutor, String email, String degreeCode) {
         PreparedStatement pstmt = null;
@@ -195,8 +207,8 @@ public class AdditionQueries extends Queries{
     public void addPeriodOfStudy(int loginId, String label, String startDate, String endDate, String level) {
         PreparedStatement pstmt = null;
         try {
-            db.enableACID();
 
+            db.enableACID();
             pstmt = super.conn.prepareStatement("INSERT INTO period_of_study VALUES (?,?,?,?,?,NULL)");
             pstmt.setInt(1, loginId);
             pstmt.setString(2, label);
@@ -221,7 +233,7 @@ public class AdditionQueries extends Queries{
      * This method will not be able to set the weighted_mean column to null (since this case should never come up).
      * @param loginID int represents the Student
      * @param label String represents the period of study
-     * @param weightedMean float representing the
+     * @param weightedMean float representing the weighted mean across that period of study
      * */
     public void updatePeriodOfStudy(int loginID, String label, float weightedMean) {
         PreparedStatement pstmt = null;
@@ -275,9 +287,13 @@ public class AdditionQueries extends Queries{
     }
 
     /**
-     * Add Module Degree Association Query - only accessible for Administrators (privilege level 4)
-     * TODO:
-     * */
+     * addModuleDegreeAssociation is only called by the Administrator when creating a relationship between Degree and
+     * Module, so that a module can be taken in that degree at a given level.
+     * @param moduleCode String, code representing the module to link to a degree.
+     * @param degreeCode String, represents a degree
+     * @param level int, the level of study of the degree
+     * @param core boolean, if true, then the module
+     */
     public void addModuleDegreeAssociation(String moduleCode, String degreeCode,String level, boolean core) {
         PreparedStatement pstmt = null;
         try {
@@ -295,31 +311,6 @@ public class AdditionQueries extends Queries{
             super.db.rollBack();
         } finally {
             closePreparedStatement(pstmt);
-        }
-    }
-
-    /**
-     * createStudentModuleAssociation is given a student, a label and a module code. It creates the students association
-     * with this module by creating a row in the grades table.
-     * @param login, int representing the students login code,
-     * @param label, String of length one representing the period of study label,
-     * @param moduleCode String representing the module the student is to take.
-     * */
-    public void createStudentModuleAssociation(int login, String label, String moduleCode) {
-        PreparedStatement pstmt = null;
-        try {
-            pstmt = super.conn.prepareStatement("INSERT INTO grades VALUES (?,?,?,NULL,NULL)");
-            db.enableACID();
-            pstmt.setInt(1, login);
-            pstmt.setString(2, moduleCode); // label must be length one
-            pstmt.setString(3, label);
-            pstmt.executeUpdate();
-            db.disableACID();
-        } catch (SQLException e) {
-            super.db.rollBack();
-            e.printStackTrace();
-        } finally {
-           closePreparedStatement(pstmt);
         }
     }
 
