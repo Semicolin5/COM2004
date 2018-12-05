@@ -231,6 +231,7 @@ public class ViewRecord extends Form {
         public void actionPerformed(ActionEvent actionEvent) {
             //If a user has been selected
             if (username != 0) {
+                System.out.println(Controller.getDegreeClass(Controller.getPeriodsOfStudyForStudent(username)));
                 outcomeModel.setRowCount(0); // resets the table
                 String periodOfStudyLabel = periodComboBox.getSelectedItem().toString(); // finds the period of study label
                 for (Grade g : Controller.getStudentsGradeAtPeriod(username, periodOfStudyLabel)) {
