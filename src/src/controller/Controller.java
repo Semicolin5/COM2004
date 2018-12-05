@@ -589,22 +589,17 @@ public class Controller {
      */
 	public static int getCreditsAssignedToLatestPOS(int loginID) {
 	    int creditSum = 0;
-	    System.out.println("loginID: " + loginID);
         PeriodOfStudy pos = Controller.getLatestPeriodOfStudy(loginID);
         String periodOfStudyLabel = pos.getLabel();
-        System.out.println("label: " + periodOfStudyLabel);
         List<Grade> gs = Controller.getStudentsGradeAtPeriod(loginID, periodOfStudyLabel);
         for (Grade g : gs) {
-            System.out.println(g);
             String moduleTaken = g.getModuleCode();
             for (Module m : Controller.getModules()) {
                 if (m.getCode().equals(moduleTaken)) {
-                    System.out.println("code: " + m.getCode());
                     creditSum = creditSum + m.getCredits(); // if the student is currently taking this module, add this
                 }
             }
         }
-        System.out.println("total sum is: " + creditSum);
 	    return creditSum;
     }
 
